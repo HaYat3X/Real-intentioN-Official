@@ -1,0 +1,4 @@
+PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 'hayatesato1@gmail.com'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/test/email.php:16
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/test/email.php(16): PDOStatement->execute(Array)
+#1 {main}
