@@ -1,1 +1,8 @@
-.test.php
+# testフォルダを除外
+test
+
+# エラーログファイルを除外
+error.log
+
+# DB接続ファイルを除外
+function/connect_db.php

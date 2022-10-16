@@ -2,12 +2,12 @@
 session_start();
 
 
-$err = $_SESSION['err'];
-error_reporting(0);
-if(isset($err)){
+// $err = $_SESSION['err'];
 
-    echo '不正なリクエストです';
-}
+// if (isset($err)) {
+
+//     echo '不正なリクエストです';
+// }
 
 ?>
 
@@ -18,15 +18,22 @@ if(isset($err)){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>「Real intentioN」 / 新規会員登録</title>
+    <link rel="icon" href="../../../public/img/favicon.ico">
+    <link rel="stylesheet" href="../../../public/css/register/auth_form.css">
 </head>
 
 <body>
+    <!-- ヘッダーテンプレート -->
+    <?php include '/Applications/MAMP/htdocs/Deliverables3/public/template/header.html'; ?>
 
-    <form action="./auth.php" method="post">
-        email<input type="text" name="email" required>
-        <button type="submit">認証する</button>
-    </form>
+    <div class="authContent">
+        <h2>新規会員登録</h2>
+        <form action="./auth.php" method="post">
+            <p><span>必須</span><label>メールアドレス</label><input type="text" name="email" required></p>
+            <button type="submit">認証する</button>
+        </form>
+    </div>
 </body>
 
 </html>

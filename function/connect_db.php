@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 function connect()
 {
@@ -6,7 +6,6 @@ function connect()
     $db = 'Real intentioN';
     $user = 'root';
     $pass = 'root';
-
     $dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
 
     try {
