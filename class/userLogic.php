@@ -130,15 +130,15 @@ class UserLogic
     }
 
     // ログインしているかどうか判定する
-    public static function loginCheck()
-    {
-        // ユーザ情報があればログインしているとみなす return true
-        if (isset($_SESSION['login_user']) && $_SESSION['login_user']['id'] > 0) {
-            $result = true;
-            return $result;
-        }
+    // public static function loginCheck()
+    // {
+    //     // ユーザ情報があればログインしているとみなす return true
+    //     if (isset($_SESSION['login_user']) && $_SESSION['login_user']['id'] > 0) {
+    //         $result = true;
+    //         return $result;
+    //     }
 
-        // セッション情報がない場合はログインしていないとみなす return false;
-        return false;
-    }
+    //     // セッション情報がない場合はログインしていないとみなす return false;
+    //     return false;
+    // }
 }

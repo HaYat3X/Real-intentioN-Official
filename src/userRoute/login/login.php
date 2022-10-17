@@ -47,9 +47,10 @@ if (!$result) {
 
         <?php if (count($err) === 0) : ?>
             <label>ログインに成功しました。</label>
-            <div class="backBtn">
-                <a href="../intern/index.html">ホームへ</a>
-            </div>
+            <!-- <div class="backBtn">
+                <a href="../intern/view.php">ホームへ</a>
+            </div> -->
+            <?php header('refresh:3;url=../intern/view.php'); ?>
         <?php endif; ?>
     </div>
 </body>
