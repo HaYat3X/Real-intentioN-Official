@@ -110,7 +110,7 @@ header {
 }
 
 .posts .area1 .information .company {
-  flex: 6;
+  flex: 8;
 }
 
 .posts .area1 .information .company h3 {
@@ -118,7 +118,7 @@ header {
 }
 
 .posts .area1 .information .format {
-  flex: 6;
+  flex: 4;
   display: flex;
   margin-top: 10px;
 }
@@ -129,15 +129,20 @@ header {
   background-color: #29aba4;
   font-weight: bold;
   border-radius: 5px;
-  margin-right: 10px;
+  margin-right: 20px;
   color: white;
   margin-left: 80px;
 }
 
+.posts .area1 .information .format span{
+  font-size: 20px;
+  cursor: pointer;
+}
+
 /* 
 .posts .area2 { */
-  /* background-color: #fdfdfd; */
-  /* padding: 20px 30px; */
+/* background-color: #fdfdfd; */
+/* padding: 20px 30px; */
 /* } */
 
 .posts .area2 .question {
@@ -167,23 +172,23 @@ header {
   font-weight: bold;
 }
 
-.posts .area3{
+.posts .area3 {
   padding: 10px 0;
   display: flex;
   align-items: center;
 }
 
-.posts .area3 .reply{
+.posts .area3 .reply {
   flex: 7;
 }
 
-.posts .area3 .userInformation{
+.posts .area3 .userInformation {
   flex: 5;
   display: flex;
   align-items: center;
 }
 
-.posts .area3 .userInformation .one{
+.posts .area3 .userInformation .one {
   padding: 10px 20px;
   align-items: center;
   color: gray;
@@ -191,8 +196,7 @@ header {
   font-size: 14px;
 }
 
-
-.posts .area3 .reply a{
+.posts .area3 .reply a {
   background-color: rgba(0, 0, 255, 0.623);
   padding: 15px 100px;
   border-radius: 5px;
@@ -214,5 +218,44 @@ header {
   /* margin-top: 20px; */
   top: 0px;
   background-color: white;
+}
+
+.area4 {
+  padding-top: 40px;
+}
+
+.area4 .edit {
+  margin-right: 15px;
+  background-color: #1687a7;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: white;
+}
+
+.area4 .delete {
+  background-color: #dd0a35;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: white;
+}
+
+.area4 .edit:hover {
+  background-color: #1688a7cc;
+}
+
+.area4 .delete:hover {
+  background-color: #dd0a34ba;
+}
+
+summary {
+  display: block;
+  list-style: none;
+}
+
+/* 一部ブラウザで消えなかった場合は以下も追記 */
+summary::-webkit-details-marker {
+  display: none;
 }
 

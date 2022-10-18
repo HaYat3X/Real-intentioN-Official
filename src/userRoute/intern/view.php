@@ -37,9 +37,6 @@ $results = InternLogic::selectInternDate();
     <title>「Real intentioN」 / インターン体験記</title>
     <!-- font-awesomeのインポート -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-
-    <!-- jquery読み込み -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -51,85 +48,105 @@ $results = InternLogic::selectInternDate();
                 <?php foreach ($results as $row) : ?>
                     <div class="posts">
                         <div class="area1">
-                            <div class="parent">
-                                <p class="child">INTERN</p>
-                            </div>
+                            <details>
+                                <summary>
+                                    <div class="parent">
+                                        <p class="child">INTERN</p>
+                                    </div>
 
-                            <div class="information">
-                                <div class="company">
-                                    <h3><?php h($row['company']) ?></h3>
+                                    <div class="information">
+                                        <div class="company">
+                                            <h3><?php h($row['company']) ?></h3>
 
-                                    <!-- 星の数値によって表示する内容を変える -->
-                                    <?php if ($row['ster'] == 5) : ?>
-                                        <label>総合レビュー：
-                                            <span>
-                                                <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
-                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
-                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
-                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
-                                            </span>
-                                        </label>
-                                    <?php elseif ($row['ster'] == 4) : ?>
-                                        <label>総合レビュー：
-                                            <span>
-                                                <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                <i style="color:gray" class="fa-solid fa-star"></i>
-                                            </span>
-                                        </label>
-                                    <?php elseif ($row['ster'] == 3) : ?>
-                                        <label>総合レビュー：
-                                            <span>
-                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
-                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
-                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
-                                                <i style="color:gray" class="fa-solid fa-star"></i>
-                                                <i style="color:gray" class="fa-solid fa-star"></i>
-                                            </span>
-                                        </label>
-                                    <?php elseif ($row['ster'] == 2) : ?>
-                                        <label>総合レビュー：
-                                            <span>
-                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
-                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
-                                                <i style="color:gray" class="fa-solid fa-star"></i>
-                                                <i style="color:gray" class="fa-solid fa-star"></i>
-                                                <i style="color:gray" class="fa-solid fa-star"></i>
-                                            </span>
-                                        </label>
-                                    <?php elseif ($row['ster'] == 1) : ?>
-                                        <label>総合レビュー：
-                                            <span>
-                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
-                                                <i style="color:gray" class="fa-solid fa-star"></i>
-                                                <i style="color:gray" class="fa-solid fa-star"></i>
-                                                <i style="color:gray" class="fa-solid fa-star"></i>
-                                                <i style="color:gray" class="fa-solid fa-star"></i>
-                                            </span>
-                                        </label>
-                                    <?php elseif ($row['ster'] == 0) : ?>
-                                        <label>総合レビュー：
-                                            <span>
-                                                <i style="color:gray" class="fa-solid fa-star"></i>
-                                                <i style="color:gray" class="fa-solid fa-star"></i>
-                                                <i style="color:gray" class="fa-solid fa-star"></i>
-                                                <i style="color:gray" class="fa-solid fa-star"></i>
-                                                <i style="color:gray" class="fa-solid fa-star"></i>
-                                            </span>
-                                        </label>
+                                            <!-- 星の数値によって表示する内容を変える -->
+                                            <?php if ($row['ster'] == 5) : ?>
+                                                <label>総合レビュー：
+                                                    <span>
+                                                        <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
+                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                    </span>
+                                                </label>
+                                            <?php elseif ($row['ster'] == 4) : ?>
+                                                <label>総合レビュー：
+                                                    <span>
+                                                        <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
+                                                        <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
+                                                        <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
+                                                        <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
+                                                        <i style="color:gray" class="fa-solid fa-star"></i>
+                                                    </span>
+                                                </label>
+                                            <?php elseif ($row['ster'] == 3) : ?>
+                                                <label>総合レビュー：
+                                                    <span>
+                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                        <i style="color:gray" class="fa-solid fa-star"></i>
+                                                        <i style="color:gray" class="fa-solid fa-star"></i>
+                                                    </span>
+                                                </label>
+                                            <?php elseif ($row['ster'] == 2) : ?>
+                                                <label>総合レビュー：
+                                                    <span>
+                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                        <i style="color:gray" class="fa-solid fa-star"></i>
+                                                        <i style="color:gray" class="fa-solid fa-star"></i>
+                                                        <i style="color:gray" class="fa-solid fa-star"></i>
+                                                    </span>
+                                                </label>
+                                            <?php elseif ($row['ster'] == 1) : ?>
+                                                <label>総合レビュー：
+                                                    <span>
+                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                        <i style="color:gray" class="fa-solid fa-star"></i>
+                                                        <i style="color:gray" class="fa-solid fa-star"></i>
+                                                        <i style="color:gray" class="fa-solid fa-star"></i>
+                                                        <i style="color:gray" class="fa-solid fa-star"></i>
+                                                    </span>
+                                                </label>
+                                            <?php elseif ($row['ster'] == 0) : ?>
+                                                <label>総合レビュー：
+                                                    <span>
+                                                        <i style="color:gray" class="fa-solid fa-star"></i>
+                                                        <i style="color:gray" class="fa-solid fa-star"></i>
+                                                        <i style="color:gray" class="fa-solid fa-star"></i>
+                                                        <i style="color:gray" class="fa-solid fa-star"></i>
+                                                        <i style="color:gray" class="fa-solid fa-star"></i>
+                                                    </span>
+                                                </label>
+                                            <?php endif; ?>
+
+                                            <p class="curriculum"><?php h($row['content']) ?></p>
+                                        </div>
+
+                                        <div class="format">
+                                            <p><label><?php h($row['format']) ?></label></p>
+
+                                            <!-- 投稿者以外に編集権限を与えない -->
+                                            <?php if ($userId == $row['user_id']) : ?>
+                                                <span><i class="fa-solid fa-ellipsis-vertical"></i></span>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </summary>
+
+                                <div class="area4">
+                                    <!-- 投稿者である場合編集、削除表示 -->
+                                    <?php if ($userId == $row['user_id']) : ?>
+                                        <div class="link">
+                                            <a class="edit" href="#">編集</a>
+                                            <a class="delete" href="#">削除</a>
+                                        </div>
                                     <?php endif; ?>
-
-                                    <p class="curriculum"><?php h($row['content']) ?></p>
                                 </div>
-
-                                <div class="format">
-                                    <p><label><?php h($row['format']) ?></label></p>
-                                </div>
-                            </div>
+                            </details>
                         </div>
+                        <!--  -->
 
                         <div class="area2">
                             <div class="question">
@@ -151,13 +168,6 @@ $results = InternLogic::selectInternDate();
                                     <?php h($row['name']) ?> ｜ <?php h($row['department']) ?> ｜ <?php h($row['school_year']) ?>
                                 </label>
                             </div>
-                        </div>
-
-                        <div class="area4">
-                            <!-- 投稿者である場合編集、削除表示 -->
-                            <?php if ($userId == $row['user_id']) : ?>
-                                <p>テスト</p>
-                            <?php endif; ?>
                         </div>
                     </div>
                 <?php endforeach; ?>
