@@ -11,7 +11,8 @@ class InternLogic
     {
         // ユーザ情報があればログインしているとみなす return true
         if (isset($_SESSION['login_user']) && $_SESSION['login_user']['id'] > 0) {
-            $result = true;
+            $result = $_SESSION['login_user'];
+            // $result = true;
             return $result;
         }
 

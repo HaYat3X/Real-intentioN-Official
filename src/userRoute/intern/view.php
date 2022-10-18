@@ -16,6 +16,9 @@ if (!$result) {
     header('Location: ../login/login_form.php');
 }
 
+// ユーザID取得
+$userId = $result['id'];
+
 
 // インターンデータ取得メソッドの読み込み
 $results = InternLogic::selectInternDate();
@@ -32,6 +35,11 @@ $results = InternLogic::selectInternDate();
     <link rel="icon" href="../../../public/img/favicon.ico">
     <link rel="stylesheet" href="../../../public/css/intern/view.css">
     <title>「Real intentioN」 / インターン体験記</title>
+    <!-- font-awesomeのインポート -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+    <!-- jquery読み込み -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -50,15 +58,75 @@ $results = InternLogic::selectInternDate();
                             <div class="information">
                                 <div class="company">
                                     <h3><?php h($row['company']) ?></h3>
-                                    <label>総合評価：⭐️⭐️⭐️⭐️⭐️</label>
+
+                                    <!-- 星の数値によって表示する内容を変える -->
+                                    <?php if ($row['ster'] == 5) : ?>
+                                        <label>総合レビュー：
+                                            <span>
+                                                <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
+                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                            </span>
+                                        </label>
+                                    <?php elseif ($row['ster'] == 4) : ?>
+                                        <label>総合レビュー：
+                                            <span>
+                                                <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
+                                                <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
+                                                <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
+                                                <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
+                                                <i style="color:gray" class="fa-solid fa-star"></i>
+                                            </span>
+                                        </label>
+                                    <?php elseif ($row['ster'] == 3) : ?>
+                                        <label>総合レビュー：
+                                            <span>
+                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                <i style="color:gray" class="fa-solid fa-star"></i>
+                                                <i style="color:gray" class="fa-solid fa-star"></i>
+                                            </span>
+                                        </label>
+                                    <?php elseif ($row['ster'] == 2) : ?>
+                                        <label>総合レビュー：
+                                            <span>
+                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                <i style="color:gray" class="fa-solid fa-star"></i>
+                                                <i style="color:gray" class="fa-solid fa-star"></i>
+                                                <i style="color:gray" class="fa-solid fa-star"></i>
+                                            </span>
+                                        </label>
+                                    <?php elseif ($row['ster'] == 1) : ?>
+                                        <label>総合レビュー：
+                                            <span>
+                                                <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                <i style="color:gray" class="fa-solid fa-star"></i>
+                                                <i style="color:gray" class="fa-solid fa-star"></i>
+                                                <i style="color:gray" class="fa-solid fa-star"></i>
+                                                <i style="color:gray" class="fa-solid fa-star"></i>
+                                            </span>
+                                        </label>
+                                    <?php elseif ($row['ster'] == 0) : ?>
+                                        <label>総合レビュー：
+                                            <span>
+                                                <i style="color:gray" class="fa-solid fa-star"></i>
+                                                <i style="color:gray" class="fa-solid fa-star"></i>
+                                                <i style="color:gray" class="fa-solid fa-star"></i>
+                                                <i style="color:gray" class="fa-solid fa-star"></i>
+                                                <i style="color:gray" class="fa-solid fa-star"></i>
+                                            </span>
+                                        </label>
+                                    <?php endif; ?>
+
                                     <p class="curriculum"><?php h($row['content']) ?></p>
                                 </div>
 
                                 <div class="format">
-                                    <p>
-                                        <label><?php h($row['format']) ?></label>
-                                        <span>＋</span>
-                                    </p>
+                                    <p><label><?php h($row['format']) ?></label></p>
                                 </div>
                             </div>
                         </div>
@@ -83,6 +151,13 @@ $results = InternLogic::selectInternDate();
                                     <?php h($row['name']) ?> ｜ <?php h($row['department']) ?> ｜ <?php h($row['school_year']) ?>
                                 </label>
                             </div>
+                        </div>
+
+                        <div class="area4">
+                            <!-- 投稿者である場合編集、削除表示 -->
+                            <?php if ($userId == $row['user_id']) : ?>
+                                <p>テスト</p>
+                            <?php endif; ?>
                         </div>
                     </div>
                 <?php endforeach; ?>

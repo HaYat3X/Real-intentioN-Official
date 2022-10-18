@@ -110,7 +110,7 @@ header {
 }
 
 .posts .area1 .information .company {
-  flex: 8.5;
+  flex: 6;
 }
 
 .posts .area1 .information .company h3 {
@@ -118,7 +118,9 @@ header {
 }
 
 .posts .area1 .information .format {
-  flex: 3.5;
+  flex: 6;
+  display: flex;
+  margin-top: 10px;
 }
 
 .posts .area1 .information .format label {
@@ -127,14 +129,16 @@ header {
   background-color: #29aba4;
   font-weight: bold;
   border-radius: 5px;
-  margin-right: 30px;
+  margin-right: 10px;
   color: white;
+  margin-left: 80px;
 }
 
-.posts .area2 {
+/* 
+.posts .area2 { */
   /* background-color: #fdfdfd; */
   /* padding: 20px 30px; */
-}
+/* } */
 
 .posts .area2 .question {
   margin: 10px 0;
@@ -177,7 +181,6 @@ header {
   flex: 5;
   display: flex;
   align-items: center;
-  /* background-color: #95e1d3; */
 }
 
 .posts .area3 .userInformation .one{
