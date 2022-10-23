@@ -1,0 +1,214 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f6f6f6;
+}
+
+header {
+  display: flex;
+  background-color: white;
+}
+
+.leftArea {
+  flex: 4;
+}
+
+.leftAreaContent {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  margin-top: 25px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-left: 60px;
+}
+
+.title label {
+  margin: 20px;
+  margin-left: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.centerArea {
+  flex: 4;
+}
+
+.sub {
+  flex: 4;
+}
+
+.centerArea ul {
+  display: flex;
+  margin-top: 38px;
+  margin-left: 20px;
+}
+
+.centerArea li {
+  list-style: none;
+  margin-right: 30px;
+}
+
+.login {
+  text-decoration: none;
+  color: #454545;
+  font-weight: bold;
+}
+
+.register {
+  text-decoration: none;
+  color: #454545;
+  font-weight: bold;
+}
+
+.wrap {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr;
+}
+
+/* .main_content {
+  background: white;
+} */
+
+.box {
+  background-color: white;
+  margin: 40px 10px;
+  padding: 30px 60px;
+  border-radius: 5px;
+}
+
+.box h2 {
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+
+.box label {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.box p {
+  margin-top: 30px;
+}
+
+h2 {
+  text-align: center;
+  padding: 30px 0 50px;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+.radio-inline__input {
+  clip: rect(1px, 1px, 1px, 1px);
+  position: absolute !important;
+}
+
+.radio-inline__label {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin-right: 18px;
+  border-radius: 3px;
+  transition: all 0.2s;
+  outline-color: blue;
+  outline-offset: -2px;
+  outline-style: auto;
+  outline-width: 5px;
+  cursor: pointer;
+}
+
+.radio-inline__input:checked + .radio-inline__label {
+  background: #29aba4;
+  color: #fff;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+}
+
+.radio-inline__input:focus + .radio-inline__label {
+  outline-color: #4d90fe;
+  outline-offset: -2px;
+  outline-style: auto;
+  outline-width: 5px;
+}
+
+/*  */
+
+.radio-inline__input1 {
+  clip: rect(1px, 1px, 1px, 1px);
+  position: absolute !important;
+}
+
+.radio-inline__label1 {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin-right: 18px;
+  border-radius: 3px;
+  transition: all 0.2s;
+  outline-color: blue;
+  outline-offset: -2px;
+  outline-style: auto;
+  outline-width: 5px;
+  cursor: pointer;
+}
+
+.radio-inline__input1:checked + .radio-inline__label1 {
+  background: #29aba4;
+  color: #fff;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+}
+
+.radio-inline__input1:focus + .radio-inline__label1 {
+  outline-color: #4d90fe;
+  outline-offset: -2px;
+  outline-style: auto;
+  outline-width: 5px;
+}
+
+.question {
+  font-size: 10px;
+}
+
+/* - */
+
+.side {
+  margin-right: 10px;
+  margin-top: 40px;
+}
+
+.side_content {
+  position: sticky;
+  /* margin-top: 20px; */
+  top: 0px;
+  background-color: white;
+}
+
+.submit {
+  margin: 20px 0;
+  text-align: center;
+  margin-top: 100px;
+}
+
+.submit a {
+  background-color: #ED5485;
+  padding: 15px 100px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 20px;
+  text-decoration: none;
+  margin-right: 50px;
+}
+
+.submit button {
+  background-color: #29aba4;
+  padding: 10px 100px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 20px;
+}

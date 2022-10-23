@@ -123,7 +123,7 @@ header {
   margin-top: 10px;
 }
 
-.posts .area1 .information .format label {
+/* .posts .area1 .information .format label {
   font-size: 12px;
   padding: 10px 20px;
   background-color: #29aba4;
@@ -132,9 +132,9 @@ header {
   margin-right: 20px;
   color: white;
   margin-left: 80px;
-}
+} */
 
-.posts .area1 .information .format span{
+.posts .area1 .information .format span {
   font-size: 20px;
   cursor: pointer;
 }
@@ -224,21 +224,27 @@ header {
   padding-top: 40px;
 }
 
+.area4 .link {
+  margin-left: 595px;
+}
+
 .area4 .edit {
   margin-right: 15px;
   background-color: #1687a7;
-  padding: 10px 20px;
+  padding: 8px 30px;
   border-radius: 5px;
   text-decoration: none;
   color: white;
+  font-size: 14px;
 }
 
 .area4 .delete {
   background-color: #dd0a35;
-  padding: 10px 20px;
+  padding: 8px 30px;
   border-radius: 5px;
   text-decoration: none;
   color: white;
+  font-size: 14px;
 }
 
 .area4 .edit:hover {
@@ -258,4 +264,3 @@ summary {
 summary::-webkit-details-marker {
   display: none;
 }
-

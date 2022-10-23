@@ -125,6 +125,8 @@ class UserLogic
             $user = $stmt->fetch();
             return $user;
         } catch (\Exception $e) {
+            echo $e; // エラーを出力
+            error_log($e, 3, '../error.log'); //ログを出力
             return false;
         }
     }

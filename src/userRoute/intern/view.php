@@ -8,8 +8,11 @@ require '/Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php';
 // ファンクションファイルの読み込み
 require '/Applications/MAMP/htdocs/Deliverables3/function/functions.php';
 
+// オブジェクト
+$obj = new InternLogic;
+
 // ログインチェック
-$result = InternLogic::loginCheck();
+$result = $obj::loginCheck();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
 if (!$result) {
@@ -19,9 +22,8 @@ if (!$result) {
 // ユーザID取得
 $userId = $result['id'];
 
-
 // インターンデータ取得メソッドの読み込み
-$results = InternLogic::selectInternDate();
+$results = $obj::selectInternDate();
 
 ?>
 
@@ -56,17 +58,19 @@ $results = InternLogic::selectInternDate();
 
                                     <div class="information">
                                         <div class="company">
-                                            <h3><?php h($row['company']) ?></h3>
+                                            <h3>
+                                                <?php h($row['company']) ?> / <?php h($row['format']) ?> / <?php h($row['field']) ?>
+                                            </h3>
 
                                             <!-- 星の数値によって表示する内容を変える -->
                                             <?php if ($row['ster'] == 5) : ?>
                                                 <label>総合レビュー：
                                                     <span>
                                                         <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
-                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
-                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
-                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                        <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
+                                                        <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
+                                                        <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
+                                                        <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
                                                     </span>
                                                 </label>
                                             <?php elseif ($row['ster'] == 4) : ?>
@@ -82,9 +86,9 @@ $results = InternLogic::selectInternDate();
                                             <?php elseif ($row['ster'] == 3) : ?>
                                                 <label>総合レビュー：
                                                     <span>
-                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
-                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
-                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                        <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
+                                                        <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
+                                                        <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
                                                         <i style="color:gray" class="fa-solid fa-star"></i>
                                                         <i style="color:gray" class="fa-solid fa-star"></i>
                                                     </span>
@@ -92,8 +96,8 @@ $results = InternLogic::selectInternDate();
                                             <?php elseif ($row['ster'] == 2) : ?>
                                                 <label>総合レビュー：
                                                     <span>
-                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
-                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                        <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
+                                                        <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
                                                         <i style="color:gray" class="fa-solid fa-star"></i>
                                                         <i style="color:gray" class="fa-solid fa-star"></i>
                                                         <i style="color:gray" class="fa-solid fa-star"></i>
@@ -102,7 +106,7 @@ $results = InternLogic::selectInternDate();
                                             <?php elseif ($row['ster'] == 1) : ?>
                                                 <label>総合レビュー：
                                                     <span>
-                                                        <i style="color:yellow;" class="fa-solid fa-star"></i>
+                                                        <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
                                                         <i style="color:gray" class="fa-solid fa-star"></i>
                                                         <i style="color:gray" class="fa-solid fa-star"></i>
                                                         <i style="color:gray" class="fa-solid fa-star"></i>
@@ -125,12 +129,7 @@ $results = InternLogic::selectInternDate();
                                         </div>
 
                                         <div class="format">
-                                            <p><label><?php h($row['format']) ?></label></p>
-
-                                            <!-- 投稿者以外に編集権限を与えない -->
-                                            <?php if ($userId == $row['user_id']) : ?>
-                                                <span><i class="fa-solid fa-ellipsis-vertical"></i></span>
-                                            <?php endif; ?>
+                                            <span><i class="fa-solid fa-ellipsis-vertical"></i></span>
                                         </div>
                                     </div>
                                 </summary>
