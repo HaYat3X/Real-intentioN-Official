@@ -3,7 +3,6 @@
 // DB接続ファイルの読み込み
 require '/Applications/MAMP/htdocs/Deliverables3/function/connect_db.php';
 
-// UserLogicクラス
 class InternLogic
 {
     // ログインしているかどうか判定する
@@ -23,11 +22,8 @@ class InternLogic
     // インターンテーブルのデータを取得する
     public static function selectInternDate()
     {
-        // 初期値
-        $result = false;
-
         // user情報もまとめて取得 join句を利用
-        $sql = 'SELECT * FROM user_master INNER JOIN intern_table ON user_master.id = intern_table.user_id ORDER BY intern_table.id DESC;';
+        $sql = 'SELECT * FROM user_master INNER JOIN intern_table ON user_master.id = intern_table.user_id ORDER BY intern_table.id DESC';
 
         try {
             $stmt = connect()->prepare($sql);
@@ -46,9 +42,6 @@ class InternLogic
     // インターンテーブルに値を登録する
     public static function insertInternDate($formDate)
     {
-        // 初期値
-        $result = false;
-
         // sql発行
         $sql = 'INSERT INTO `intern_table`(`user_id`, `company`, `format`, `content`, `question`, `answer`, `ster`, `field`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 
