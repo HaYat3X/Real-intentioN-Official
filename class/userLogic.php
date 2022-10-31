@@ -6,8 +6,6 @@ require '/Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php';
 // ユーザロジッククラス
 class UserLogic
 {
-
-
     // メールアドレスバリデーションチェック
     public static function emailValidation($email)
     {
@@ -28,10 +26,10 @@ class UserLogic
         $result = $obj::databaseSelect($sql, $email);
 
         if ($result) {
-            return false;
+            return $result;
         }
 
-        return true;
+        return false;
     }
 
     public static function pushToken($email)
@@ -72,5 +70,33 @@ class UserLogic
         }
 
         return true;
+    }
+
+    public static function login($email, $password)
+    {
+        // メールアドレスが存在するか判定する
+        $userData = self::emailCheck($email);
+
+        // データが存在しない(返り値がTrue)であればエラーとする
+        if (!$userData) {
+            return false;
+        }
+
+        // データが存在した場合パスワード認証を行う
+        if ($userData) {
+            // DBのパスワードを取得
+            foreach ($userData as $row) {
+                $db_password = $row['password'];
+            }
+
+            if (password_verify($password, $db_password)) {
+                //ログイン成功の場合 trueを返す
+                session_regenerate_id(true);
+                $_SESSION['login_user'] = $userData;
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 }

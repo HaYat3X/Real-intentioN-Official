@@ -13,15 +13,10 @@ class DatabaseLogic
             // sql実行
             $stmt = connect()->prepare($sql);
             $stmt->execute(array($data));
-            $result = $stmt->fetch();
+            $result = $stmt->fetchAll();
 
-            // データがあればTrue　なければFalse
-            if ($result) {
-                return true;
-            } else {
-                return false;
-            }
-            return false;
+            // データを返す
+            return $result;
         } catch (\Exception $e) {
             echo $e;
             error_log($e, 3, '../error.log');
