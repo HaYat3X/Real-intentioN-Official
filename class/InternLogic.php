@@ -24,11 +24,11 @@ class InternLogic
         $obj = new DatabaseLogic;
 
         // user情報もまとめて取得 join句を利用
-        $sql = 'SELECT * FROM user_master INNER JOIN intern_table ON user_master.id = intern_table.user_id ORDER BY intern_table.id DESC';
+        $sql = 'SELECT * FROM intern_table INNER JOIN user_master ON user_master.id = intern_table.user_id';
 
-        // SELECTメソッド実行
+        // SELECTメソッド
         $result = $obj::databaseSelect2($sql);
-
+        
         return $result;
     }
 
