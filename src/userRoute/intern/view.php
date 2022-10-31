@@ -2,28 +2,31 @@
 
 session_start();
 
-// インターンロジックファイルの読み込み
-require '/Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php';
+// クラスファイルインポート
+require __DIR__ . '../../../../class/InternLogic.php';
 
-// ファンクションファイルの読み込み
-require '/Applications/MAMP/htdocs/Deliverables3/function/functions.php';
+// functionファイルインポート
+require __DIR__ . '../../../../function/functions.php';
 
 // オブジェクト
 $obj = new InternLogic;
 
 // ログインチェック
-$result = $obj::loginCheck();
+$login_check = $obj::loginCheck();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
-if (!$result) {
+if (!$login_check) {
     header('Location: ../login/login_form.php');
 }
 
 // ユーザID取得
-$userId = $result['id'];
+foreach ($login_check as $row) {
+    $userId = $row['id'];
+}
 
 // インターンデータ取得メソッドの読み込み
 $results = $obj::selectInternDate();
+var_dump($results);
 
 ?>
 
