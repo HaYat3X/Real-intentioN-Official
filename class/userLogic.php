@@ -93,7 +93,7 @@ class UserLogic
                 //ログイン成功の場合 trueを返す
                 session_regenerate_id(true);
                 $_SESSION['login_user'] = $userData;
-                return true;
+                return $_SESSION['login_user'];
             } else {
                 return false;
             }
