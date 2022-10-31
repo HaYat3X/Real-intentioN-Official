@@ -2,19 +2,30 @@
 
 session_start();
 
-// インターンロジックファイルの読み込み
-require '/Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php';
+// クラスファイルインポート
+require __DIR__ . '../../../../../class/InternLogic.php';
+
+// functionファイルインポート
+require __DIR__ . '../../../../../function/functions.php';
 
 // オブジェクト
 $obj = new InternLogic;
 
-// ログインチェックメソッド
-$result = $obj::loginCheck();
+// ログインチェック
+$login_check = $obj::loginCheck();
+
+$err = [];
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
-if (!$result) {
+if (!$login_check) {
     header('Location: ../login/login_form.php');
 }
+
+// ユーザID取得
+foreach ($login_check as $row) {
+    $userId = $row['id'];
+}
+
 
 // POSTリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -22,16 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 投稿するメソッド
     $insert = $obj::insertInternDate($_POST);
 
-    // 返り値がTrueの場合
-    if ($insert) {
-        $noErr = [];
-        $noErr[] = '投稿しました。';
-        header('refresh:3;url=../view.php');
-    }
-
-    // 返り値がFalseの場合リダイレクト
+    // 返り値がFalseの場合リダイレクト 配列でメッセージ
     if (!$insert) {
-        header('Location: ./post_form.php');
+        $err[] = '投稿に失敗しました。やり直してください。';
+        header('refresh:3;url=./post_form.php');
     };
 } else {
     // postリクエストがない場合リダイレクト
@@ -58,9 +63,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php include '/Applications/MAMP/htdocs/Deliverables3/public/template/header.html'; ?>
 
     <div class="err">
-        <?php foreach ($noErr as $ok) : ?>
-            <label><?php echo $ok; ?></label>
-        <?php endforeach; ?>
+        <?php if (count($err) > 0) : ?>
+            <?php foreach ($err as $e) : ?>
+                <label><?php h($e); ?></label>
+                <div class="backBtn">
+                    <a href="./post_form.php">戻る</a>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+        <?php if (count($err) === 0) : ?>
+            <label>投稿が完了しました。</label>
+            <?php header('refresh:3;url=../view.php'); ?>
+        <?php endif; ?>
     </div>
 </body>
 

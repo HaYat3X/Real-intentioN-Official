@@ -2,30 +2,30 @@
 
 session_start();
 
-// インターンロジックファイルの読み込み
-require '/Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php';
+// クラスファイルインポート
+require __DIR__ . '../../../../../class/InternLogic.php';
 
-// ファンクションファイルの読み込み
-require '/Applications/MAMP/htdocs/Deliverables3/function/functions.php';
-
+// functionファイルインポート
+require __DIR__ . '../../../../../function/functions.php';
 
 // オブジェクト
 $obj = new InternLogic;
 
-// ログインチェックメソッド
-$result = $obj::loginCheck();
-
-// ユーザID取得
-$user_id = $result['id'];
+// ログインチェック
+$login_check = $obj::loginCheck();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
-if (!$result) {
+if (!$login_check) {
     header('Location: ../login/login_form.php');
+}
+
+// ユーザID取得
+foreach ($login_check as $row) {
+    $userId = $row['id'];
 }
 
 // POSTリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
     // 入力した値を取得
     $arr = [];
     $arr[] = $_POST;
@@ -502,7 +502,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input type="hidden" name="question" value="<?php h($value['question']) ?>">
 
                             <!-- hiddenでuser_idを送信 -->
-                            <input type="hidden" name="user_id" value="<?php h($user_id) ?>">
+                            <input type="text" name="user_id" value="<?php h($userId) ?>">
 
                         <?php endforeach; ?>
 

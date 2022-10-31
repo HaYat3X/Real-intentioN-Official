@@ -2,24 +2,26 @@
 
 session_start();
 
-// インターンロジックファイルの読み込み
-require '/Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php';
+// クラスファイルインポート
+require __DIR__ . '../../../../../class/InternLogic.php';
 
-// ファンクションファイルの読み込み
-require '/Applications/MAMP/htdocs/Deliverables3/function/functions.php';
+// functionファイルインポート
+require __DIR__ . '../../../../../function/functions.php';
 
 // オブジェクト
 $obj = new InternLogic;
 
 // ログインチェック
-$result = $obj::loginCheck();
-
-// ユーザID取得
-$user_id = $result['id'];
+$login_check = $obj::loginCheck();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
-if (!$result) {
+if (!$login_check) {
     header('Location: ../login/login_form.php');
+}
+
+// ユーザID取得
+foreach ($login_check as $row) {
+    $userId = $row['id'];
 }
 
 // 質問の配列
@@ -154,7 +156,7 @@ $responses = $array[array_rand($array)];
                         <input type="hidden" name="question" value="<?php h($responses) ?>">
 
                         <!-- hiddenでuser_idを送信 -->
-                        <input type="hidden" name="user_id" value="<?php h($user_id) ?>">
+                        <input type="hidden" name="user_id" value="<?php h($userId) ?>">
 
                         <div class="submit">
                             <button type="submit">確認する</button>
