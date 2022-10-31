@@ -31,4 +31,52 @@ Stack trace:
 #0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(39): PDOStatement->execute(Array)
 #1 /Applications/MAMP/htdocs/Deliverables3/class/UserLogic.php(68): DatabaseLogic::databaseInsert('INSERT INTO `us...', Array)
 #2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/register/create_user.php(29): UserLogic::createUser(Array)
-#3 {main}
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON intern_table.user_id = user_master.id ORDER BY intern_' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php:37
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(37): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#2 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON intern_table.user_id = user_master.id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php:37
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(37): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#2 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON intern_table.user_id = user_master.id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php:37
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(37): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#2 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON intern_table.user_id = user_master.id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php:39
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(39): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#2 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON intern_table.user_id = user_master.id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php:39
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(39): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#2 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON intern_table.user_id = user_master.id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php:37
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(37): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#2 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON intern_table.user_id = user_master.id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php:37
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(37): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#2 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON intern_table.user_id = user_master.id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php:37
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(37): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#2 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON intern_table.user_id = user_master.id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php:37
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(37): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#2 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON intern_table.user_id = user_master.id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php:37
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(37): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#2 {main}PDOException: SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'id' in order clause is ambiguous in /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#2 {main}PDOException: SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'id' in order clause is ambiguous in /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#2 {main}

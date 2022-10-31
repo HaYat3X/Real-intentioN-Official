@@ -24,44 +24,40 @@ class InternLogic
         $obj = new DatabaseLogic;
 
         // user情報もまとめて取得 join句を利用
-        $sql = 'SELECT * FROM user_master INNER JOIN intern_table ON user_master.id = intern_table.user_id ORDER BY intern_table.id DESC';
+        $sql = 'SELECT * FROM intern_table INNER JOIN user_master ON user_master.id = intern_table.user_id';
 
-        // SELECTメソッド実行
+        // SELECTメソッド
         $result = $obj::databaseSelect2($sql);
 
         return $result;
     }
 
-    // // インターンテーブルに値を登録する
-    // public static function insertInternDate($formDate)
-    // {
-    //     // sql発行
-    //     $sql = 'INSERT INTO `intern_table`(`user_id`, `company`, `format`, `content`, `question`, `answer`, `ster`, `field`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    // インターンテーブルに値を登録する
+    public static function insertInternDate($formDate)
+    {
+        $obj = new DatabaseLogic;
 
-    //     try {
-    //         $stmt = connect()->prepare($sql);
+        // sql発行
+        $sql = 'INSERT INTO `intern_table`(`user_id`, `company`, `format`, `content`, `question`, `answer`, `ster`, `field`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 
-    //         // insertするデータを配列に格納
-    //         $arr = [];
-    //         $arr[] = $formDate['user_id'];
-    //         $arr[] = $formDate['company'];
-    //         $arr[] = $formDate['format'];
-    //         $arr[] = $formDate['content'];
-    //         $arr[] = $formDate['question'];
-    //         $arr[] = $formDate['answer'];
-    //         $arr[] = $formDate['ster'];
-    //         $arr[] = $formDate['field'];
+        // insertするデータを配列に格納
+        $arr = [];
+        $arr[] = $formDate['user_id'];
+        $arr[] = $formDate['company'];
+        $arr[] = $formDate['format'];
+        $arr[] = $formDate['content'];
+        $arr[] = $formDate['question'];
+        $arr[] = $formDate['answer'];
+        $arr[] = $formDate['ster'];
+        $arr[] = $formDate['field'];
 
-    //         // sql実行
-    //         $stmt->execute($arr);
+        // INSERTメソッド実行
+        $result = $obj::databaseInsert($sql, $arr);
 
-    //         $result = true;
-    //         return $result;
-    //     } catch (\Exception $e) {
-    //         echo $e; // エラーを出力
-    //         error_log($e, 3, '../error.log'); //ログを出力
-    //         $result = false;
-    //         return $result;
-    //     }
-    // }
+        if (!$result) {
+            return false;
+        }
+
+        return true;
+    }
 }

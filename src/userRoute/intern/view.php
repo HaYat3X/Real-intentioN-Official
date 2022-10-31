@@ -26,7 +26,6 @@ foreach ($login_check as $row) {
 
 // インターンデータ取得メソッドの読み込み
 $results = $obj::selectInternDate();
-var_dump($results);
 
 ?>
 

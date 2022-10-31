@@ -25,6 +25,22 @@ class DatabaseLogic
     }
 
     // SELECT（引数なし）
+    public static function databaseSelect2($sql)
+    {
+        try {
+            // sql実行
+            $stmt = connect()->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+
+            // データを返す
+            return $result;
+        } catch (\Exception $e) {
+            echo $e;
+            error_log($e, 3, '../error.log');
+            return false;
+        }
+    }
 
     // INSERT　
     // ＊INSERTの時はarrayいらない
