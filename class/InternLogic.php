@@ -60,4 +60,16 @@ class InternLogic
 
         return true;
     }
+
+    // 編集、削除する対象データを取得する
+    public static function selectInternOneDate($post_id)
+    {
+        $obj = new DatabaseLogic;
+
+        // sql発行
+        $sql = 'SELECT * FROM intern_table WHERE id = ? LIMIT 1';
+
+        // SELECTメソッド
+        $result = $obj::databaseSelect($sql, $post_id);
+    }
 }

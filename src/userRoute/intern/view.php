@@ -140,7 +140,7 @@ $results = $obj::selectInternDate();
                                     <!-- 投稿者である場合編集、削除表示 -->
                                     <?php if ($userId == $row['user_id']) : ?>
                                         <div class="link">
-                                            <a class="edit" href="#">編集</a>
+                                            <a class="edit" href="./update/update_form.php?post_id=<?php h($row['id']) ?>">編集</a>
                                             <a class="delete" href="#">削除</a>
                                         </div>
                                     <?php endif; ?>
