@@ -1,28 +1,146 @@
-PDOException: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:51
+PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
 Stack trace:
-#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(51): PDOStatement->execute(Array)
-#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(43): DatabaseLogic::databaseInsert('INSERT INTO `in...', Array)
-#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/posts/post.php(32): InternLogic::insertInternDate(Array)
-#3 {main}PDOException: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:51
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
 Stack trace:
-#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(51): PDOStatement->execute(Array)
-#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(43): DatabaseLogic::databaseInsert('INSERT INTO `in...', Array)
-#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/posts/post.php(32): InternLogic::insertInternDate(Array)
-#3 {main}PDOException: SQLSTATE[HY000]: General error: 1366 Incorrect integer value: '<br />
-<b>Warning</b>:  Undefined variable $user_id in <b>/Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/posts/po' for column 'user_id' at row 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:51
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
 Stack trace:
-#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(51): PDOStatement->execute(Array)
-#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(55): DatabaseLogic::databaseInsert('INSERT INTO `in...', Array)
-#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/posts/post.php(32): InternLogic::insertInternDate(Array)
-#3 {main}PDOException: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`real intention`.`intern_table`, CONSTRAINT `intern_table_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_master` (`id`)) in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:51
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
 Stack trace:
-#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(51): PDOStatement->execute(Array)
-#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(55): DatabaseLogic::databaseInsert('INSERT INTO `in...', Array)
-#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/posts/post.php(32): InternLogic::insertInternDate(Array)
-#3 {main}PDOException: SQLSTATE[HY000]: General error: 1366 Incorrect integer value: '<br />
-<b>Warning</b>:  Undefined variable $user_id in <b>/Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/posts/po' for column 'user_id' at row 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:51
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
 Stack trace:
-#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(51): PDOStatement->execute(Array)
-#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(55): DatabaseLogic::databaseInsert('INSERT INTO `in...', Array)
-#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/posts/post.php(34): InternLogic::insertInternDate(Array)
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' u.id = ?' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect2('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' u.id = 1' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect2('SELECT i.id, i....')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' u.id = 'Array'' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:15
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(15): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(135): DatabaseLogic::databaseSelect('SELECT i.id, i....', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(31): InternLogic::selectInternCommentDate('32')
+#3 {main}PDOException: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:50
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(50): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(150): DatabaseLogic::databaseInsert('INSERT INTO `in...', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(39): InternLogic::insertInternCommentDate(Array, '12', NULL)
+#3 {main}PDOException: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:50
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(50): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(150): DatabaseLogic::databaseInsert('INSERT INTO `in...', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(39): InternLogic::insertInternCommentDate(Array, '12', NULL)
+#3 {main}PDOException: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'post_id' cannot be null in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:50
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(50): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(150): DatabaseLogic::databaseInsert('INSERT INTO `in...', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(39): InternLogic::insertInternCommentDate(Array, '12', NULL)
+#3 {main}PDOException: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'post_id' cannot be null in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:50
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(50): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(150): DatabaseLogic::databaseInsert('INSERT INTO `in...', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(39): InternLogic::insertInternCommentDate(Array, '12', NULL)
+#3 {main}PDOException: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'post_id' cannot be null in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:50
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(50): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(150): DatabaseLogic::databaseInsert('INSERT INTO `in...', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(39): InternLogic::insertInternCommentDate(Array, '12', NULL)
+#3 {main}PDOException: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'post_id' cannot be null in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:50
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(50): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(150): DatabaseLogic::databaseInsert('INSERT INTO `in...', Array)
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/comment/comment.php(39): InternLogic::insertInternCommentDate(Array, '12', NULL)
 #3 {main}
