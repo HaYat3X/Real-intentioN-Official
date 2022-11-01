@@ -43,8 +43,35 @@ class DatabaseLogic
     }
 
     // INSERT　
-    // ＊INSERTの時はarrayいらない
     public static function databaseInsert($sql, $data)
+    {
+        try {
+            $stmt = connect()->prepare($sql);
+            $stmt->execute($data);
+            return true;
+        } catch (\Exception $e) {
+            echo $e; // エラーを出力
+            error_log($e, 3, '../error.log'); //ログを出力
+            return false;
+        }
+    }
+
+    // UPDATE
+    public static function databaseUpdate($sql, $data)
+    {
+        try {
+            $stmt = connect()->prepare($sql);
+            $stmt->execute($data);
+            return true;
+        } catch (\Exception $e) {
+            echo $e; // エラーを出力
+            error_log($e, 3, '../error.log'); //ログを出力
+            return false;
+        }
+    }
+
+    // DELETE
+    public static function databaseDelete($sql, $data)
     {
         try {
             $stmt = connect()->prepare($sql);

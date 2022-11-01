@@ -58,10 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="wrap">
         <div class="main">
             <div class="main_content">
-                <form action="./post.php" method="post">
+                <form action="./update.php" method="post">
                     <div class="box">
                         <?php foreach ($arr as $value) : ?>
-                            <h2>インターン体験記を投稿する</h2>
+                            <h2>インターン体験記を編集する</h2>
                             <p><label style="margin-right: 68px;">企業名</label><input style="width: 300px; height:35px; font-size:20px; border-radius: 5px; border: 2px solid blue;" type="text" name="company" required value="<?php h($value['company']) ?>" readonly></p>
 
                             <p><label style="margin-right: 48px;">体験内容</label><input style="width: 650px; height:35px; font-size:20px; border-radius: 5px; border: 2px solid blue;" type="text" name="content" required value="<?php h($value['content']) ?>" readonly></p>
@@ -504,10 +504,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <!-- hiddenでuser_idを送信 -->
                             <input type="hidden" name="user_id" value="<?php h($userId) ?>">
 
+                            <!-- hiddenでpost_idを送信 -->
+                            <input type="hidden" name="post_id" value="<?php h($value['post_id']) ?>">
                         <?php endforeach; ?>
 
                         <div class="submit">
-                            <a href="./post_form.php?action=Tofix">書き直す</a>
+                            <a href="./post_form.php">書き直す</a>
                             <button type="submit">投稿する</button>
                         </div>
                     </div>
