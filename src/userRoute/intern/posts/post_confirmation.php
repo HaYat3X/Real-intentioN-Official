@@ -502,7 +502,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input type="hidden" name="question" value="<?php h($value['question']) ?>">
 
                             <!-- hiddenでuser_idを送信 -->
-                            <input type="text" name="user_id" value="<?php h($userId) ?>">
+                            <input type="hidden" name="user_id" value="<?php h($userId) ?>">
 
                         <?php endforeach; ?>
 

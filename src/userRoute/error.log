@@ -79,4 +79,124 @@ Stack trace:
 Stack trace:
 #0 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(33): PDOStatement->execute()
 #1 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
-#2 {main}
+#2 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id order ORDER BY i' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id ORDER BY intern_' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN user_master ON user_master.id = intern_table.user_id' at line 1 in /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php:33
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/DatabaseLogic.php(33): PDOStatement->execute()
+#1 /Applications/MAMP/htdocs/Deliverables3/class/InternLogic.php(32): DatabaseLogic::databaseSelect2('SELECT * FROM i...')
+#2 /Applications/MAMP/htdocs/Deliverables3/src/userRoute/intern/view.php(28): InternLogic::selectInternDate()
+#3 {main}
