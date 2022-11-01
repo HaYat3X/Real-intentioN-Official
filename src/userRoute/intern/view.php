@@ -41,6 +41,11 @@ $results = $obj::selectInternDate();
     <title>「Real intentioN」 / インターン体験記</title>
     <!-- font-awesomeのインポート -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <script>
+        function deleteFunction() {
+            window.confirm("これが確認ダイアログです。");
+        }
+    </script>
 </head>
 
 <body>
@@ -141,13 +146,12 @@ $results = $obj::selectInternDate();
                                     <?php if ($userId == $row['user_id']) : ?>
                                         <div class="link">
                                             <a class="edit" href="./update/update_form.php?post_id=<?php h($row['id']) ?>">編集</a>
-                                            <a class="delete" href="#">削除</a>
+                                            <a class="delete" href="./delete/delete.php?post_id=<?php h($row['id']) ?>">削除</a>
                                         </div>
                                     <?php endif; ?>
                                 </div>
                             </details>
                         </div>
-                        <!--  -->
 
                         <div class="area2">
                             <div class="question">

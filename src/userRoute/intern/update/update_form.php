@@ -24,11 +24,16 @@ foreach ($login_check as $row) {
     $userId = $row['id'];
 }
 
-// 編集する投稿データの取得
+// 編集する投稿IDの取得
 $update_id = filter_input(INPUT_GET, 'post_id');
 
 // 編集するデータを取得する
 $update_date = $obj::selectInternOneDate($update_id);
+
+// 編集対象データがない場合はリダイレクト
+if (!$update_date) {
+    header('Location: ../view.php');
+}
 
 // 投稿者IDとログイン中のユーザのIDが一致しなければリダイレクト
 foreach ($update_date as $date) {

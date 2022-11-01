@@ -80,8 +80,6 @@ class InternLogic
         $obj = new DatabaseLogic;
 
         // sql発行
-        $sql = 'INSERT INTO `intern_table`(`user_id`, `company`, `format`, `content`, `question`, `answer`, `ster`, `field`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-
         $sql = 'UPDATE `intern_table` SET `user_id`=?, `company`=?, `format`=?, `content`=?, `question`=?,`answer`=?, `ster`=?, `field`=? WHERE id=?';
 
         // updateするデータを配列に格納
@@ -105,5 +103,21 @@ class InternLogic
         }
 
         return true;
+    }
+
+    // 投稿を削除する
+    public static function deleteInternDate($post_id)
+    {
+        $obj = new DatabaseLogic;
+
+        $sql = 'DELETE FROM `intern_table` WHERE id = ?';
+
+        // int型に変換
+        $arr = [];
+        $arr[] =  $post_id;
+
+        $result = $obj::databaseDelete($sql, $arr);
+
+        return $result;
     }
 }
