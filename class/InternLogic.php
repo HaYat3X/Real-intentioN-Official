@@ -65,8 +65,8 @@ class InternLogic
     {
         $obj = new DatabaseLogic;
 
-        // sql発行
-        $sql = 'SELECT * FROM intern_table WHERE id = ? LIMIT 1';
+        // sql発行 ANDで複数条件指定
+        $sql = 'SELECT i.id, i.user_id, i.company, i.format, i.content, i.question, i.answer, i.ster, i.field, u.name, u.department, u.school_year FROM intern_table i, user_master u WHERE i.user_id = u.id AND i.id = ? ORDER BY i.id DESC';
 
         // SELECTメソッド
         $result = $obj::databaseSelect($sql, $post_id);
@@ -118,6 +118,36 @@ class InternLogic
 
         $result = $obj::databaseDelete($sql, $arr);
 
+        return $result;
+    }
+
+    // コメントを取得する
+    public static function selectInternCommentDate($post_id)
+    {
+        $obj = new DatabaseLogic;
+
+        // sql発行 ANDで複数条件指定
+        $sql = 'SELECT r.id, r.post_id, r.user_id, r.comment, u.name, u.department, u.school_year FROM intern_reply_table r, user_master u WHERE r.user_id = u.id AND r.post_id = ? ORDER BY r.id DESC';
+
+        // SELECTメソッド
+        $result = $obj::databaseSelect($sql, $post_id);
+
+        return $result;
+    }
+
+    // コメントを投稿する
+    public static function insertInternCommentDate($post, $userId)
+    {
+        $obj = new DatabaseLogic;
+
+        $sql = 'INSERT INTO `intern_reply_table`(`post_id`, `user_id`, `comment`) VALUES (?, ?, ?)';
+
+        $arr = [];
+        $arr[] = $post['post_id'];
+        $arr[] = (string)$userId;
+        $arr[] = $post['content'];
+
+        $result = $obj::databaseInsert($sql, $arr);
         return $result;
     }
 }
