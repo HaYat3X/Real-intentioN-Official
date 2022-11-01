@@ -180,7 +180,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div>
                     <form action="./comment.php" method="post">
-                        <textarea name="content" cols="100" rows="10"></textarea>
+                        <textarea required name="content" cols="100" rows="10"></textarea>
                         <input type="hidden" name="post_id" value="<?php h($post_id) ?>">
                         <button type="submit">コメントする</button>
                     </form>
