@@ -109,8 +109,24 @@ class PostLogic
     {
         $db_obj = new DatabaseLogic();
 
-        //  SELECTメソッド実行
+        // SELECTメソッド実行
         $result = $db_obj::db_select($sql);
+
+        // データがあった場合データを返す
+        if ($result) {
+            return $result;
+        }
+
+        return false;
+    }
+
+    // 新規投稿するメソッド
+    public static function post_submission($sql, $arr)
+    {
+        $db_obj = new DatabaseLogic();
+
+        // INSERTメソッド実行
+        $result = $db_obj::db_insert($sql, $arr);
 
         // データがあった場合データを返す
         if ($result) {
