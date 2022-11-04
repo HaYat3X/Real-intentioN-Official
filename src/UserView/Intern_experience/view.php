@@ -24,8 +24,9 @@ foreach ($login_check as $row) {
     $userId = $row['id'];
 }
 
-// インターンデータ取得メソッドの読み込み
+// インターンデータ取得メソッドの読み込み　最低一件のデータが必要
 $sql = 'SELECT i.id, i.user_id, i.company, i.format, i.content, i.question, i.answer, i.ster, i.field, u.name, u.department, u.school_year FROM intern_table i, user_master u WHERE i.user_id = u.id ORDER BY id DESC';
+
 $results = $post_obj::post_acquisition($sql);
 
 ?>
