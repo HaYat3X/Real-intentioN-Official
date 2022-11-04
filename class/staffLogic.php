@@ -51,4 +51,10 @@ class StaffLogic
             }
         }
     }
+
+    // ログインチェック
+    public static function loginCheck()
+    {
+        
+    }
 }
