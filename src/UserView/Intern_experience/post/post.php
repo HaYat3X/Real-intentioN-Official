@@ -3,16 +3,16 @@
 session_start();
 
 // クラスファイルインポート
-require __DIR__ . '../../../../../class/InternLogic.php';
+require __DIR__ . '../../../../../class/Logic.php';
 
 // functionファイルインポート
 require __DIR__ . '../../../../../function/functions.php';
 
 // オブジェクト
-$obj = new InternLogic;
+$obj = new PostLogic();
 
 // ログインチェック
-$login_check = $obj::loginCheck();
+$login_check = $obj::login_check();
 
 $err = [];
 
@@ -30,8 +30,25 @@ foreach ($login_check as $row) {
 // POSTリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    // バリデーション処理
+    // 省略する関数を作る？
+
+    // 投稿するデータをarr処理
+    $arr = [];
+    $arr[] = $userId;
+    $arr[] = $_POST['company'];
+    $arr[] = $_POST['format'];
+    $arr[] = $_POST['content'];
+    $arr[] = $_POST['question'];
+    $arr[] = $_POST['answer'];
+    $arr[] = $_POST['ster'];
+    $arr[] = $_POST['field'];
+
+    // SQL発行
+    $sql = 'INSERT INTO `intern_table`(`user_id`, `company`, `format`, `content`, `question`, `answer`, `ster`, `field`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+
     // 投稿するメソッド
-    $insert = $obj::insertInternDate($_POST);
+    $insert = $obj::post_submission($sql, $arr);
 
     // 返り値がFalseの場合リダイレクト 配列でメッセージ
     if (!$insert) {

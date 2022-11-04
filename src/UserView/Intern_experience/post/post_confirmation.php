@@ -3,16 +3,16 @@
 session_start();
 
 // クラスファイルインポート
-require __DIR__ . '../../../../../class/InternLogic.php';
+require __DIR__ . '../../../../../class/Logic.php';
 
 // functionファイルインポート
 require __DIR__ . '../../../../../function/functions.php';
 
 // オブジェクト
-$obj = new InternLogic;
+$obj = new PostLogic();
 
 // ログインチェック
-$login_check = $obj::loginCheck();
+$login_check = $obj::login_check();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
 if (!$login_check) {
