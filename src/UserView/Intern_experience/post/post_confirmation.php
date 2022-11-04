@@ -507,7 +507,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endforeach; ?>
 
                         <div class="submit">
-                            <a href="./post_form.php?action=Tofix">書き直す</a>
+                            <a href="./post_form.php">書き直す</a>
                             <button type="submit">投稿する</button>
                         </div>
                     </div>

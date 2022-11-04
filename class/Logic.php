@@ -121,12 +121,60 @@ class PostLogic
     }
 
     // 新規投稿するメソッド
-    public static function post_submission($sql, $arr)
+    public static function post_submission($sql, $bind)
     {
         $db_obj = new DatabaseLogic();
 
         // INSERTメソッド実行
-        $result = $db_obj::db_insert($sql, $arr);
+        $result = $db_obj::db_insert($sql, $bind);
+
+        // データがあった場合データを返す
+        if ($result) {
+            return $result;
+        }
+
+        return false;
+    }
+
+    // パラメータの条件で取得する
+    public static function post_one_acquisition($sql, $bind)
+    {
+        $db_obj = new DatabaseLogic();
+
+        // SELECTパラメータありメソッド実行
+        $result = $db_obj::db_select_arr($sql, $bind);
+
+        // データがあった場合データを返す
+        if ($result) {
+            return $result;
+        }
+
+        return false;
+    }
+
+    // 投稿を更新するメソッドを実行
+    public static function post_update($sql, $bind)
+    {
+        $db_obj = new DatabaseLogic();
+
+        // UPDATEパラメータありメソッド実行
+        $result = $db_obj::db_update($sql, $bind);
+
+        // データがあった場合データを返す
+        if ($result) {
+            return $result;
+        }
+
+        return false;
+    }
+
+    // 投稿を削除するメソッドを実行
+    public static function post_delete($sql, $bind)
+    {
+        $db_obj = new DatabaseLogic();
+
+        // UPDATEパラメータありメソッド実行
+        $result = $db_obj::db_delete($sql, $bind);
 
         // データがあった場合データを返す
         if ($result) {

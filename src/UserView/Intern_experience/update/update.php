@@ -3,16 +3,16 @@
 session_start();
 
 // クラスファイルインポート
-require __DIR__ . '../../../../../class/InternLogic.php';
+require __DIR__ . '../../../../../class/Logic.php';
 
 // functionファイルインポート
 require __DIR__ . '../../../../../function/functions.php';
 
 // オブジェクト
-$obj = new InternLogic;
+$obj = new PostLogic();
 
 // ログインチェック
-$login_check = $obj::loginCheck();
+$login_check = $obj::login_check();
 
 $err = [];
 
@@ -30,8 +30,23 @@ foreach ($login_check as $row) {
 // POSTリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // 編集するメソッド
-    $update = $obj::updateInternDate($_POST);
+    // SQL発行
+    $sql = 'UPDATE `intern_table` SET `user_id`=?, `company`=?, `format`=?, `content`=?, `question`=?,`answer`=?, `ster`=?, `field`=? WHERE id=?';
+
+    // 更新するデータを配列に格納
+    $arr = [];
+    $arr[] = $_POST['user_id'];
+    $arr[] = $_POST['company'];
+    $arr[] = $_POST['format'];
+    $arr[] = $_POST['content'];
+    $arr[] = $_POST['question'];
+    $arr[] = $_POST['answer'];
+    $arr[] = $_POST['ster'];
+    $arr[] = $_POST['field'];
+    $arr[] = $_POST['post_id'];
+
+    // 編集するメソッド実行
+    $update = $obj::post_update($sql, $arr);
 
     // 返り値がFalseの場合リダイレクト 配列でメッセージ
     if (!$update) {

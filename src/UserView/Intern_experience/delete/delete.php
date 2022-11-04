@@ -3,16 +3,16 @@
 session_start();
 
 // クラスファイルインポート
-require __DIR__ . '../../../../../class/InternLogic.php';
+require __DIR__ . '../../../../../class/Logic.php';
 
 // functionファイルインポート
 require __DIR__ . '../../../../../function/functions.php';
 
 // オブジェクト
-$obj = new InternLogic;
+$obj = new PostLogic();
 
 // ログインチェック
-$login_check = $obj::loginCheck();
+$login_check = $obj::login_check();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
 if (!$login_check) {
@@ -27,8 +27,11 @@ foreach ($login_check as $row) {
 // 削除する投稿IDの取得
 $delete_id = filter_input(INPUT_GET, 'post_id');
 
-// 削除するデータを取得する
-$delete_date = $obj::selectInternOneDate($delete_id);
+// SQL発行
+$sql = 'SELECT i.id, i.user_id, i.company, i.format, i.content, i.question, i.answer, i.ster, i.field, u.name, u.department, u.school_year FROM intern_table i, user_master u WHERE i.user_id = u.id AND i.id = ? ORDER BY i.id DESC';
+
+// 更新データ取得
+$delete_date = $obj::post_one_acquisition($sql, $delete_id);
 
 // 削除対象データがない場合はリダイレクト
 if (!$delete_date) {
@@ -45,8 +48,14 @@ foreach ($delete_date as $date) {
     $post_id = $date['id'];
 }
 
+// SQL発行
+$sql = 'DELETE FROM `intern_table` WHERE id = ?';
+
+$arr = [];
+$arr[] = $delete_id;
+
 // 削除実行
-$delete = $obj::deleteInternDate($post_id);
+$delete = $obj::post_delete($sql, $arr);
 
 $err = [];
 
