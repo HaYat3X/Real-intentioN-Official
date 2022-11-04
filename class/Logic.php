@@ -56,6 +56,34 @@ class UserLogic
             }
         }
     }
+
+    // メールアドレスに認証用のトークンを送信する
+    public static function push_token($email)
+    {
+        $send = $email;
+        mb_language('Japanese');
+        mb_internal_encoding('UTF-8');
+        $to = $send;
+        $subject = "メールアドレス認証トークン";
+        $token = rand();
+        $message = '認証トークンは' . '"' . $token . '"' . 'です。';
+        $headers = "From: hayate.syukatu1@gmail.com";
+        mb_send_mail($to, $subject, $message, $headers);
+        return $token;
+    }
+
+    public static function create_user($sql, $arr)
+    {
+        $db_obj = new DatabaseLogic();
+
+        $result = $db_obj::db_insert($sql, $arr);
+
+        if (!$result) {
+            return false;
+        }
+
+        return true;
+    }
 }
 
 // -----------------------------------------------------------------------------------------------------------------
