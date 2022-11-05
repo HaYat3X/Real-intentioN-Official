@@ -53,7 +53,7 @@ $results = $post_obj::post_acquisition($sql);
             <p>分野<?php h($row['field']) ?></p>
             <p>応募期限<?php h($row['time']) ?></p>
             <p>添付資料<?php h($row['attachment']) ?></p>
-            <p><a href="">削除</a>　｜　<a href="">編集</a>　｜　<a href="">コメント一覧</a></p>
+            <p><a href="">削除</a>　｜　<a href="./update/update_form.php?post_id=<?php h($row['id']) ?>">編集</a>　｜　<a href="">コメント一覧</a></p>
             <hr>
         <?php endforeach; ?>
     <?php endif; ?>

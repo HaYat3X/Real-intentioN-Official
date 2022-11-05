@@ -12,7 +12,7 @@ require __DIR__ . '../../../../../function/functions.php';
 $obj = new PostLogic();
 
 // ログインチェック
-$login_check = $obj::login_check();
+$login_check = $obj::login_check_staff();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
 if (!$login_check) {
@@ -21,7 +21,7 @@ if (!$login_check) {
 
 // ユーザID取得
 foreach ($login_check as $row) {
-    $userId = $row['id'];
+    $staffId = $row['id'];
 }
 
 // POSTリクエストを受け取る
@@ -64,7 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <h2>インターン体験記を編集する</h2>
                             <p><label style="margin-right: 68px;">企業名</label><input style="width: 300px; height:35px; font-size:20px; border-radius: 5px; border: 2px solid blue;" type="text" name="company" required value="<?php h($value['company']) ?>" readonly></p>
 
-                            <p><label style="margin-right: 48px;">体験内容</label><input style="width: 650px; height:35px; font-size:20px; border-radius: 5px; border: 2px solid blue;" type="text" name="content" required value="<?php h($value['content']) ?>" readonly></p>
 
                             <p>
                                 <label style="margin-right: 42px;">参加形式</label>
@@ -355,157 +354,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <?php endif; ?>
                             </p>
 
-                            <p><label style="margin-right: 60px;">質問</label><span style="font-size:20px; margin-left:30px;"><?php h($value['question']) ?></span></p>
+                            <p><label style="margin-right: 48px;">メッセージ</label><textarea name="overview" style="width: 650px; height:200px; font-size:20px; resize:none; border-radius: 5px; border: 2px solid blue;"><?php h($row['overview']) ?></textarea></p>
 
-                            <p><label style="margin-right: 48px;">回答内容</label><textarea name="answer" style="width: 650px; height:200px; font-size:20px; resize:none; border-radius: 5px; border: 2px solid blue;"><?php h($value['answer']) ?></textarea></p>
+                            <p><label style="margin-right: 48px;">応募期限</label><input type="date" name="time" value="<?php h($row['time']) ?>"></p>
 
-                            <p>
-                                <label style="margin-right: 42px;">総合評価</label>
-
-                                <?php if ($value['ster'] === '1') : ?>
-                                    <input id="item-10" class="radio-inline__input1" type="radio" name="ster" value="1" checked="checked" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-10">
-                                        星1
-                                    </label>
-
-                                    <input id="item-11" class="radio-inline__input1" type="radio" name="ster" value="2" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-11">
-                                        星2
-                                    </label>
-
-                                    <input id="item-12" class="radio-inline__input1" type="radio" name="ster" value="3" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-12">
-                                        星3
-                                    </label>
-
-                                    <input id="item-13" class="radio-inline__input1" type="radio" name="ster" value="4" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-13">
-                                        星4
-                                    </label>
-
-                                    <input id="item-14" class="radio-inline__input1" type="radio" name="ster" value="5" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-14">
-                                        星5
-                                    </label>
-                                <?php endif; ?>
-
-                                <?php if ($value['ster'] === '2') : ?>
-                                    <input id="item-10" class="radio-inline__input1" type="radio" name="ster" value="1" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-10">
-                                        星1
-                                    </label>
-
-                                    <input id="item-11" class="radio-inline__input1" type="radio" name="ster" value="2" checked="checked" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-11">
-                                        星2
-                                    </label>
-
-                                    <input id="item-12" class="radio-inline__input1" type="radio" name="ster" value="3" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-12">
-                                        星3
-                                    </label>
-
-                                    <input id="item-13" class="radio-inline__input1" type="radio" name="ster" value="4" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-13">
-                                        星4
-                                    </label>
-
-                                    <input id="item-14" class="radio-inline__input1" type="radio" name="ster" value="5" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-14">
-                                        星5
-                                    </label>
-                                <?php endif; ?>
-
-                                <?php if ($value['ster'] === '3') : ?>
-                                    <input id="item-10" class="radio-inline__input1" type="radio" name="ster" value="1" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-10">
-                                        星1
-                                    </label>
-
-                                    <input id="item-11" class="radio-inline__input1" type="radio" name="ster" value="2" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-11">
-                                        星2
-                                    </label>
-
-                                    <input id="item-12" class="radio-inline__input1" type="radio" name="ster" value="3" checked="checked" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-12">
-                                        星3
-                                    </label>
-
-                                    <input id="item-13" class="radio-inline__input1" type="radio" name="ster" value="4" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-13">
-                                        星4
-                                    </label>
-
-                                    <input id="item-14" class="radio-inline__input1" type="radio" name="ster" value="5" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-14">
-                                        星5
-                                    </label>
-                                <?php endif; ?>
-
-                                <?php if ($value['ster'] === '4') : ?>
-                                    <input id="item-10" class="radio-inline__input1" type="radio" name="ster" value="1" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-10">
-                                        星1
-                                    </label>
-
-                                    <input id="item-11" class="radio-inline__input1" type="radio" name="ster" value="2" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-11">
-                                        星2
-                                    </label>
-
-                                    <input id="item-12" class="radio-inline__input1" type="radio" name="ster" value="3" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-12">
-                                        星3
-                                    </label>
-
-                                    <input id="item-13" class="radio-inline__input1" type="radio" name="ster" value="4" checked="checked" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-13">
-                                        星4
-                                    </label>
-
-                                    <input id="item-14" class="radio-inline__input1" type="radio" name="ster" value="5" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-14">
-                                        星5
-                                    </label>
-                                <?php endif; ?>
-
-                                <?php if ($value['ster'] === '5') : ?>
-                                    <input id="item-10" class="radio-inline__input1" type="radio" name="ster" value="1" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-10">
-                                        星1
-                                    </label>
-
-                                    <input id="item-11" class="radio-inline__input1" type="radio" name="ster" value="2" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-11">
-                                        星2
-                                    </label>
-
-                                    <input id="item-12" class="radio-inline__input1" type="radio" name="ster" value="3" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-12">
-                                        星3
-                                    </label>
-
-                                    <input id="item-13" class="radio-inline__input1" type="radio" name="ster" value="4" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-13">
-                                        星4
-                                    </label>
-
-                                    <input id="item-14" class="radio-inline__input1" type="radio" name="ster" value="5" checked="checked" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-14">
-                                        星5
-                                    </label>
-                                <?php endif; ?>
-                            </p>
-
-                            <!-- hiddenで問題内容を送信 -->
-                            <input type="hidden" name="question" value="<?php h($value['question']) ?>">
+                            <p><label style="margin-right: 48px;">添付資料</label><textarea name="attachment" style="width: 650px; height:200px; font-size:20px; resize:none; border-radius: 5px; border: 2px solid blue;"><?php h($row['attachment']) ?></textarea></p>
 
                             <!-- hiddenでuser_idを送信 -->
-                            <input type="hidden" name="user_id" value="<?php h($userId) ?>">
+                            <input type="hidden" name="user_id" value="<?php h($staffId) ?>">
 
                             <!-- hiddenでpost_idを送信 -->
-                            <input type="hidden" name="post_id" value="<?php h($value['post_id']) ?>">
+                            <input type="hidden" name="post_id" value="<?php h($row['id']) ?>">
                         <?php endforeach; ?>
 
                         <div class="submit">
