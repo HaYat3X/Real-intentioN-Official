@@ -1,6 +1,0 @@
-PDOException: SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'email' at row 1 in /Applications/MAMP/htdocs/Deliverables3/class/Logic.php:306
-Stack trace:
-#0 /Applications/MAMP/htdocs/Deliverables3/class/Logic.php(306): PDOStatement->execute(Array)
-#1 /Applications/MAMP/htdocs/Deliverables3/class/Logic.php(79): DatabaseLogic::db_insert('INSERT INTO `us...', Array)
-#2 /Applications/MAMP/htdocs/Deliverables3/src/UserView/register/full_registration.php(61): UserLogic::create_user('INSERT INTO `us...', Array)
-#3 {main}
