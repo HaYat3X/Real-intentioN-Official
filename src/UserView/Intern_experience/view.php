@@ -43,11 +43,11 @@ $results = $post_obj::post_acquisition($sql);
     <title>「Real intentioN」 / インターン体験記</title>
     <!-- font-awesomeのインポート -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 
 <body>
-    <?php include '/Applications/MAMP/htdocs/Deliverables3/public/template/header2.html'; ?>
+
 
     <div class="wrap">
         <div class="main">
@@ -211,6 +211,34 @@ $results = $post_obj::post_acquisition($sql);
             </div>
         </div>
     </div>
+    <!-- テスト-------------------------------------------------------------------------------------------- -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light py-4">
+            <div class="container">
+                <img style="width: 45px; height:45px; margin-right:10px;" src="../../../public/img/logo.png" alt="">
+                <a class="navbar-brand" href="#">Real intentioN</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">職員の方はこちら</a>
+                        </li>
+                        <button class="btn btn-primary ms-3">ログインはこちら</button>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-8">.col-4<br>Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one contiguous unit.</div>
+            <div style="background-color: blue;" class="col-4">.col-6<br>Subsequent columns continue along the new line.</div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
 </html>

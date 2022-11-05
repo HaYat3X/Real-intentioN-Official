@@ -1,6 +1,79 @@
 .main {
-    background-image: url('./public/img/jeshoots-com-LtNvQHdKkmw-unsplash.jpg');
+    background-image: url('./public/img/tim-van-der-kuip-CPs2X8JYmS8-unsplash.jpg');
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
+}
+
+.main {
+    background: url('./public/img/tim-van-der-kuip-CPs2X8JYmS8-unsplash.jpg') no-repeat center;
+    background-size: cover;
+    width: 100%;
+    height: 250px;
+    position: relative;
+    background-attachment: fixed;
+}
+
+.main::before {
+    content: '';
+    /* ↓暗いオーバーレイを半透明で配置 */
+    background-color: rgba(0, 0, 0, 0.6);
+    /* ↓全体を覆うように配置 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.msg-area {
+    position: absolute;
+    color: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 25px;
+    font-weight: bold;
+    width: 100%;
+    margin-left: 200px;
+}
+
+@media screen and (max-width: 1024px) {
+    /* タブレット用レイアウト 600px以上の範囲に収めるデザインはこの中に記述 */
+    .msg-area {
+        position: absolute;
+        color: white;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        font-size: 25px;
+        font-weight: bold;
+        width: 100%;
+        margin-left: 100px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    /* タブレット用レイアウト 600px以上の範囲に収めるデザインはこの中に記述 */
+    .msg-area {
+        position: absolute;
+        color: white;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        font-size: 25px;
+        font-weight: bold;
+        width: 100%;
+        margin-left: 20px;
+    }
+    .msg-area h1 {
+        font-size: 25px;
+    }
+    .msg-area p {
+        font-size: 15px;
+    }
 }
