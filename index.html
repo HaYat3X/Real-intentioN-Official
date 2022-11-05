@@ -2,25 +2,16 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,
+            initial-scale=1,shrink-to-fit=no" />
+    <link rel="stylesheet" href="index.css">
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <style>
-        body {
-            background-color: #E6E6E6;
-        }
-
-        form h1 {
-            margin-top: 100px;
-            margin-bottom: 50px;
-        }
-
-
-    </style>
-
-    <title>Document</title>
+    <title>サービス紹介ページ</title>
 </head>
 
 <body>
@@ -29,7 +20,7 @@
             <div class="container">
                 <a class="navbar-brand" href="#">Real intentioN</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span></button>
+                        <span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
@@ -42,23 +33,26 @@
         </nav>
     </header>
 
-    <div class="main d-flex align-items-center">
+    <div class="main vh-100 d-flex align-items-center">
         <div class="container">
             <div class="row">
-                <div class="mx-auto col-lg-6">
-                    <form class="mt-5" action="./provisional_registration.php" method="post">
-                        <h1 class="text-center">メールアドレス仮登録</h1>
-                        <div class="mb-2">
-                            <label class="form-label" for="name">神戸電子専門学校のメールアドレス</label>
-                            <input class="form-control" type="text" name="email" id="name">
-                        </div>
-                        <button type="submit" class="btn btn-primary px-5">仮登録する</button>
-                    </form>
+                <div class="col-lg-7 mx-auto">
+                    <h1>Real intentioN</h1>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate aspernatur quis repellendus dolores tempore ab quibusdam dolorum atque dignissimos fugit, quas sit officiis facilis accusantium veniam maxime? Nisi, fugiat animi!</p>
+                    <a href="./src/UserView/register/provisional_registration_form.php" class="btn btn-primary">今すぐ新規登録（無料）</a>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="serve vh-100 d-flex align-items-center">
+        <div class="test" style="background-color: #FFFFFF;">
+            未定
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
