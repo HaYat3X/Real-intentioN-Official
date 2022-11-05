@@ -132,8 +132,8 @@ class StaffLogic
 
                 //ログイン成功の場合 trueを返す
                 session_regenerate_id(true);
-                $_SESSION['login_user'] = $userData;
-                return $_SESSION['login_user'];
+                $_SESSION['login_staff'] = $userData;
+                return $_SESSION['login_staff'];
             } else {
                 return false;
             }
@@ -146,12 +146,25 @@ class StaffLogic
 // 投稿を扱うクラス
 class PostLogic
 {
-    // ログインしているかどうか判定する
+    // ログインしているかどうか判定する（学生）
     public static function login_check()
     {
         // ユーザ情報があればログインしているとみなす return true
         if (isset($_SESSION['login_user'])) {
             $result = $_SESSION['login_user'];
+            return $result;
+        }
+
+        // セッション情報がない場合はログインしていないとみなす return false;
+        return false;
+    }
+
+    // ログインしているかどうか確認する（職員）
+    public static function login_check_staff()
+    {
+        // ユーザ情報があればログインしているとみなす return true
+        if (isset($_SESSION['login_staff'])) {
+            $result = $_SESSION['login_staff'];
             return $result;
         }
 

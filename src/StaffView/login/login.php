@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <?php if (count($err) === 0) : ?>
             <label>ログインが完了しました。</label>
-            <?php header('refresh:3;url=../intern_experience/view.php'); ?>
+            <?php header('refresh:3;url=../control/post_list.php'); ?>
         <?php endif; ?>
     </div>
 </body>
