@@ -86,17 +86,85 @@ class UserLogic
     }
 }
 
+
+// 職員用のクラス
+class StaffLogic
+{
+    // メールアドレスが存在するか確認する
+    public static function staff_exist_check($email)
+    {
+        $db_obj = new DatabaseLogic();
+
+        $sql = 'SELECT * FROM staff_master WHERE email = ?';
+
+        // SQL実行
+        $result = $db_obj::db_select_arr($sql, $email);
+
+        // データがあればデータが返る　
+        if ($result) {
+            return $result;
+        }
+
+        return false;
+    }
+
+    // ログインする
+    public static function login_execution($email, $password)
+    {
+        // メールアドレスが存在するか判定する
+        $userData = self::staff_exist_check($email);
+
+        // データが存在しない(返り値がTrue)であればエラーとする
+        if (!$userData) {
+            return false;
+        }
+
+        // データが存在した場合パスワード認証を行う
+        if ($userData) {
+
+            // DBのパスワードを取得
+            foreach ($userData as $row) {
+                $db_password = $row['password'];
+            }
+
+            // if (password_verify($password, $db_password)) {
+            if ($password === $db_password) {
+
+                //ログイン成功の場合 trueを返す
+                session_regenerate_id(true);
+                $_SESSION['login_staff'] = $userData;
+                return $_SESSION['login_staff'];
+            } else {
+                return false;
+            }
+        }
+    }
+}
+
 // -----------------------------------------------------------------------------------------------------------------
 
 // 投稿を扱うクラス
 class PostLogic
 {
-    // ログインしているかどうか判定する
+    // ログインしているかどうか判定する（学生）
     public static function login_check()
     {
         // ユーザ情報があればログインしているとみなす return true
         if (isset($_SESSION['login_user'])) {
             $result = $_SESSION['login_user'];
+            return $result;
+        }
+
+        // セッション情報がない場合はログインしていないとみなす return false;
+        return false;
+    }
+
+    // ログインしているかどうか確認する（職員）
+    public static function login_check_staff()
+    {
+        // ユーザ情報があればログインしているとみなす return true
+        if (isset($_SESSION['login_staff'])) {
+            $result = $_SESSION['login_staff'];
             return $result;
         }
 
