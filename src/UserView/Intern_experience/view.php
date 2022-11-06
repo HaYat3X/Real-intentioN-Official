@@ -44,6 +44,17 @@ $results = $post_obj::post_acquisition($sql);
     <!-- font-awesomeのインポート -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #e6e6e6;
+        }
+
+        .intern-box {
+            padding: 30px 15px;
+            background-color: #f6d04d;
+
+        }
+    </style>
 </head>
 
 <body>
@@ -178,30 +189,7 @@ $results = $post_obj::post_acquisition($sql);
                 <?php endif; ?>
             </div>
 
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
-            <p>aっp</p>
+
             <p>aっp</p>
         </div>
 
@@ -233,8 +221,68 @@ $results = $post_obj::post_acquisition($sql);
 
     <div class="container">
         <div class="row my-5">
-            <div class="col-8">.col-4<br>Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one contiguous unit.</div>
-            <div style="background-color: blue;" class="col-4">.col-6<br>Subsequent columns continue along the new line.</div>
+
+            <div class="col-8" style="border:1px solid black">
+                <?php if (is_array($results) || is_object($results)) : ?>
+                    <?php foreach ($results as $row) : ?>
+
+                        <!-- flexboxでレイアウト -->
+                        <div class="wrap px-3 py-4">
+                            <!-- 企業名, 参加形式, 参加分野を出力 -->
+                            <div class="area1 d-flex">
+                                <div class="intern-box">
+                                    INTERN
+                                </div>
+
+                                <!-- H3ををdivに変更 -->
+                                <h3 style="margin-right: 100px;">
+                                    <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?><span style="margin: 0 10px;">/</span><?php h($row['format']) ?>
+
+                                    <p><?php h($row['content']) ?>s</p>
+                                </h3>
+
+                                <!-- <div class="btn-group">
+                                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
+                                        <span class="visually-hidden">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                                        <li><a class="dropdown-item active" href="#">削除</a></li>
+                                        <li><a class="dropdown-item" href="#">編集</a></li>
+                                    </ul>
+                                </div> -->
+
+                                <div class="btn-group">
+                                    <div class="btn-group dropstart" role="group">
+                                        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <span class="visually-hidden">Toggle Dropstart</span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-dark">
+                                            <li><a class="dropdown-item active" href="#">削除</a></li>
+                                            <li><a class="dropdown-item" href="#">編集</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+
+
+
+                                <!-- <p><?php h($row['content']) ?></p> -->
+
+
+                            </div>
+
+                            <div class="area2">
+
+                            </div>
+
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+
+            <div style="background-color:beige;" class="col-4 sticky-top vh-100 side">
+                <br>Subsequent columns continue along the new line.
+            </div>
         </div>
     </div>
 
