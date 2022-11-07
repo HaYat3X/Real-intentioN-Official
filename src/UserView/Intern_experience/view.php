@@ -234,83 +234,10 @@ $results = $post_obj::post_acquisition($sql);
         </nav>
     </header>
 
-    <div class="container">
-        <div class="row">
 
-            <!-- flexboxでレイアウト -->
-            <div class="wrap px-3 py-4 d-flex">
-                <div class="col-8" style="border:1px solid black">
-                    <?php if (is_array($results) || is_object($results)) : ?>
-                        <?php foreach ($results as $row) : ?>
-
-
-
-                            <!-- 企業名, 参加形式, 参加分野を出力 -->
-                            <div class="area1 d-flex">
-
-
-                                <!-- H3ををdivに変更 -->
-                                <div class="info-left col-2">
-                                    <div class="square_box">
-                                        <p>INTERN</p>
-                                    </div>
-                                </div>
-
-                                <div class="info-center">
-                                    <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?><span style="margin: 0 10px;">/</span><?php h($row['format']) ?>
-
-                                    <p><?php h($row['content']) ?>s</p>
-                                </div>
-
-
-                                <!-- <div class="btn-group">
-                                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
-                                        <span class="visually-hidden">Toggle Dropdown</span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                                        <li><a class="dropdown-item active" href="#">削除</a></li>
-                                        <li><a class="dropdown-item" href="#">編集</a></li>
-                                    </ul>
-                                </div> -->
-
-                                <div class="btn-group">
-                                    <div class="btn-group dropstart" role="group">
-                                        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <span class="visually-hidden">Toggle Dropstart</span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-dark">
-                                            <li><a class="dropdown-item" href="#">削除</a></li>
-                                            <li><a class="dropdown-item" href="#">編集</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-
-
-
-                                <!-- <p><?php h($row['content']) ?></p> -->
-
-
-                            </div>
-
-                            <div class="area2">
-
-                            </div>
-
-
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
-
-                <div style="background-color:beige;" class="col-4 sticky-top vh-100 side">
-                    <br>Subsequent columns continue along the new line.
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- <div class="bg-light"> -->
-    <main role="main" class="container" style="padding: 0px">
+    <main role="main" class="container mt-5" style="padding: 0px">
         <div class="row">
 
             <div class="col-md-8">
@@ -318,6 +245,8 @@ $results = $post_obj::post_acquisition($sql);
                     <?php foreach ($results as $row) : ?>
 
                         <div class="mb-5 bg-light">
+
+                            <!-- area1 -->
                             <div class="area1 d-flex px-3 py-4">
                                 <div class="info-left col-2">
                                     <div class="square_box">
@@ -347,20 +276,23 @@ $results = $post_obj::post_acquisition($sql);
                                 </div>
                             </div>
 
-                            <h1>
-                                <p class='text-center'>◇Col-md-8</p>
-                            </h1>
-                            <div class="content-section">
-                                <h1>
-                                    <p class='text-center'>content-section</p>
-                                </h1>
-                            </div>
-                            one, two, three, 1,2,3,one, two, three, 1,2,3,one, two, three, 1,2,3,one, two, three, 1,2,3,one, two, three, 1,2,3,one, two, three, 1,2,3,one, two, three, 1,2,3,one, two, three, 1,2,3,one, two, three,
-
-                            <div class="content-section">
-                                one, two, three, 1,2,3,one, two, three, 1,2,3,one, two, three, 1,2,3,one, two, three, 1,2,3,one, two, three, 1,2,3,one, two, three, 1,2,3,one, two, three, 1,2,3,one, two, three, 1,2,3,one, two, three,
+                            <div class="question px-3">
+                                <span>Q.</span><?php h($row['question']) ?>
                             </div>
 
+                            <div class="answer px-3">
+                                <span>A.</span><?php h($row['answer']) ?>
+                            </div>
+
+                            <div class="area2 d-flex px-3 py-4">
+                                <div class="question-btn col-7">
+                                    <a href="#" class="btn btn-primary">投稿者に質問する</a>
+                                </div>
+
+                                <div class="post-name col-5 pt-2">
+                                    <?php h($row['name']) ?> ｜ <?php h($row['department']) ?> ｜ <?php h($row['school_year']) ?>
+                                </div>
+                            </div>
                         </div>
 
                     <?php endforeach; ?>
