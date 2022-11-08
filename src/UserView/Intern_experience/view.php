@@ -74,6 +74,19 @@ $results = $post_obj::post_acquisition($sql);
             position: sticky;
             top: 60px;
         }
+
+        #fixed {
+            position: fixed;
+            /* 要素の位置を固定する */
+            bottom: 100px;
+            /* 基準の位置を画面の一番下に指定する */
+            right: 500px;
+            /* 基準の位置を画面の一番右に指定する */
+            width: 150px;
+            /* 幅を指定する */
+            border: 3px solid #326693;
+            /* ボーダーを指定する */
+        }
     </style>
 </head>
 
@@ -99,15 +112,19 @@ $results = $post_obj::post_acquisition($sql);
         </nav>
     </header>
 
-
+    <div id="fixed">
+        <a href="./post/post_form.php">インターン体験記<br>を投稿する！</a>
+    </div>
 
     <!-- <div class="bg-light"> -->
-    <main role="main" class="container mt-5" style="padding: 0px">
+    <main role="main" class="container mt-5">
         <div class="row">
 
             <div class="col-md-8">
                 <?php if (is_array($results) || is_object($results)) : ?>
                     <?php foreach ($results as $row) : ?>
+
+
 
                         <div class="mb-5 bg-light">
 
@@ -122,7 +139,7 @@ $results = $post_obj::post_acquisition($sql);
                                 <div class="info-center col-9">
                                     <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?><span style="margin: 0 10px;">/</span><?php h($row['format']) ?>
 
-                                    <p><?php h($row['content']) ?>s</p>
+                                    <p><?php h($row['content']) ?></p>
 
                                     <p><?php h($row['ster']) ?></p>
                                 </div>
@@ -135,8 +152,9 @@ $results = $post_obj::post_acquisition($sql);
                                                 <span class="visually-hidden">Toggle Dropstart</span>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-dark">
-                                                <li><a class="dropdown-item" href="#">削除</a></li>
-                                                <li><a class="dropdown-item" href="#">編集</a></li>
+
+                                                <li><a href="./delete/delete_check.php?post_id=<?php h($row['id']) ?>" class="dropdown-item">削除</a></li>
+                                                <li><a class="dropdown-item" href="./update/update_form.php?post_id=<?php h($row['id']) ?>">編集</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -153,7 +171,7 @@ $results = $post_obj::post_acquisition($sql);
 
                             <div class="area2 d-flex px-3 py-4">
                                 <div class="question-btn col-7">
-                                    <a href="#" class="btn btn-primary">投稿者に質問する</a>
+                                    <a href="./comment/comment.php?post_id=<?php h($row['id']) ?>" class="btn btn-primary">投稿者に質問する</a>
                                 </div>
 
                                 <div class="post-name col-5 pt-2">
@@ -188,9 +206,10 @@ $results = $post_obj::post_acquisition($sql);
 
             </div>
 
-            <div class="col-md-4 bg-warning sticky-top vh-100">
+            <div class="col-md-4 bg-light sticky-top vh-100">
                 <div>
                     <h1>送信</h1>
+                    <a href="./post/post_form.php">新規投稿</a>
                 </div>
                 <!-- <ul class=" list-group">
                     <li class="list-group-item list-group-item-light">Latest Posts</li>
