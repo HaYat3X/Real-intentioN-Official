@@ -147,16 +147,18 @@ $results = $post_obj::post_acquisition($sql);
                                 <div class="info-right col-1 ms-4">
 
                                     <div class="btn-group">
-                                        <div class="btn-group dropstart" role="group">
-                                            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <span class="visually-hidden">Toggle Dropstart</span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-dark">
+                                        <?php if ($userId == $row['user_id']) : ?>
+                                            <div class="btn-group dropstart" role="group">
+                                                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <span class="visually-hidden">Toggle Dropstart</span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-dark">
 
-                                                <li><a href="./delete/delete_check.php?post_id=<?php h($row['id']) ?>" class="dropdown-item">削除</a></li>
-                                                <li><a class="dropdown-item" href="./update/update_form.php?post_id=<?php h($row['id']) ?>">編集</a></li>
-                                            </ul>
-                                        </div>
+                                                    <li><a href="./delete/delete_check.php?post_id=<?php h($row['id']) ?>" class="dropdown-item">削除</a></li>
+                                                    <li><a class="dropdown-item" href="./update/update_form.php?post_id=<?php h($row['id']) ?>">編集</a></li>
+                                                </ul>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
