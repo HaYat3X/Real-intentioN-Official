@@ -171,7 +171,7 @@ $results = $post_obj::post_acquisition($sql);
 
                             <div class="area2 d-flex px-3 py-4">
                                 <div class="question-btn col-7">
-                                    <a href="#" class="btn btn-primary">投稿者に質問する</a>
+                                    <a href="./comment/comment.php?post_id=<?php h($row['id']) ?>" class="btn btn-primary">投稿者に質問する</a>
                                 </div>
 
                                 <div class="post-name col-5 pt-2">

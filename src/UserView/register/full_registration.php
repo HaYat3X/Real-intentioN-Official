@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $err[] =  '出席番号を入力してください。';
     }
 
-    if (preg_match("/\A[a-z\d]{6,100}+\z/i", $password)) {
+    if (!preg_match("/\A[a-z\d]{6,100}+\z/i", $password)) {
         $err[] = 'パスワードは英数字8文字以上で作成してください。';
     }
 
