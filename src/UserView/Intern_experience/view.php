@@ -69,151 +69,16 @@ $results = $post_obj::post_acquisition($sql);
             left: 50%;
             transform: translate(-50%, -50%);
         }
+
+        .side-area {
+            position: sticky;
+            top: 60px;
+        }
     </style>
 </head>
 
 <body>
 
-
-    <div class="wrap">
-        <div class="main">
-            <div class="main_content">
-                <?php if (is_array($results) || is_object($results)) : ?>
-                    <?php foreach ($results as $row) : ?>
-                        <div class="posts">
-                            <div class="area1">
-                                <details>
-                                    <summary>
-                                        <div class="parent">
-                                            <p class="child">INTERN</p>
-                                        </div>
-
-                                        <div class="information">
-                                            <div class="company">
-                                                <h3>
-                                                    <?php h($row['company']) ?> / <?php h($row['format']) ?> / <?php h($row['field']) ?>
-                                                </h3>
-
-                                                <!-- 星の数値によって表示する内容を変える -->
-                                                <?php if ($row['ster'] == 5) : ?>
-                                                    <label>総合レビュー：
-                                                        <span>
-                                                            <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                            <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                            <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                            <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                            <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                        </span>
-                                                    </label>
-                                                <?php elseif ($row['ster'] == 4) : ?>
-                                                    <label>総合レビュー：
-                                                        <span>
-                                                            <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                            <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                            <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                            <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                            <i style="color:gray" class="fa-solid fa-star"></i>
-                                                        </span>
-                                                    </label>
-                                                <?php elseif ($row['ster'] == 3) : ?>
-                                                    <label>総合レビュー：
-                                                        <span>
-                                                            <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                            <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                            <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                            <i style="color:gray" class="fa-solid fa-star"></i>
-                                                            <i style="color:gray" class="fa-solid fa-star"></i>
-                                                        </span>
-                                                    </label>
-                                                <?php elseif ($row['ster'] == 2) : ?>
-                                                    <label>総合レビュー：
-                                                        <span>
-                                                            <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                            <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                            <i style="color:gray" class="fa-solid fa-star"></i>
-                                                            <i style="color:gray" class="fa-solid fa-star"></i>
-                                                            <i style="color:gray" class="fa-solid fa-star"></i>
-                                                        </span>
-                                                    </label>
-                                                <?php elseif ($row['ster'] == 1) : ?>
-                                                    <label>総合レビュー：
-                                                        <span>
-                                                            <i style="color:#f6d04d;" class="fa-solid fa-star"></i>
-                                                            <i style="color:gray" class="fa-solid fa-star"></i>
-                                                            <i style="color:gray" class="fa-solid fa-star"></i>
-                                                            <i style="color:gray" class="fa-solid fa-star"></i>
-                                                            <i style="color:gray" class="fa-solid fa-star"></i>
-                                                        </span>
-                                                    </label>
-                                                <?php elseif ($row['ster'] == 0) : ?>
-                                                    <label>総合レビュー：
-                                                        <span>
-                                                            <i style="color:gray" class="fa-solid fa-star"></i>
-                                                            <i style="color:gray" class="fa-solid fa-star"></i>
-                                                            <i style="color:gray" class="fa-solid fa-star"></i>
-                                                            <i style="color:gray" class="fa-solid fa-star"></i>
-                                                            <i style="color:gray" class="fa-solid fa-star"></i>
-                                                        </span>
-                                                    </label>
-                                                <?php endif; ?>
-
-                                                <p class="curriculum"><?php h($row['content']) ?></p>
-                                            </div>
-
-                                            <div class="format">
-                                                <span><i class="fa-solid fa-ellipsis-vertical"></i></span>
-                                            </div>
-                                        </div>
-                                    </summary>
-
-                                    <div class="area4">
-                                        <!-- 投稿者である場合編集、削除表示 -->
-                                        <?php if ($userId == $row['user_id']) : ?>
-                                            <div class="link">
-                                                <a class="edit" href="./update/update_form.php?post_id=<?php h($row['id']) ?>">編集</a>
-                                                <a class="delete" href="./delete/delete.php?post_id=<?php h($row['id']) ?>">削除</a>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-                                </details>
-                            </div>
-
-                            <div class="area2">
-                                <div class="question">
-                                    <span>Q.　</span><label><?php h($row['question']) ?></label>
-                                </div>
-
-                                <div class="answer">
-                                    <span>A.　</span><label><?php h($row['answer']) ?></label>
-                                </div>
-                            </div>
-
-                            <div class="area3">
-                                <div class="reply">
-                                    <a class="edit" href="./comment/comment.php?post_id=<?php h($row['id']) ?>">投稿者に質問する</a>
-                                </div>
-
-                                <div class="userInformation">
-                                    <label class="one">
-                                        <?php h($row['name']) ?> ｜ <?php h($row['department']) ?> ｜ <?php h($row['school_year']) ?>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
-
-
-            <p>aっp</p>
-        </div>
-
-        <div class="side">
-            <div class="side_content">
-                <p>a</p>
-            </div>
-        </div>
-    </div>
     <!-- テスト-------------------------------------------------------------------------------------------- -->
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light py-4">
@@ -258,6 +123,8 @@ $results = $post_obj::post_acquisition($sql);
                                     <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?><span style="margin: 0 10px;">/</span><?php h($row['format']) ?>
 
                                     <p><?php h($row['content']) ?>s</p>
+
+                                    <p><?php h($row['ster']) ?></p>
                                 </div>
 
                                 <div class="info-right col-1 ms-4">
@@ -297,15 +164,40 @@ $results = $post_obj::post_acquisition($sql);
 
                     <?php endforeach; ?>
                 <?php endif; ?>
+
+                <!-- ページネーション -->
+                <div class="justify-content-center">
+                    <nav aria-label="Page navigation example justify-content-center">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
             </div>
 
-
-            <div class="col-md-4 bg-warning">
-                <ul class="list-group">
+            <div class="col-md-4 bg-warning sticky-top vh-100">
+                <div>
+                    <h1>送信</h1>
+                </div>
+                <!-- <ul class=" list-group">
                     <li class="list-group-item list-group-item-light">Latest Posts</li>
                     <li class="list-group-item list-group-item-light">Announcements</li>
-                </ul>
+                </ul> -->
             </div><!-- col-md-4 終了-->
+
 
 
         </div><!-- Div row 終了-->
