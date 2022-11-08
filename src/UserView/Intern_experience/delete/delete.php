@@ -24,29 +24,9 @@ foreach ($login_check as $row) {
     $userId = $row['id'];
 }
 
-// 削除する投稿IDの取得
-$delete_id = filter_input(INPUT_GET, 'post_id');
-
-// SQL発行
-$sql = 'SELECT i.id, i.user_id, i.company, i.format, i.content, i.question, i.answer, i.ster, i.field, u.name, u.department, u.school_year FROM intern_table i, user_master u WHERE i.user_id = u.id AND i.id = ? ORDER BY i.id DESC';
-
-// 更新データ取得
-$delete_date = $obj::post_one_acquisition($sql, $delete_id);
-
-// 削除対象データがない場合はリダイレクト
-if (!$delete_date) {
+if (!$delete_id = filter_input(INPUT_POST, 'post_id')) {
     header('Location: ../view.php');
-}
-
-// 投稿者IDとログイン中のユーザのIDが一致しなければリダイレクト
-foreach ($delete_date as $date) {
-    if (!$userId == $date['user_id']) {
-        header('Location: ../view.php');
-    }
-
-    // 削除するID
-    $post_id = $date['id'];
-}
+};
 
 // SQL発行
 $sql = 'DELETE FROM `intern_table` WHERE id = ?';
@@ -72,7 +52,10 @@ if (!$delete) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Document</title>
+
+
 </head>
 
 <body>
