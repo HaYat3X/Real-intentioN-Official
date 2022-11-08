@@ -139,7 +139,7 @@ $results = $post_obj::post_acquisition($sql);
                                 <div class="info-center col-9">
                                     <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?><span style="margin: 0 10px;">/</span><?php h($row['format']) ?>
 
-                                    <p><?php h($row['content']) ?>s</p>
+                                    <p><?php h($row['content']) ?></p>
 
                                     <p><?php h($row['ster']) ?></p>
                                 </div>

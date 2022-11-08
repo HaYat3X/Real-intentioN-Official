@@ -32,7 +32,6 @@ $sql = 'SELECT i.id, i.user_id, i.company, i.format, i.content, i.question, i.an
 
 // 更新データ取得
 $update_date = $obj::post_one_acquisition($sql, $update_id);
-var_dump($update_date);
 
 // 編集対象データがない場合はリダイレクト
 if (!$update_date) {
