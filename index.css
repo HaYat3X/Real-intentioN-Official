@@ -6,7 +6,7 @@
 }
 
 .main {
-    background: url(https://www.kurihaku.jp/media/admin-media/2018/05/92d501bc70777a3bf854e9e1aab4881d.jpg) no-repeat center;
+    background: url('./public/img/92d501bc70777a3bf854e9e1aab4881d.jpg') no-repeat center;
     background-size: cover;
     width: 100%;
     height: 250px;
@@ -37,6 +37,10 @@
     font-weight: 900;
     width: 100%;
     margin-left: 200px;
+}
+
+.wrap {
+    overflow: hidden;
 }
 
 @media screen and (max-width: 1024px) {
