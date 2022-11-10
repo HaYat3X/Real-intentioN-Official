@@ -2,20 +2,47 @@
 
 session_start();
 
+// クラスファイルインポート
+require __DIR__ . '../../../../class/Logic.php';
+
 // functionファイルインポート
 require __DIR__ . '../../../../function/functions.php';
 
-// // ログインしている場合にはログインフォームを表示させない
-// $result = UserLogic::checkLogin();
-// if ($result) {
-//     header('Location: mypage.php');
-//     return;
-// }
+// クラスのインポート
+$user_obj = new StaffLogic();
+
+// errメッセージが入る配列準備
+$err = [];
+
+// 職員認証きー 公開時に変更する
+$private_key = 'togetoken';
+
+// フォームリクエストを受け取る
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // バリーデーションチェック
+    if (!$user_input = filter_input(INPUT_POST, 'key')) {
+        $err[] =  '認証コードを入力してください。';
+    }
+
+    // 認証キーが合っていればセッション発行する
+    if ($user_input === $private_key) {
+        $_SESSION['auth_success'] = '認証済み';
+    } else {
+        $err[] = '認証コードが間違っています。';
+    }
+} else {
+    $err[] = '不正なリクエストです。';
+
+    // 3秒後に入力フォームへリダイレクト
+    header('refresh:3;url=./login_form.php');
+}
+
 
 ?>
 
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -25,12 +52,13 @@ require __DIR__ . '../../../../function/functions.php';
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
     body {
-        background-color: #E6E6E6;
+        background-color: #e6e6e6;
     }
 
-    form h1 {
-        margin-top: 100px;
-        margin-bottom: 50px;
+    .err-msg {
+        margin-top: 150px;
+        background-color: white;
+        padding: 30px 50px;
     }
     </style>
     <title>Document</title>
@@ -60,21 +88,21 @@ require __DIR__ . '../../../../function/functions.php';
         <div class="container">
             <div class="row">
                 <div class="mx-auto col-lg-6">
-                    <form class="mt-5" action="./login.php" method="post">
-                        <h1 class="text-center">ログイン</h1>
-
-                        <div class="mb-2">
-                            <label class="form-label" for="name">メールアドレス</label>
-                            <input class="form-control" type="text" name="email" id="name">
+                    <div class="err-msg">
+                        <?php if (count($err) > 0) : ?>
+                        <?php foreach ($err as $e) : ?>
+                        <p><?php h($e); ?></p>
+                        <?php endforeach; ?>
+                        <div class="backBtn">
+                            <a class="btn btn-primary" href="./staff_auth_form.php">戻る</a>
                         </div>
+                        <?php endif; ?>
 
-                        <div class="mb-2">
-                            <label class="form-label" for="name">パスワード</label>
-                            <input class="form-control" type="password" name="password" id="name">
-                        </div>
-                        <button type="submit" class="btn btn-primary px-5">ログインする</button>
-                        <a href="../register/staff_auth_form.php">未登録の先生はこちら</a>
-                    </form>
+                        <?php if (count($err) === 0) : ?>
+                        <label>認証が完了しました。</label>
+                        <?php header('refresh:3;url=./register_form.php'); ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>

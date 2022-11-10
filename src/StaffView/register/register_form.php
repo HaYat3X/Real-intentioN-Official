@@ -1,16 +1,9 @@
 <?php
 
+// 職員として認証済がチェックする
 session_start();
 
-// functionファイルインポート
-require __DIR__ . '../../../../function/functions.php';
 
-// // ログインしている場合にはログインフォームを表示させない
-// $result = UserLogic::checkLogin();
-// if ($result) {
-//     header('Location: mypage.php');
-//     return;
-// }
 
 ?>
 
@@ -36,6 +29,8 @@ require __DIR__ . '../../../../function/functions.php';
     <title>Document</title>
 </head>
 
+
+
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light py-4">
@@ -60,20 +55,44 @@ require __DIR__ . '../../../../function/functions.php';
         <div class="container">
             <div class="row">
                 <div class="mx-auto col-lg-6">
-                    <form class="mt-5" action="./login.php" method="post">
-                        <h1 class="text-center">ログイン</h1>
+                    <form class="mt-5" action="./full_registration.php" method="post">
+                        <h1 class="text-center">学生情報登録</h1>
 
                         <div class="mb-2">
-                            <label class="form-label" for="name">メールアドレス</label>
-                            <input class="form-control" type="text" name="email" id="name">
+                            <label class="form-label" for="name">ニックネーム</label>
+                            <input class="form-control" type="text" name="name" id="name">
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label" for="name">学科情報</label>
+                            <select class="form-select" name="department" aria-label="Default select example">
+                                <option selected>-- 選択してください！ --</option>
+                                <option value="AIシステム開発学科">AIシステム開発学科</option>
+                                <option value="ITソフトウェア学科">ITソフトウェア学科</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label" for="name">学年情報</label>
+                            <select class="form-select" name="school_year" aria-label="Default select example">
+                                <option selected>-- 選択してください！ --</option>
+                                <option value="1年生">1年生</option>
+                                <option value="2年生">2年生</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label" for="name">出席番号</label>
+                            <input class="form-control" type="text" name="number" id="name">
                         </div>
 
                         <div class="mb-2">
                             <label class="form-label" for="name">パスワード</label>
                             <input class="form-control" type="password" name="password" id="name">
                         </div>
-                        <button type="submit" class="btn btn-primary px-5">ログインする</button>
-                        <a href="../register/staff_auth_form.php">未登録の先生はこちら</a>
+
+                        <input type="hidden" name="email" value="<?php h($key) ?>">
+                        <button type="submit" style="margin-top: 15px;" class="btn btn-primary px-5">登録する</button>
                     </form>
                 </div>
             </div>

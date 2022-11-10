@@ -60,20 +60,15 @@ require __DIR__ . '../../../../function/functions.php';
         <div class="container">
             <div class="row">
                 <div class="mx-auto col-lg-6">
-                    <form class="mt-5" action="./login.php" method="post">
-                        <h1 class="text-center">ログイン</h1>
+                    <form class="mt-5" action="./staff_auth.php" method="post">
+                        <h1 class="text-center">認証する</h1>
 
                         <div class="mb-2">
-                            <label class="form-label" for="name">メールアドレス</label>
-                            <input class="form-control" type="text" name="email" id="name">
+                            <label class="form-label" for="name">職員認証コード</label>
+                            <input class="form-control" type="text" name="key" id="name">
                         </div>
 
-                        <div class="mb-2">
-                            <label class="form-label" for="name">パスワード</label>
-                            <input class="form-control" type="password" name="password" id="name">
-                        </div>
-                        <button type="submit" class="btn btn-primary px-5">ログインする</button>
-                        <a href="../register/staff_auth_form.php">未登録の先生はこちら</a>
+                        <button type="submit" class="btn btn-primary px-5">認証する</button>
                     </form>
                 </div>
             </div>
