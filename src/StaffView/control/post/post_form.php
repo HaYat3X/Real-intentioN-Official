@@ -16,7 +16,7 @@ $login_check = $obj::login_check_staff();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
 if (!$login_check) {
-    header('Location: ../login/login_form.php');
+    header('Location: ../../login/login_form.php');
 }
 
 // ユーザID取得
