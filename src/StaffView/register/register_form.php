@@ -3,7 +3,10 @@
 // 職員として認証済がチェックする
 session_start();
 
-
+// セッション情報がない場合リダイレクト　職員情報がない場合ダイレクト
+if (!$_SESSION['auth_success']) {
+    header('Location: staff_auth_form.php');
+}
 
 ?>
 
@@ -55,8 +58,8 @@ session_start();
         <div class="container">
             <div class="row">
                 <div class="mx-auto col-lg-6">
-                    <form class="mt-5" action="./full_registration.php" method="post">
-                        <h1 class="text-center">学生情報登録</h1>
+                    <form class="mt-5" action="./register.php" method="post">
+                        <h1 class="text-center">職員情報登録</h1>
 
                         <div class="mb-2">
                             <label class="form-label" for="name">ニックネーム</label>
@@ -64,26 +67,8 @@ session_start();
                         </div>
 
                         <div class="mb-2">
-                            <label class="form-label" for="name">学科情報</label>
-                            <select class="form-select" name="department" aria-label="Default select example">
-                                <option selected>-- 選択してください！ --</option>
-                                <option value="AIシステム開発学科">AIシステム開発学科</option>
-                                <option value="ITソフトウェア学科">ITソフトウェア学科</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label" for="name">学年情報</label>
-                            <select class="form-select" name="school_year" aria-label="Default select example">
-                                <option selected>-- 選択してください！ --</option>
-                                <option value="1年生">1年生</option>
-                                <option value="2年生">2年生</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label" for="name">出席番号</label>
-                            <input class="form-control" type="text" name="number" id="name">
+                            <label class="form-label" for="name">メールアドレス</label>
+                            <input class="form-control" type="text" name="email" id="name">
                         </div>
 
                         <div class="mb-2">
@@ -91,7 +76,6 @@ session_start();
                             <input class="form-control" type="password" name="password" id="name">
                         </div>
 
-                        <input type="hidden" name="email" value="<?php h($key) ?>">
                         <button type="submit" style="margin-top: 15px;" class="btn btn-primary px-5">登録する</button>
                     </form>
                 </div>

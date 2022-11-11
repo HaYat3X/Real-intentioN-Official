@@ -65,7 +65,7 @@ require __DIR__ . '../../../../function/functions.php';
 
                         <div class="mb-2">
                             <label class="form-label" for="name">職員認証コード</label>
-                            <input class="form-control" type="text" name="key" id="name">
+                            <input class="form-control" type="password" name="key" id="name">
                         </div>
 
                         <button type="submit" class="btn btn-primary px-5">認証する</button>
