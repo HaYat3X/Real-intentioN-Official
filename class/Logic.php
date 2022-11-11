@@ -72,6 +72,7 @@ class UserLogic
         return $token;
     }
 
+    // ユーザ登録する
     public static function create_user($sql, $arr)
     {
         $db_obj = new DatabaseLogic();
@@ -127,8 +128,8 @@ class StaffLogic
                 $db_password = $row['password'];
             }
 
-            // if (password_verify($password, $db_password)) {
-            if ($password === $db_password) {
+
+            if (password_verify($password, $db_password)) {
 
                 //ログイン成功の場合 trueを返す
                 session_regenerate_id(true);
@@ -138,6 +139,20 @@ class StaffLogic
                 return false;
             }
         }
+    }
+
+    // ユーザ登録する
+    public static function create_staff_user($sql, $arr)
+    {
+        $db_obj = new DatabaseLogic();
+
+        $result = $db_obj::db_insert($sql, $arr);
+
+        if (!$result) {
+            return false;
+        }
+
+        return true;
     }
 }
 
