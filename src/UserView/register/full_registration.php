@@ -2,66 +2,65 @@
 
 session_start();
 
-// クラスファイルインポート
+// 外部ファイルおインポート
 require __DIR__ . '../../../../class/Logic.php';
-
-// functionファイルインポート
 require __DIR__ . '../../../../function/functions.php';
 
 // クラスのインポート
-$obj = new UserLogic();
+$object = new SystemLogic();
 
-// err配列準備
-$err = [];
+// errメッセージが格納される配列を定義
+$err_array = [];
 
 // フォームリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // バリーデーションチェック
     if (!$password = filter_input(INPUT_POST, 'password')) {
-        $err[] =  'パスワードを入力してください。';
+        $err_array[] =  'パスワードを入力してください。';
     }
 
     if (!$password = filter_input(INPUT_POST, 'name')) {
-        $err[] =  '名前を入力してください。';
+        $err_array[] =  '名前を入力してください。';
     }
 
     if (!$department = filter_input(INPUT_POST, 'department')) {
-        $err[] =  '学科を入力してください。';
+        $err_array[] =  '学科を入力してください。';
     }
 
     if (!$department = filter_input(INPUT_POST, 'school_year')) {
-        $err[] =  '学年を入力してください。';
+        $err_array[] =  '学年を入力してください。';
     }
 
     if (!$department = filter_input(INPUT_POST, 'number')) {
-        $err[] =  '出席番号を入力してください。';
+        $err_array[] =  '出席番号を入力してください。';
     }
 
-    if (preg_match("/\A[a-z\d]{6,100}+\z/i", $password)) {
-        $err[] = 'パスワードは英数字8文字以上で作成してください。';
+    if (!preg_match("/\A[a-z\d]{6,100}+\z/i", filter_input(INPUT_POST, 'password'))) {
+        $err_array[] = 'パスワードは英数字6文字以上で作成してください。';
     }
 
     // エラーが一つもない場合ユーザ登録する
-    if (count($err) === 0) {
+    if (count($err_array) === 0) {
 
         // 登録する情報を配列で処理
-        $arr = [];
-        $arr[] = $_POST['name'];
-        $arr[] = $_POST['email'];
-        $arr[] = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $arr[] = $_POST['department'];
-        $arr[] = $_POST['school_year'];
-        $arr[] = $_POST['number'];
+        $insert_data = [];
+        $insert_data[] = $_POST['name'];
+        $insert_data[] = $_POST['email'];
+        $insert_data[] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $insert_data[] = $_POST['department'];
+        $insert_data[] = $_POST['school_year'];
+        $insert_data[] = $_POST['number'];
+        $insert_data[] = '活動中';
 
         // SQL発行
-        $sql = 'INSERT INTO `user_master`(`name`, `email`, `password`, `department`, `school_year`, `number`) VALUES (?, ?, ?, ?, ?, ?)';
+        $sql = 'INSERT INTO `student_master`(`name`, `email`, `password`, `department`, `school_year`, `number`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
         // 登録処理
-        $hasCreated = $obj::create_user($sql, $arr);
+        $hasCreated = $object::db_insert($sql, $insert_data);
 
         if (!$hasCreated) {
-            $err[] = '登録できませんでした';
+            $err_array[] = '登録できませんでした';
         }
     }
 } else {
@@ -117,16 +116,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row">
                 <div class="mx-auto col-lg-6">
                     <div class="err-msg">
-                        <?php if (count($err) > 0) : ?>
-                            <?php foreach ($err as $e) : ?>
-                                <p style="color: red;"><?php h($e); ?></p>
+                        <?php if (count($err_array) > 0) : ?>
+                            <?php foreach ($err_array as $err_mag) : ?>
+                                <p style="color: red;"><?php h($err_mag); ?></p>
                             <?php endforeach; ?>
                             <div class="backBtn">
-                                <a class="btn btn-primary px-5" href=" ./full_registration_form.php?key=<?php h($_POST['email']) ?>">戻る</a>
+                                <a class="btn btn-primary px-5" href="./full_registration_form.php?key=<?php h($_POST['email']) ?>">戻る</a>
                             </div>
                         <?php endif; ?>
 
-                        <?php if (count($err) === 0) : ?>
+                        <?php if (count($err_array) === 0) : ?>
                             <label>ユーザ登録が完了しました。</label>
                             <?php header('refresh:3;url=../login/login_form.php'); ?>
                         <?php endif; ?>

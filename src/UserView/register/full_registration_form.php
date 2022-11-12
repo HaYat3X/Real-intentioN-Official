@@ -4,20 +4,17 @@
 // ini_set('session.gc_maxlifetime', 60);
 session_start();
 
-// クラスファイルインポート
+// 外部ファイル
 require __DIR__ . '../../../../class/Logic.php';
-
-// functionファイルインポート
 require __DIR__ . '../../../../function/functions.php';
-
-// パラメータがない場合は、不正なリクエストとみなす。
-$key = $_SESSION['email'];
 
 // パラメータがない場合リダイレクト
 if (!$access_key = filter_input(INPUT_GET, 'key')) {
-    header('Location: ./provisional_registration_form.php');
+    $url = '../../Incorrect_request.php';
+    header('Location:' . $url);
 }
 
+$key = $_SESSION['email'];
 ?>
 
 <!DOCTYPE html>

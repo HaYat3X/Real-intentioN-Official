@@ -1,0 +1,5 @@
+PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'real intention.user_master' doesn't exist in /Applications/MAMP/htdocs/Deliverables3/class/Logic.php:90
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables3/class/Logic.php(90): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables3/src/UserView/register/full_registration.php(60): SystemLogic::db_insert('INSERT INTO `us...', Array)
+#2 {main}

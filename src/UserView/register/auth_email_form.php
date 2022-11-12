@@ -4,11 +4,11 @@
 // ini_set('session.gc_maxlifetime', 60);
 session_start();
 
-// functionファイルインポート
+// 外部ファイルのインポート
 require __DIR__ . '../../../../function/functions.php';
 
 // err配列
-$err = [];
+$err_array = [];
 
 // セッションで送信されてきた情報
 $token = $_SESSION['token'];
@@ -16,7 +16,8 @@ $email = $_SESSION['email'];
 
 // セッション情報がなければれダイレクト
 if (!$_SESSION) {
-    header('Location: ./provisional_registration_form.php');
+    $url = '../../Incorrect_request.php';
+    header('Location:' . $url);
 }
 
 ?>

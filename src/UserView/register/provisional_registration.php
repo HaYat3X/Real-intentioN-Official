@@ -1,18 +1,17 @@
 <?php
 
+// セッション開始
 session_start();
 
-// クラスファイルインポート
+// 外部ファイルのインポート
 require __DIR__ . '../../../../class/Logic.php';
-
-// functionファイルインポート
 require __DIR__ . '../../../../function/functions.php';
 
 // クラスのインポート
-$user_obj = new UserLogic();
+$object = new SystemLogic();
 
-// err配列準備
-$err = [];
+// errメッセージが格納される配列を定義
+$err_array = [];
 
 // フォームリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -20,44 +19,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // バリーデーションチェック
     if (!$email = filter_input(INPUT_POST, 'email')) {
-        $err[] =  'メールアドレスを入力してください。';
+        $err_array[] =  'メールアドレスを入力してください。';
     }
 
-    // 正規表現
+    // 正規表現で神戸電子以外のメールアドレスは登録できないようにする
     if (!preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@st.kobedenshi.ac.jp/", $email)) {
-        $err[] = '@st.kobedenshi.ac.jpのメールアドレスを入力してください。';
+        $err_array[] = '@st.kobedenshi.ac.jpのメールアドレスを入力してください。';
     }
 
-    // すでにメールアドレスが登録されている場合エラー出力
-    $alreadyEmail = $user_obj::user_exist_check($email);
+    // メールアドレスが登録されているかどうかチェックする
+    $sql = 'SELECT * FROM student_master WHERE email = ?';
+    $already_email = $object::user_exist_check($sql, $email);
 
     // 返り値がTrueであれば登録できない
-    if ($alreadyEmail) {
-        $err[] = '指定のメールアドレスは既に登録されています。ログインしてください。';
+    if ($already_email) {
+        $err_array[] = '指定のメールアドレスは既に登録されています。ログインしてください。';
     }
 
     // エラーに引っかからない場合メールアドレスにトークンを送信する
-    if (count($err) === 0) {
-        $token = genRandomStr();
-
+    if (count($err_array) === 0) {
         // トークン送信
-        $send_token = $user_obj::push_token($email);
+        $send_token = $object::push_token($email);
 
         if (!$send_token) {
-            $err[] = 'トークンの送信に失敗しました。';
+            $err_array[] = 'トークンの送信に失敗しました。';
         }
 
-        // セッションにトークン格納
+        // セッションにトークン情報とメールアドレスを格納
         $_SESSION['token'] = $send_token;
         $_SESSION['email'] = $email;
         header('refresh:3;url=./auth_email_form.php');
     }
 } else {
-    $err[] = '不正なリクエストです。';
-    header('refresh:3;url=./tentative_register_form.php');
+    $url = '../../Incorrect_request.php';
+    header('Location:' . $url);
 }
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -105,16 +104,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row">
                 <div class="mx-auto col-lg-6">
                     <div class="err-msg">
-                        <?php if (count($err) > 0) : ?>
-                            <?php foreach ($err as $e) : ?>
-                                <p style="color: red;"><?php h($e); ?></p>
+                        <?php if (count($err_array) > 0) : ?>
+                            <?php foreach ($err_array as $err_msg) : ?>
+                                <p style="color: red;"><?php h($err_msg); ?></p>
                             <?php endforeach; ?>
                             <div class="backBtn">
                                 <a class="btn btn-primary px-5" href="./provisional_registration_form.php">戻る</a>
                             </div>
                         <?php endif; ?>
 
-                        <?php if (count($err) === 0) : ?>
+                        <?php if (count($err_array) === 0) : ?>
                             <label>メールアドレスにトークンを送信しました。</label>
                         <?php endif; ?>
                     </div>
