@@ -26,16 +26,19 @@ foreach ($login_check as $row) {
 
 $arr = [];
 $arr[] = intval($userId);
+$arr[] = intval('0');
 
 
-// 投稿に日も付いたコメントを取得するSQL
-$sql = 'SELECT * FROM user_master INNER JOIN intern_reply_table ON user_master.id = intern_reply_table.user_id  AND intern_reply_table.post_user_id = ? ORDER BY intern_reply_table.id DESC';
+$sql = 'SELECT * FROM intern_reply_table WHERE post_user_id = ? AND `user_id` != ? AND `read_status` = ?';
 
-// 投稿に紐付いたコメントを取得
+$arr = [];
+$arr[] = intval($userId);
+$arr[] = intval($userId);
+$arr[] = intval('0');
+
+// sql実行
 $notification = $post_obj::post_one_acquisition($sql, $arr);
 
-
-// 配列が空だとエラーが出る
 if (is_bool($notification)) {
     $notification_num = 0;
 } else {
@@ -187,7 +190,7 @@ if (is_bool($notification)) {
 
                                     <div>
                                         <a href="../comment/comment.php?post_id=<?php h($comments['post_id']) ?>">コメントに返信する</a>
-                                        <a href="./already_read.php?reply_id<?php  ?>">既読にする</a>
+                                        <a href="./already_read.php?reply_id=<?php h($comments['id']) ?>">既読にする</a>
                                     </div>
                                 </div>
                             <?php endif; ?>

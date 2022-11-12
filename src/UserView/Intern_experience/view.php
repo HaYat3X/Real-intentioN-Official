@@ -32,11 +32,12 @@ $results = $post_obj::post_acquisition($sql);
 
 
 // ユーザが投稿した投稿についたコメントを取得
-$sql = 'SELECT * FROM intern_reply_table WHERE post_user_id = ? AND user_id != ?';
+$sql = 'SELECT * FROM intern_reply_table WHERE post_user_id = ? AND `user_id` != ? AND `read_status` = ?';
 
 $arr = [];
 $arr[] = intval($userId);
 $arr[] = intval($userId);
+$arr[] = intval('0');
 
 // sql実行
 $notification = $post_obj::post_one_acquisition($sql, $arr);
