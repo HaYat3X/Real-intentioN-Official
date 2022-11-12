@@ -3,7 +3,124 @@
 // DB接続ファイルの読み込み
 require '/Applications/MAMP/htdocs/Deliverables3/function/connect_db.php';
 
-// -----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+// ---------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------
+// システムロジック
+class SystemLogic
+{
+    /**
+     * ユーザーが登録済みどうかを判定
+     * @param \src\Userview\register\provisional_registration.php $email
+     * @return true
+     * @return false
+     */
+    public static function user_exist_check($sql, $email)
+    {
+        $result = self::db_select_argument_str($sql, $email);
+
+        // データがあればデータが返る　
+        if ($result) {
+            return $result;
+        }
+
+        return false;
+    }
+
+    /**
+     * ユーザーが登録済みどうかを判定
+     * @param \src\Userview\register\provisional_registration.php $email, $token
+     * @return token
+     * @return false
+     */
+    public static function push_token($email)
+    {
+        mb_language('Japanese');
+        mb_internal_encoding('UTF-8');
+        $to = $email;
+        $subject = "メールアドレス認証トークン";
+        $token = rand();
+        $message = '認証トークンは' . '"' . $token . '"' . 'です。';
+        $headers = "From: hayate.syukatu1@gmail.com";
+        mb_send_mail($to, $subject, $message, $headers);
+        return $token;
+    }
+
+
+    // -----------------------------------------------------------------------------------------------------------
+    /**
+     * データベースからデータを取得する　(引数あり、引数の方がString型の場合)
+     * @param $sql, $argument_str
+     * @return array
+     * @return false
+     */
+    public static function db_select_argument_str($sql, $argument_str)
+    {
+        try {
+            // sql実行
+            $stmt = connect()->prepare($sql);
+            $stmt->execute(array($argument_str));
+            $result = $stmt->fetchAll();
+
+            // データを返す
+            return $result;
+        } catch (\Exception $e) {
+            echo $e;
+            error_log($e, 3, '../error.log');
+
+            // エラーの場合Falseを返す
+            return false;
+        }
+    }
+
+    /**
+     * データベースにデータを登録する　(引数あり)
+     * @param $sql, $insert_data
+     * @return true
+     * @return false
+     */
+    public static function db_insert($sql, $insert_data)
+    {
+        try {
+            $stmt = connect()->prepare($sql);
+            $stmt->execute($insert_data);
+
+            // 実行成功の場合
+            return true;
+        } catch (\Exception $e) {
+            echo $e;
+            error_log($e, 3, '../error.log');
+
+            // 実行失敗
+            return false;
+        }
+    }
+}
+
+
+
+
+
+// ---------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ---------------------------------------------------------------------------------------------------------------
 
 // ユーザ情報を扱うクラス
 class UserLogic
@@ -313,25 +430,25 @@ class DatabaseLogic
         }
     }
 
-       // SELECTメソッド（パラメータあり）　パラメータが文字列の場合
-       public static function db_select_arr2($sql, $arr)
-       {
-           try {
-               // sql実行
-               $stmt = connect()->prepare($sql);
-               $stmt->execute(array($arr));
-               $result = $stmt->fetchAll();
-   
-               // データを返す
-               return $result;
-           } catch (\Exception $e) {
-               echo $e;
-               error_log($e, 3, '../error.log');
-   
-               // エラーの場合Falseを返す
-               return false;
-           }
-       }
+    // SELECTメソッド（パラメータあり）　パラメータが文字列の場合
+    public static function db_select_arr2($sql, $arr)
+    {
+        try {
+            // sql実行
+            $stmt = connect()->prepare($sql);
+            $stmt->execute(array($arr));
+            $result = $stmt->fetchAll();
+
+            // データを返す
+            return $result;
+        } catch (\Exception $e) {
+            echo $e;
+            error_log($e, 3, '../error.log');
+
+            // エラーの場合Falseを返す
+            return false;
+        }
+    }
 
     // INSERTメソッド
     public static function db_insert($sql, $arr)

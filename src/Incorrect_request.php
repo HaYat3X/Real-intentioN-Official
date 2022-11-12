@@ -1,41 +1,3 @@
-<?php
-
-// セッション有効期限
-// ini_set('session.gc_maxlifetime', 60);
-session_start();
-
-// 外部ファイルのインポート
-require __DIR__ . '../../../../class/Logic.php';
-require __DIR__ . '../../../../function/functions.php';
-
-// errメッセージが格納される配列を定義
-$err_array = [];
-
-// フォームリクエストを受け取る
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    // バリーデーションチェック
-    if (!$form_token = filter_input(INPUT_POST, 'token')) {
-        $err_array[] =  'トークンを入力してください。';
-    }
-
-    $email = filter_input(INPUT_POST, 'email');
-
-    // メールアドレスを認証する
-    if ($_SESSION['token'] == $form_token) {
-        $success = '認証に成功しました。';
-    } else {
-        $err_array[] = 'トークンが一致しません。';
-    }
-} else {
-    $url = '../../Incorrect_request.php';
-    header('Location:' . $url);
-}
-
-?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -82,19 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row">
                 <div class="mx-auto col-lg-6">
                     <div class="err-msg">
-                        <?php if (count($err_array) > 0) : ?>
-                            <?php foreach ($err_array as $err_msg) : ?>
-                                <p><label><?php h($err_msg); ?></label></p>
-                                <div class="backBtn">
-                                    <a class="btn btn-primary px-5" href="./auth_email_form.php">戻る</a>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-
-                        <?php if (count($err_array) === 0) : ?>
-                            <p><label><?php h($success); ?></label></p>
-                            <p><a class="btn btn-primary px-5" href="./full_registration_form.php?key=<?php h($email) ?>">学生情報入力ページへ</a></p>
-                        <?php endif; ?>
+                        <label>不正なリクエストです。</label>
+                        <?php $link = '../index.html'; ?>
+                        <?php header('refresh:3;url=' . $link); ?>
                     </div>
                 </div>
             </div>
