@@ -26,13 +26,14 @@ foreach ($login_check as $row) {
 
 // 削除する投稿IDの取得
 $delete_id = filter_input(INPUT_GET, 'post_id');
-var_dump($delete_id);
+$arr = [];
+$arr[] = intval($delete_id);
 
 // SQL発行
 $sql = 'SELECT i.id, i.user_id, i.company, i.format, i.content, i.question, i.answer, i.ster, i.field, u.name, u.department, u.school_year FROM intern_table i, user_master u WHERE i.user_id = u.id AND i.id = ? ORDER BY i.id DESC';
 
 // 削除データ取得
-$delete_date = $obj::post_one_acquisition($sql, $delete_id);
+$delete_date = $obj::post_one_acquisition($sql, $arr);
 
 
 // 削除対象データがない場合はリダイレクト

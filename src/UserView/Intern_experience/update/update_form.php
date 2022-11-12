@@ -26,12 +26,14 @@ foreach ($login_check as $row) {
 
 // 編集する投稿IDの取得
 $update_id = filter_input(INPUT_GET, 'post_id');
+$arr = [];
+$arr[] = $update_id;
 
 // SQL発行
 $sql = 'SELECT i.id, i.user_id, i.company, i.format, i.content, i.question, i.answer, i.ster, i.field, u.name, u.department, u.school_year FROM intern_table i, user_master u WHERE i.user_id = u.id AND i.id = ? ORDER BY i.id DESC';
 
 // 更新データ取得
-$update_date = $obj::post_one_acquisition($sql, $update_id);
+$update_date = $obj::post_one_acquisition($sql, $arr);
 
 // 編集対象データがない場合はリダイレクト
 if (!$update_date) {
