@@ -29,6 +29,24 @@ $sql = 'SELECT i.id, i.user_id, i.company, i.format, i.content, i.question, i.an
 
 $results = $post_obj::post_acquisition($sql);
 
+
+
+// ユーザが投稿した投稿についたコメントを取得
+$sql = 'SELECT * FROM intern_reply_table WHERE post_user_id = ? AND user_id != ?';
+
+$arr = [];
+$arr[] = intval($userId);
+$arr[] = intval($userId);
+
+// sql実行
+$notification = $post_obj::post_one_acquisition($sql, $arr);
+
+if (is_bool($notification)) {
+    $notification_num = 0;
+} else {
+    $notification_num = count($notification);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -80,7 +98,7 @@ $results = $post_obj::post_acquisition($sql);
             /* 要素の位置を固定する */
             bottom: 100px;
             /* 基準の位置を画面の一番下に指定する */
-            right: 500px;
+            right: 800px;
             /* 基準の位置を画面の一番右に指定する */
             width: 150px;
             /* 幅を指定する */
@@ -106,6 +124,10 @@ $results = $post_obj::post_acquisition($sql);
                             <a class="nav-link" href="#">職員の方はこちら</a>
                         </li>
                         <button class="btn btn-primary ms-3">ログインはこちら</button>
+                        <!-- 通知の数を出す -->
+                        <a class="btn btn-primary ms-3" href="./notice/notification.php">
+                            <?php h($notification_num) ?>
+                        </a>
                     </ul>
                 </div>
             </div>
@@ -155,7 +177,8 @@ $results = $post_obj::post_acquisition($sql);
                                                 <ul class="dropdown-menu dropdown-menu-dark">
 
                                                     <li><a href="./delete/delete_check.php?post_id=<?php h($row['id']) ?>" class="dropdown-item">削除</a></li>
-                                                    <li><a class="dropdown-item" href="./update/update_form.php?post_id=<?php h($row['id']) ?>">編集</a></li>
+                                                    <li><a class="dropdown-item" href="./update/update_form.php?post_id=<?php h($row['id']) ?>">編集</a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         <?php endif; ?>
@@ -212,6 +235,7 @@ $results = $post_obj::post_acquisition($sql);
                 <div>
                     <h1>送信</h1>
                     <a href="./post/post_form.php">新規投稿</a>
+                    <a href="../staff_information/staff_information.php">職員が投稿した情報</a>
                 </div>
                 <!-- <ul class=" list-group">
                     <li class="list-group-item list-group-item-light">Latest Posts</li>
@@ -225,7 +249,8 @@ $results = $post_obj::post_acquisition($sql);
     </main>
     <!-- </div> -->
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>

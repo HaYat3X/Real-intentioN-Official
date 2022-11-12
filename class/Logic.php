@@ -16,7 +16,7 @@ class UserLogic
         $sql = 'SELECT * FROM user_master WHERE email = ?';
 
         // SQL実行
-        $result = $db_obj::db_select_arr($sql, $email);
+        $result = $db_obj::db_select_arr2($sql, $email);
 
         // データがあればデータが返る　
         if ($result) {
@@ -99,7 +99,7 @@ class StaffLogic
         $sql = 'SELECT * FROM staff_master WHERE email = ?';
 
         // SQL実行
-        $result = $db_obj::db_select_arr($sql, $email);
+        $result = $db_obj::db_select_arr2($sql, $email);
 
         // データがあればデータが返る　
         if ($result) {
@@ -235,7 +235,7 @@ class PostLogic
         return false;
     }
 
-    // 投稿を更新するメソッドを実行
+    // データを更新するメソッドを実行
     public static function post_update($sql, $bind)
     {
         $db_obj = new DatabaseLogic();
@@ -293,13 +293,13 @@ class DatabaseLogic
         }
     }
 
-    // SELECTメソッド（パラメータあり）
+    // SELECTメソッド（パラメータあり）　パラメータがintの場合
     public static function db_select_arr($sql, $arr)
     {
         try {
             // sql実行
             $stmt = connect()->prepare($sql);
-            $stmt->execute(array($arr));
+            $stmt->execute($arr);
             $result = $stmt->fetchAll();
 
             // データを返す
@@ -312,6 +312,26 @@ class DatabaseLogic
             return false;
         }
     }
+
+       // SELECTメソッド（パラメータあり）　パラメータが文字列の場合
+       public static function db_select_arr2($sql, $arr)
+       {
+           try {
+               // sql実行
+               $stmt = connect()->prepare($sql);
+               $stmt->execute(array($arr));
+               $result = $stmt->fetchAll();
+   
+               // データを返す
+               return $result;
+           } catch (\Exception $e) {
+               echo $e;
+               error_log($e, 3, '../error.log');
+   
+               // エラーの場合Falseを返す
+               return false;
+           }
+       }
 
     // INSERTメソッド
     public static function db_insert($sql, $arr)
@@ -368,4 +388,4 @@ class DatabaseLogic
     }
 }
 
-// -----------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------
