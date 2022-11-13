@@ -2,17 +2,15 @@
 
 session_start();
 
-// クラスファイルインポート
-require __DIR__ . '../../../../../class/Logic.php';
-
-// functionファイルインポート
-require __DIR__ . '../../../../../function/functions.php';
+// 外部ファイルのインポート
+require '../../../../class/Logic.php';
+require '../../../../function/functions.php';
 
 // オブジェクト
-$obj = new PostLogic();
+$object = new SystemLogic();
 
 // ログインチェック
-$login_check = $obj::login_check();
+$login_check = $object::login_check_student();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
 if (!$login_check) {
@@ -21,26 +19,27 @@ if (!$login_check) {
 
 // ユーザID取得
 foreach ($login_check as $row) {
-    $userId = $row['id'];
+    $userId = $row['student_id'];
 }
 
-if (!$delete_id = filter_input(INPUT_POST, 'post_id')) {
+
+if (!$delete_post_id = filter_input(INPUT_GET, 'post_id')) {
     header('Location: ../view.php');
 };
 
 // SQL発行
-$sql = 'DELETE FROM `intern_table` WHERE id = ?';
+$sql = 'DELETE FROM `intern_table` WHERE post_id = ?';
 
-$arr = [];
-$arr[] = $delete_id;
+$delete_data = [];
+$delete_data[] = $delete_post_id;
 
 // 削除実行
-$delete = $obj::post_delete($sql, $arr);
+$delete = $object::db_delete($sql, $delete_data);
 
-$err = [];
+$err_array = [];
 
 if (!$delete) {
-    $err[] = '削除に失敗しました。';
+    $err_array[] = '削除に失敗しました。';
 }
 
 ?>
@@ -92,16 +91,16 @@ if (!$delete) {
             <div class="row">
                 <div class="mx-auto col-lg-6">
                     <div class="err-msg">
-                        <?php if (count($err) > 0) : ?>
-                            <?php foreach ($err as $e) : ?>
-                                <label><?php h($e); ?></label>
+                        <?php if (count($err_array) > 0) : ?>
+                            <?php foreach ($err_array as $err_msg) : ?>
+                                <label><?php h($err_msg); ?></label>
                                 <div class="backBtn">
                                     <a href="../view.php">戻る</a>
                                 </div>
                             <?php endforeach; ?>
                         <?php endif; ?>
 
-                        <?php if (count($err) === 0) : ?>
+                        <?php if (count($err_array) === 0) : ?>
                             <label>削除が完了しました。</label>
                             <?php header('refresh:3;url=../view.php'); ?>
                         <?php endif; ?>
