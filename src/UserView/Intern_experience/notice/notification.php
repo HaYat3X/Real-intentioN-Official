@@ -2,17 +2,15 @@
 
 session_start();
 
-// クラスファイルインポート
-require __DIR__ . '../../../../../class/Logic.php';
-
-// functionファイルインポート
-require __DIR__ . '../../../../../function/functions.php';
+// 外部ファイルのインポート
+require '../../../../class/Logic.php';
+require '../../../../function/functions.php';
 
 // オブジェクト
-$post_obj = new PostLogic();
+$object = new SystemLogic();
 
 // ログインチェック
-$login_check = $post_obj::login_check();
+$login_check = $object::login_check_student();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
 if (!$login_check) {
@@ -21,29 +19,37 @@ if (!$login_check) {
 
 // ユーザID取得
 foreach ($login_check as $row) {
-    $userId = $row['id'];
+    $userId = $row['student_id'];
 }
 
-$arr = [];
-$arr[] = intval($userId);
-$arr[] = intval('0');
 
-
+// 自分の投稿についたコメントの数を取得する
 $sql = 'SELECT * FROM intern_reply_table WHERE post_user_id = ? AND `user_id` != ? AND `read_status` = ?';
 
-$arr = [];
-$arr[] = intval($userId);
-$arr[] = intval($userId);
-$arr[] = intval('0');
+$argument = [];
+$argument[] = intval($userId);
+$argument[] = intval($userId);
+$argument[] = intval('0');
 
 // sql実行
-$notification = $post_obj::post_one_acquisition($sql, $arr);
+$notification = $object::db_select_argument($sql, $argument);
+
 
 if (is_bool($notification)) {
     $notification_num = 0;
 } else {
     $notification_num = count($notification);
 }
+
+$sql2 = 'SELECT * FROM intern_reply_table INNER JOIN `student_master` ON intern_reply_table.user_id = student_master.student_id AND intern_reply_table.post_user_id = ? AND intern_reply_table.user_id != ? AND intern_reply_table.read_status = ? ORDER BY intern_reply_table.reply_id DESC';
+
+$argument = [];
+$argument[] = intval($userId);
+$argument[] = intval($userId);
+$argument[] = intval('0');
+
+// sql実行
+$notification_data = $object::db_select_argument($sql2, $argument);
 
 ?>
 
@@ -164,8 +170,8 @@ if (is_bool($notification)) {
 
                 <!-- コメント表示 -->
                 <div class="comment mt-5">
-                    <?php if (is_array($notification) || is_object($notification)) : ?>
-                        <?php foreach ($notification as $comments) : ?>
+                    <?php if (is_array($notification_data) || is_object($notification_data)) : ?>
+                        <?php foreach ($notification_data as $comments) : ?>
                             <!-- 自分のコメントは表示しない -->
                             <?php if ($comments['user_id'] !== $userId) : ?>
 
@@ -190,7 +196,7 @@ if (is_bool($notification)) {
 
                                     <div>
                                         <a href="../comment/comment.php?post_id=<?php h($comments['post_id']) ?>">コメントに返信する</a>
-                                        <a href="./already_read.php?reply_id=<?php h($comments['id']) ?>">既読にする</a>
+                                        <a href="./already_read.php?reply_id=<?php h($comments['reply_id']) ?>">既読にする</a>
                                     </div>
                                 </div>
                             <?php endif; ?>

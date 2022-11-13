@@ -1,27 +1,16 @@
 <?php
 
-// 既読にするプログラム
-// リンクに遷移しただけで既読にできる？
-
-?>
-
-<?php
-
 session_start();
 
-// クラスファイルインポート
-require __DIR__ . '../../../../../class/Logic.php';
-
-// functionファイルインポート
-require __DIR__ . '../../../../../function/functions.php';
+// 外部ファイルのインポート
+require '../../../../class/Logic.php';
+require '../../../../function/functions.php';
 
 // オブジェクト
-$obj = new PostLogic();
+$object = new SystemLogic();
 
 // ログインチェック
-$login_check = $obj::login_check();
-
-$err = [];
+$login_check = $object::login_check_student();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
 if (!$login_check) {
@@ -30,26 +19,27 @@ if (!$login_check) {
 
 // ユーザID取得
 foreach ($login_check as $row) {
-    $userId = $row['id'];
+    $userId = $row['student_id'];
 }
 
 
 $reply_id = filter_input(INPUT_GET, 'reply_id');
 
 // SQL発行
-$sql = "UPDATE `intern_reply_table` SET `read_status` = '1' WHERE id = ?";
+$sql = "UPDATE `intern_reply_table` SET `read_status` = '1' WHERE reply_id = ?";
 
+$err_array = [];
 
 // 更新するデータを配列に格納
-$arr = [];
-$arr[] = $reply_id;
+$update_data = [];
+$update_data[] = $reply_id;
 
 // 編集するメソッド実行
-$already_read = $obj::post_update($sql, $arr);
+$already_read = $object::db_update($sql, $update_data);
 
 // 返り値がFalseの場合リダイレクト 配列でメッセージ
 if (!$already_read) {
-    $err[] = '既読に失敗しました。やり直してください。';
+    $err_array[] = '既読に失敗しました。やり直してください。';
 };
 
 ?>
@@ -102,16 +92,16 @@ if (!$already_read) {
             <div class="row">
                 <div class="mx-auto col-lg-6">
                     <div class="err-msg">
-                        <?php if (count($err) > 0) : ?>
-                            <?php foreach ($err as $e) : ?>
-                                <label><?php h($e); ?></label>
+                        <?php if (count($err_array) > 0) : ?>
+                            <?php foreach ($err_array as $err_msg) : ?>
+                                <label><?php h($err_msg); ?></label>
                                 <div class="backBtn">
                                     <a href="../notice/notification.php">戻る</a>
                                 </div>
                             <?php endforeach; ?>
                         <?php endif; ?>
 
-                        <?php if (count($err) === 0) : ?>
+                        <?php if (count($err_array) === 0) : ?>
                             <label>投稿を既読しました。</label>
                             <?php header('refresh:3;url=../notice/notification.php'); ?>
                         <?php endif; ?>

@@ -42,7 +42,7 @@ $post_date = $object::db_select_argument($sql, $argument);
 
 
 // 投稿に日も付いたコメントを取得するSQL
-$sql2 = 'SELECT * FROM `intern_reply_table` INNER JOIN `student_master` ON intern_reply_table.user_id = student_master.student_id AND intern_reply_table.post_id = ?';
+$sql2 = 'SELECT * FROM `intern_reply_table` INNER JOIN `student_master` ON intern_reply_table.user_id = student_master.student_id AND intern_reply_table.post_id = ? ORDER BY intern_reply_table.reply_id DESC';
 
 // 投稿に紐付いたコメントを取得
 $comment_date = $object::db_select_argument($sql2, $argument);
