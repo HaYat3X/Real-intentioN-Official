@@ -64,7 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 } else {
-    header('Location: ./provisional_registration_form.php');
+    $url = '../../Incorrect_request.php';
+    header('Location:' . $url);
 }
 
 ?>
