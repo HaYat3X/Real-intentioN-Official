@@ -2,19 +2,15 @@
 
 session_start();
 
-// クラスファイルインポート
-require __DIR__ . '../../../../../class/Logic.php';
-
-// functionファイルインポート
-require __DIR__ . '../../../../../function/functions.php';
+// 外部ファイルのインポート
+require '../../../../class/Logic.php';
+require '../../../../function/functions.php';
 
 // オブジェクト
-$obj = new PostLogic();
+$object = new SystemLogic();
 
 // ログインチェック
-$login_check = $obj::login_check();
-
-$err = [];
+$login_check = $object::login_check_student();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
 if (!$login_check) {
@@ -23,43 +19,40 @@ if (!$login_check) {
 
 // ユーザID取得
 foreach ($login_check as $row) {
-    $userId = $row['id'];
+    $userId = $row['student_id'];
 }
 
+$err_array = [];
 
 // POSTリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // バリデーション処理
-    // 省略する関数を作る？
-
     // 投稿するデータをarr処理
-    $arr = [];
-    $arr[] = $userId;
-    $arr[] = $_POST['company'];
-    $arr[] = $_POST['format'];
-    $arr[] = $_POST['content'];
-    $arr[] = $_POST['question'];
-    $arr[] = $_POST['answer'];
-    $arr[] = $_POST['ster'];
-    $arr[] = $_POST['field'];
+    $insert_data = [];
+    $insert_data[] = strval($userId);
+    $insert_data[] = strval($_POST['company']);
+    $insert_data[] = strval($_POST['format']);
+    $insert_data[] = strval($_POST['content']);
+    $insert_data[] = strval($_POST['question']);
+    $insert_data[] = strval($_POST['answer']);
+    $insert_data[] = strval($_POST['ster']);
+    $insert_data[] = strval($_POST['field']);
 
     // SQL発行
     $sql = 'INSERT INTO `intern_table`(`user_id`, `company`, `format`, `content`, `question`, `answer`, `ster`, `field`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 
     // 投稿するメソッド
-    $insert = $obj::post_submission($sql, $arr);
+    $insert = $object::db_insert($sql, $insert_data);
 
     // 返り値がFalseの場合リダイレクト 配列でメッセージ
     if (!$insert) {
-        $err[] = '投稿に失敗しました。やり直してください。';
+        $err_array[] = '投稿に失敗しました。やり直してください。';
         header('refresh:3;url=./post_form.php');
     };
 } else {
-    // postリクエストがない場合リダイレクト
-    header('Location: ./post_form.php');
+    $url = '../../../Incorrect_request.php';
+    header('Location:' . $url);
 }
-
 
 ?>
 
@@ -112,16 +105,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row">
                 <div class="mx-auto col-lg-6">
                     <div class="err-msg">
-                        <?php if (count($err) > 0) : ?>
-                            <?php foreach ($err as $e) : ?>
-                                <label><?php h($e); ?></label>
+                        <?php if (count($err_array) > 0) : ?>
+                            <?php foreach ($err_array as $err_msg) : ?>
+                                <label><?php h($err_msg); ?></label>
                                 <div class="backBtn">
                                     <a href="./post_form.php">戻る</a>
                                 </div>
                             <?php endforeach; ?>
                         <?php endif; ?>
 
-                        <?php if (count($err) === 0) : ?>
+                        <?php if (count($err_array) === 0) : ?>
                             <label>投稿が完了しました。</label>
                             <?php header('refresh:3;url=../view.php'); ?>
                         <?php endif; ?>

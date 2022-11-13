@@ -2,17 +2,15 @@
 
 session_start();
 
-// クラスファイルインポート
-require __DIR__ . '../../../../../class/Logic.php';
-
-// functionファイルインポート
-require __DIR__ . '../../../../../function/functions.php';
+// 外部ファイルのインポート
+require '../../../../class/Logic.php';
+require '../../../../function/functions.php';
 
 // オブジェクト
-$obj = new PostLogic();
+$object = new SystemLogic();
 
 // ログインチェック
-$login_check = $obj::login_check();
+$login_check = $object::login_check_student();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
 if (!$login_check) {
@@ -21,15 +19,44 @@ if (!$login_check) {
 
 // ユーザID取得
 foreach ($login_check as $row) {
-    $userId = $row['id'];
+    $userId = $row['student_id'];
 }
+
+$err_array = [];
 
 // postリクエストがない場合リダイレクト
-if (!$_SERVER['REQUEST_METHOD'] === 'POST') {
-    header('Location: ./post_form.php');
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // バリデーションチェック
+    if (!$company = filter_input(INPUT_POST, 'company')) {
+        $err_array[] =  '企業名を入力してください。';
+    }
+
+    if (!$content = filter_input(INPUT_POST, 'content')) {
+        $err_array[] = '体験内容を入力してください。';
+    }
+
+    $format = filter_input(INPUT_POST, 'format');
+    if ($format === '-- 選択してください --') {
+        $err_array[] =  '体験内容を選択肢の中から選択してください。';
+    }
+
+    $field = filter_input(INPUT_POST, 'field');
+    if ($format === '-- 選択してください --') {
+        $err_array[] =  '参加分野を選択肢の中から選択してください。';
+    }
+
+    if (!$answer = filter_input(INPUT_POST, 'answer')) {
+        $err_array[] = '質問に回答してください。';
+    }
+
+    $ster = filter_input(INPUT_POST, 'ster');
+    if ($format === '-- 選択してください --') {
+        $err_array[] =  '総合評価を選択肢の中から選択してください。';
+    }
+} else {
+    $url = '../../../Incorrect_request.php';
+    header('Location:' . $url);
 }
-
-
 
 ?>
 
@@ -112,54 +139,67 @@ if (!$_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="col-md-8">
                 <div class="bg-light py-3">
                     <div class="mx-auto col-lg-8">
-
-                        <form class="mt-5" action="./post.php" method="post">
-                            <div class="mb-2">
-                                <label class="form-label" for="name">企業名</label>
-                                <input class="form-control" type="text" name="company" readonly id="name" value="<?php h($_POST['company']) ?>">
-                            </div>
-
-                            <div class="mb-2">
-                                <label class="form-label" for="name">体験内容</label>
-                                <input class="form-control" type="text" name="content" id="name" readonly value="<?php h($_POST['content']) ?>">
-                            </div>
-
-                            <div class="mb-2">
-                                <label class="form-label" for="name">参加形式</label>
-                                <input class="form-control" type="text" name="format" readonly id="name" value="<?php h($_POST['format']) ?>">
-                            </div>
-
-                            <div class="mb-2">
-                                <label class="form-label" for="name">参加形式</label>
-                                <input class="form-control" type="text" name="field" readonly id="name" value="<?php h($_POST['field']) ?>">
-                            </div>
+                        <div class="err-msg">
+                            <?php if (count($err_array) > 0) : ?>
+                                <?php foreach ($err_array as $err_msg) : ?>
+                                    <p style="color: red;"><?php h($err_msg); ?></p>
+                                <?php endforeach; ?>
+                                <div class="backBtn">
+                                    <a class="btn btn-primary px-5" href="./post_form.php">戻る</a>
+                                </div>
+                            <?php endif; ?>
+                        </div>
 
 
-                            <div class="mb-2">
-                                <label class="form-label" for="name">質問内容</label>
-                                <input class="form-control" type="text" name="question" readonly value="<?php h($_POST['question']) ?>" id="name">
-                            </div>
+                        <?php if (count($err_array) === 0) : ?>
+                            <form class="mt-5" action="./post.php" method="post">
+                                <div class="mb-2">
+                                    <label class="form-label" for="name">企業名</label>
+                                    <input class="form-control" type="text" name="company" readonly id="name" value="<?php h($_POST['company']) ?>">
+                                </div>
 
-                            <div class="mb-2">
-                                <label for="exampleFormControlTextarea1" class="form-label">質問回答</label>
-                                <textarea class="form-control" name="answer" id="exampleFormControlTextarea1" rows="3" readonly><?php h($_POST['answer']) ?></textarea>
-                            </div>
+                                <div class="mb-2">
+                                    <label class="form-label" for="name">体験内容</label>
+                                    <input class="form-control" type="text" name="content" id="name" readonly value="<?php h($_POST['content']) ?>">
+                                </div>
 
-                            <div class="mb-2">
-                                <label class="form-label" for="name">総合評価</label>
+                                <div class="mb-2">
+                                    <label class="form-label" for="name">参加形式</label>
+                                    <input class="form-control" type="text" name="format" readonly id="name" value="<?php h($_POST['format']) ?>">
+                                </div>
 
-                                <input class="form-control" type="text" name="ster" readonly id="name" value="<?php h($_POST['ster']) ?>">
+                                <div class="mb-2">
+                                    <label class="form-label" for="name">参加形式</label>
+                                    <input class="form-control" type="text" name="field" readonly id="name" value="<?php h($_POST['field']) ?>">
+                                </div>
 
-                            </div>
 
-                            <input type="hidden" name="user_id" value="<?php h($userId) ?>">
+                                <div class="mb-2">
+                                    <label class="form-label" for="name">質問内容</label>
+                                    <input class="form-control" type="text" name="question" readonly value="<?php h($_POST['question']) ?>" id="name">
+                                </div>
 
-                            <a href="./post_form.php" class="btn btn-primary px-5">書き直す</a>
-                            <button type="submit" class="btn btn-primary px-5">投稿する</button>
-                        </form>
+                                <div class="mb-2">
+                                    <label for="exampleFormControlTextarea1" class="form-label">質問回答</label>
+                                    <textarea class="form-control" name="answer" id="exampleFormControlTextarea1" rows="3" readonly><?php h($_POST['answer']) ?></textarea>
+                                </div>
+
+                                <div class="mb-2">
+                                    <label class="form-label" for="name">総合評価</label>
+
+                                    <input class="form-control" type="text" name="ster" readonly id="name" value="<?php h($_POST['ster']) ?>">
+
+                                </div>
+
+                                <input type="hidden" name="user_id" value="<?php h($userId) ?>">
+
+                                <a href="./post_form.php" class="btn btn-primary px-5">書き直す</a>
+                                <button type="submit" class="btn btn-primary px-5">投稿する</button>
+                            </form>
+                        <?php endif; ?>
                     </div>
-                </div>
 
+                </div>
             </div>
 
 

@@ -2,17 +2,15 @@
 
 session_start();
 
-// クラスファイルインポート
-require __DIR__ . '../../../../../class/Logic.php';
-
-// functionファイルインポート
-require __DIR__ . '../../../../../function/functions.php';
+// 外部ファイルのインポート
+require '../../../../class/Logic.php';
+require '../../../../function/functions.php';
 
 // オブジェクト
-$obj = new PostLogic();
+$object = new SystemLogic();
 
 // ログインチェック
-$login_check = $obj::login_check();
+$login_check = $object::login_check_student();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
 if (!$login_check) {
@@ -21,7 +19,7 @@ if (!$login_check) {
 
 // ユーザID取得
 foreach ($login_check as $row) {
-    $userId = $row['id'];
+    $userId = $row['student_id'];
 }
 
 // 質問の配列
@@ -131,7 +129,7 @@ $responses = $array[array_rand($array)];
                             <div class="mb-2">
                                 <label class="form-label" for="name">参加形式</label>
                                 <select class="form-select" name="format" aria-label="Default select example">
-                                    <option selected>-- 選択してください！ --</option>
+                                    <option selected>-- 選択してください --</option>
                                     <option value="オンライン形式">オンライン形式</option>
                                     <option value="対面形式">対面形式</option>
                                 </select>
@@ -140,7 +138,7 @@ $responses = $array[array_rand($array)];
                             <div class="mb-2">
                                 <label class="form-label" for="name">参加形式</label>
                                 <select class="form-select" name="field" aria-label="Default select example">
-                                    <option selected>-- 選択してください！ --</option>
+                                    <option selected>-- 選択してください --</option>
                                     <option value="IT・ソフトウェア">IT・ソフトウェア</option>
                                     <option value="対面形式">対面形式</option>
                                 </select>
@@ -161,7 +159,7 @@ $responses = $array[array_rand($array)];
                                 <label class="form-label" for="name">総合評価</label>
                                 <select class="form-select" name="ster" aria-label="Default select example">
 
-                                    <option selected>-- 選択してください！ --</option>
+                                    <option selected>-- 選択してください --</option>
                                     <option value="1">星1</option>
                                     <option value="2">星2</option>
                                 </select>
