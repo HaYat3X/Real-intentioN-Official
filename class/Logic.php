@@ -3,13 +3,6 @@
 // DB接続ファイルの読み込み
 require '/Applications/MAMP/htdocs/Deliverables3/function/connect_db.php';
 
-
-
-
-
-
-// ---------------------------------------------------------------------------------------------------------------
-// ---------------------------------------------------------------------------------------------------------------
 // システムロジック
 class SystemLogic
 {
@@ -87,6 +80,45 @@ class SystemLogic
 
             // ユーザ情報をセッションに格納
             return $_SESSION['login_user'];
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * ログインする　（学生用）
+     * @param $email, $password
+     * @return session
+     * @return false
+     */
+    public static function staff_login($email, $password)
+    {
+        $email_data = [];
+        $email_data[] = strval($email);
+        $sql = 'SELECT * FROM staff_master WHERE email = ?';
+
+        // メールアドレスが登録されているかどうかチェックする
+        $userData = self::user_exist_check($sql, $email_data);
+
+        // データが存在しない(返り値がTrue)であればエラーとする
+        if (!$userData) {
+            return false;
+        }
+
+        // 配列の存在確認
+        if (is_array($userData) || is_object($userData)) {
+            foreach ($userData as $row) {
+                $db_password = $row['password'];
+            }
+        }
+
+        // パスアワードの照会
+        if (password_verify($password, $db_password)) {
+
+            //ログイン成功の場合 trueを返す
+            session_regenerate_id(true);
+            $_SESSION['login_staff'] = $userData;
+            return $_SESSION['login_staff'];
         } else {
             return false;
         }

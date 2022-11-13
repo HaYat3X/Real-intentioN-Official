@@ -2,42 +2,38 @@
 
 session_start();
 
-// クラスファイルインポート
+// 外部ファイルのインポート
 require __DIR__ . '../../../../class/Logic.php';
-
-// functionファイルインポート
 require __DIR__ . '../../../../function/functions.php';
 
 // クラスのインポート
-$user_obj = new StaffLogic();
+$object = new SystemLogic();
 
 // errメッセージが入る配列準備
-$err = [];
+$err_array = [];
 
 // フォームリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // バリーデーションチェック
     if (!$email = filter_input(INPUT_POST, 'email')) {
-        $err[] =  'メールアドレスを入力してください。';
+        $err_array[] =  'メールアドレスを入力してください。';
     }
 
     if (!$password = filter_input(INPUT_POST, 'password')) {
-        $err[] =  'パスワードを入力してください。';
+        $err_array[] =  'パスワードを入力してください。';
     }
 
     // ログインメソッドを実行
-    $login = $user_obj::login_execution($email, $password);
+    $login = $object::staff_login($email, $password);
 
     // ユーザ存在なし、パスワード不一致の場合エラーを出す
     if (!$login) {
-        $err[] = 'ログインに失敗しました。';
+        $err_array[] = 'ログインに失敗しました。';
     }
 } else {
-    $err[] = '不正なリクエストです。';
-
-    // 3秒後に入力フォームへリダイレクト
-    header('refresh:3;url=./login_form.php');
+    $url = '../../Incorrect_request.php';
+    header('Location:' . $url);
 }
 
 
@@ -89,16 +85,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row">
                 <div class="mx-auto col-lg-6">
                     <div class="err-msg">
-                        <?php if (count($err) > 0) : ?>
-                            <?php foreach ($err as $e) : ?>
-                                <label><?php h($e); ?></label>
+                        <?php if (count($err_array) > 0) : ?>
+                            <?php foreach ($err_array as $err_msg) : ?>
+                                <p style="color: red;"><?php h($err_msg); ?></p>
                             <?php endforeach; ?>
                             <div class="backBtn">
-                                <a href="./login_form.php">戻る</a>
+                                <a class="btn btn-primary" href="./login_form.php">戻る</a>
                             </div>
                         <?php endif; ?>
 
-                        <?php if (count($err) === 0) : ?>
+                        <?php if (count($err_array) === 0) : ?>
                             <label>ログインが完了しました。</label>
                             <?php header('refresh:3;url=../control/post_list.php'); ?>
                         <?php endif; ?>
