@@ -2,48 +2,49 @@
 
 session_start();
 
-// クラスファイルインポート
-require __DIR__ . '../../../../../class/Logic.php';
-
-// functionファイルインポート
-require __DIR__ . '../../../../../function/functions.php';
+// 外部ファイルのインポート
+require '../../../../class/Logic.php';
+require '../../../../function/functions.php';
 
 // オブジェクト
-$obj = new PostLogic();
+$object = new SystemLogic();
 
 // ログインチェック
-$login_check = $obj::login_check();
+$login_check = $object::login_check_student();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
 if (!$login_check) {
-    header('Location: ../../login/login_form.php');
+    header('Location: ../login/login_form.php');
 }
 
 // ユーザID取得
 foreach ($login_check as $row) {
-    $userId = $row['id'];
+    $userId = $row['student_id'];
 }
 
 // 編集する投稿IDの取得
-$update_id = filter_input(INPUT_GET, 'post_id');
-$arr = [];
-$arr[] = $update_id;
+$update_post_id = filter_input(INPUT_GET, 'post_id');
+$argument = [];
+$argument[] = $update_post_id;
 
 // SQL発行
-$sql = 'SELECT i.id, i.user_id, i.company, i.format, i.content, i.question, i.answer, i.ster, i.field, u.name, u.department, u.school_year FROM intern_table i, user_master u WHERE i.user_id = u.id AND i.id = ? ORDER BY i.id DESC';
-
-// 更新データ取得
-$update_date = $obj::post_one_acquisition($sql, $arr);
+// $sql = 'SELECT i.id, i.user_id, i.company, i.format, i.content, i.question, i.answer, i.ster, i.field, u.name, u.department, u.school_year FROM intern_table i, user_master u WHERE i.user_id = u.id AND i.id = ? ORDER BY i.id DESC';
+$sql = 'SELECT * FROM `intern_table` INNER JOIN `student_master` ON intern_table.user_id = student_master.student_id AND intern_table.post_id = ?';
+// 編集するデータを取得
+$update_date = $object::db_select_argument($sql, $argument);
+var_dump($update_date);
 
 // 編集対象データがない場合はリダイレクト
 if (!$update_date) {
-    header('Location: ../view.php');
+    $url = '../../../Incorrect_request.php';
+    header('Location:' . $url);
 }
 
 // 投稿者IDとログイン中のユーザのIDが一致しなければリダイレクト
-foreach ($update_date as $date) {
-    if (!$userId == $date['user_id']) {
-        header('Location: ../view.php');
+foreach ($update_date as $row) {
+    if (!$userId == $row['user_id']) {
+        $url = '../../../Incorrect_request.php';
+        header('Location:' . $url);
     }
 }
 
@@ -125,67 +126,71 @@ foreach ($update_date as $date) {
 
 
             <div class="col-md-8">
-                <div class="bg-light py-3">
-                    <div class="mx-auto col-lg-8">
-                        <form class="mt-5" action="./update_confirmation.php" method="post">
+                <?php if (is_array($update_date) || is_object($update_date)) : ?>
+                    <?php foreach ($update_date as $row) : ?>
+                        <div class="bg-light py-3">
+                            <div class="mx-auto col-lg-8">
+                                <form class="mt-5" action="./update_confirmation.php?post_id=<?php h($update_post_id) ?>" method="post">
 
-                            <div class="mb-2">
-                                <label class="form-label" for="name">企業名</label>
-                                <input class="form-control" type="text" name="company" id="name" value="<?php h($date['company']) ?>">
+                                    <div class="mb-2">
+                                        <label class="form-label" for="name">企業名</label>
+                                        <input class="form-control" type="text" name="company" id="name" value="<?php h($row['company']) ?>">
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <label class="form-label" for="name">体験内容</label>
+                                        <input class="form-control" type="text" name="content" id="name" value="<?php h($row['content']) ?>">
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <label class="form-label" for="name">参加形式</label>
+                                        <select class="form-select" name="format" aria-label="Default select example">
+                                            <option selected>-- 選択してください --</option>
+                                            <option value="オンライン形式">オンライン形式</option>
+                                            <option value="対面形式">対面形式</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <label class="form-label" for="name">参加形式</label>
+                                        <select class="form-select" name="field" aria-label="Default select example">
+                                            <option selected>-- 選択してください --</option>
+                                            <option value="IT・ソフトウェア">IT・ソフトウェア</option>
+                                            <option value="対面形式">対面形式</option>
+                                        </select>
+                                    </div>
+
+
+                                    <div class="mb-2">
+                                        <label class="form-label" for="name">質問内容</label>
+                                        <input class="form-control" type="text" name="question" readonly value="<?php h($row['question']) ?>" id="name">
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <label for="exampleFormControlTextarea1" class="form-label">質問回答</label>
+                                        <textarea class="form-control" name="answer" id="exampleFormControlTextarea1" rows="3"><?php h($row['answer']) ?></textarea>
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <label class="form-label" for="name">総合評価</label>
+                                        <select class="form-select" name="ster" aria-label="Default select example">
+
+                                            <option selected>-- 選択してください！ --</option>
+                                            <option value="1">星1</option>
+                                            <option value="2">星2</option>
+                                        </select>
+                                    </div>
+
+                                    <input type="hidden" name="user_id" value="<?php h($userId) ?>">
+
+                                    <input type="hidden" name="post_id" value="<?php h($update_post_id) ?>">
+
+                                    <button type="submit" class="btn btn-primary px-5">更新内容を確認する</button>
+                                </form>
                             </div>
-
-                            <div class="mb-2">
-                                <label class="form-label" for="name">体験内容</label>
-                                <input class="form-control" type="text" name="content" id="name" value="<?php h($date['content']) ?>">
-                            </div>
-
-                            <div class="mb-2">
-                                <label class="form-label" for="name">参加形式</label>
-                                <select class="form-select" name="format" aria-label="Default select example">
-                                    <option selected>-- 選択してください！ --</option>
-                                    <option value="オンライン形式">オンライン形式</option>
-                                    <option value="対面形式">対面形式</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-2">
-                                <label class="form-label" for="name">参加形式</label>
-                                <select class="form-select" name="field" aria-label="Default select example">
-                                    <option selected>-- 選択してください！ --</option>
-                                    <option value="IT・ソフトウェア">IT・ソフトウェア</option>
-                                    <option value="対面形式">対面形式</option>
-                                </select>
-                            </div>
-
-
-                            <div class="mb-2">
-                                <label class="form-label" for="name">質問内容</label>
-                                <input class="form-control" type="text" name="question" readonly value="<?php h($date['question']) ?>" id="name">
-                            </div>
-
-                            <div class="mb-2">
-                                <label for="exampleFormControlTextarea1" class="form-label">質問回答</label>
-                                <textarea class="form-control" name="answer" id="exampleFormControlTextarea1" rows="3"><?php h($date['answer']) ?></textarea>
-                            </div>
-
-                            <div class="mb-2">
-                                <label class="form-label" for="name">総合評価</label>
-                                <select class="form-select" name="ster" aria-label="Default select example">
-
-                                    <option selected>-- 選択してください！ --</option>
-                                    <option value="1">星1</option>
-                                    <option value="2">星2</option>
-                                </select>
-                            </div>
-
-                            <input type="hidden" name="user_id" value="<?php h($userId) ?>">
-
-                            <input type="hidden" name="post_id" value="<?php h($update_id) ?>">
-
-                            <button type="submit" class="btn btn-primary px-5">更新内容を確認する</button>
-                        </form>
-                    </div>
-                </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
 
 
