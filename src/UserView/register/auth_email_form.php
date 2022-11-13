@@ -70,7 +70,7 @@ if (!$_SESSION) {
                         <h1 class="text-center">本人確認</h1>
                         <div class="mb-2">
                             <label class="form-label" for="name">メールアドレスに送信されたトークンを入力</label>
-                            <input class="form-control" type="text" name="token" id="name">
+                            <input class="form-control" type="password" name="token" id="name">
                         </div>
                         <input type="hidden" name="email" value="<?php h($email) ?>">
                         <button type="submit" class="btn btn-primary px-5">本人確認をする</button>

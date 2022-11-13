@@ -27,9 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $err_array[] = '@st.kobedenshi.ac.jpのメールアドレスを入力してください。';
     }
 
+    $email_data = [];
+    // 文字列型で定義
+    $email_data[] = strval($email);
+
     // メールアドレスが登録されているかどうかチェックする
     $sql = 'SELECT * FROM student_master WHERE email = ?';
-    $already_email = $object::user_exist_check($sql, $email);
+    $already_email = $object::user_exist_check($sql, $email_data);
 
     // 返り値がTrueであれば登録できない
     if ($already_email) {
