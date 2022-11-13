@@ -28,8 +28,8 @@ $argument = [];
 $argument[] = $update_post_id;
 
 // SQL発行
-// $sql = 'SELECT i.id, i.user_id, i.company, i.format, i.content, i.question, i.answer, i.ster, i.field, u.name, u.department, u.school_year FROM intern_table i, user_master u WHERE i.user_id = u.id AND i.id = ? ORDER BY i.id DESC';
 $sql = 'SELECT * FROM `intern_table` INNER JOIN `student_master` ON intern_table.user_id = student_master.student_id AND intern_table.post_id = ?';
+
 // 編集するデータを取得
 $update_date = $object::db_select_argument($sql, $argument);
 var_dump($update_date);

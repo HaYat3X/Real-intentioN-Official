@@ -2,17 +2,15 @@
 
 session_start();
 
-// クラスファイルインポート
-require __DIR__ . '../../../../../class/Logic.php';
-
-// functionファイルインポート
-require __DIR__ . '../../../../../function/functions.php';
+// 外部ファイルのインポート
+require '../../../../class/Logic.php';
+require '../../../../function/functions.php';
 
 // オブジェクト
-$obj = new PostLogic();
+$object = new SystemLogic();
 
 // ログインチェック
-$login_check = $obj::login_check();
+$login_check = $object::login_check_student();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
 if (!$login_check) {
@@ -21,34 +19,36 @@ if (!$login_check) {
 
 // ユーザID取得
 foreach ($login_check as $row) {
-    $userId = $row['id'];
+    $userId = $row['student_id'];
 }
 
 // 削除する投稿IDの取得
-$delete_id = filter_input(INPUT_GET, 'post_id');
-$arr = [];
-$arr[] = intval($delete_id);
+$delete_post_id = filter_input(INPUT_GET, 'post_id');
+$argument = [];
+$argument[] = intval($delete_post_id);
 
 // SQL発行
-$sql = 'SELECT i.id, i.user_id, i.company, i.format, i.content, i.question, i.answer, i.ster, i.field, u.name, u.department, u.school_year FROM intern_table i, user_master u WHERE i.user_id = u.id AND i.id = ? ORDER BY i.id DESC';
+$sql = 'SELECT * FROM `intern_table` INNER JOIN `student_master` ON intern_table.user_id = student_master.student_id AND intern_table.post_id = ?';
 
 // 削除データ取得
-$delete_date = $obj::post_one_acquisition($sql, $arr);
+$delete_date = $object::db_select_argument($sql, $argument);
 
 
 // 削除対象データがない場合はリダイレクト
 if (!$delete_date) {
-    header('Location: ../view.php');
+    $url = '../../../Incorrect_request.php';
+    header('Location:' . $url);
 }
 
 // 投稿者IDとログイン中のユーザのIDが一致しなければリダイレクト
 foreach ($delete_date as $date) {
     if (!$userId == $date['user_id']) {
-        header('Location: ../view.php');
+        $url = '../../../Incorrect_request.php';
+        header('Location:' . $url);
     }
 
-    // 削除するID
-    $post_id = $date['id'];
+    // // 削除するID
+    // $post_id = $date['id'];
 }
 
 
@@ -131,53 +131,56 @@ foreach ($delete_date as $date) {
         <div class="row">
 
             <div class="col-md-8">
-                <div class="mb-5 bg-light">
+                <?php if (is_array($delete_date) || is_object($delete_date)) : ?>
+                    <?php foreach ($delete_date as $row) : ?>
+                        <div class="mb-5 bg-light">
 
-                    <!-- area1 -->
-                    <div class="area1 d-flex px-3 py-4">
-                        <div class="info-left col-2">
-                            <div class="square_box">
-                                <p>INTERN</p>
+                            <!-- area1 -->
+                            <div class="area1 d-flex px-3 py-4">
+                                <div class="info-left col-2">
+                                    <div class="square_box">
+                                        <p>INTERN</p>
+                                    </div>
+                                </div>
+
+                                <div class="info-center col-10">
+                                    <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?><span style="margin: 0 10px;">/</span><?php h($row['format']) ?>
+
+                                    <p><?php h($row['content']) ?>s</p>
+
+                                    <p><?php h($row['ster']) ?></p>
+                                </div>
+
+
+                            </div>
+
+                            <div class="question px-3">
+                                <span>Q.</span><?php h($row['question']) ?>
+                            </div>
+
+                            <div class="answer px-3">
+                                <span>A.</span><?php h($row['answer']) ?>
+                            </div>
+
+                            <div class="area2 d-flex px-3 py-4">
+                                <div class="post-name col-5 pt-2">
+                                    <?php h($row['name']) ?> ｜ <?php h($row['department']) ?> ｜ <?php h($row['school_year']) ?>
+                                </div>
+                            </div>
+
+                            <div class="btn-group">
+                                <div>
+                                    <a href="../view.php" class="btn btn-primary">削除キャンセル</a>
+                                </div>
+
+
+                                <a href="./delete.php?post_id=<?php h($delete_post_id) ?>">削除</a>
+                                <!--  -->
+
                             </div>
                         </div>
-
-                        <div class="info-center col-10">
-                            <?php h($date['company']) ?><span style="margin: 0 10px;">/</span><?php h($date['field']) ?><span style="margin: 0 10px;">/</span><?php h($date['format']) ?>
-
-                            <p><?php h($date['content']) ?>s</p>
-
-                            <p><?php h($date['ster']) ?></p>
-                        </div>
-
-
-                    </div>
-
-                    <div class="question px-3">
-                        <span>Q.</span><?php h($date['question']) ?>
-                    </div>
-
-                    <div class="answer px-3">
-                        <span>A.</span><?php h($date['answer']) ?>
-                    </div>
-
-                    <div class="area2 d-flex px-3 py-4">
-                        <div class="post-name col-5 pt-2">
-                            <?php h($date['name']) ?> ｜ <?php h($date['department']) ?> ｜ <?php h($date['school_year']) ?>
-                        </div>
-                    </div>
-
-                    <div class="btn-group">
-                        <div>
-                            <a href="../view.php" class="btn btn-primary">削除キャンセル</a>
-                        </div>
-
-                        <form action="./delete.php" method="post">
-                            <input type="hidden" name="post_id" value="<?php h($post_id) ?>">
-                            <button class="btn btn-primary">削除実行</button>
-                        </form>
-
-                    </div>
-                </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
 
 
