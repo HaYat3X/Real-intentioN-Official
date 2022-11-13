@@ -2,19 +2,15 @@
 
 session_start();
 
-// クラスファイルインポート
-require __DIR__ . '../../../../../class/Logic.php';
-
-// functionファイルインポート
-require __DIR__ . '../../../../../function/functions.php';
+// 外部ファイルのインポート
+require '../../../../class/Logic.php';
+require '../../../../function/functions.php';
 
 // オブジェクト
-$obj = new PostLogic();
+$object = new SystemLogic();
 
 // ログインチェック
-$login_check = $obj::login_check();
-
-$err = [];
+$login_check = $object::login_check_student();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
 if (!$login_check) {
@@ -23,39 +19,40 @@ if (!$login_check) {
 
 // ユーザID取得
 foreach ($login_check as $row) {
-    $userId = $row['id'];
+    $userId = $row['student_id'];
 }
 
+$err_array = [];
 
 // POSTリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // SQL発行
-    $sql = 'UPDATE `intern_table` SET `user_id`=?, `company`=?, `format`=?, `content`=?, `question`=?,`answer`=?, `ster`=?, `field`=? WHERE id=?';
+    $sql = 'UPDATE `intern_table` SET `user_id` = ?, `company` = ?, `format` = ?, `content` = ?, `question` = ?, `answer`=?, `ster` = ?, `field` = ? WHERE post_id = ?';
 
     // 更新するデータを配列に格納
-    $arr = [];
-    $arr[] = $_POST['user_id'];
-    $arr[] = $_POST['company'];
-    $arr[] = $_POST['format'];
-    $arr[] = $_POST['content'];
-    $arr[] = $_POST['question'];
-    $arr[] = $_POST['answer'];
-    $arr[] = $_POST['ster'];
-    $arr[] = $_POST['field'];
-    $arr[] = $_POST['post_id'];
+    $update_data = [];
+    $update_data[] = strval($_POST['user_id']);
+    $update_data[] = strval($_POST['company']);
+    $update_data[] = strval($_POST['format']);
+    $update_data[] = strval($_POST['content']);
+    $update_data[] = strval($_POST['question']);
+    $update_data[] = strval($_POST['answer']);
+    $update_data[] = strval($_POST['ster']);
+    $update_data[] = strval($_POST['field']);
+    $update_data[] = strval($_POST['post_id']);
 
     // 編集するメソッド実行
-    $update = $obj::post_update($sql, $arr);
+    $update = $object::db_update($sql, $update_data);
 
     // 返り値がFalseの場合リダイレクト 配列でメッセージ
     if (!$update) {
-        $err[] = '編集に失敗しました。やり直してください。';
+        $err_array[] = '編集に失敗しました。やり直してください。';
         header('refresh:3;url=../view.php');
     };
 } else {
-    // postリクエストがない場合リダイレクト
-    header('Location: ../view.php');
+    $url = '../../../Incorrect_request.php';
+    header('Location:' . $url);
 }
 
 ?>
@@ -108,16 +105,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row">
                 <div class="mx-auto col-lg-6">
                     <div class="err-msg">
-                        <?php if (count($err) > 0) : ?>
-                            <?php foreach ($err as $e) : ?>
-                                <label><?php h($e); ?></label>
+                        <?php if (count($err_array) > 0) : ?>
+                            <?php foreach ($err_array as $err_msg) : ?>
+                                <label><?php h($err_msg); ?></label>
                                 <div class="backBtn">
                                     <a href="../view.php">戻る</a>
                                 </div>
                             <?php endforeach; ?>
                         <?php endif; ?>
 
-                        <?php if (count($err) === 0) : ?>
+                        <?php if (count($err_array) === 0) : ?>
                             <label>更新が完了しました。</label>
                             <?php header('refresh:3;url=../view.php'); ?>
                         <?php endif; ?>
