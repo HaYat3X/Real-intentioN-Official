@@ -214,6 +214,29 @@ class SystemLogic
             return false;
         }
     }
+
+    /**
+     * データベースにデータを登録する　(引数あり)
+     * @param $sql, $update_data
+     * @return true
+     * @return false
+     */
+    public static function db_update($sql, $update_data)
+    {
+        try {
+            $stmt = connect()->prepare($sql);
+            $stmt->execute($update_data);
+
+            // 実行成功の場合
+            return true;
+        } catch (\Exception $e) {
+            echo $e;
+            error_log($e, 3, '../error.log');
+
+            // 実行失敗
+            return false;
+        }
+    }
 }
 
 
