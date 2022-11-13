@@ -45,8 +45,10 @@
                 <div class="mx-auto col-lg-6">
                     <div class="err-msg">
                         <label>不正なリクエストです。</label>
+                        <?php session_start() ?>
                         <?php $link = '../index.html'; ?>
                         <?php header('refresh:3;url=' . $link); ?>
+                        <?php unset($_SESSION['login_student']) ?>
                     </div>
                 </div>
             </div>
