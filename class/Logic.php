@@ -19,9 +19,10 @@ class SystemLogic
      * @return true
      * @return false
      */
-    public static function user_exist_check($sql, $email)
+    public static function user_exist_check($sql, $email_data)
     {
-        $result = self::db_select_argument_str($sql, $email);
+        $argument = $email_data;
+        $result = self::db_select_argument($sql, $argument);
 
         // データがあればデータが返る　
         if ($result) {
@@ -32,7 +33,7 @@ class SystemLogic
     }
 
     /**
-     * ユーザーが登録済みどうかを判定
+     * メールアドレスにトークンを送信する (メールアドレス認証のため)
      * @param \src\Userview\register\provisional_registration.php $email, $token
      * @return token
      * @return false
@@ -50,20 +51,61 @@ class SystemLogic
         return $token;
     }
 
+    /**
+     * ログインする　（学生用）
+     * @param $email, $password
+     * @return session
+     * @return false
+     */
+    public static function student_login($email, $password)
+    {
+        $email_data = [];
+        $email_data[] = strval($email);
+        $sql = 'SELECT * FROM student_master WHERE email = ?';
+
+        // メールアドレスが登録されているかどうかチェックする
+        $userData = self::user_exist_check($sql, $email_data);
+
+        // データが存在しない(返り値がTrue)であればエラーとする
+        if (!$userData) {
+            return false;
+        }
+
+        // 配列の存在確認
+        if (is_array($userData) || is_object($userData)) {
+            foreach ($userData as $row) {
+                $db_password = $row['password'];
+            }
+        }
+
+        // パスアワードの照会
+        if (password_verify($password, $db_password)) {
+
+            //ログイン成功の場合 trueを返す
+            session_regenerate_id(true);
+            $_SESSION['login_user'] = $userData;
+
+            // ユーザ情報をセッションに格納
+            return $_SESSION['login_user'];
+        } else {
+            return false;
+        }
+    }
+
 
     // -----------------------------------------------------------------------------------------------------------
     /**
-     * データベースからデータを取得する　(引数あり、引数の方がString型の場合)
-     * @param $sql, $argument_str
+     * データベースからデータを取得する　(引数がある場合)
+     * @param $sql, $argument
      * @return array
      * @return false
      */
-    public static function db_select_argument_str($sql, $argument_str)
+    public static function db_select_argument($sql, $argument)
     {
         try {
             // sql実行
             $stmt = connect()->prepare($sql);
-            $stmt->execute(array($argument_str));
+            $stmt->execute($argument);
             $result = $stmt->fetchAll();
 
             // データを返す

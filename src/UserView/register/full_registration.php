@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $err_array[] =  'パスワードを入力してください。';
     }
 
-    if (!$password = filter_input(INPUT_POST, 'name')) {
+    if (!$name = filter_input(INPUT_POST, 'name')) {
         $err_array[] =  '名前を入力してください。';
     }
 
@@ -28,11 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $err_array[] =  '学科を入力してください。';
     }
 
-    if (!$department = filter_input(INPUT_POST, 'school_year')) {
+    if (!$school_year = filter_input(INPUT_POST, 'school_year')) {
         $err_array[] =  '学年を入力してください。';
     }
 
-    if (!$department = filter_input(INPUT_POST, 'number')) {
+    if (!$number = filter_input(INPUT_POST, 'number')) {
         $err_array[] =  '出席番号を入力してください。';
     }
 
@@ -45,13 +45,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // 登録する情報を配列で処理
         $insert_data = [];
-        $insert_data[] = $_POST['name'];
-        $insert_data[] = $_POST['email'];
-        $insert_data[] = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $insert_data[] = $_POST['department'];
-        $insert_data[] = $_POST['school_year'];
-        $insert_data[] = $_POST['number'];
-        $insert_data[] = '活動中';
+        $insert_data[] = strval($_POST['name']);
+        $insert_data[] = strval($_POST['email']);
+        $insert_data[] = strval(password_hash($_POST['password'], PASSWORD_DEFAULT));
+        $insert_data[] = strval($_POST['department']);
+        $insert_data[] = strval($_POST['school_year']);
+        $insert_data[] = strval($_POST['number']);
+        $insert_data[] = strval('活動中');
 
         // SQL発行
         $sql = 'INSERT INTO `student_master`(`name`, `email`, `password`, `department`, `school_year`, `number`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?)';
