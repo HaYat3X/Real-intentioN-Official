@@ -2,17 +2,15 @@
 
 session_start();
 
-// クラスファイルインポート
+// 外部ファイルのインポート
 require __DIR__ . '../../../../class/Logic.php';
-
-// functionファイルインポート
 require __DIR__ . '../../../../function/functions.php';
 
 // オブジェクト
-$post_obj = new PostLogic();
+$object = new SystemLogic();
 
 // ログインチェック
-$login_check = $post_obj::login_check();
+$login_check = $object::login_check_student();
 
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト
 if (!$login_check) {
@@ -21,26 +19,23 @@ if (!$login_check) {
 
 // ユーザID取得
 foreach ($login_check as $row) {
-    $userId = $row['id'];
+    $userId = $row['student_id'];
 }
 
-// インターンデータ取得メソッドの読み込み　最低一件のデータが必要
-$sql = 'SELECT i.id, i.user_id, i.company, i.format, i.content, i.question, i.answer, i.ster, i.field, u.name, u.department, u.school_year FROM intern_table i, user_master u WHERE i.user_id = u.id ORDER BY id DESC';
-
-$results = $post_obj::post_acquisition($sql);
-
-
+// インターンテーブルのデータを全部stうとく
+$sql = 'SELECT * FROM `intern_table` INNER JOIN `student_master` ON intern_table.user_id = student_master.student_id ORDER BY intern_table.post_id DESC';
+$results = $object::db_select($sql);
 
 // ユーザが投稿した投稿についたコメントを取得
 $sql = 'SELECT * FROM intern_reply_table WHERE post_user_id = ? AND `user_id` != ? AND `read_status` = ?';
 
-$arr = [];
-$arr[] = intval($userId);
-$arr[] = intval($userId);
-$arr[] = intval('0');
+$argument = [];
+$argument[] = intval($userId);
+$argument[] = intval($userId);
+$argument[] = intval('0');
 
-// sql実行
-$notification = $post_obj::post_one_acquisition($sql, $arr);
+// 通知をカウント
+$notification = $object::db_select_argument($sql, $argument);
 
 if (is_bool($notification)) {
     $notification_num = 0;
@@ -177,8 +172,8 @@ if (is_bool($notification)) {
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-dark">
 
-                                                    <li><a href="./delete/delete_check.php?post_id=<?php h($row['id']) ?>" class="dropdown-item">削除</a></li>
-                                                    <li><a class="dropdown-item" href="./update/update_form.php?post_id=<?php h($row['id']) ?>">編集</a>
+                                                    <li><a href="./delete/delete_check.php?post_id=<?php h($row['post_id']) ?>" class="dropdown-item">削除</a></li>
+                                                    <li><a class="dropdown-item" href="./update/update_form.php?post_id=<?php h($row['post_id']) ?>">編集</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -197,7 +192,7 @@ if (is_bool($notification)) {
 
                             <div class="area2 d-flex px-3 py-4">
                                 <div class="question-btn col-7">
-                                    <a href="./comment/comment.php?post_id=<?php h($row['id']) ?>" class="btn btn-primary">投稿者に質問する</a>
+                                    <a href="./comment/comment.php?post_id=<?php h($row['post_id']) ?>" class="btn btn-primary">投稿者に質問する</a>
                                 </div>
 
                                 <div class="post-name col-5 pt-2">

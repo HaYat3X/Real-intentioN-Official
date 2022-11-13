@@ -76,17 +76,17 @@ class SystemLogic
 
             //ログイン成功の場合 trueを返す
             session_regenerate_id(true);
-            $_SESSION['login_user'] = $userData;
+            $_SESSION['login_student'] = $userData;
 
             // ユーザ情報をセッションに格納
-            return $_SESSION['login_user'];
+            return $_SESSION['login_student'];
         } else {
             return false;
         }
     }
 
     /**
-     * ログインする　（学生用）
+     * ログインする　（職員用）
      * @param $email, $password
      * @return session
      * @return false
@@ -123,6 +123,22 @@ class SystemLogic
             return false;
         }
     }
+    /**
+     * ログインしているか判定する　（学生）
+     * @return session
+     */
+    // ログインしているかどうか判定する（学生）
+    public static function login_check_student()
+    {
+        // ユーザ情報があればログインしているとみなす return true
+        if (isset($_SESSION['login_student'])) {
+            $result = $_SESSION['login_student'];
+            return $result;
+        }
+
+        // セッション情報がない場合はログインしていないとみなす return false;
+        return false;
+    }
 
 
     // -----------------------------------------------------------------------------------------------------------
@@ -138,6 +154,31 @@ class SystemLogic
             // sql実行
             $stmt = connect()->prepare($sql);
             $stmt->execute($argument);
+            $result = $stmt->fetchAll();
+
+            // データを返す
+            return $result;
+        } catch (\Exception $e) {
+            echo $e;
+            error_log($e, 3, '../error.log');
+
+            // エラーの場合Falseを返す
+            return false;
+        }
+    }
+
+    /**
+     * データベースからデータを取得する　(引数なし)
+     * @param $sql
+     * @return array
+     * @return false
+     */
+    public static function db_select($sql)
+    {
+        try {
+            // sql実行
+            $stmt = connect()->prepare($sql);
+            $stmt->execute();
             $result = $stmt->fetchAll();
 
             // データを返す
