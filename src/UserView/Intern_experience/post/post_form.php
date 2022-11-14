@@ -3,23 +3,22 @@
 session_start();
 
 // 外部ファイルのインポート
-require '../../../../class/Logic.php';
-require '../../../../function/functions.php';
+require '../../../../class/SystemLogic.php';
+require __DIR__ . '../../../../../function/functions.php';
 
-// オブジェクト
-$object = new SystemLogic();
+// インスタンス化
+$val_inst = new DataValidationLogics();
+$arr_prm_inst = new ArrayParamsLogics();
+$db_inst = new DatabaseLogics();
+$student_inst = new StudentLogics();
 
 // ログインチェック
-$login_check = $object::login_check_student();
+$userId = $student_inst->get_student_id();
 
-// ログインチェックの返り値がfalseの場合ログインページにリダイレクト
-if (!$login_check) {
-    header('Location: ../login/login_form.php');
-}
-
-// ユーザID取得
-foreach ($login_check as $row) {
-    $userId = $row['student_id'];
+// ログインチェックの返り値がfalseの場合ログインページにリダイレクト　（不正なリクエストとみなす）
+if (!$userId) {
+    $url = '../../Incorrect_request.php';
+    header('Location:' . $url);
 }
 
 // 質問の配列

@@ -3,46 +3,45 @@
 session_start();
 
 // 外部ファイルのインポート
-require '../../../../class/Logic.php';
-require '../../../../function/functions.php';
+require '../../../../class/SystemLogic.php';
+require __DIR__ . '../../../../../function/functions.php';
 
-// オブジェクト
-$object = new SystemLogic();
+// インスタンス化
+$val_inst = new DataValidationLogics();
+$arr_prm_inst = new ArrayParamsLogics();
+$db_inst = new DatabaseLogics();
+$student_inst = new StudentLogics();
 
 // ログインチェック
-$login_check = $object::login_check_student();
+$userId = $student_inst->get_student_id();
 
-// ログインチェックの返り値がfalseの場合ログインページにリダイレクト
-if (!$login_check) {
-    header('Location: ../login/login_form.php');
+// ログインチェックの返り値がfalseの場合ログインページにリダイレクト　（不正なリクエストとみなす）
+if (!$userId) {
+    $url = '../../Incorrect_request.php';
+    header('Location:' . $url);
 }
 
-// ユーザID取得
-foreach ($login_check as $row) {
-    $userId = $row['student_id'];
-}
 
 $err_array = [];
 
 // POSTリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // 投稿するデータをarr処理
-    $insert_data = [];
-    $insert_data[] = strval($userId);
-    $insert_data[] = strval($_POST['company']);
-    $insert_data[] = strval($_POST['format']);
-    $insert_data[] = strval($_POST['content']);
-    $insert_data[] = strval($_POST['question']);
-    $insert_data[] = strval($_POST['answer']);
-    $insert_data[] = strval($_POST['ster']);
-    $insert_data[] = strval($_POST['field']);
+    $company = filter_input(INPUT_POST, 'company');
+    $content = filter_input(INPUT_POST, 'content');
+    $format = filter_input(INPUT_POST, 'format');
+    $question = filter_input(INPUT_POST, 'question');
+    $field = filter_input(INPUT_POST, 'field');
+    $answer = filter_input(INPUT_POST, 'answer');
+    $ster = filter_input(INPUT_POST, 'ster');
+
+    $argument = $arr_prm_inst->student_post_prm($userId, $company, $format, $content, $question, $answer, $ster, $field);
 
     // SQL発行
     $sql = 'INSERT INTO `intern_table`(`user_id`, `company`, `format`, `content`, `question`, `answer`, `ster`, `field`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 
     // 投稿するメソッド
-    $insert = $object::db_insert($sql, $insert_data);
+    $insert = $db_inst->data_various_kinds($sql, $argument);
 
     // 返り値がFalseの場合リダイレクト 配列でメッセージ
     if (!$insert) {

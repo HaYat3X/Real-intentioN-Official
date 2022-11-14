@@ -97,7 +97,7 @@ class ArrayParamsLogics
     }
 
     /**
-     * コメント取得時にバインドパラメータ
+     * コメント通知数を取得時にバインドするパラメータ
      * @param $userId
      * @return $argument
      */
@@ -107,6 +107,25 @@ class ArrayParamsLogics
         $argument[] = intval($userId);
         $argument[] = intval($userId);
         $argument[] = intval('0');
+        return $argument;
+    }
+
+    /**
+     * インターン体験記を取得する際にバインドするパラメータ
+     * @param $userId
+     * @return $argument
+     */
+    public function student_post_prm($userId, $company, $format, $content, $question, $answer, $ster, $field)
+    {
+        $argument = [];
+        $argument[] = intval($userId);
+        $argument[] = strval($company);
+        $argument[] = strval($format);
+        $argument[] = strval($content);
+        $argument[] = strval($question);
+        $argument[] = strval($answer);
+        $argument[] = strval($ster);
+        $argument[] = strval($field);
         return $argument;
     }
 }
@@ -238,6 +257,48 @@ class DataValidationLogics
     }
 
     /**
+     * 学生ログイン時のバリデーション
+     * @param $email, $password
+     * @return true
+     * @return false
+     */
+    public function student_post_val($company, $content, $format, $field, $answer, $ster)
+    {
+        // 未入力のチェック
+        if ($company == "") {
+            $this->errorMsg = "企業名を入力してください。";
+            return false;
+        }
+
+        if ($content == "") {
+            $this->errorMsg = "体験内容を入力してください。";
+            return false;
+        }
+
+        if ($format == "-- 選択してください --") {
+            $this->errorMsg = "参加形式を選択してください。";
+            return false;
+        }
+
+        if ($field == "-- 選択してください --") {
+            $this->errorMsg = "参加分野を選択してください。";
+            return false;
+        }
+
+        if ($answer == "") {
+            $this->errorMsg = "質問に回答してください。";
+            return false;
+        }
+
+        if ($ster == "-- 選択してください --") {
+            $this->errorMsg = "総合評価を選択してください。";
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * バリデーションにj引っ掛かった場合のエラーメッセージを表示
      * @param 
      * @return errorMsg
@@ -247,6 +308,18 @@ class DataValidationLogics
         return $this->errorMsg;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 class DatabaseLogics
 {
