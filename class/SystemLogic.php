@@ -111,7 +111,7 @@ class ArrayParamsLogics
     }
 
     /**
-     * インターン体験記を取得する際にバインドするパラメータ
+     * インターン体験記を投稿する際にバインドするパラメータ
      * @param $userId
      * @return $argument
      */
@@ -126,6 +126,38 @@ class ArrayParamsLogics
         $argument[] = strval($answer);
         $argument[] = strval($ster);
         $argument[] = strval($field);
+        return $argument;
+    }
+
+    /**
+     * 投稿を一件取得する時のパラメータ
+     * @param $post_id
+     * @return $argument
+     */
+    public function student_post_one_prm($post_id)
+    {
+        $argument = [];
+        $argument[] = intval($post_id);
+        return $argument;
+    }
+
+    /**
+     * 投稿を更新する際にバインドするパラメータ
+     * @param $post_id
+     * @return $argument
+     */
+    public function student_post_update_prm($userId, $company, $format, $content, $question, $answer, $ster, $field, $post_id)
+    {
+        $argument = [];
+        $argument[] = intval($userId);
+        $argument[] = strval($company);
+        $argument[] = strval($format);
+        $argument[] = strval($content);
+        $argument[] = strval($question);
+        $argument[] = strval($answer);
+        $argument[] = strval($ster);
+        $argument[] = strval($field);
+        $argument[] = intval($post_id);
         return $argument;
     }
 }

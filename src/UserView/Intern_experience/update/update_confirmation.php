@@ -3,23 +3,22 @@
 session_start();
 
 // 外部ファイルのインポート
-require '../../../../class/Logic.php';
-require '../../../../function/functions.php';
+require '../../../../class/SystemLogic.php';
+require __DIR__ . '../../../../../function/functions.php';
 
-// オブジェクト
-$object = new SystemLogic();
+// インスタンス化
+$val_inst = new DataValidationLogics();
+$arr_prm_inst = new ArrayParamsLogics();
+$db_inst = new DatabaseLogics();
+$student_inst = new StudentLogics();
 
 // ログインチェック
-$login_check = $object::login_check_student();
+$userId = $student_inst->get_student_id();
 
-// ログインチェックの返り値がfalseの場合ログインページにリダイレクト
-if (!$login_check) {
-    header('Location: ../login/login_form.php');
-}
-
-// ユーザID取得
-foreach ($login_check as $row) {
-    $userId = $row['student_id'];
+// ログインチェックの返り値がfalseの場合ログインページにリダイレクト　（不正なリクエストとみなす）
+if (!$userId) {
+    $url = '../../Incorrect_request.php';
+    header('Location:' . $url);
 }
 
 // 編集する投稿IDの取得
@@ -29,33 +28,18 @@ $err_array = [];
 
 // postリクエストがない場合リダイレクト
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // バリデーションチェック
-    if (!$company = filter_input(INPUT_POST, 'company')) {
-        $err_array[] =  '企業名を入力してください。';
-    }
 
-    if (!$content = filter_input(INPUT_POST, 'content')) {
-        $err_array[] = '体験内容を入力してください。';
-    }
-
+    $company = filter_input(INPUT_POST, 'company');
+    $content = filter_input(INPUT_POST, 'content');
     $format = filter_input(INPUT_POST, 'format');
-    if ($format === '-- 選択してください --') {
-        $err_array[] =  '体験内容を選択肢の中から選択してください。';
-    }
-
     $field = filter_input(INPUT_POST, 'field');
-    if ($format === '-- 選択してください --') {
-        $err_array[] =  '参加分野を選択肢の中から選択してください。';
-    }
-
-    if (!$answer = filter_input(INPUT_POST, 'answer')) {
-        $err_array[] = '質問に回答してください。';
-    }
-
+    $answer = filter_input(INPUT_POST, 'answer');
     $ster = filter_input(INPUT_POST, 'ster');
-    if ($format === '-- 選択してください --') {
-        $err_array[] =  '総合評価を選択肢の中から選択してください。';
+
+    if (!$val_inst->student_post_val($company, $content, $format, $field, $answer, $ster)) {
+        $err_array[] = $val_inst->getErrorMsg();
     }
+    
 } else {
     $url = '../../../Incorrect_request.php';
     header('Location:' . $url);
