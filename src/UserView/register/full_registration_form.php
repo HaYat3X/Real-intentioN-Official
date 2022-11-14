@@ -72,7 +72,7 @@ $key = $_SESSION['email'];
                         <div class="mb-2">
                             <label class="form-label" for="name">学科情報</label>
                             <select class="form-select" name="department" aria-label="Default select example">
-                                <option selected>-- 選択してください！ --</option>
+                                <option selected>-- 選択してください --</option>
                                 <option value="AIシステム開発学科">AIシステム開発学科</option>
                                 <option value="ITソフトウェア学科">ITソフトウェア学科</option>
                             </select>
@@ -81,7 +81,7 @@ $key = $_SESSION['email'];
                         <div class="mb-2">
                             <label class="form-label" for="name">学年情報</label>
                             <select class="form-select" name="school_year" aria-label="Default select example">
-                                <option selected>-- 選択してください！ --</option>
+                                <option selected>-- 選択してください --</option>
                                 <option value="1年生">1年生</option>
                                 <option value="2年生">2年生</option>
                             </select>

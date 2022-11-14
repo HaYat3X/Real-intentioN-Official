@@ -35,6 +35,24 @@ class ArrayParamsLogics
         $argument[] = strval($email);
         return $argument;
     }
+
+    /**
+     * 学生新規登録メールアドレス仮登録時、sqlにバインドするデータ
+     * @param $email
+     * @return $argument
+     */
+    public function student_register_full_registration_prm($name, $email, $password, $department, $school_year, $number)
+    {
+        $argument = [];
+        $argument[] = strval($name);
+        $argument[] = strval($email);
+        $argument[] = strval(password_hash($password, PASSWORD_DEFAULT));
+        $argument[] = strval($department);
+        $argument[] = strval($school_year);
+        $argument[] = strval($number);
+        $argument[] = strval('活動中');
+        return $argument;
+    }
 }
 
 class DataValidationLogics
@@ -61,13 +79,67 @@ class DataValidationLogics
             return false;
         }
 
-        //入力値の型のチェック
-        if (!is_string($email)) {
-            $this->errorMsg = "メールアドレスが不正です。f";
+        // バリデーションに引っかからない場合True
+        return true;
+    }
+
+    /**
+     * 学生新規登録トークン入力時のバリデーション
+     * @param $token
+     * @return true
+     * @return false
+     */
+    public function student_register_auth_email_val($token)
+    {
+        // 未入力のチェック
+        if ($token == "") {
+            $this->errorMsg = "トークンを入力してください。";
             return false;
         }
 
         // バリデーションに引っかからない場合True
+        return true;
+    }
+
+    /**
+     * 学生新規登録学生情報入力時のバリデーション
+     * @param $name, $password, $department, $school_yare, $number
+     * @return true
+     * @return false
+     */
+    public function student_register_full_registration_val($name, $password, $department, $school_year, $number)
+    {
+        // 未入力のチェック
+        if ($name == "") {
+            $this->errorMsg = "ニックネームを入力してください。";
+            return false;
+        }
+
+        if ($department === "-- 選択してください --") {
+            $this->errorMsg = "学科情報を選択してください。";
+            return false;
+        }
+
+        if ($school_year == "-- 選択してください --") {
+            $this->errorMsg = "学年情報を選択してください。";
+            return false;
+        }
+
+        if ($number == "") {
+            $this->errorMsg = "学籍番号を入力してください。";
+            return false;
+        }
+
+        if ($password == "") {
+            $this->errorMsg = "パスワードを入力してください。";
+            return false;
+        }
+
+        // パスワードの値が8文字以下の場合エラーを出す
+        if (!preg_match("/^[0-9A-Za-z]{8,100}$/i", $password)) {
+            $this->errorMsg = 'パスワードは8文字で作成してください。';
+        }
+
         return true;
     }
 

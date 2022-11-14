@@ -5,8 +5,14 @@
 session_start();
 
 // 外部ファイルのインポート
-require __DIR__ . '../../../../class/Logic.php';
+require '../../../class/SystemLogic.php';
 require __DIR__ . '../../../../function/functions.php';
+
+// インスタンス化
+$val_inst = new DataValidationLogics();
+$arr_prm_inst = new ArrayParamsLogics();
+$db_inst = new DatabaseLogics();
+$student_inst = new StudentLogics();
 
 // errメッセージが格納される配列を定義
 $err_array = [];
@@ -14,18 +20,22 @@ $err_array = [];
 // フォームリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // バリーデーションチェック
-    if (!$form_token = filter_input(INPUT_POST, 'token')) {
-        $err_array[] =  'トークンを入力してください。';
-    }
-
+    // 入力値の受け取り
     $email = filter_input(INPUT_POST, 'email');
+    $token = filter_input(INPUT_POST, 'token');
 
-    // メールアドレスを認証する
-    if ($_SESSION['token'] == $form_token) {
-        $success = '認証に成功しました。';
+    //バリデーションチェック
+    if ($val_inst->student_register_auth_email_val($token)) {
+        //バリデーション成功時の処理
+        // メールアドレスを認証する
+        if ($_SESSION['token'] == $token) {
+            $success = '認証に成功しました。';
+        } else {
+            $err_array[] = 'トークンが一致しません。';
+        }
     } else {
-        $err_array[] = 'トークンが一致しません。';
+        //バリデーション失敗時の処理
+        $err_array[] = $val_inst->getErrorMsg();
     }
 } else {
     $url = '../../Incorrect_request.php';
@@ -84,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="err-msg">
                         <?php if (count($err_array) > 0) : ?>
                             <?php foreach ($err_array as $err_msg) : ?>
-                                <p><label><?php h($err_msg); ?></label></p>
+                                <p style="color: red;"><?php h($err_msg); ?></p>
                                 <div class="backBtn">
                                     <a class="btn btn-primary px-5" href="./auth_email_form.php">戻る</a>
                                 </div>
@@ -92,8 +102,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endif; ?>
 
                         <?php if (count($err_array) === 0) : ?>
-                            <p><label><?php h($success); ?></label></p>
-                            <p><a class="btn btn-primary px-5" href="./full_registration_form.php?key=<?php h($email) ?>">学生情報入力ページへ</a></p>
+                            <p><?php h($success); ?></p>
+                            <?php $url = './full_registration_form.php?key=' . $email; ?>
+                            <?php header('Location:' . $url); ?>
                         <?php endif; ?>
                     </div>
                 </div>
