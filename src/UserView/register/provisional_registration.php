@@ -4,11 +4,14 @@
 session_start();
 
 // 外部ファイルのインポート
-require __DIR__ . '../../../../class/Logic.php';
+require '../../../class/SystemLogic.php';
 require __DIR__ . '../../../../function/functions.php';
 
-// クラスのインポート
-$object = new SystemLogic();
+// インスタンス化
+$val_inst = new DataValidationLogics();
+$arr_prm_inst = new ArrayParamsLogics();
+$db_inst = new DatabaseLogics();
+$student_inst = new StudentLogics();
 
 // errメッセージが格納される配列を定義
 $err_array = [];
@@ -16,43 +19,38 @@ $err_array = [];
 // フォームリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    // 入力値の受け取り
+    $email = filter_input(INPUT_POST, 'email');
 
-    // バリーデーションチェック
-    if (!$email = filter_input(INPUT_POST, 'email')) {
-        $err_array[] =  'メールアドレスを入力してください。';
-    }
+    //バリデーションチェック
+    if ($val_inst->student_register_provisional_registration_val($email)) {
+        //バリデーション成功時の処理
+        // メールアドレスが登録されているかどうか判定する
+        $sql = 'SELECT * FROM student_master WHERE email = ?';
+        $argument = $arr_prm_inst->student_register_provisional_registration_prm($email);
+        $already_email = $db_inst->data_select_argument($sql, $argument);
 
-    // 正規表現で神戸電子以外のメールアドレスは登録できないようにする
-    if (!preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@st.kobedenshi.ac.jp/", $email)) {
-        $err_array[] = '@st.kobedenshi.ac.jpのメールアドレスを入力してください。';
-    }
-
-    $email_data = [];
-    // 文字列型で定義
-    $email_data[] = strval($email);
-
-    // メールアドレスが登録されているかどうかチェックする
-    $sql = 'SELECT * FROM student_master WHERE email = ?';
-    $already_email = $object::user_exist_check($sql, $email_data);
-
-    // 返り値がTrueであれば登録できない
-    if ($already_email) {
-        $err_array[] = '指定のメールアドレスは既に登録されています。ログインしてください。';
-    }
-
-    // エラーに引っかからない場合メールアドレスにトークンを送信する
-    if (count($err_array) === 0) {
-        // トークン送信
-        $send_token = $object->push_token($email);
-
-        if (!$send_token) {
-            $err_array[] = 'トークンの送信に失敗しました。';
+        // $already_emailの返り値がfalseではない場合登録できない
+        if ($already_email) {
+            $err_array[] = 'メールアドレスが既に登録されています。ログインしてください。';
         }
 
-        // セッションにトークン情報とメールアドレスを格納
-        $_SESSION['token'] = $send_token;
-        $_SESSION['email'] = $email;
-        header('refresh:3;url=./auth_email_form.php');
+        // エラーに引っかからない場合メールアドレスにトークンを送信する
+        if (count($err_array) === 0) {
+
+            $send_token = $student_inst->push_token($email);
+
+            if (!$send_token) {
+                $err_array[] = 'トークンの送信に失敗しました。';
+            }
+
+            // セッションにトークン情報とメールアドレスを格納
+            $_SESSION['token'] = $send_token;
+            $_SESSION['email'] = $email;
+        }
+    } else {
+        //バリデーション失敗時の処理
+        $err_array[] = $val_inst->getErrorMsg();
     }
 } else {
     $url = '../../Incorrect_request.php';
@@ -119,6 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <?php if (count($err_array) === 0) : ?>
                             <label>メールアドレスにトークンを送信しました。</label>
+                            <?php header('refresh:3;url=./auth_email_form.php') ?>
                         <?php endif; ?>
                     </div>
                 </div>
