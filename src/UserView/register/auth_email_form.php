@@ -15,7 +15,7 @@ $token = $_SESSION['token'];
 $email = $_SESSION['email'];
 
 // セッション情報がなければれダイレクト
-if (!$_SESSION) {
+if (!$_SESSION['token'] || !$_SESSION['email']) {
     $url = '../../Incorrect_request.php';
     header('Location:' . $url);
 }

@@ -3,11 +3,15 @@
 session_start();
 
 // 外部ファイルおインポート
-require __DIR__ . '../../../../class/Logic.php';
+// 外部ファイルのインポート
+require '../../../class/SystemLogic.php';
 require __DIR__ . '../../../../function/functions.php';
 
-// クラスのインポート
-$object = new SystemLogic();
+// インスタンス化
+$val_inst = new DataValidationLogics();
+$arr_prm_inst = new ArrayParamsLogics();
+$db_inst = new DatabaseLogics();
+$student_inst = new StudentLogics();
 
 // errメッセージが格納される配列を定義
 $err_array = [];
@@ -15,62 +19,37 @@ $err_array = [];
 // フォームリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // バリーデーションチェック
-    if (!$password = filter_input(INPUT_POST, 'password')) {
-        $err_array[] =  'パスワードを入力してください。';
-    }
+    $name = filter_input(INPUT_POST, 'name');
+    $email = filter_input(INPUT_POST, 'email');
+    $password = filter_input(INPUT_POST, 'password');
+    $department = filter_input(INPUT_POST, 'department');
+    $school_year = filter_input(INPUT_POST, 'school_year');
+    $number = filter_input(INPUT_POST, 'number');
 
-    if (!$name = filter_input(INPUT_POST, 'name')) {
-        $err_array[] =  '名前を入力してください。';
-    }
+    // バリデーションエラーの画面表示
+    if ($val_inst->student_register_full_registration_val($name, $password, $department, $school_year, $number)) {
+        $argument = $arr_prm_inst->student_register_full_registration_prm($name, $email, $password, $department, $school_year, $number);
 
-    if (!$department = filter_input(INPUT_POST, 'department')) {
-        $err_array[] =  '学科を入力してください。';
-    }
-
-    if (!$school_year = filter_input(INPUT_POST, 'school_year')) {
-        $err_array[] =  '学年を入力してください。';
-    }
-
-    if (!$number = filter_input(INPUT_POST, 'number')) {
-        $err_array[] =  '出席番号を入力してください。';
-    }
-
-    if (!preg_match("/\A[a-z\d]{6,100}+\z/i", filter_input(INPUT_POST, 'password'))) {
-        $err_array[] = 'パスワードは英数字6文字以上で作成してください。';
-    }
-
-    // エラーが一つもない場合ユーザ登録する
-    if (count($err_array) === 0) {
-
-        // 登録する情報を配列で処理
-        $insert_data = [];
-        $insert_data[] = strval($_POST['name']);
-        $insert_data[] = strval($_POST['email']);
-        $insert_data[] = strval(password_hash($_POST['password'], PASSWORD_DEFAULT));
-        $insert_data[] = strval($_POST['department']);
-        $insert_data[] = strval($_POST['school_year']);
-        $insert_data[] = strval($_POST['number']);
-        $insert_data[] = strval('活動中');
-
-        // SQL発行
+        // データ登録
         $sql = 'INSERT INTO `student_master`(`name`, `email`, `password`, `department`, `school_year`, `number`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
-        // 登録処理
-        $hasCreated = $object::db_insert($sql, $insert_data);
+        $register = $db_inst->data_various_kinds($sql, $argument);
 
-        if (!$hasCreated) {
+        if (!$register) {
             $err_array[] = '登録できませんでした';
         }
+    } else {
+        $err_array[] = $val_inst->getErrorMsg();
     }
 } else {
     $url = '../../Incorrect_request.php';
     header('Location:' . $url);
 }
 
+
 ?>
 
-</html>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -126,8 +105,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         <?php endif; ?>
 
-                        <?php if (count($err_array) === 0) : ?>
-                            <label>ユーザ登録が完了しました。</label>
+                        <?php if (count($err_array) == 0) : ?>
+                            <p>ユーザ登録が完了しました。</p>
                             <?php header('refresh:3;url=../login/login_form.php'); ?>
                         <?php endif; ?>
                     </div>
@@ -138,38 +117,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
-
-</html>
-<!-- 
-<!DOCTYPE html>
-<html lang="ja">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../../../public/img/favicon.ico">
-    <link rel="stylesheet" href="../../../public/css/register/auth.css">
-    <title>「Real intentioN」 / 新規会員登録</title>
-</head>
-
-<body>
-
-    <div class="err">
-        <?php if (count($err) > 0) : ?>
-            <?php foreach ($err as $e) : ?>
-                <label><?php h($e); ?></label>
-            <?php endforeach; ?>
-            <div class="backBtn">
-                <a href="./full_registration_form.php?key=<?php h($_POST['email']) ?>">戻る</a>
-            </div>
-        <?php endif; ?>
-
-        <?php if (count($err) === 0) : ?>
-            <label>ユーザ登録が完了しました。</label>
-           
-        <?php endif; ?>
-    </div>
-</body>
-
-</html> -->
