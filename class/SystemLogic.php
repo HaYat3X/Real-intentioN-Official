@@ -219,6 +219,19 @@ class ArrayParamsLogics
         $argument[] = strval(password_hash($password, PASSWORD_DEFAULT));
         return $argument;
     }
+
+    /**
+     * 投稿をいいねする時にバインドするパラメータ
+     * @param $userId, $post_id
+     * @return $argument
+     */
+    public function like_post_prm($userId, $post_id)
+    {
+        $argument = [];
+        $argument[] = strval($post_id);
+        $argument[] = strval($userId);
+        return $argument;
+    }
 }
 
 

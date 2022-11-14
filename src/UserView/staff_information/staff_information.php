@@ -27,6 +27,8 @@ $sql = 'SELECT * FROM `staff_information_table` INNER JOIN `staff_master` ON sta
 // テーブル全部取得
 $results = $db_inst->data_select($sql);
 
+// 投稿にいいねしているか判定する
+$sql2 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ?';
 ?>
 
 
@@ -143,7 +145,12 @@ $results = $db_inst->data_select($sql);
                 <?php if (is_array($results) || is_object($results)) : ?>
                     <?php foreach ($results as $row) : ?>
 
-
+                        <!-- いいね数を取得する？foreachで回せる？ -->
+                        <?php
+                        $argument = [];
+                        $argument[] = $row['post_id'];
+                        $like_val = $db_inst->data_select_count($sql2, $argument);
+                        ?>
 
                         <div class="mb-5 bg-light">
 
@@ -188,7 +195,23 @@ $results = $db_inst->data_select($sql);
                             </div>
 
                             <div>
-                                <a href="./like.php">投稿にいいね</a><span>いいね数：1</span>
+                                <!-- 投稿に既にいいねしている場合いいねできない -->
+                                <?php
+                                $sql3 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ? AND student_id = ?';
+                                $argument = [];
+                                $argument[] = strval($row['post_id']);
+                                $argument[] = strval($userId);
+                                $test = $db_inst->data_select_argument($sql3, $argument);
+                                // var_dump($test);
+                                ?>
+
+                                <?php if ($test) : ?>
+                                    <!-- これ押したらいいね解除 -->
+                                    <p>既にいいねしています。</p>
+                                <?php else : ?>
+                                    <a href="./like.php?post_id=<?php h($row['post_id']) ?>">投稿にいいね</a>
+                                <?php endif; ?>
+                                <span>いいね数：<?php h($like_val) ?></span>
                             </div>
 
 
