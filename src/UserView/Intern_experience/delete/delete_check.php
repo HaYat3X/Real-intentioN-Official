@@ -3,35 +3,33 @@
 session_start();
 
 // 外部ファイルのインポート
-require '../../../../class/Logic.php';
-require '../../../../function/functions.php';
+require '../../../../class/SystemLogic.php';
+require __DIR__ . '../../../../../function/functions.php';
 
-// オブジェクト
-$object = new SystemLogic();
+// インスタンス化
+$val_inst = new DataValidationLogics();
+$arr_prm_inst = new ArrayParamsLogics();
+$db_inst = new DatabaseLogics();
+$student_inst = new StudentLogics();
 
 // ログインチェック
-$login_check = $object::login_check_student();
+$userId = $student_inst->get_student_id();
 
-// ログインチェックの返り値がfalseの場合ログインページにリダイレクト
-if (!$login_check) {
-    header('Location: ../login/login_form.php');
-}
-
-// ユーザID取得
-foreach ($login_check as $row) {
-    $userId = $row['student_id'];
+// ログインチェックの返り値がfalseの場合ログインページにリダイレクト　（不正なリクエストとみなす）
+if (!$userId) {
+    $url = '../../Incorrect_request.php';
+    header('Location:' . $url);
 }
 
 // 削除する投稿IDの取得
 $delete_post_id = filter_input(INPUT_GET, 'post_id');
-$argument = [];
-$argument[] = intval($delete_post_id);
+$argument = $arr_prm_inst->student_post_one_prm($delete_post_id);
 
 // SQL発行
 $sql = 'SELECT * FROM `intern_table` INNER JOIN `student_master` ON intern_table.user_id = student_master.student_id AND intern_table.post_id = ?';
 
 // 削除データ取得
-$delete_date = $object::db_select_argument($sql, $argument);
+$delete_date = $db_inst->data_select_argument($sql, $argument);
 
 
 // 削除対象データがない場合はリダイレクト
@@ -46,12 +44,7 @@ foreach ($delete_date as $date) {
         $url = '../../../Incorrect_request.php';
         header('Location:' . $url);
     }
-
-    // // 削除するID
-    // $post_id = $date['id'];
 }
-
-
 
 ?>
 
