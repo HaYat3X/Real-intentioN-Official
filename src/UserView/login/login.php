@@ -32,18 +32,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (!$login_data_select) {
             $err_array[] = 'ログインに失敗しました。';
-        }
-
-        foreach ($login_data_select as $row) {
-            $db_password = $row['password'];
-        }
-
-        // パスワードの照会
-        if (password_verify($password, $db_password)) {
-            session_regenerate_id(true);
-            $_SESSION['login_student'] = $login_data_select;
         } else {
-            $err_array[] = 'ログインに失敗しました。';
+            foreach ($login_data_select as $row) {
+                $db_password = $row['password'];
+            }
+
+            // パスワードの照会
+            if (password_verify($password, $db_password)) {
+                session_regenerate_id(true);
+                $_SESSION['login_student'] = $login_data_select;
+            } else {
+                $err_array[] = 'ログインに失敗しました。';
+            }
         }
     } else {
         $err_array[] = $val_inst->getErrorMsg();

@@ -7,12 +7,16 @@ if (!$_SESSION['auth_success']) {
     header('Location: staff_auth_form.php');
 }
 
-// 外部ファイルのファイルインポート
-require __DIR__ . '../../../../class/Logic.php';
+// 外部ファイルおインポート
+// 外部ファイルのインポート
+require '../../../class/SystemLogic.php';
 require __DIR__ . '../../../../function/functions.php';
 
-// クラスのインポート
-$object = new SystemLogic();
+// インスタンス化
+$val_inst = new DataValidationLogics();
+$arr_prm_inst = new ArrayParamsLogics();
+$db_inst = new DatabaseLogics();
+$student_inst = new StudentLogics();
 
 // errメッセージが入る配列準備
 $err_array = [];
@@ -20,59 +24,33 @@ $err_array = [];
 // フォームリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // バリーデーションチェック
-    if (!$name = filter_input(INPUT_POST, 'name')) {
-        $err_array[] =  '名前を入力してください。';
-    }
+    $name = filter_input(INPUT_POST, 'name');
+    $email = filter_input(INPUT_POST, 'email');
+    $password = filter_input(INPUT_POST, 'password');
 
-    // バリーデーションチェック
-    if (!$email = filter_input(INPUT_POST, 'email')) {
-        $err_array[] =  'メールアドレスを入力してください。';
-    }
+    if ($val_inst->staff_register_val($name, $email, $password)) {
 
-    // バリーデーションチェック
-    if (!$password = filter_input(INPUT_POST, 'password')) {
-        $err_array[] =  'パスワードを入力してください。';
-    }
+        $sql = 'SELECT * FROM staff_master WHERE email = ?';
+        $argument = $arr_prm_inst->student_register_provisional_registration_prm($email);
+        $already_email = $db_inst->data_select_argument($sql, $argument);
 
-    // 正規表現で神戸電子以外のメールアドレスは登録できないようにする
-    if (!preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@st.kobedenshi.ac.jp/", $email)) {
-        $err_array[] = '@st.kobedenshi.ac.jpのメールアドレスを入力してください。';
-    }
+        // $already_emailの返り値がfalseではない場合登録できない
+        if ($already_email) {
+            $err_array[] = 'メールアドレスが既に登録されています。ログインしてください。';
+        } else {
+            $argument2 = $arr_prm_inst->staff_register_prm($name, $email, $password);
 
-    if (!preg_match("/\A[a-z\d]{8,100}+\z/i", $password)) {
-        $err_array[] = 'パスワードは英数字8文字以上で作成してください。';
-    }
+            // データ登録
+            $sql2 = 'INSERT INTO `staff_master`(`name`, `email`, `password`) VALUES (?, ?, ?)';
 
-    $email_data = [];
-    $email_data[] = strval($email);
+            $register = $db_inst->data_various_kinds($sql2, $argument);
 
-    // メールアドレスがすでに登録されている場合エラー
-    $sql = 'SELECT * FROM staff_master WHERE email = ?';
-    $already_email = $object::user_exist_check($sql, $email_data);
-
-    if ($already_email) {
-        $err_array[] = '指定のメールアドレスは既に登録されています。ログインしてください。';
-    }
-
-    // エラーが一つもない場合ユーザ登録する
-    if (count($err_array) === 0) {
-
-        // 登録する情報を配列で処理
-        $insert_data = [];
-        $insert_data[] = strval($_POST['name']);
-        $insert_data[] = strval($_POST['email']);
-        $insert_data[] = strval(password_hash($_POST['password'], PASSWORD_DEFAULT));
-
-        // SQL発行
-        $sql = 'INSERT INTO `staff_master`(`name`, `email`, `password`) VALUES (?, ?, ?)';
-
-        // 登録処理
-        $hasCreated = $object::db_insert($sql, $insert_data);
-
-        if (!$hasCreated) {
-            $err_array[] = '登録できませんでした';
+            if (!$register) {
+                $err_array[] = '登録できませんでした';
+            }
         }
+    } else {
+        $err_array[] = $val_inst->getErrorMsg();
     }
 } else {
     $url = '../../Incorrect_request.php';

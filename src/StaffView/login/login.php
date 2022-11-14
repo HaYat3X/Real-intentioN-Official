@@ -2,12 +2,16 @@
 
 session_start();
 
+// 外部ファイルおインポート
 // 外部ファイルのインポート
-require __DIR__ . '../../../../class/Logic.php';
+require '../../../class/SystemLogic.php';
 require __DIR__ . '../../../../function/functions.php';
 
-// クラスのインポート
-$object = new SystemLogic();
+// インスタンス化
+$val_inst = new DataValidationLogics();
+$arr_prm_inst = new ArrayParamsLogics();
+$db_inst = new DatabaseLogics();
+$student_inst = new StudentLogics();
 
 // errメッセージが入る配列準備
 $err_array = [];
@@ -15,21 +19,34 @@ $err_array = [];
 // フォームリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    $email = filter_input(INPUT_POST, 'email');
+    $password = filter_input(INPUT_POST, 'password');
+
     // バリーデーションチェック
-    if (!$email = filter_input(INPUT_POST, 'email')) {
-        $err_array[] =  'メールアドレスを入力してください。';
-    }
+    if ($val_inst->student_login_val($email, $password)) {
+        $argument = $arr_prm_inst->student_login_email_prm($email);
 
-    if (!$password = filter_input(INPUT_POST, 'password')) {
-        $err_array[] =  'パスワードを入力してください。';
-    }
+        $sql = 'SELECT * FROM staff_master WHERE email = ?';
 
-    // ログインメソッドを実行
-    $login = $object::staff_login($email, $password);
+        $login_data_select = $db_inst->data_select_argument($sql, $argument);
 
-    // ユーザ存在なし、パスワード不一致の場合エラーを出す
-    if (!$login) {
-        $err_array[] = 'ログインに失敗しました。';
+        if (!$login_data_select) {
+            $err_array[] = 'ログインに失敗しました。';
+        } else {
+            foreach ($login_data_select as $row) {
+                $db_password = $row['password'];
+            }
+
+            // パスワードの照会
+            if (password_verify($password, $db_password)) {
+                session_regenerate_id(true);
+                $_SESSION['login_staff'] = $login_data_select;
+            } else {
+                $err_array[] = 'ログインに失敗しました。';
+            }
+        }
+    } else {
+        $err_array[] = $val_inst->getErrorMsg();
     }
 } else {
     $url = '../../Incorrect_request.php';

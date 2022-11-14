@@ -1,10 +1,18 @@
 <?php
 
+
 session_start();
 
+// 外部ファイルおインポート
 // 外部ファイルのインポート
-require __DIR__ . '../../../../class/Logic.php';
+require '../../../class/SystemLogic.php';
 require __DIR__ . '../../../../function/functions.php';
+
+// インスタンス化
+$val_inst = new DataValidationLogics();
+$arr_prm_inst = new ArrayParamsLogics();
+$db_inst = new DatabaseLogics();
+$student_inst = new StudentLogics();
 
 // errメッセージが入る配列準備
 $err_array = [];
@@ -15,16 +23,17 @@ $private_key = 'togetoken';
 // フォームリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // バリーデーションチェック
-    if (!$user_input = filter_input(INPUT_POST, 'key')) {
-        $err_array[] =  '認証コードを入力してください。';
-    }
+    $key = filter_input(INPUT_POST, 'key');
 
-    // 認証キーが合っていればセッション発行する
-    if ($user_input === $private_key) {
-        $_SESSION['auth_success'] = '認証済み';
+    if ($val_inst->staff_auth_val($key)) {
+        // 認証キーが合っていればセッション発行する
+        if ($key === $private_key) {
+            $_SESSION['auth_success'] = '認証済み';
+        } else {
+            $err_array[] = '認証コードが間違っています。';
+        }
     } else {
-        $err_array[] = '認証コードが間違っています。';
+        $err_array[] = $val_inst->getErrorMsg();
     }
 } else {
     $url = '../../Incorrect_request.php';

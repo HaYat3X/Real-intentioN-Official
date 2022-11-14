@@ -49,6 +49,35 @@ class StudentLogics
 
 
 
+class StaffLogics
+{
+    /**
+     * 学生がログインしているのか判定する
+     * @param 
+     * @return $userId
+     * @return false
+     */
+    public static function get_student_id()
+    {
+        // ユーザ情報があればログインしているとみなす return true
+        if (isset($_SESSION['login_staff'])) {
+            $result = $_SESSION['login_staff'];
+
+            foreach ($result as $row) {
+                $userId = $row['staff_id'];
+                return $userId;
+            }
+        }
+
+        // セッション情報がない場合はログインしていないとみなす return false;
+        return false;
+    }
+}
+
+
+
+
+
 
 
 
@@ -174,6 +203,20 @@ class ArrayParamsLogics
         $argument[] = strval($user_id);
         $argument[] = strval($comment);
         $argument[] = strval($read);
+        return $argument;
+    }
+
+    /**
+     * 職員新規登録時にバインドするパラメータ
+     * @param $email, $password, $name
+     * @return $argument
+     */
+    public function staff_register_prm($name, $email, $password)
+    {
+        $argument = [];
+        $argument[] = strval($name);
+        $argument[] = strval($email);
+        $argument[] = strval(password_hash($password, PASSWORD_DEFAULT));
         return $argument;
     }
 }
@@ -340,6 +383,59 @@ class DataValidationLogics
 
         if ($ster == "-- 選択してください --") {
             $this->errorMsg = "総合評価を選択してください。";
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 職員認証時のバリデーション
+     * @param $email, $password
+     * @return true
+     * @return false
+     */
+    public function staff_auth_val($key)
+    {
+        if ($key == "") {
+            $this->errorMsg = "認証コードに回答してください。";
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 職員登録時のバリデーション
+     * @param $email, $password
+     * @return true
+     * @return false
+     */
+    public function staff_register_val($name, $email, $password)
+    {
+        if ($name == "") {
+            $this->errorMsg = "名前を入力してください。";
+            return false;
+        }
+
+        if ($email == "") {
+            $this->errorMsg = "メールアドレスを入力してください。";
+            return false;
+        }
+
+        if ($password == "") {
+            $this->errorMsg = "パスワードを入力してください。";
+            return false;
+        }
+
+        if (!preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@st.kobedenshi.ac.jp/", $email)) {
+            $this->errorMsg = '@st.kobedenshi.ac.jpのメールアドレスを入力してください。';
+            return false;
+        }
+
+        // パスワードの値が8文字以下の場合エラーを出す
+        if (!preg_match("/^[0-9A-Za-z]{8,100}$/i", $password)) {
+            $this->errorMsg = 'パスワードは8文字で作成してください。';
             return false;
         }
 
