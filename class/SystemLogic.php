@@ -57,7 +57,7 @@ class StaffLogics
      * @return $userId
      * @return false
      */
-    public static function get_student_id()
+    public static function get_staff_id()
     {
         // ユーザ情報があればログインしているとみなす return true
         if (isset($_SESSION['login_staff'])) {

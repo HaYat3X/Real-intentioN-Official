@@ -1,6 +1,0 @@
-PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.id' in 'where clause' in /Applications/MAMP/htdocs/Deliverables3/class/Logic.php:560
-Stack trace:
-#0 /Applications/MAMP/htdocs/Deliverables3/class/Logic.php(560): PDOStatement->execute()
-#1 /Applications/MAMP/htdocs/Deliverables3/class/Logic.php(474): DatabaseLogic::db_select('SELECT i.id, i....')
-#2 /Applications/MAMP/htdocs/Deliverables3/src/StaffView/control/post_list.php(31): PostLogic::post_acquisition('SELECT i.id, i....')
-#3 {main}

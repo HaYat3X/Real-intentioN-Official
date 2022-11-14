@@ -22,7 +22,7 @@ if (!$userId) {
 }
 
 // SQL発行
-$sql = 'SELECT i.id, i.staff_id, i.company, i.format, i.field, i.overview, i.time, i.attachment, u.name FROM staff_information_table i, staff_master u WHERE i.staff_id = u.id ORDER BY id DESC';
+$sql = 'SELECT * FROM `staff_information_table` INNER JOIN `staff_master` ON staff_information_table.staff_id = staff_master.staff_id ORDER BY staff_information_table.post_id DESC';
 
 // テーブル全部取得
 $results = $db_inst->data_select($sql);
@@ -185,6 +185,10 @@ $results = $db_inst->data_select($sql);
 
                                 <p class="pb-3">添付資料<?php h($row['attachment']) ?></p>
 
+                            </div>
+
+                            <div>
+                                <a href="./like.php">投稿にいいね</a><span>いいね数：1</span>
                             </div>
 
 
