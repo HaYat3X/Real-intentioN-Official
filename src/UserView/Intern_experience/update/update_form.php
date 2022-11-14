@@ -3,36 +3,33 @@
 session_start();
 
 // 外部ファイルのインポート
-require '../../../../class/Logic.php';
-require '../../../../function/functions.php';
+require '../../../../class/SystemLogic.php';
+require __DIR__ . '../../../../../function/functions.php';
 
-// オブジェクト
-$object = new SystemLogic();
+// インスタンス化
+$val_inst = new DataValidationLogics();
+$arr_prm_inst = new ArrayParamsLogics();
+$db_inst = new DatabaseLogics();
+$student_inst = new StudentLogics();
 
 // ログインチェック
-$login_check = $object::login_check_student();
+$userId = $student_inst->get_student_id();
 
-// ログインチェックの返り値がfalseの場合ログインページにリダイレクト
-if (!$login_check) {
-    header('Location: ../login/login_form.php');
-}
-
-// ユーザID取得
-foreach ($login_check as $row) {
-    $userId = $row['student_id'];
+// ログインチェックの返り値がfalseの場合ログインページにリダイレクト　（不正なリクエストとみなす）
+if (!$userId) {
+    $url = '../../Incorrect_request.php';
+    header('Location:' . $url);
 }
 
 // 編集する投稿IDの取得
-$update_post_id = filter_input(INPUT_GET, 'post_id');
-$argument = [];
-$argument[] = $update_post_id;
+$post_id = filter_input(INPUT_GET, 'post_id');
+$argument = $arr_prm_inst->student_post_one_prm($post_id);
 
 // SQL発行
 $sql = 'SELECT * FROM `intern_table` INNER JOIN `student_master` ON intern_table.user_id = student_master.student_id AND intern_table.post_id = ?';
 
 // 編集するデータを取得
-$update_date = $object::db_select_argument($sql, $argument);
-var_dump($update_date);
+$update_date = $db_inst->data_select_argument($sql, $argument);
 
 // 編集対象データがない場合はリダイレクト
 if (!$update_date) {
@@ -130,7 +127,7 @@ foreach ($update_date as $row) {
                     <?php foreach ($update_date as $row) : ?>
                         <div class="bg-light py-3">
                             <div class="mx-auto col-lg-8">
-                                <form class="mt-5" action="./update_confirmation.php?post_id=<?php h($update_post_id) ?>" method="post">
+                                <form class="mt-5" action="./update_confirmation.php?post_id=<?php h($post_id) ?>" method="post">
 
                                     <div class="mb-2">
                                         <label class="form-label" for="name">企業名</label>
@@ -183,7 +180,7 @@ foreach ($update_date as $row) {
 
                                     <input type="hidden" name="user_id" value="<?php h($userId) ?>">
 
-                                    <input type="hidden" name="post_id" value="<?php h($update_post_id) ?>">
+                                    <input type="hidden" name="post_id" value="<?php h($post_id) ?>">
 
                                     <button type="submit" class="btn btn-primary px-5">更新内容を確認する</button>
                                 </form>
