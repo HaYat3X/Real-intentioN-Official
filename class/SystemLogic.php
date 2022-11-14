@@ -22,6 +22,14 @@ class StudentLogics
     }
 }
 
+
+
+
+
+
+
+
+
 class ArrayParamsLogics
 {
     /**
@@ -51,6 +59,18 @@ class ArrayParamsLogics
         $argument[] = strval($school_year);
         $argument[] = strval($number);
         $argument[] = strval('活動中');
+        return $argument;
+    }
+
+    /**
+     * 学生ログイン時、SQLにバインドするパラメータ
+     * @param $email
+     * @return $argument
+     */
+    public function student_login_email_prm($email)
+    {
+        $argument = [];
+        $argument[] = strval($email);
         return $argument;
     }
 }
@@ -143,6 +163,27 @@ class DataValidationLogics
         return true;
     }
 
+    /**
+     * 学生ログイン時のバリデーション
+     * @param $email, $password
+     * @return true
+     * @return false
+     */
+    public function student_login_val($email, $password)
+    {
+        // 未入力のチェック
+        if ($email == "") {
+            $this->errorMsg = "メールアドレスを入力してください。";
+            return false;
+        }
+
+        if ($password == "") {
+            $this->errorMsg = "パスワードを入力してください。";
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      * バリデーションにj引っ掛かった場合のエラーメッセージを表示
