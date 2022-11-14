@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // エラーに引っかからない場合メールアドレスにトークンを送信する
     if (count($err_array) === 0) {
         // トークン送信
-        $send_token = $object::push_token($email);
+        $send_token = $object->push_token($email);
 
         if (!$send_token) {
             $err_array[] = 'トークンの送信に失敗しました。';
