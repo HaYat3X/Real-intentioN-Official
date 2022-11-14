@@ -31,7 +31,7 @@ class SystemLogic
      * @return token
      * @return false
      */
-    public static function push_token($email)
+    public function push_token($email)
     {
         mb_language('Japanese');
         mb_internal_encoding('UTF-8');
