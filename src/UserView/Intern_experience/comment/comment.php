@@ -3,30 +3,27 @@
 session_start();
 
 // 外部ファイルのインポート
-require '../../../../class/Logic.php';
-require '../../../../function/functions.php';
+require '../../../../class/SystemLogic.php';
+require __DIR__ . '../../../../../function/functions.php';
 
-// オブジェクト
-$object = new SystemLogic();
+// インスタンス化
+$val_inst = new DataValidationLogics();
+$arr_prm_inst = new ArrayParamsLogics();
+$db_inst = new DatabaseLogics();
+$student_inst = new StudentLogics();
 
 // ログインチェック
-$login_check = $object::login_check_student();
+$userId = $student_inst->get_student_id();
 
-// ログインチェックの返り値がfalseの場合ログインページにリダイレクト
-if (!$login_check) {
-    $url = '../../../Incorrect_request.php';
+// ログインチェックの返り値がfalseの場合ログインページにリダイレクト　（不正なリクエストとみなす）
+if (!$userId) {
+    $url = '../../Incorrect_request.php';
     header('Location:' . $url);
-}
-
-// ユーザID取得
-foreach ($login_check as $row) {
-    $userId = $row['student_id'];
 }
 
 // コメントする投稿IDの取得
 $post_id = filter_input(INPUT_GET, 'post_id');
-$argument = [];
-$argument[] = intval($post_id);
+$argument = $arr_prm_inst->student_post_one_prm($post_id);
 
 // パラメータがない場合れダイレクト
 if (!$post_id) {
@@ -38,14 +35,13 @@ if (!$post_id) {
 $sql = 'SELECT * FROM `intern_table` INNER JOIN `student_master` ON intern_table.user_id = student_master.student_id AND intern_table.post_id = ?';
 
 // コメント元取得
-$post_date = $object::db_select_argument($sql, $argument);
-
+$post_date = $db_inst->data_select_argument($sql, $argument);
 
 // 投稿に日も付いたコメントを取得するSQL
 $sql2 = 'SELECT * FROM `intern_reply_table` INNER JOIN `student_master` ON intern_reply_table.user_id = student_master.student_id AND intern_reply_table.post_id = ? ORDER BY intern_reply_table.reply_id DESC';
 
 // 投稿に紐付いたコメントを取得
-$comment_date = $object::db_select_argument($sql2, $argument);
+$comment_date = $db_inst->data_select_argument($sql2, $argument);
 
 
 // フォームリクエストを受け取る
@@ -53,17 +49,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // SQL3発行
     $sql3 = 'INSERT INTO `intern_reply_table`(`post_id`, `post_user_id`, `user_id`, `comment`, `read_status`) VALUES (?, ?, ?, ?, ?)';
 
-    var_dump($_POST);
+    $post_id = filter_input(INPUT_POST, 'post_id');
+    $post_user_id = filter_input(INPUT_POST, 'post_user_id');
+    $user_id = filter_input(INPUT_POST, 'user_id');
+    $comment = filter_input(INPUT_POST, 'comment');
+    $read = filter_input(INPUT_POST, 'read');
 
-    $insert_data = [];
-    $insert_data[] = strval($_POST['post_id']);
-    $insert_data[] = strval($_POST['post_user_id']);
-    $insert_data[] = strval($_POST['user_id']);
-    $insert_data[] = strval($_POST['comment']);
-    $insert_data[] = strval($_POST['read']);
+    $argument = $arr_prm_inst->student_comment_post_prm($post_id, $post_user_id, $user_id, $comment, $read);
 
     // 投稿を保存する
-    $comment_insert = $object::db_insert($sql3, $insert_data);
+    $comment_insert = $db_inst->data_various_kinds($sql3, $argument);
 
     // 投稿失敗時
     if (!$comment_insert) {
