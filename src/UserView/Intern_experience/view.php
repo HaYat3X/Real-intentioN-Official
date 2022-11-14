@@ -33,16 +33,10 @@ $sql = 'SELECT * FROM intern_reply_table WHERE post_user_id = ? AND `user_id` !=
 
 $argument = $arr_prm_inst->student_view_notice_prm($userId);
 
-// 通知をカウント
-$notification = $db_inst->data_select_argument($sql, $argument);
+// 通知をカウント rowCountでselectした回数を判定できる
+$notification = $db_inst->data_select_count($sql, $argument);
 
-// if (is_bool($notification)) {
-//     $notification_num = 0;
-// } else {
-//     $notification_num = count($notification);
-// }
 
-$notification_num = count($notification);
 ?>
 
 <!DOCTYPE html>
@@ -122,7 +116,7 @@ $notification_num = count($notification);
                         <button class="btn btn-primary ms-3">ログインはこちら</button>
                         <!-- 通知の数を出す -->
                         <a class="btn btn-primary ms-3" href="./notice/notification.php">
-                            <?php h($notification_num) ?>
+                            <?php h($notification) ?>
                         </a>
                     </ul>
                 </div>

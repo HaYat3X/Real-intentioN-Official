@@ -470,4 +470,25 @@ class DatabaseLogics
             return false;
         }
     }
+
+    // セレクトした回数を判定する
+    public function data_select_count($sql, $argument)
+    {
+        try {
+            // sql実行
+            $pdo = $this->db_connect();
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($argument);
+            $result = $stmt->rowCount();
+
+            // データを返す
+            return $result;
+        } catch (\Exception $e) {
+            echo $e;
+            error_log($e, 3, '../error.log');
+
+            // エラーの場合Falseを返す
+            return false;
+        }
+    }
 }

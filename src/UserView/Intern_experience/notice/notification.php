@@ -3,53 +3,41 @@
 session_start();
 
 // 外部ファイルのインポート
-require '../../../../class/Logic.php';
-require '../../../../function/functions.php';
+require '../../../../class/SystemLogic.php';
+require __DIR__ . '../../../../../function/functions.php';
 
-// オブジェクト
-$object = new SystemLogic();
+// インスタンス化
+$val_inst = new DataValidationLogics();
+$arr_prm_inst = new ArrayParamsLogics();
+$db_inst = new DatabaseLogics();
+$student_inst = new StudentLogics();
 
 // ログインチェック
-$login_check = $object::login_check_student();
+$userId = $student_inst->get_student_id();
 
-// ログインチェックの返り値がfalseの場合ログインページにリダイレクト
-if (!$login_check) {
-    header('Location: ../login/login_form.php');
-}
-
-// ユーザID取得
-foreach ($login_check as $row) {
-    $userId = $row['student_id'];
+// ログインチェックの返り値がfalseの場合ログインページにリダイレクト　（不正なリクエストとみなす）
+if (!$userId) {
+    $url = '../../Incorrect_request.php';
+    header('Location:' . $url);
 }
 
 
-// 自分の投稿についたコメントの数を取得する
+// ユーザが投稿した投稿についたコメントを取得
 $sql = 'SELECT * FROM intern_reply_table WHERE post_user_id = ? AND `user_id` != ? AND `read_status` = ?';
 
-$argument = [];
-$argument[] = intval($userId);
-$argument[] = intval($userId);
-$argument[] = intval('0');
+$argument = $arr_prm_inst->student_view_notice_prm($userId);
 
-// sql実行
-$notification = $object::db_select_argument($sql, $argument);
+// 通知をカウント rowCountでselectした回数を判定できる
+$notification = $db_inst->data_select_count($sql, $argument);
 
 
-if (is_bool($notification)) {
-    $notification_num = 0;
-} else {
-    $notification_num = count($notification);
-}
 
 $sql2 = 'SELECT * FROM intern_reply_table INNER JOIN `student_master` ON intern_reply_table.user_id = student_master.student_id AND intern_reply_table.post_user_id = ? AND intern_reply_table.user_id != ? AND intern_reply_table.read_status = ? ORDER BY intern_reply_table.reply_id DESC';
 
-$argument = [];
-$argument[] = intval($userId);
-$argument[] = intval($userId);
-$argument[] = intval('0');
+$argument2 = $arr_prm_inst->student_view_notice_prm($userId);
 
 // sql実行
-$notification_data = $object::db_select_argument($sql2, $argument);
+$notification_data = $db_inst->data_select_argument($sql2, $argument2);
 
 ?>
 
@@ -150,7 +138,7 @@ $notification_data = $object::db_select_argument($sql2, $argument);
                         <button class="btn btn-primary ms-3">ログインはこちら</button>
 
                         <!-- 通知の数を出す -->
-                        <button class="btn btn-primary ms-3"><?php h($notification_num) ?></button>
+                        <button class="btn btn-primary ms-3"><?php h($notification) ?></button>
                     </ul>
                 </div>
             </div>
