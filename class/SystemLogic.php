@@ -160,6 +160,22 @@ class ArrayParamsLogics
         $argument[] = intval($post_id);
         return $argument;
     }
+
+    /**
+     * コメント投稿時にバインドするパラメータ
+     * @param $post_id
+     * @return $argument
+     */
+    public function student_comment_post_prm($post_id, $post_user_id, $user_id, $comment, $read)
+    {
+        $argument = [];
+        $argument[] = strval($post_id);
+        $argument[] = strval($post_user_id);
+        $argument[] = strval($user_id);
+        $argument[] = strval($comment);
+        $argument[] = strval($read);
+        return $argument;
+    }
 }
 
 
