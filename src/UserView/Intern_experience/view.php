@@ -1,48 +1,48 @@
 <?php
 
+
 session_start();
 
 // 外部ファイルのインポート
-require __DIR__ . '../../../../class/Logic.php';
+require '../../../class/SystemLogic.php';
 require __DIR__ . '../../../../function/functions.php';
 
-// オブジェクト
-$object = new SystemLogic();
+// インスタンス化
+$val_inst = new DataValidationLogics();
+$arr_prm_inst = new ArrayParamsLogics();
+$db_inst = new DatabaseLogics();
+$student_inst = new StudentLogics();
 
 // ログインチェック
-$login_check = $object::login_check_student();
+$userId = $student_inst->get_student_id();
 
-// ログインチェックの返り値がfalseの場合ログインページにリダイレクト
-if (!$login_check) {
-    header('Location: ../login/login_form.php');
+// ログインチェックの返り値がfalseの場合ログインページにリダイレクト　（不正なリクエストとみなす）
+if (!$userId) {
+    $url = '../../Incorrect_request.php';
+    header('Location:' . $url);
 }
 
-// ユーザID取得
-foreach ($login_check as $row) {
-    $userId = $row['student_id'];
-}
+
 
 // インターンテーブルのデータを全部stうとく
 $sql = 'SELECT * FROM `intern_table` INNER JOIN `student_master` ON intern_table.user_id = student_master.student_id ORDER BY intern_table.post_id DESC';
-$results = $object::db_select($sql);
+$results = $db_inst->data_select($sql);
 
 // ユーザが投稿した投稿についたコメントを取得
 $sql = 'SELECT * FROM intern_reply_table WHERE post_user_id = ? AND `user_id` != ? AND `read_status` = ?';
 
-$argument = [];
-$argument[] = intval($userId);
-$argument[] = intval($userId);
-$argument[] = intval('0');
+$argument = $arr_prm_inst->student_view_notice_prm($userId);
 
 // 通知をカウント
-$notification = $object::db_select_argument($sql, $argument);
+$notification = $db_inst->data_select_argument($sql, $argument);
 
-if (is_bool($notification)) {
-    $notification_num = 0;
-} else {
-    $notification_num = count($notification);
-}
+// if (is_bool($notification)) {
+//     $notification_num = 0;
+// } else {
+//     $notification_num = count($notification);
+// }
 
+$notification_num = count($notification);
 ?>
 
 <!DOCTYPE html>

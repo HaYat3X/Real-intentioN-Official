@@ -20,6 +20,28 @@ class StudentLogics
         mb_send_mail($to, $subject, $message, $headers);
         return $token;
     }
+
+    /**
+     * 学生がログインしているのか判定する
+     * @param 
+     * @return $userId
+     * @return false
+     */
+    public static function get_student_id()
+    {
+        // ユーザ情報があればログインしているとみなす return true
+        if (isset($_SESSION['login_student'])) {
+            $result = $_SESSION['login_student'];
+
+            foreach ($result as $row) {
+                $userId = $row['student_id'];
+                return $userId;
+            }
+        }
+
+        // セッション情報がない場合はログインしていないとみなす return false;
+        return false;
+    }
 }
 
 
@@ -73,7 +95,37 @@ class ArrayParamsLogics
         $argument[] = strval($email);
         return $argument;
     }
+
+    /**
+     * コメント取得時にバインドパラメータ
+     * @param $userId
+     * @return $argument
+     */
+    public function student_view_notice_prm($userId)
+    {
+        $argument = [];
+        $argument[] = intval($userId);
+        $argument[] = intval($userId);
+        $argument[] = intval('0');
+        return $argument;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class DataValidationLogics
 {
