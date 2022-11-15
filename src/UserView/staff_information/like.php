@@ -101,7 +101,8 @@ if (!$already_read) {
 
                         <?php if (count($err_array) === 0) : ?>
                             <label>投稿をいいねしました。</label>
-                            <?php header('refresh:3;url=./staff_information.php'); ?>
+                            <?php $link = './staff_information.php?post_id=' . $post_id; ?>
+                            <?php header('refresh:3;url=' . $link); ?>
                         <?php endif; ?>
                     </div>
                 </div>

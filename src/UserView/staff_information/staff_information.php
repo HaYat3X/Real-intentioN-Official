@@ -29,6 +29,9 @@ $results = $db_inst->data_select($sql);
 
 // 投稿にいいねしているか判定する
 $sql2 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ?';
+
+// 投稿のいいねを解除するSQL
+$sql3 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ? AND student_id = ?';
 ?>
 
 
@@ -108,6 +111,14 @@ $sql2 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ?';
         .simple-box {
             background-color: #e6e6e6;
         }
+
+        .unsubscribe {
+            color: pink;
+        }
+
+        .like {
+            color: pink;
+        }
     </style>
 </head>
 
@@ -146,11 +157,8 @@ $sql2 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ?';
                     <?php foreach ($results as $row) : ?>
 
                         <!-- いいね数を取得する？foreachで回せる？ -->
-                        <?php
-                        $argument = [];
-                        $argument[] = $row['post_id'];
-                        $like_val = $db_inst->data_select_count($sql2, $argument);
-                        ?>
+                        <?php $argument = $arr_prm_inst->student_post_one_prm($row['post_id']); ?>
+                        <?php $like_val = $db_inst->data_select_count($sql2, $argument); ?>
 
                         <div class="mb-5 bg-light">
 
@@ -196,20 +204,19 @@ $sql2 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ?';
 
                             <div>
                                 <!-- 投稿に既にいいねしている場合いいねできない -->
-                                <?php
-                                $sql3 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ? AND student_id = ?';
-                                $argument = [];
-                                $argument[] = strval($row['post_id']);
-                                $argument[] = strval($userId);
-                                $test = $db_inst->data_select_argument($sql3, $argument);
-                                // var_dump($test);
+                                <?php $argument = $arr_prm_inst->like_post_prm($userId, $row['post_id']); ?>
+                                <?php $unsubscribe = $db_inst->data_select_argument($sql3, $argument); ?>
                                 ?>
 
-                                <?php if ($test) : ?>
+                                <?php if ($unsubscribe) : ?>
                                     <!-- これ押したらいいね解除 -->
-                                    <p>既にいいねしています。</p>
+                                    <a class="unsubscribe" href="./delete.php?post_id=<?php h($row['post_id']) ?>">
+                                        <i class="fa-solid fa-heart fa-2x"></i>
+                                    </a>
                                 <?php else : ?>
-                                    <a href="./like.php?post_id=<?php h($row['post_id']) ?>">投稿にいいね</a>
+                                    <a class="like" href="./like.php?post_id=<?php h($row['post_id']) ?>">
+                                        <i class="fa-regular fa-heart fa-2x"></i>
+                                    </a>
                                 <?php endif; ?>
                                 <span>いいね数：<?php h($like_val) ?></span>
                             </div>

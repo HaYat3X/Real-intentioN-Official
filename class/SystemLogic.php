@@ -232,6 +232,19 @@ class ArrayParamsLogics
         $argument[] = strval($userId);
         return $argument;
     }
+
+    // /**
+    //  * 投稿のいいね数を取得する時にバインドするパラメータ
+    //  * @param $userId, $post_id
+    //  * @return $argument
+    //  */
+    // public function like_select_prm($userId, $post_id)
+    // {
+    //     $argument = [];
+    //     $argument[] = strval($post_id);
+    //     $argument[] = strval($userId);
+    //     return $argument;
+    // }
 }
 
 
