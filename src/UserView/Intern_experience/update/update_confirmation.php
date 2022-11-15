@@ -34,9 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $format = filter_input(INPUT_POST, 'format');
     $field = filter_input(INPUT_POST, 'field');
     $answer = filter_input(INPUT_POST, 'answer');
+    $question = filter_input(INPUT_POST, 'question');
     $ster = filter_input(INPUT_POST, 'ster');
 
-    if (!$val_inst->student_post_val($company, $content, $format, $field, $answer, $ster)) {
+    if (!$val_inst->student_post_val($company, $content, $question, $format, $field, $answer, $ster)) {
         $err_array[] = $val_inst->getErrorMsg();
     }
     

@@ -159,7 +159,7 @@ class ArrayParamsLogics
     }
 
     /**
-     * 投稿を一件取得する時のパラメータ
+     * 投稿を一件取得する時のパラメータ　（編集、削除、コメント時など）
      * @param $post_id
      * @return $argument
      */
@@ -249,6 +249,26 @@ class ArrayParamsLogics
         $argument[] = strval($field);
         $argument[] = strval($time);
         $argument[] = strval($attachment);
+        return $argument;
+    }
+
+    /**
+     * 職員が投稿を更新する際にバインドするパラメータ
+     * @param $userId, $type, $company, $format, $overview, $field, $time, $attachment
+     * @return $argument
+     */
+    public function staff_update_post_prm($userId, $type, $company, $format, $overview, $field, $time, $attachment, $post_id)
+    {
+        $argument = [];
+        $argument[] = strval($userId);
+        $argument[] = strval($type);
+        $argument[] = strval($company);
+        $argument[] = strval($format);
+        $argument[] = strval($overview);
+        $argument[] = strval($field);
+        $argument[] = strval($time);
+        $argument[] = strval($attachment);
+        $argument[] = strval($post_id);
         return $argument;
     }
 }
@@ -485,7 +505,7 @@ class DataValidationLogics
      * @return true
      * @return false
      */
-    public function staff_post_val($type, $format, $filed, $time, $company, $overview, $attachment)
+    public function staff_post_val($type, $format, $field, $time, $company, $overview, $attachment)
     {
         if ($type == "-- 選択してください --") {
             $this->errorMsg = "投稿種類を選択してください。";
@@ -497,7 +517,7 @@ class DataValidationLogics
             return false;
         }
 
-        if ($filed == "-- 選択してください --") {
+        if ($field == "-- 選択してください --") {
             $this->errorMsg = "イベント分野を選択してください。";
             return false;
         }

@@ -194,7 +194,7 @@ $results = $db_inst->data_select($sql);
                                 <div class="question-btn col-7">
                                     <a href="./comment/comment.php?post_id=<?php h($row['post_id']) ?>" class="btn btn-primary">投稿を削除する</a>
 
-                                    <a href="./comment/comment.php?post_id=<?php h($row['post_id']) ?>" class="btn btn-primary">投稿を編集する</a>
+                                    <a href="./update/update_form.php?post_id=<?php h($row['post_id']) ?>" class="btn btn-primary">投稿を編集する</a>
                                 </div>
                             </div>
                         </div>
