@@ -1,3 +1,8 @@
 職員が新規投稿したら学生側に通知
 学生は職員の投稿をいいね、既読できる
 学生のいいね情報がDBになければいいねしていないとカウントする？
+
+  <?php session_start() ?>
+  <?php $link = '../index.html'; ?>
+  <?php header('refresh:3;url=' . $link); ?>
+  <?php unset($_SESSION['login_student']) ?>
