@@ -145,8 +145,13 @@ $responses = $array[array_rand($array)];
 
 
                             <div class="mb-2">
-                                <label class="form-label" for="name">質問内容</label>
-                                <input class="form-control" type="text" name="question" readonly value="<?php h($responses) ?>" id="name">
+                                <label class="form-label" for="name">質問内容を選択してください</label>
+                                <!-- <input class="form-control" type="text" name="question" readonly value="<?php h($responses) ?>" id="name"> -->
+                                <select class="form-select" name="question" aria-label="Default select example">
+                                    <option selected>-- 選択してください --</option>
+                                    <option value="問題を適当に">問題を適当に</option>
+                                    <option value="2">星2</option>
+                                </select>
                             </div>
 
                             <div class="mb-2">

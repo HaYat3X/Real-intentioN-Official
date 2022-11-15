@@ -233,18 +233,24 @@ class ArrayParamsLogics
         return $argument;
     }
 
-    // /**
-    //  * 投稿のいいね数を取得する時にバインドするパラメータ
-    //  * @param $userId, $post_id
-    //  * @return $argument
-    //  */
-    // public function like_select_prm($userId, $post_id)
-    // {
-    //     $argument = [];
-    //     $argument[] = strval($post_id);
-    //     $argument[] = strval($userId);
-    //     return $argument;
-    // }
+    /**
+     * 職員が投稿する際にバインドするパラメータ
+     * @param $userId, $type, $company, $format, $overview, $field, $time, $attachment
+     * @return $argument
+     */
+    public function staff_post_prm($userId, $type, $company, $format, $overview, $field, $time, $attachment)
+    {
+        $argument = [];
+        $argument[] = strval($userId);
+        $argument[] = strval($type);
+        $argument[] = strval($company);
+        $argument[] = strval($format);
+        $argument[] = strval($overview);
+        $argument[] = strval($field);
+        $argument[] = strval($time);
+        $argument[] = strval($attachment);
+        return $argument;
+    }
 }
 
 
@@ -379,7 +385,7 @@ class DataValidationLogics
      * @return true
      * @return false
      */
-    public function student_post_val($company, $content, $format, $field, $answer, $ster)
+    public function student_post_val($company, $content, $question, $format, $field, $answer, $ster)
     {
         // 未入力のチェック
         if ($company == "") {
@@ -389,6 +395,11 @@ class DataValidationLogics
 
         if ($content == "") {
             $this->errorMsg = "体験内容を入力してください。";
+            return false;
+        }
+
+        if ($question == "-- 選択してください --") {
+            $this->errorMsg = "質問を選択してください。";
             return false;
         }
 
@@ -462,6 +473,52 @@ class DataValidationLogics
         // パスワードの値が8文字以下の場合エラーを出す
         if (!preg_match("/^[0-9A-Za-z]{8,100}$/i", $password)) {
             $this->errorMsg = 'パスワードは8文字で作成してください。';
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 職員インターン / イベント情報　を投稿する時のバリデーション
+     * @param $company, $content, $format, $field, $answer, $ster, $attachment
+     * @return true
+     * @return false
+     */
+    public function staff_post_val($type, $format, $filed, $time, $company, $overview, $attachment)
+    {
+        if ($type == "-- 選択してください --") {
+            $this->errorMsg = "投稿種類を選択してください。";
+            return false;
+        }
+
+        if ($format == "-- 選択してください --") {
+            $this->errorMsg = "イベント形式を選択してください。";
+            return false;
+        }
+
+        if ($filed == "-- 選択してください --") {
+            $this->errorMsg = "イベント分野を選択してください。";
+            return false;
+        }
+
+        if ($time == "") {
+            $this->errorMsg = "イベント日時を入力してください。";
+            return false;
+        }
+
+        if ($company == "") {
+            $this->errorMsg = "企業名を入力してください。";
+            return false;
+        }
+
+        if ($overview == "") {
+            $this->errorMsg = "イベント内容を入力してください。";
+            return false;
+        }
+
+        if ($attachment == "") {
+            $this->errorMsg = "添付資料を入力してください。";
             return false;
         }
 

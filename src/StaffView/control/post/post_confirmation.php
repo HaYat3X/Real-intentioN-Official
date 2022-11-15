@@ -2,41 +2,50 @@
 
 session_start();
 
-// クラスファイルインポート
-require __DIR__ . '../../../../../class/Logic.php';
+// 外部ファイルのインポート
+require '../../../../class/SystemLogic.php';
+require '../../../../function/functions.php';
 
-// functionファイルインポート
-require __DIR__ . '../../../../../function/functions.php';
-
-// オブジェクト
-$obj = new PostLogic();
+// インスタンス化
+$val_inst = new DataValidationLogics();
+$arr_prm_inst = new ArrayParamsLogics();
+$db_inst = new DatabaseLogics();
+$student_inst = new StaffLogics();
 
 // ログインチェック
-$login_check = $obj::login_check_staff();
+$userId = $student_inst->get_staff_id();
 
-// ログインチェックの返り値がfalseの場合ログインページにリダイレクト
-if (!$login_check) {
-    header('Location: ../login/login_form.php');
+$err_array = [];
+
+// ログインチェックの返り値がfalseの場合ログインページにリダイレクト　（不正なリクエストとみなす）
+if (!$userId) {
+    $url = '../../Incorrect_request.php';
+    header('Location:' . $url);
 }
 
-// ユーザID取得
-foreach ($login_check as $row) {
-    $staffId = $row['id'];
-}
-
-// POSTリクエストを受け取る
+// postリクエストがない場合リダイレクト
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 入力した値を取得
-    $arr = [];
-    $arr[] = $_POST;
+
+    $type = filter_input(INPUT_POST, 'type');
+    $format = filter_input(INPUT_POST, 'format');
+    $filed = filter_input(INPUT_POST, 'field');
+    $time = filter_input(INPUT_POST, 'time');
+    $company = filter_input(INPUT_POST, 'company');
+    $overview = filter_input(INPUT_POST, 'overview');
+    $attachment = filter_input(INPUT_POST, 'attachment');
+
+    if (!$val_inst->staff_post_val($type, $format, $filed, $time, $company, $overview, $attachment)) {
+        $err_array[] = $val_inst->getErrorMsg();
+    }
 } else {
-    // postリクエストがない場合リダイレクト
-    header('Location: ./post_form.php');
+    $url = '../../../Incorrect_request.php';
+    header('Location:' . $url);
 }
-
-
 
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -45,344 +54,151 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../../../../public/img/favicon.ico">
-    <link rel="stylesheet" href="../../../../public/css/intern/post_form.css">
+    <link rel="icon" href="../../../public/img/favicon.ico">
+    <link rel="stylesheet" href="../../../public/css/intern/view.css">
     <title>「Real intentioN」 / インターン体験記</title>
     <!-- font-awesomeのインポート -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #e6e6e6;
+        }
+
+
+
+        .square_box {
+            position: relative;
+            max-width: 100px;
+            background: #ffb6c1;
+        }
+
+        .square_box::before {
+            content: "";
+            display: block;
+            padding-bottom: 100%;
+        }
+
+        .square_box p {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .side-area {
+            position: sticky;
+            top: 60px;
+        }
+    </style>
 </head>
 
 <body>
-    <?php include '/Applications/MAMP/htdocs/Deliverables3/public/template/header.html'; ?>
-
-    <div class="wrap">
-        <div class="main">
-            <div class="main_content">
-                <form action="./post.php" method="post">
-                    <div class="box">
-                        <?php foreach ($arr as $value) : ?>
-                            <h2>インターン体験記を投稿する</h2>
-                            <p><label style="margin-right: 68px;">企業名</label><input style="width: 300px; height:35px; font-size:20px; border-radius: 5px; border: 2px solid blue;" type="text" name="company" required value="<?php h($value['company']) ?>" readonly></p>
-
-
-                            <p>
-                                <label style="margin-right: 42px;">参加形式</label>
-
-                                <?php if ($value['format'] === 'オンライン') : ?>
-                                    <input id="item-1" class="radio-inline__input" type="radio" name="format" value="オンライン" checked="checked" readonly />
-                                    <label style="font-size: 13px;" class="radio-inline__label" for="item-1">
-                                        オンライン
-                                    </label>
-                                    <input id="item-2" class="radio-inline__input" type="radio" name="format" value="対面形式" readonly />
-                                    <label style="font-size: 13px;" class="radio-inline__label" for="item-2">
-                                        対面形式
-                                    </label>
-                                <?php endif; ?>
-
-                                <?php if ($value['format'] === '対面形式') : ?>
-                                    <input id="item-1" class="radio-inline__input" type="radio" name="format" value="オンライン" readonly />
-                                    <label style="font-size: 13px;" class="radio-inline__label" for="item-1">
-                                        オンライン
-                                    </label>
-                                    <input id="item-2" class="radio-inline__input" type="radio" name="format" value="対面形式" checked="checked" readonly />
-                                    <label style="font-size: 13px;" class="radio-inline__label" for="item-2">
-                                        対面形式
-                                    </label>
-                                <?php endif; ?>
-                            </p>
-
-                            <p>
-                                <label style="margin-right: 42px;">参加分野</label>
-
-                                <?php if ($value['field'] === 'メーカ') : ?>
-                                    <input id="item-3" class="radio-inline__input1" type="radio" name="field" value="メーカ" checked="checked" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-3">
-                                        メーカ
-                                    </label>
-
-                                    <input id="item-4" class="radio-inline__input1" type="radio" name="field" value="サービス・インフラ" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-4">
-                                        サービス・インフラ
-                                    </label>
-
-                                    <input id="item-5" class="radio-inline__input1" type="radio" name="field" value="商社" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-5">
-                                        商社
-                                    </label>
-
-                                    <input id="item-6" class="radio-inline__input1" type="radio" name="field" value="金融・保険" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-6">
-                                        金融・保険
-                                    </label>
-
-                                    <input id="item-7" class="radio-inline__input1" type="radio" name="field" value="広告・通信" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-7">
-                                        広告・通信
-                                    </label>
-
-                                    <input id="item-8" class="radio-inline__input1" type="radio" name="field" value="百貨店・専門店" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-8">
-                                        百貨店・専門店
-                                    </label>
-
-                                    <input id="item-9" class="radio-inline__input1" type="radio" name="field" value="IT・ソフトウェア" />
-                                    <label style="font-size: 13px; margin-left:127px; margin-top:10px;" class="radio-inline__label1" for="item-9">
-                                        IT・ソフトウェア
-                                    </label>
-                                <?php endif; ?>
-
-                                <?php if ($value['field'] === 'サービス・インフラ') : ?>
-                                    <input id="item-3" class="radio-inline__input1" type="radio" name="field" value="メーカ" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-3">
-                                        メーカ
-                                    </label>
-
-                                    <input id="item-4" class="radio-inline__input1" type="radio" name="field" value="サービス・インフラ" checked="checked" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-4">
-                                        サービス・インフラ
-                                    </label>
-
-                                    <input id="item-5" class="radio-inline__input1" type="radio" name="field" value="商社" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-5">
-                                        商社
-                                    </label>
-
-                                    <input id="item-6" class="radio-inline__input1" type="radio" name="field" value="金融・保険" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-6">
-                                        金融・保険
-                                    </label>
-
-                                    <input id="item-7" class="radio-inline__input1" type="radio" name="field" value="広告・通信" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-7">
-                                        広告・通信
-                                    </label>
-
-                                    <input id="item-8" class="radio-inline__input1" type="radio" name="field" value="百貨店・専門店" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-8">
-                                        百貨店・専門店
-                                    </label>
-
-                                    <input id="item-9" class="radio-inline__input1" type="radio" name="field" value="IT・ソフトウェア" />
-                                    <label style="font-size: 13px; margin-left:127px; margin-top:10px;" class="radio-inline__label1" for="item-9">
-                                        IT・ソフトウェア
-                                    </label>
-                                <?php endif; ?>
-
-                                <?php if ($value['field'] === '商社') : ?>
-                                    <input id="item-3" class="radio-inline__input1" type="radio" name="field" value="メーカ" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-3">
-                                        メーカ
-                                    </label>
-
-                                    <input id="item-4" class="radio-inline__input1" type="radio" name="field" value="サービス・インフラ" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-4">
-                                        サービス・インフラ
-                                    </label>
-
-                                    <input id="item-5" class="radio-inline__input1" type="radio" name="field" value="商社" checked="checked" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-5">
-                                        商社
-                                    </label>
-
-                                    <input id="item-6" class="radio-inline__input1" type="radio" name="field" value="金融・保険" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-6">
-                                        金融・保険
-                                    </label>
-
-                                    <input id="item-7" class="radio-inline__input1" type="radio" name="field" value="広告・通信" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-7">
-                                        広告・通信
-                                    </label>
-
-                                    <input id="item-8" class="radio-inline__input1" type="radio" name="field" value="百貨店・専門店" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-8">
-                                        百貨店・専門店
-                                    </label>
-
-                                    <input id="item-9" class="radio-inline__input1" type="radio" name="field" value="IT・ソフトウェア" />
-                                    <label style="font-size: 13px; margin-left:127px; margin-top:10px;" class="radio-inline__label1" for="item-9">
-                                        IT・ソフトウェア
-                                    </label>
-                                <?php endif; ?>
-
-                                <?php if ($value['field'] === '金融・保険') : ?>
-                                    <input id="item-3" class="radio-inline__input1" type="radio" name="field" value="メーカ" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-3">
-                                        メーカ
-                                    </label>
-
-                                    <input id="item-4" class="radio-inline__input1" type="radio" name="field" value="サービス・インフラ" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-4">
-                                        サービス・インフラ
-                                    </label>
-
-                                    <input id="item-5" class="radio-inline__input1" type="radio" name="field" value="商社" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-5">
-                                        商社
-                                    </label>
-
-                                    <input id="item-6" class="radio-inline__input1" type="radio" name="field" value="金融・保険" checked="checked" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-6">
-                                        金融・保険
-                                    </label>
-
-                                    <input id="item-7" class="radio-inline__input1" type="radio" name="field" value="広告・通信" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-7">
-                                        広告・通信
-                                    </label>
-
-                                    <input id="item-8" class="radio-inline__input1" type="radio" name="field" value="百貨店・専門店" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-8">
-                                        百貨店・専門店
-                                    </label>
-
-                                    <input id="item-9" class="radio-inline__input1" type="radio" name="field" value="IT・ソフトウェア" />
-                                    <label style="font-size: 13px; margin-left:127px; margin-top:10px;" class="radio-inline__label1" for="item-9">
-                                        IT・ソフトウェア
-                                    </label>
-                                <?php endif; ?>
-
-                                <?php if ($value['field'] === '広告・保険') : ?>
-                                    <input id="item-3" class="radio-inline__input1" type="radio" name="field" value="メーカ" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-3">
-                                        メーカ
-                                    </label>
-
-                                    <input id="item-4" class="radio-inline__input1" type="radio" name="field" value="サービス・インフラ" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-4">
-                                        サービス・インフラ
-                                    </label>
-
-                                    <input id="item-5" class="radio-inline__input1" type="radio" name="field" value="商社" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-5">
-                                        商社
-                                    </label>
-
-                                    <input id="item-6" class="radio-inline__input1" type="radio" name="field" value="金融・保険" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-6">
-                                        金融・保険
-                                    </label>
-
-                                    <input id="item-7" class="radio-inline__input1" type="radio" name="field" value="広告・通信" checked="checked" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-7">
-                                        広告・通信
-                                    </label>
-
-                                    <input id="item-8" class="radio-inline__input1" type="radio" name="field" value="百貨店・専門店" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-8">
-                                        百貨店・専門店
-                                    </label>
-
-                                    <input id="item-9" class="radio-inline__input1" type="radio" name="field" value="IT・ソフトウェア" />
-                                    <label style="font-size: 13px; margin-left:127px; margin-top:10px;" class="radio-inline__label1" for="item-9">
-                                        IT・ソフトウェア
-                                    </label>
-                                <?php endif; ?>
-
-                                <?php if ($value['field'] === '百貨店・専門店') : ?>
-                                    <input id="item-3" class="radio-inline__input1" type="radio" name="field" value="メーカ" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-3">
-                                        メーカ
-                                    </label>
-
-                                    <input id="item-4" class="radio-inline__input1" type="radio" name="field" value="サービス・インフラ" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-4">
-                                        サービス・インフラ
-                                    </label>
-
-                                    <input id="item-5" class="radio-inline__input1" type="radio" name="field" value="商社" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-5">
-                                        商社
-                                    </label>
-
-                                    <input id="item-6" class="radio-inline__input1" type="radio" name="field" value="金融・保険" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-6">
-                                        金融・保険
-                                    </label>
-
-                                    <input id="item-7" class="radio-inline__input1" type="radio" name="field" value="広告・通信" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-7">
-                                        広告・通信
-                                    </label>
-
-                                    <input id="item-8" class="radio-inline__input1" type="radio" name="field" value="百貨店・専門店" checked="checked" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-8">
-                                        百貨店・専門店
-                                    </label>
-
-                                    <input id="item-9" class="radio-inline__input1" type="radio" name="field" value="IT・ソフトウェア" />
-                                    <label style="font-size: 13px; margin-left:127px; margin-top:10px;" class="radio-inline__label1" for="item-9">
-                                        IT・ソフトウェア
-                                    </label>
-                                <?php endif; ?>
-
-                                <?php if ($value['field'] === 'IT・ソフトウェア') : ?>
-                                    <input id="item-3" class="radio-inline__input1" type="radio" name="field" value="メーカ" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-3">
-                                        メーカ
-                                    </label>
-
-                                    <input id="item-4" class="radio-inline__input1" type="radio" name="field" value="サービス・インフラ" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-4">
-                                        サービス・インフラ
-                                    </label>
-
-                                    <input id="item-5" class="radio-inline__input1" type="radio" name="field" value="商社" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-5">
-                                        商社
-                                    </label>
-
-                                    <input id="item-6" class="radio-inline__input1" type="radio" name="field" value="金融・保険" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-6">
-                                        金融・保険
-                                    </label>
-
-                                    <input id="item-7" class="radio-inline__input1" type="radio" name="field" value="広告・通信" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-7">
-                                        広告・通信
-                                    </label>
-
-                                    <input id="item-8" class="radio-inline__input1" type="radio" name="field" value="百貨店・専門店" />
-                                    <label style="font-size: 13px;" class="radio-inline__label1" for="item-8">
-                                        百貨店・専門店
-                                    </label>
-
-                                    <input id="item-9" class="radio-inline__input1" type="radio" name="field" value="IT・ソフトウェア" checked="checked" />
-                                    <label style="font-size: 13px; margin-left:127px; margin-top:10px;" class="radio-inline__label1" for="item-9">
-                                        IT・ソフトウェア
-                                    </label>
-                                <?php endif; ?>
-                            </p>
-
-
-                            <p><label style="margin-right: 48px;">回答内容</label><textarea name="overview" style="width: 650px; height:200px; font-size:20px; resize:none; border-radius: 5px; border: 2px solid blue;"><?php h($value['overview']) ?></textarea></p>
-
-                            <p><label style="margin-right: 48px;">応募期限</label><input type="date" name="time" value="<?php h($value['time']) ?>"></p>
-
-
-                            <p><label style="margin-right: 48px;">回答内容</label><textarea name="attachment" style="width: 650px; height:200px; font-size:20px; resize:none; border-radius: 5px; border: 2px solid blue;"><?php h($value['attachment']) ?></textarea></p>
-
-
-                            <!-- hiddenでuser_idを送信 -->
-                            <input type="hidden" name="user_id" value="<?php h($staffId) ?>">
-
-                        <?php endforeach; ?>
-
-                        <div class="submit">
-                            <a href="./post_form.php">書き直す</a>
-                            <button type="submit">投稿する</button>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light py-4">
+            <div class="container">
+                <img style="width: 45px; height:45px; margin-right:10px;" src="../../../public/img/logo.png" alt="">
+                <a class="navbar-brand" href="#">Real intentioN</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">職員の方はこちら</a>
+                        </li>
+                        <button class="btn btn-primary ms-3">ログインはこちら</button>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main" class="container mt-5" style="padding: 0px">
+        <div class="row">
+
+            <div class="col-md-8">
+                <div class="bg-light py-3">
+                    <div class="mx-auto col-lg-8">
+                        <div class="err-msg">
+                            <?php if (count($err_array) > 0) : ?>
+                                <?php foreach ($err_array as $err_msg) : ?>
+                                    <p style="color: red;"><?php h($err_msg); ?></p>
+                                <?php endforeach; ?>
+                                <div class="backBtn">
+                                    <a class="btn btn-primary px-5" href="./post_form.php">戻る</a>
+                                </div>
+                            <?php endif; ?>
                         </div>
-                    </div>
-                </form>
-            </div>
-        </div>
 
-        <div class="side">
-            <div class="side_content">
-                <p>a</p>
+
+                        <?php if (count($err_array) === 0) : ?>
+                            <form class="mt-5" action="./post.php" method="post">
+                                <div class="mb-2">
+                                    <label class="form-label" for="name">投稿情報の種類</label>
+                                    <input class="form-control" 　type="text" name="type" value="<?php h($type) ?>">
+                                </div>
+
+
+
+                                <div class="mb-2">
+                                    <label class="form-label" for="name">イベント形式</label>
+                                    <input class="form-control" 　type="text" name="format" value="<?php h($format) ?>">
+                                </div>
+
+
+
+                                <div class="mb-2">
+                                    <label class="form-label" for="name">イベント分野</label>
+                                    <input class="form-control" 　type="text" name="field" value="<?php h($filed) ?>">
+                                </div>
+
+                                <div class="mb-2">
+                                    <label class="form-label" for="name">イベント日時</label>
+                                    <input class="form-control" type="date" name="time" value="<?php h($time) ?>">
+                                </div>
+
+
+                                <div class="mb-2">
+                                    <label class="form-label" for="name">企業名</label>
+                                    <input class="form-control" type="text" name="company" value="<?php h($company) ?>">
+                                </div>
+
+
+
+                                <div class="mb-2">
+                                    <label for="exampleFormControlTextarea1" class="form-label">イベント内容</label>
+                                    <textarea class="form-control" name="overview" id="exampleFormControlTextarea1" rows="3"><?php h($overview) ?></textarea>
+                                </div>
+
+
+                                <div class="mb-2">
+                                    <label for="exampleFormControlTextarea1" class="form-label">添付資料</label>
+                                    <input class="form-control" type="text" name="attachment" value="<?php h($attachment) ?>">
+                                </div>
+                                <a href="./post_form.php" class="btn btn-primary px-5">書き直す</a>
+                                <button type="submit" class="btn btn-primary px-5">投稿する</button>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+
+                </div>
             </div>
-        </div>
-    </div>
+
+
+            <div class="col-md-4 bg-warning sticky-top vh-100">
+                <div>
+                    <h1>送信</h1>
+                </div>
+                <!-- <ul class=" list-group">
+                    <li class="list-group-item list-group-item-light">Latest Posts</li>
+                    <li class="list-group-item list-group-item-light">Announcements</li>
+                </ul> -->
+            </div><!-- col-md-4 終了-->
+        </div><!-- Div row 終了-->
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
