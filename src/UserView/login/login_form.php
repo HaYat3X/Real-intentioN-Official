@@ -129,7 +129,7 @@ if ($userId) {
                         <label class="form-label" for="name">パスワード</label>
                         <input class="form-control" type="password" name="password" id="name">
                     </div>
-                    <button type="submit" class="login-btn btn px-5">ログインする</button>
+                    <button type="submit" class="login-btn btn px-4">ログインする</button>
                 </form>
             </div>
         </div>

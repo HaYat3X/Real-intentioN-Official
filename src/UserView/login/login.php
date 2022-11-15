@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <p style="color: red;"><?php h($err_msg); ?></p>
                     <?php endforeach; ?>
                     <div class="mt-4">
-                        <a class="login-btn btn" href="./login_form.php">戻る</a>
+                        <a class="login-btn btn px-4" href="./login_form.php">戻る</a>
                     </div>
                 <?php endif; ?>
 

@@ -224,6 +224,7 @@ $notification = $db_inst->data_select_count($sql, $argument);
             <div class="col-md-4 bg-light sticky-top vh-100">
                 <div>
                     <h1>送信</h1>
+                    <p>ログアウト<a href="../logout.php">ログアウト</a></p>
                     <a href="./post/post_form.php">新規投稿</a>
                     <a href="../staff_information/staff_information.php">職員が投稿した情報</a>
                 </div>
