@@ -3,8 +3,8 @@
 session_start();
 
 // 外部ファイルのインポート
-require '../../../class/SystemLogic.php';
-require __DIR__ . '../../../../function/functions.php';
+require '../../../../class/SystemLogic.php';
+require '../../../../function/functions.php';
 
 // インスタンス化
 $val_inst = new DataValidationLogics();
@@ -21,10 +21,29 @@ if (!$userId) {
     header('Location:' . $url);
 }
 
-$sql = 'SELECT * FROM `staff_information_table` INNER JOIN `staff_master` ON staff_information_table.staff_id = staff_master.staff_id ORDER BY staff_information_table.post_id DESC';
+// 編集する投稿IDの取得
+$update_id = filter_input(INPUT_GET, 'post_id');
 
-// テーブル全部取得
-$results = $db_inst->data_select($sql);
+// SQL発行
+$sql = 'SELECT * FROM `staff_information_table` INNER JOIN `staff_master` ON staff_information_table.staff_id = staff_master.staff_id AND staff_information_table.post_id = ?';
+
+$argument = $arr_prm_inst->student_post_one_prm($update_id);
+
+$update_date = $db_inst->data_select_argument($sql, $argument);
+
+
+// 編集対象データがない場合はリダイレクト
+if (!$update_date) {
+    header('Location: ../post_list.php');
+}
+
+// 投稿者IDとログイン中のユーザのIDが一致しなければリダイレクト
+foreach ($update_date as $date) {
+    if (!$userId == $date['staff_id']) {
+        header('Location: ../post_list.php');
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -70,37 +89,6 @@ $results = $db_inst->data_select($sql);
             position: sticky;
             top: 60px;
         }
-
-        #fixed {
-            position: fixed;
-            /* 要素の位置を固定する */
-            bottom: 100px;
-            /* 基準の位置を画面の一番下に指定する */
-            right: 500px;
-            /* 基準の位置を画面の一番右に指定する */
-            width: 150px;
-            /* 幅を指定する */
-            border: 3px solid #326693;
-            /* ボーダーを指定する */
-        }
-
-        /* ユーザの開業を判定し、そのまま出す */
-        .information {
-            word-break: break-all;
-            white-space: pre-line;
-        }
-
-        .simple {
-            width: 300px;
-            /* 省略せずに表示するサイズを指定 */
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .simple-box {
-            background-color: #e6e6e6;
-        }
     </style>
 </head>
 
@@ -126,20 +114,15 @@ $results = $db_inst->data_select($sql);
         </nav>
     </header>
 
-    <div id="fixed">
-        <a href="./post/post_form.php">インターン / イベント情報を投稿する！</a>
-    </div>
 
-    <!-- <div class="bg-light"> -->
-    <main role="main" class="container mt-5">
+
+    <main role="main" class="container mt-5" style="padding: 0px">
         <div class="row">
 
+
             <div class="col-md-8">
-                <?php if (is_array($results) || is_object($results)) : ?>
-                    <?php foreach ($results as $row) : ?>
-
-
-
+                <?php if (is_array($update_date) || is_object($update_date)) : ?>
+                    <?php foreach ($update_date as $row) : ?>
                         <div class="mb-5 bg-light">
 
                             <!-- area1 -->
@@ -172,19 +155,12 @@ $results = $db_inst->data_select($sql);
 
 
                             <div class="area2 px-3">
-                                <p>
-                                    <button type="button" class="simple-box btn" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
 
-                                        <div class="simple"><?php h($row['overview']) ?></div>
-                                    </button>
-                                </p>
-
-                                <div class="collapse" id="collapseExample">
-                                    <div class="information card card-body">
-                                        <p><?php h($row['overview']) ?></p>
-                                        <p><?php h($row['attachment']) ?></p>
-                                    </div>
+                                <div class="information card card-body">
+                                    <p><?php h($row['overview']) ?></p>
+                                    <p><?php h($row['attachment']) ?></p>
                                 </div>
+
 
 
                             </div>
@@ -192,43 +168,20 @@ $results = $db_inst->data_select($sql);
 
                             <div class="area3 d-flex px-3 py-4">
                                 <div class="question-btn col-7">
-                                    <a href="./delete/delete_check.php?post_id=<?php h($row['post_id']) ?>" class="btn btn-primary">投稿を削除する</a>
+                                    <a href="../post_list.php">キャンセル</a>
 
-                                    <a href="./update/update_form.php?post_id=<?php h($row['post_id']) ?>" class="btn btn-primary">投稿を編集する</a>
+                                    <a href="./delete.php?post_id=<?php h($row['post_id']) ?>" class="btn btn-primary">削除実行</a>
                                 </div>
                             </div>
                         </div>
-
                     <?php endforeach; ?>
                 <?php endif; ?>
-
-                <!-- ページネーション -->
-                <div class="justify-content-center">
-                    <nav aria-label="Page navigation example justify-content-center">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-
             </div>
 
-            <div class="col-md-4 bg-light sticky-top vh-100">
+
+            <div class="col-md-4 bg-warning sticky-top vh-100">
                 <div>
                     <h1>送信</h1>
-                    <a href="./post/post_form.php">新規投稿</a>
                 </div>
                 <!-- <ul class=" list-group">
                     <li class="list-group-item list-group-item-light">Latest Posts</li>
@@ -242,8 +195,7 @@ $results = $db_inst->data_select($sql);
     </main>
     <!-- </div> -->
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
 </html>

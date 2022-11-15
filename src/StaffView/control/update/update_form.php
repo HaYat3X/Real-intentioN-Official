@@ -30,7 +30,7 @@ $sql = 'SELECT * FROM `staff_information_table` INNER JOIN `staff_master` ON sta
 $argument = $arr_prm_inst->student_post_one_prm($update_id);
 
 $update_date = $db_inst->data_select_argument($sql, $argument);
-var_dump($update_date);
+
 
 // 編集対象データがない場合はリダイレクト
 if (!$update_date) {
@@ -43,6 +43,7 @@ foreach ($update_date as $date) {
         header('Location: ../post_list.php');
     }
 }
+
 
 ?>
 
@@ -131,7 +132,7 @@ foreach ($update_date as $date) {
                                     <div class="mb-2">
                                         <label class="form-label" for="name">投稿情報の種類</label>
                                         <select class="form-select" name="type" aria-label="Default select example">
-                                            <option selected>-- 選択してください --</option>
+                                            <option selected><?php h($row['type']) ?>情報</option>
                                             <option value="インターン">インターン情報</option>
                                             <option value="イベント">イベント情報</option>
                                         </select>

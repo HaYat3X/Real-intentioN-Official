@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <p style="color: red;"><?php h($err_msg); ?></p>
                                 <?php endforeach; ?>
                                 <div class="backBtn">
-                                    <a class="btn btn-primary px-5" href="./update_form.php">戻る</a>
+                                    <a class="btn btn-primary px-5" href="./update_form.php?post_id=<?php h($update_post_id) ?>">戻る</a>
                                 </div>
                             <?php endif; ?>
                         </div>
