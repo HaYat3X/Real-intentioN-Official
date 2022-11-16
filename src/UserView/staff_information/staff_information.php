@@ -197,20 +197,24 @@ $sql3 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ? AND s
                                 <p class="information">
                                     <?php h($row['overview']) ?>
                                 </p>
+                                <?php
+                                $pattern = '/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/';
+                                $replace = '<a target="_blank" href="$1">$1</a>';
+                                $attachment = preg_replace($pattern, $replace, $row['attachment']);
+                                ?>
 
                                 <p class="pb-3">添付資料<?php h($row['attachment']) ?></p>
-
+                                <p class="pb-3">添付資料<?php echo $attachment; ?></p>
                             </div>
 
                             <div>
                                 <!-- 投稿に既にいいねしている場合いいねできない -->
                                 <?php $argument = $arr_prm_inst->like_post_prm($userId, $row['post_id']); ?>
                                 <?php $unsubscribe = $db_inst->data_select_argument($sql3, $argument); ?>
-                                ?>
 
                                 <?php if ($unsubscribe) : ?>
                                     <!-- これ押したらいいね解除 -->
-                                    <a class="unsubscribe" href="./delete.php?post_id=<?php h($row['post_id']) ?>">
+                                    <a class="unsubscribe" href="./like_delete.php?post_id=<?php h($row['post_id']) ?>">
                                         <i class="fa-solid fa-heart fa-2x"></i>
                                     </a>
                                 <?php else : ?>
