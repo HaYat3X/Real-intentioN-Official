@@ -8,3 +8,5 @@
   <?php unset($_SESSION['login_student']) ?>
 
   <?php header('refresh:3;url=../view.php'); ?>
+
+   <a href="./津田要件定義.pdf" target="_blank">データ</a>
