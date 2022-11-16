@@ -15,6 +15,9 @@ $student_inst = new StudentLogics();
 // ログインチェック
 $userId = $student_inst->get_student_id();
 
+// 学生の名前
+$userName = $student_inst->get_student_name();
+
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト　（不正なリクエストとみなす）
 if (!$userId) {
     $url = '../../Incorrect_request.php';
@@ -45,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 
-</html>
+
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -65,50 +68,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-color: #e6e6e6;
         }
 
-
-
-        .square_box {
-            position: relative;
-            max-width: 100px;
-            background: #ffb6c1;
+        header {
+            background-color: #D6E4E5;
         }
 
-        .square_box::before {
-            content: "";
-            display: block;
-            padding-bottom: 100%;
+        footer {
+            background-color: #D6E4E5;
         }
 
-        .square_box p {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .nav-link {
+            font-weight: bold;
         }
 
-        .side-area {
-            position: sticky;
-            top: 60px;
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            background-color: #EB6440;
+            color: white;
+        }
+
+        .login-btn:hover {
+            color: white;
+            background-color: #eb6540c1;
+        }
+
+        .box {
+            background-color: white;
+            border-radius: 5px;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- テスト-------------------------------------------------------------------------------------------- -->
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light py-4">
+        <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
-                <img style="width: 45px; height:45px; margin-right:10px;" src="../../../public/img/logo.png" alt="">
-                <a class="navbar-brand" href="#">Real intentioN</a>
+                <a class="navbar-brand" href="../../../index.html">
+                    <img src="../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
+                                align-text-top" style="object-fit: cover;">
+                    Real intentioN
+                </a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span></button>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="./src/StaffView/login/login_form.php">Real intentioNとは</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="./src/StaffView/login/login_form.php">お問い合わせはこちら</a>
+                        </li>
+                    </ul>
+                </div>
+
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">職員の方はこちら</a>
+                            <a class="nav-link" href="../../StaffView/login/login_form.php">職員の方はこちら</a>
                         </li>
-                        <button class="btn btn-primary ms-3">ログインはこちら</button>
+
+                        <li class="nav-item">
+                            <a class="login-btn btn" href="./login_form.php">ログインはこちら</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -137,38 +165,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <?php if (count($err_array) === 0) : ?>
                             <form class="mt-5" action="./post.php" method="post">
-                                <div class="mb-2">
+
+                                <h1 class="text-center fs-2 mb-5">投稿内容を確認する</h1>
+
+                                <div class="mb-4">
                                     <label class="form-label" for="name">企業名</label>
                                     <input class="form-control" type="text" name="company" readonly id="name" value="<?php h($_POST['company']) ?>">
                                 </div>
 
-                                <div class="mb-2">
+                                <div class="mb-4">
                                     <label class="form-label" for="name">体験内容</label>
                                     <input class="form-control" type="text" name="content" id="name" readonly value="<?php h($_POST['content']) ?>">
                                 </div>
 
-                                <div class="mb-2">
+                                <div class="mb-4">
                                     <label class="form-label" for="name">参加形式</label>
                                     <input class="form-control" type="text" name="format" readonly id="name" value="<?php h($_POST['format']) ?>">
                                 </div>
 
-                                <div class="mb-2">
+                                <div class="mb-4">
                                     <label class="form-label" for="name">参加形式</label>
                                     <input class="form-control" type="text" name="field" readonly id="name" value="<?php h($_POST['field']) ?>">
                                 </div>
 
 
-                                <div class="mb-2">
+                                <div class="mb-4">
                                     <label class="form-label" for="name">質問内容</label>
                                     <input class="form-control" type="text" name="question" readonly value="<?php h($_POST['question']) ?>" id="name">
                                 </div>
 
-                                <div class="mb-2">
+                                <div class="mb-4">
                                     <label for="exampleFormControlTextarea1" class="form-label">質問回答</label>
                                     <textarea class="form-control" name="answer" id="exampleFormControlTextarea1" rows="3" readonly><?php h($_POST['answer']) ?></textarea>
                                 </div>
 
-                                <div class="mb-2">
+                                <div class="mb-4">
                                     <label class="form-label" for="name">総合評価</label>
 
                                     <input class="form-control" type="text" name="ster" readonly id="name" value="<?php h($_POST['ster']) ?>">
@@ -177,8 +208,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                 <input type="hidden" name="user_id" value="<?php h($userId) ?>">
 
-                                <a href="./post_form.php" class="btn btn-primary px-5">書き直す</a>
-                                <button type="submit" class="btn btn-primary px-5">投稿する</button>
+
+                                <a href="./post_form.php" class="btn btn-primary px-4">書き直す</a>
+
+                                <button type="submit" class="login-btn btn px-4">投稿する</button>
                             </form>
                         <?php endif; ?>
                     </div>
@@ -187,15 +220,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
 
-            <div class="col-md-4 bg-warning sticky-top vh-100">
-                <div>
-                    <h1>送信</h1>
+            <div class="side-bar col-md-4 bg-light sticky-top vh-100">
+                <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item">
+                            <a style="background-color: #EB6440;" href="./view.php" class="nav-link active" aria-current="page">
+                                インターン体験記
+                            </a>
+                        </li>
+                        <li>
+                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                                インターン / イベント情報 / 説明会情報
+                            </a>
+                        </li>
+                    </ul>
+
+
+
+                    <hr>
+                    <div class="dropdown">
+                        検索BOX
+                    </div>
+
+                    <hr>
+                    <div class="dropdown">
+                        人気の情報を表示
+                    </div>
+
+                    <hr>
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <strong><?php h($userName) ?></strong>
+                        </a>
+                        <ul class="dropdown-menu text-small shadow">
+                            <li><a class="dropdown-item" href="#">プロフィール</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="../logout.php">サインアウト</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <!-- <ul class=" list-group">
-                    <li class="list-group-item list-group-item-light">Latest Posts</li>
-                    <li class="list-group-item list-group-item-light">Announcements</li>
-                </ul> -->
-            </div><!-- col-md-4 終了-->
+            </div>
 
 
 

@@ -6,3 +6,5 @@
   <?php $link = '../index.html'; ?>
   <?php header('refresh:3;url=' . $link); ?>
   <?php unset($_SESSION['login_student']) ?>
+
+  <?php header('refresh:3;url=../view.php'); ?>
