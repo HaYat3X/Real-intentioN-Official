@@ -42,6 +42,28 @@ class StudentLogics
         // セッション情報がない場合はログインしていないとみなす return false;
         return false;
     }
+
+    /**
+     * 学生のログイン情報を取得する
+     * @param 
+     * @return $userId
+     * @return false
+     */
+    public static function get_student_name()
+    {
+        // ユーザ情報があればログインしているとみなす return true
+        if (isset($_SESSION['login_student'])) {
+            $result = $_SESSION['login_student'];
+
+            foreach ($result as $row) {
+                $userName = $row['name'];
+                return $userName;
+            }
+        }
+
+        // セッション情報がない場合はログインしていないとみなす return false;
+        return false;
+    }
 }
 
 

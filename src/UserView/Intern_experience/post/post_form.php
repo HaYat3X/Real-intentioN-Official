@@ -149,8 +149,9 @@ $responses = $array[array_rand($array)];
                                 <!-- <input class="form-control" type="text" name="question" readonly value="<?php h($responses) ?>" id="name"> -->
                                 <select class="form-select" name="question" aria-label="Default select example">
                                     <option selected>-- 選択してください --</option>
-                                    <option value="問題を適当に">問題を適当に</option>
-                                    <option value="2">星2</option>
+                                    <option value="インターンの参加は選考に有利になったと感じますか？その理由も教えてください。">インターンの参加は選考に有利になったと感じますか？その理由も教えてください。</option>
+                                    <option value="インターンで体験した内容を教えてください。">インターンで体験した内容を教えてください。</option>
+                                    <option value="自分が思っていた業界とのギャップは">内容選考中</option>
                                 </select>
                             </div>
 
@@ -162,10 +163,12 @@ $responses = $array[array_rand($array)];
                             <div class="mb-2">
                                 <label class="form-label" for="name">総合評価</label>
                                 <select class="form-select" name="ster" aria-label="Default select example">
-
                                     <option selected>-- 選択してください --</option>
                                     <option value="1">星1</option>
                                     <option value="2">星2</option>
+                                    <option value="3">星3</option>
+                                    <option value="4">星4</option>
+                                    <option value="5">星5</option>
                                 </select>
                             </div>
 
