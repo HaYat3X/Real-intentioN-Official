@@ -1,6 +1,5 @@
 <?php
 
-
 session_start();
 
 // 外部ファイルのインポート
@@ -16,22 +15,47 @@ $student_inst = new StudentLogics();
 // ログインチェック
 $userId = $student_inst->get_student_id();
 
+
+// 学生の名前
+$userName = $student_inst->get_student_name();
+
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト　（不正なリクエストとみなす）
 if (!$userId) {
     $url = '../../Incorrect_request.php';
     header('Location:' . $url);
 }
 
-// 学生の名前
-$userName = $student_inst->get_student_name();
+// フォームリクエストを受け取る
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $keyword = filter_input(INPUT_POST, 'keyword');
+} else {
+    $url = '../../Incorrect_request.php';
+    header('Location:' . $url);
+}
 
 
+// 企業名検索のSQL
+$sql = "SELECT * FROM `staff_information_table` INNER JOIN `staff_master` ON staff_information_table.staff_id = staff_master.staff_id WHERE staff_information_table.format LIKE ? ORDER BY staff_information_table.post_id DESC";
 
-// インターンテーブルのデータを全部stうとく
-$sql = 'SELECT * FROM `intern_table` INNER JOIN `student_master` ON intern_table.user_id = student_master.student_id ORDER BY intern_table.post_id DESC';
-$results = $db_inst->data_select($sql);
+$argument = [];
+$argument[] = '%' . $keyword . '%';
 
+// テーブル全部取得
+$results = $db_inst->data_select_argument($sql, $argument);
+
+// 投稿にいいねしているか判定する
+$sql2 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ?';
+
+// 投稿のいいねを解除するSQL
+$sql3 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ? AND student_id = ?';
 ?>
+
+
+
+
+
+
+
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -77,7 +101,7 @@ $results = $db_inst->data_select($sql);
         .square_box {
             position: relative;
             max-width: 100px;
-            background: #ffb6b9;
+            background: #7F95D1;
             border-radius: 5px;
         }
 
@@ -95,15 +119,6 @@ $results = $db_inst->data_select($sql);
             font-weight: bold;
         }
 
-        .intern-contents {
-            background-color: white;
-            border-radius: 5px;
-        }
-
-        .area1 p {
-            font-weight: bold;
-        }
-
         .student-review {
             color: #FCCA4D;
         }
@@ -111,6 +126,22 @@ $results = $db_inst->data_select($sql);
         .side-bar {
             padding-top: 10px;
             padding-bottom: 10px;
+        }
+
+        .like {
+            color: pink;
+        }
+
+        .like:hover {
+            color: pink;
+        }
+
+        .unsubscribe {
+            color: pink;
+        }
+
+        .unsubscribe:hover {
+            color: pink;
         }
     </style>
     <title>「Real IntentioN」 / インターン体験記</title>
@@ -129,147 +160,144 @@ $results = $db_inst->data_select($sql);
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../StaffView/login/login_form.php">
+                                <i class="fa-sharp fa-solid fa-user fa-2x"></i><span class="badge fs-5 text text-danger">9</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../StaffView/login/login_form.php">
+                                <i class="fa-sharp fa-solid fa-bell fa-2x"></i><span class="badge fs-5 text text-danger">9</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
     </header>
 
 
-    <main role="main" class="container mt-5 mb-5">
 
-        <div class="mb-4">
-            <a class="login-btn btn px-4 py-3" href="./post/post_form.php">インターン体験記を投稿する</a>
-        </div>
 
+    <div id="fixed">
+        <a href="./post/post_form.php">インターン体験記<br>を投稿する！</a>
+    </div>
+
+    <main role="main" class="container mt-5">
         <div class="row">
+
             <div class="col-md-8">
-
-
                 <?php if (is_array($results) || is_object($results)) : ?>
                     <?php foreach ($results as $row) : ?>
-                        <div class="intern-contents mb-5">
 
+                        <?php
+                        // 今日の日付の取得
+                        $objDateTime = new DateTime();
+                        $time = $objDateTime->format('Y-m-d');
 
-                            <div class="area1 d-flex px-3 py-4">
-                                <div class="info-left col-2">
-                                    <div class="square_box">
-                                        <p>INTERN</p>
-                                    </div>
-                                </div>
+                        // 現在時刻と指定時刻の差を計算
+                        $time1 = new DateTime($row['time']);
+                        $time2 = new DateTime($time);
+                        $diff = $time1->diff($time2);
+                        $limit = $diff->format('%a');
+                        ?>
 
-                                <div class="info-center col-9">
-                                    <p class="fs-5">
-                                        <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?><span style="margin: 0 10px;">/</span><?php h($row['format']) ?>
-                                    </p>
+                        <!-- 開催期限が過ぎたものは表示しない -->
+                        <?php if ($limit >= 1) : ?>
 
-                                    <span><?php h($row['content']) ?></span>
-                                    <br>
-                                    <span class="student-review">
-                                        <?php if ($row['ster'] === '星1') : ?>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                        <?php elseif ($row['ster'] === '星2') : ?>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                        <?php elseif ($row['ster'] === '星3') : ?>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                        <?php elseif ($row['ster'] === '星4') : ?>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star"></i>
-                                        <?php elseif ($row['ster'] === '星5') : ?>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                        <?php endif; ?>
-                                    </span>
-                                </div>
+                            <!-- いいね数を取得する？foreachで回せる？ -->
+                            <?php $argument = $arr_prm_inst->student_post_one_prm($row['post_id']); ?>
+                            <?php $like_val = $db_inst->data_select_count($sql2, $argument); ?>
 
-                                <div class="info-right col-1 ms-4">
+                            <div class="mb-5 bg-light">
 
-                                    <div class="text-center">
-                                        <div class="btn-group">
-                                            <?php if ($userId == $row['user_id']) : ?>
-                                                <div class="btn-group dropstart" role="group">
-                                                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-dark">
-                                                        <li><a href="./delete/delete_check.php?post_id=<?php h($row['post_id']) ?>" class="dropdown-item">削除</a></li>
-                                                        <li><a class="dropdown-item" href="./update/update_form.php?post_id=<?php h($row['post_id']) ?>">編集</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            <?php endif; ?>
+                                <!-- area1 -->
+                                <div class="area1 d-flex px-3 py-4">
+
+                                    <!-- 今はインターンで仮定 -->
+                                    <div class="info-left col-2">
+                                        <div class="square_box">
+                                            <p>INTERN</p>
                                         </div>
                                     </div>
 
+                                    <div class=""></div>
+
+                                    <div class="info-center col-10">
+
+
+
+
+                                        <!-- 時間の表示 -->
+                                        <!-- 最終的にはあと〇〇日って出るようにする -->
+                                        <!-- 日じを過ぎた場合終了とする　また自動削除などはできるのか？？ -->
+                                        <p>
+                                            <?php if ($limit <= 7) : ?>
+                                                <span style="color: red;"><?php h('開催まであと' . $limit . '日') ?></span>
+                                            <?php else : ?>
+                                                <span><?php h('開催まであと' . $limit . '日') ?></span>
+                                            <?php endif; ?>
+                                        </p>
+
+                                        <p class="fs-5 fw-bold">
+                                            <?php h($row['company']) ?>
+                                            <span style="margin: 0 10px;">/</span>
+                                            <?php h($row['field']) ?>
+                                            <span style="margin: 0 10px;">/</span>
+                                            <?php h($row['format']) ?>
+                                        </p>
+                                    </div>
 
                                 </div>
-                            </div>
 
-                            <div class="question px-4">
-                                <p style="font-weight: bold;">
-                                    <span style="color: blue;">Q.　</span>
-                                    <?php h($row['question']) ?>
-                                </p>
-                            </div>
 
-                            <div class="answer px-4">
-                                <p>
-                                    <span style="color: red; font-weight: bold;">A.　</span>
-                                    <span style="word-break: break-all; white-space: pre-line;"><?php h($row['answer']) ?></span>
-                                </p>
-                            </div>
-
-                            <div class="area2 d-flex px-3 py-4">
-                                <div class="question-btn col-5">
-                                    <a href="./comment/comment.php?post_id=<?php h($row['post_id']) ?>" class="login-btn btn px-4">投稿者に質問する</a>
-                                </div>
-
-                                <div class="post-name col-7 pt-2">
-                                    <p class="text-end">
-                                        <?php h($row['name']) ?> ｜ <?php h($row['department']) ?> ｜ <?php h($row['school_year']) ?>
+                                <div class="area2 px-3">
+                                    <p class="intern-contents" style="word-break: break-all; white-space: pre-line;">
+                                        <?php h($row['overview']) ?>
                                     </p>
+
+                                    <?php
+                                    // 正規表現でリンク以外の文字列はエスケープ、リンクはaタグで囲んで、遷移できるようにする。
+                                    $pattern = '/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/';
+                                    $replace = '<a target="_blank" href="$1">$1</a>';
+                                    $attachment = preg_replace($pattern, $replace, $row['attachment']);
+                                    ?>
+
+
+
+                                    <p><?php echo $attachment; ?></p>
                                 </div>
+
+                                <div class="px-3">
+                                    <!-- 投稿に既にいいねしている場合いいねできない -->
+                                    <?php $argument = $arr_prm_inst->like_post_prm($userId, $row['post_id']); ?>
+                                    <?php $unsubscribe = $db_inst->data_select_argument($sql3, $argument); ?>
+
+                                    <?php if ($unsubscribe) : ?>
+                                        <!-- これ押したらいいね解除 -->
+                                        <a class="unsubscribe" href="./like_delete.php?post_id=<?php h($row['post_id']) ?>">
+                                            <i class="bi bi-heart-fill fs-2"></i>
+                                        </a>
+                                    <?php else : ?>
+                                        <a class="like" href="./like.php?post_id=<?php h($row['post_id']) ?>">
+                                            <i class="bi bi-heart"></i>
+                                        </a>
+                                    <?php endif; ?>
+                                    <span>いいね数：<?php h($like_val) ?></span>
+                                </div>
+
+
                             </div>
-                        </div>
+                        <?php endif; ?>
 
                     <?php endforeach; ?>
                 <?php endif; ?>
 
-                <!-- ページネーション -->
-                <!-- <div class="justify-content-center">
-                    <nav aria-label="Page navigation example justify-content-center">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div> -->
             </div>
 
 
@@ -278,12 +306,12 @@ $results = $db_inst->data_select($sql);
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
-                            <a style="background-color: #EB6440;" href="./view.php" class="nav-link active" aria-current="page">
+                            <a href="../Intern_experience/view.php" class="nav-link link-dark" aria-current="page">
                                 インターン体験記
                             </a>
                         </li>
                         <li>
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../staff_information/staff_information.php" style="background-color: #EB6440;" class="nav-link active">
                                 インターン / イベント情報 / 説明会情報
                             </a>
                         </li>

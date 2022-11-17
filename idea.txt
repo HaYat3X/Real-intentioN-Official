@@ -9,4 +9,7 @@
 
   <?php header('refresh:3;url=../view.php'); ?>
 
-   <a href="./津田要件定義.pdf" target="_blank">データ</a>
+
+   #ffb6b9rgba(255,182,185,1)
+#fae3d9rgba(250,227,217,1)
+#bbded6rgba(187,222,214,1)

@@ -87,6 +87,11 @@ $responses = $array[array_rand($array)];
             background-color: white;
             border-radius: 5px;
         }
+
+        .side-bar {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
     </style>
 </head>
 
@@ -136,11 +141,9 @@ $responses = $array[array_rand($array)];
 
     <main role="main" class="container my-5" style="padding: 0px">
         <div class="row">
-
-
             <div class="col-md-8">
-                <div class="bg-light py-3">
-                    <div class="mx-auto col-lg-8">
+                <div class="bg-light">
+                    <div class="mx-auto col-lg-8 pt-2 pb-5">
                         <form class="mt-5" action="./post_confirmation.php" method="post">
                             <h1 class="text-center fs-2 mb-5">インターン体験記を投稿する</h1>
 
@@ -155,49 +158,55 @@ $responses = $array[array_rand($array)];
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label" for="name">参加形式</label>
+                                <label class="form-label" for="name">開催形式</label>
                                 <select class="form-select" name="format" aria-label="Default select example">
                                     <option selected>-- 選択してください --</option>
-                                    <option value="オンライン形式">オンライン形式</option>
-                                    <option value="対面形式">対面形式</option>
+                                    <option value="オンライン開催">オンライン開催</option>
+                                    <option value="対面開催">対面開催</option>
                                 </select>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label" for="name">参加形式</label>
+                                <label class="form-label" for="name">参加した分野</label>
                                 <select class="form-select" name="field" aria-label="Default select example">
                                     <option selected>-- 選択してください --</option>
-                                    <option value="IT・ソフトウェア">IT・ソフトウェア</option>
-                                    <option value="対面形式">対面形式</option>
+                                    <option value="IT分野">IT分野</option>
+                                    <option value="ゲームソフト分野">ゲームソフト分野</option>
+                                    <option value="ハード分野">ハード分野</option>
+                                    <option value="ビジネス分野">ビジネス分野</option>
+                                    <option value="CAD分野">CAD分野</option>
+                                    <option value="グラフィックス分野">グラフィックス分野</option>
+                                    <option value="サウンド分野">サウンド分野</option>
+                                    <option value="日本語分野">日本語分野</option>
+                                    <option value="国際コミュニケーション分野">国際コミュニケーション分野</option>
                                 </select>
                             </div>
 
 
                             <div class="mb-4">
                                 <label class="form-label" for="name">質問内容を選択してください</label>
-                                <!-- <input class="form-control" type="text" name="question" readonly value="<?php h($responses) ?>" id="name"> -->
                                 <select class="form-select" name="question" aria-label="Default select example">
                                     <option selected>-- 選択してください --</option>
                                     <option value="インターンの参加は選考に有利になったと感じますか？その理由も教えてください。">インターンの参加は選考に有利になったと感じますか？その理由も教えてください。</option>
                                     <option value="インターンで体験した内容を教えてください。">インターンで体験した内容を教えてください。</option>
-                                    <option value="自分が思っていた業界とのギャップは">内容選考中</option>
+                                    <option value="交通費の支給など、金銭面でのサポートはありましたか？">交通費の支給など、金銭面でのサポートはありましたか？</option>
                                 </select>
                             </div>
 
                             <div class="mb-4">
-                                <label for="exampleFormControlTextarea1" class="form-label">質問回答</label>
+                                <label for="exampleFormControlTextarea1" class="form-label">選択した質問に回答してください。</label>
                                 <textarea class="form-control" name="answer" id="exampleFormControlTextarea1" rows="5" style="resize: none;"></textarea>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label" for="name">総合評価</label>
+                                <label class="form-label" for="name">総合評価（5段階で選択してください。）</label>
                                 <select class="form-select" name="ster" aria-label="Default select example">
                                     <option selected>-- 選択してください --</option>
-                                    <option value="1">星1</option>
-                                    <option value="2">星2</option>
-                                    <option value="3">星3</option>
-                                    <option value="4">星4</option>
-                                    <option value="5">星5</option>
+                                    <option value="星1">星1</option>
+                                    <option value="星2">星2</option>
+                                    <option value="星3">星3</option>
+                                    <option value="星4">星4</option>
+                                    <option value="星5">星5</option>
                                 </select>
                             </div>
 
@@ -209,13 +218,8 @@ $responses = $array[array_rand($array)];
                 </div>
             </div>
 
-            <!-- 
-            <div class="col-md-4 bg-warning sticky-top vh-100">
-                <div>
-                    <h1>送信</h1>
-                </div>
-            </div> -->
-            <div class="side-bar col-md-4 bg-light sticky-top vh-100">
+
+            <div class="side-bar col-md-4 bg-light sticky-top h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
@@ -229,18 +233,6 @@ $responses = $array[array_rand($array)];
                             </a>
                         </li>
                     </ul>
-
-
-
-                    <hr>
-                    <div class="dropdown">
-                        検索BOX
-                    </div>
-
-                    <hr>
-                    <div class="dropdown">
-                        人気の情報を表示
-                    </div>
 
                     <hr>
                     <div class="dropdown">
@@ -258,8 +250,7 @@ $responses = $array[array_rand($array)];
                     </div>
                 </div>
             </div>
-
-        </div><!-- Div row 終了-->
+        </div>
     </main>
 
     <footer>

@@ -42,7 +42,7 @@ if ($userId) {
         }
 
         footer {
-            background-color: #D6E4E5;
+            background-color: #497174;
         }
 
         .nav-link {
@@ -72,7 +72,7 @@ if ($userId) {
 </head>
 
 <body>
-    <header class="sticky-top">
+    <header>
         <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
                 <a class="navbar-brand" href="../../../index.html">
@@ -115,7 +115,7 @@ if ($userId) {
 
 
     <div class="container">
-        <div class="box mt-5 py-5">
+        <div class="box my-5 py-5">
             <div class="mx-auto col-lg-5">
                 <form action="./login.php" method="post">
                     <h1 class="text-center fs-1 mb-5">ログインする（学生）</h1>
@@ -137,7 +137,7 @@ if ($userId) {
 
 
 
-    <footer class="fixed-bottom">
+    <footer>
         <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
                 <a class="navbar-brand" href="../../../index.html">

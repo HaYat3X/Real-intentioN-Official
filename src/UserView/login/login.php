@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <header class="sticky-top">
+    <header>
         <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
                 <a class="navbar-brand" href="../../../index.html">
@@ -147,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     <div class="container">
-        <div class="box mt-5 py-5">
+        <div class="box my-5 py-5">
             <div class="mx-auto col-lg-5">
                 <?php if (count($err_array) > 0) : ?>
                     <?php foreach ($err_array as $err_msg) : ?>
@@ -159,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endif; ?>
 
                 <?php if (count($err_array) === 0) : ?>
-                    <p>ログインが完了しました。</p>
+                    <p class="fw-bold">ログインが完了しました。</p>
                     <?php $url = '../Intern_experience/view.php'; ?>
                     <?php header('refresh:3;url=' . $url); ?>
                 <?php endif; ?>
@@ -169,7 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-    <footer class="fixed-bottom">
+    <footer>
         <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
                 <a class="navbar-brand" href="../../../index.html">

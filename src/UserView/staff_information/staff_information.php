@@ -309,7 +309,37 @@ $sql3 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ? AND s
 
                     <hr>
                     <div class="dropdown">
-                        検索BOX
+                        <form action="./search.php" method="post">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="keyword" placeholder="企業名で検索">
+                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
+                            </div>
+                        </form>
+
+                        <form action="./format_search.php" method="post">
+                            <div class="input-group mt-4">
+                                <select class="form-select" name="keyword" aria-label="Default select example">
+                                    <option selected>開催分野</option>
+                                    <option value="対面形式">対面開催</option>
+                                    <option value="オンライン形式">オンライン開催</option>
+                                </select>
+                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
+                            </div>
+                        </form>
+
+                        <form action="./field_search.php" method="post">
+                            <div class="input-group mt-4">
+                                <select class="form-select" name="keyword" aria-label="Default select example">
+                                    <option selected>開催形式</option>
+                                    <option value="IT・ソフトウェア">IT・ソフトウェア</option>
+                                    <option value="2">星2</option>
+                                    <option value="3">星3</option>
+                                    <option value="4">星4</option>
+                                    <option value="5">星5</option>
+                                </select>
+                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
+                            </div>
+                        </form>
                     </div>
 
                     <hr>

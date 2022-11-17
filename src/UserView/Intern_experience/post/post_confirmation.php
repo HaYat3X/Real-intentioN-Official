@@ -60,8 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="icon" href="../../../public/img/favicon.ico">
     <link rel="stylesheet" href="../../../public/css/intern/view.css">
     <title>「Real intentioN」 / インターン体験記</title>
-    <!-- font-awesomeのインポート -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
         body {
@@ -97,6 +95,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .box {
             background-color: white;
             border-radius: 5px;
+        }
+
+        .side-bar {
+            padding-top: 10px;
+            padding-bottom: 10px;
         }
     </style>
 </head>
@@ -220,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
 
-            <div class="side-bar col-md-4 bg-light sticky-top vh-100">
+            <div class="side-bar col-md-4 bg-light sticky-top h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
@@ -235,17 +238,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </li>
                     </ul>
 
-
-
-                    <hr>
-                    <div class="dropdown">
-                        検索BOX
-                    </div>
-
-                    <hr>
-                    <div class="dropdown">
-                        人気の情報を表示
-                    </div>
 
                     <hr>
                     <div class="dropdown">
