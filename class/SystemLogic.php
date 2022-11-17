@@ -291,6 +291,18 @@ class ArrayParamsLogics
         $argument[] = strval($post_id);
         return $argument;
     }
+
+    /**
+     * 検索時にバインドするパラメータ
+     * @param $keyword
+     * @return $argument
+     */
+    public function post_search_prm($keyword)
+    {
+        $argument = [];
+        $argument[] = '%' . $keyword . '%';
+        return $argument;
+    }
 }
 
 

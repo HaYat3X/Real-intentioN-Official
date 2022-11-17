@@ -4,8 +4,8 @@
 session_start();
 
 // 外部ファイルのインポート
-require '../../../class/SystemLogic.php';
-require __DIR__ . '../../../../function/functions.php';
+require '../../../../class/SystemLogic.php';
+require __DIR__ . '../../../../../function/functions.php';
 
 // インスタンス化
 $val_inst = new DataValidationLogics();
@@ -25,11 +25,23 @@ if (!$userId) {
 // 学生の名前
 $userName = $student_inst->get_student_name();
 
+// フォームリクエストを受け取る
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $keyword = filter_input(INPUT_POST, 'keyword');
+} else {
+    $url = '../../Incorrect_request.php';
+    header('Location:' . $url);
+}
 
 
 // インターンテーブルのデータを全部stうとく
-$sql = 'SELECT * FROM `intern_table` INNER JOIN `student_master` ON intern_table.user_id = student_master.student_id ORDER BY intern_table.post_id DESC';
-$results = $db_inst->data_select($sql);
+$sql = 'SELECT * FROM `intern_table` INNER JOIN `student_master` ON intern_table.user_id = student_master.student_id WHERE intern_table.field LIKE ? ORDER BY intern_table.post_id DESC';
+
+
+// バインド
+$argument = $arr_prm_inst->post_search_prm($keyword);
+
+$results = $db_inst->data_select_argument($sql, $argument);
 
 ?>
 
@@ -270,52 +282,6 @@ $results = $db_inst->data_select($sql);
                     </ul>
 
 
-
-                    <hr>
-                    <div class="dropdown">
-                        <form action="./search/free_word_search.php" method="post">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="keyword" placeholder="フリーワード検索">
-                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
-                            </div>
-                        </form>
-
-                        <form action="./search/company_search.php" method="post">
-                            <div class="input-group mt-4">
-                                <input type="text" class="form-control" name="keyword" placeholder="企業名で検索">
-                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
-                            </div>
-                        </form>
-
-                        <form action="./search/format_search.php" method="post">
-                            <div class="input-group mt-4">
-                                <select class="form-select" name="keyword" aria-label="Default select example">
-                                    <option selected>開催形式</option>
-                                    <option value="対面開催">対面開催</option>
-                                    <option value="オンライン開催">オンライン開催</option>
-                                </select>
-                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
-                            </div>
-                        </form>
-
-                        <form action="./search/field_search.php" method="post">
-                            <div class="input-group mt-4">
-                                <select class="form-select" name="keyword" aria-label="Default select example">
-                                    <option selected>業種分野</option>
-                                    <option value="IT分野">IT分野</option>
-                                    <option value="ゲームソフト分野">ゲームソフト分野</option>
-                                    <option value="ハード分野">ハード分野</option>
-                                    <option value="ビジネス分野">ビジネス分野</option>
-                                    <option value="CAD分野">CAD分野</option>
-                                    <option value="グラフィックス分野">グラフィックス分野</option>
-                                    <option value="サウンド分野">サウンド分野</option>
-                                    <option value="日本語分野">日本語分野</option>
-                                    <option value="国際コミュニケーション分野">国際コミュニケーション分野</option>
-                                </select>
-                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
-                            </div>
-                        </form>
-                    </div>
 
 
                     <hr>
