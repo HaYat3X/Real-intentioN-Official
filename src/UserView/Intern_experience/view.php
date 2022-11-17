@@ -234,7 +234,7 @@ $results = $db_inst->data_select($sql);
                                 </p>
                             </div>
 
-                            <div class="area2 d-flex px-3 py-4">
+                            <div class="area2 d-flex px-3 pt-2 pb-3">
                                 <div class="question-btn col-5">
                                     <a href="./comment/comment.php?post_id=<?php h($row['post_id']) ?>" class="login-btn btn px-4">投稿者に質問する</a>
                                 </div>

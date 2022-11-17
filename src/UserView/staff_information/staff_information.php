@@ -86,20 +86,62 @@ $sql3 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ? AND s
             background-color: #eb6540c1;
         }
 
-        .square_box {
+        .square_box_intern {
             position: relative;
             max-width: 100px;
-            background: #7F95D1;
+            background: #ffb6b9;
             border-radius: 5px;
         }
 
-        .square_box::before {
+        .square_box_intern::before {
             content: "";
             display: block;
             padding-bottom: 100%;
         }
 
-        .square_box p {
+        .square_box_intern p {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+        }
+
+        .square_box_briefing {
+            position: relative;
+            max-width: 100px;
+            background: #fae3d9;
+            border-radius: 5px;
+        }
+
+        .square_box_briefing::before {
+            content: "";
+            display: block;
+            padding-bottom: 100%;
+        }
+
+        .square_box_briefing p {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+        }
+
+        .square_box_event {
+            position: relative;
+            max-width: 100px;
+            background: #bbded6;
+            border-radius: 5px;
+        }
+
+        .square_box_event::before {
+            content: "";
+            display: block;
+            padding-bottom: 100%;
+        }
+
+        .square_box_event p {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -117,19 +159,23 @@ $sql3 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ? AND s
         }
 
         .like {
-            color: pink;
+            color: black;
+            font-size: 25px;
         }
 
         .like:hover {
             color: pink;
+            font-size: 25px;
         }
 
         .unsubscribe {
             color: pink;
+            font-size: 25px;
         }
 
         .unsubscribe:hover {
             color: pink;
+            font-size: 25px;
         }
     </style>
     <title>「Real IntentioN」 / インターン体験記</title>
@@ -171,11 +217,6 @@ $sql3 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ? AND s
 
 
 
-
-    <div id="fixed">
-        <a href="./post/post_form.php">インターン体験記<br>を投稿する！</a>
-    </div>
-
     <main role="main" class="container mt-5">
         <div class="row">
 
@@ -198,37 +239,46 @@ $sql3 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ? AND s
                         <!-- 開催期限が過ぎたものは表示しない -->
                         <?php if ($limit >= 1) : ?>
 
-                            <!-- いいね数を取得する？foreachで回せる？ -->
-                            <?php $argument = $arr_prm_inst->student_post_one_prm($row['post_id']); ?>
-                            <?php $like_val = $db_inst->data_select_count($sql2, $argument); ?>
 
                             <div class="mb-5 bg-light">
 
                                 <!-- area1 -->
-                                <div class="area1 d-flex px-3 py-4">
+                                <div class="area1 d-flex px-3 pt-4">
 
                                     <!-- 今はインターンで仮定 -->
                                     <div class="info-left col-2">
-                                        <div class="square_box">
-                                            <p>INTERN</p>
-                                        </div>
+                                        <!-- インターンの場合 -->
+                                        <?php if ($row['type'] === 'インターン情報') : ?>
+                                            <div class="square_box_intern">
+                                                <p>INTERN</p>
+                                            </div>
+                                        <?php endif; ?>
+
+                                        <?php if ($row['type'] === 'イベント情報') : ?>
+                                            <div class="square_box_event">
+                                                <p>EVENT</p>
+                                            </div>
+                                        <?php endif; ?>
+
+                                        <?php if ($row['type'] === '説明会情報') : ?>
+                                            <div class="square_box_briefing">
+                                                <p>BRIEFING</p>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
 
-                                    <div class=""></div>
+
 
                                     <div class="info-center col-10">
-
-
-
-
-                                        <!-- 時間の表示 -->
-                                        <!-- 最終的にはあと〇〇日って出るようにする -->
-                                        <!-- 日じを過ぎた場合終了とする　また自動削除などはできるのか？？ -->
                                         <p>
                                             <?php if ($limit <= 7) : ?>
-                                                <span style="color: red;"><?php h('開催まであと' . $limit . '日') ?></span>
+                                                <span style="color: red;" class="fw-bold">
+                                                    <?php h('開催まであと' . $limit . '日') ?>
+                                                </span>
                                             <?php else : ?>
-                                                <span><?php h('開催まであと' . $limit . '日') ?></span>
+                                                <span class="fw-bold">
+                                                    <?php h('開催まであと' . $limit . '日') ?>
+                                                </span>
                                             <?php endif; ?>
                                         </p>
 
@@ -244,7 +294,7 @@ $sql3 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ? AND s
                                 </div>
 
 
-                                <div class="area2 px-3">
+                                <div class="area2 px-5">
                                     <p class="intern-contents" style="word-break: break-all; white-space: pre-line;">
                                         <?php h($row['overview']) ?>
                                     </p>
@@ -261,7 +311,7 @@ $sql3 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ? AND s
                                     <p><?php echo $attachment; ?></p>
                                 </div>
 
-                                <div class="px-3">
+                                <div class="px-3 pb-3">
                                     <!-- 投稿に既にいいねしている場合いいねできない -->
                                     <?php $argument = $arr_prm_inst->like_post_prm($userId, $row['post_id']); ?>
                                     <?php $unsubscribe = $db_inst->data_select_argument($sql3, $argument); ?>
@@ -269,14 +319,13 @@ $sql3 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ? AND s
                                     <?php if ($unsubscribe) : ?>
                                         <!-- これ押したらいいね解除 -->
                                         <a class="unsubscribe" href="./like_delete.php?post_id=<?php h($row['post_id']) ?>">
-                                            <i class="bi bi-heart-fill fs-2"></i>
-                                        </a>
+                                            <i class="bi bi-heart-fill"></i>
+                                        </a>いいね解除
                                     <?php else : ?>
                                         <a class="like" href="./like.php?post_id=<?php h($row['post_id']) ?>">
                                             <i class="bi bi-heart"></i>
-                                        </a>
+                                        </a>いいね
                                     <?php endif; ?>
-                                    <span>いいね数：<?php h($like_val) ?></span>
                                 </div>
 
 
