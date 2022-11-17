@@ -153,7 +153,7 @@ foreach ($update_date as $row) {
                         <div class="bg-light py-3">
                             <div class="mx-auto col-lg-8">
                                 <form class="mt-5" action="./update_confirmation.php?post_id=<?php h($post_id) ?>" method="post">
-                                    <h1 class="text-center fs-2 mb-5">インターン体験記を編集する</h1>
+                                    <h1 class="text-center fs-2 mb-5">投稿内容を編集する</h1>
 
                                     <div class="mb-4">
                                         <label class="form-label" for="name">企業名</label>
@@ -166,11 +166,18 @@ foreach ($update_date as $row) {
                                     </div>
 
                                     <div class="mb-4">
-                                        <label class="form-label" for="name">参加形式</label>
+                                        <label class="form-label" for="name">開催形式</label>
                                         <select class="form-select" name="format" aria-label="Default select example">
                                             <option selected><?php h($row['format']) ?></option>
-                                            <option value="オンライン形式">オンライン形式</option>
-                                            <option value="対面形式">対面形式</option>
+                                            <option value="IT分野">IT分野</option>
+                                            <option value="ゲームソフト分野">ゲームソフト分野</option>
+                                            <option value="ハード分野">ハード分野</option>
+                                            <option value="ビジネス分野">ビジネス分野</option>
+                                            <option value="CAD分野">CAD分野</option>
+                                            <option value="グラフィックス分野">グラフィックス分野</option>
+                                            <option value="サウンド分野">サウンド分野</option>
+                                            <option value="日本語分野">日本語分野</option>
+                                            <option value="国際コミュニケーション分野">国際コミュニケーション分野</option>
                                         </select>
                                     </div>
 
@@ -186,35 +193,35 @@ foreach ($update_date as $row) {
 
                                     <div class="mb-4">
                                         <label class="form-label" for="name">質問内容を選択してください</label>
-                                        <!-- <input class="form-control" type="text" name="question" readonly value="<?php h($responses) ?>" id="name"> -->
                                         <select class="form-select" name="question" aria-label="Default select example">
                                             <option selected><?php h($row['question']) ?></option>
                                             <option value="インターンの参加は選考に有利になったと感じますか？その理由も教えてください。">インターンの参加は選考に有利になったと感じますか？その理由も教えてください。</option>
                                             <option value="インターンで体験した内容を教えてください。">インターンで体験した内容を教えてください。</option>
-                                            <option value="自分が思っていた業界とのギャップは">内容選考中</option>
+                                            <option value="交通費の支給など、金銭面でのサポートはありましたか？">交通費の支給など、金銭面でのサポートはありましたか？</option>
+                                        </select>
                                         </select>
                                     </div>
 
                                     <div class="mb-4">
-                                        <label for="exampleFormControlTextarea1" class="form-label">質問回答</label>
+                                        <label for="exampleFormControlTextarea1" class="form-label">選択した質問に回答してください。</label>
                                         <textarea class="form-control" name="answer" id="exampleFormControlTextarea1" rows="5" style="resize: none;"><?php h($row['answer']) ?></textarea>
                                     </div>
 
                                     <div class="mb-4">
-                                        <label class="form-label" for="name">総合評価</label>
+                                        <label class="form-label" for="name">総合評価（5段階で選択してください）</label>
                                         <select class="form-select" name="ster" aria-label="Default select example">
                                             <option selected><?php h($row['ster']) ?></option>
-                                            <option value="1">星1</option>
-                                            <option value="2">星2</option>
-                                            <option value="3">星3</option>
-                                            <option value="4">星4</option>
-                                            <option value="5">星5</option>
+                                            <option value="星1">星1</option>
+                                            <option value="星2">星2</option>
+                                            <option value="星3">星3</option>
+                                            <option value="星4">星4</option>
+                                            <option value="星5">星5</option>
                                         </select>
                                     </div>
 
                                     <input type="hidden" name="user_id" value="<?php h($userId) ?>">
 
-                                    <button type="submit" class="login-btn btn px-4">入力内容を確認する</button>
+                                    <button type="submit" class="login-btn btn px-4">編集内容を確認する</button>
                                 </form>
                             </div>
                         </div>
@@ -222,13 +229,8 @@ foreach ($update_date as $row) {
                 <?php endif; ?>
             </div>
 
-            <!-- 
-            <div class="col-md-4 bg-warning sticky-top vh-100">
-                <div>
-                    <h1>送信</h1>
-                </div>
-            </div> -->
-            <div class="side-bar col-md-4 bg-light sticky-top vh-100">
+
+            <div class="side-bar col-md-4 bg-light sticky-top h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
@@ -245,15 +247,7 @@ foreach ($update_date as $row) {
 
 
 
-                    <hr>
-                    <div class="dropdown">
-                        検索BOX
-                    </div>
 
-                    <hr>
-                    <div class="dropdown">
-                        人気の情報を表示
-                    </div>
 
                     <hr>
                     <div class="dropdown">
