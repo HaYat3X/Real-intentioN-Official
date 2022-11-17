@@ -15,6 +15,9 @@ $student_inst = new StudentLogics();
 // ログインチェック
 $userId = $student_inst->get_student_id();
 
+// 学生の名前
+$userName = $student_inst->get_student_name();
+
 // ログインチェックの返り値がfalseの場合ログインページにリダイレクト　（不正なリクエストとみなす）
 if (!$userId) {
     $url = '../../Incorrect_request.php';
@@ -133,27 +136,62 @@ if (!$delete) {
         </nav>
     </header>
 
+    <main role="main" class="container my-5" style="padding: 0px">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="bg-light">
+                    <div class="mx-auto col-lg-8 pt-3 pb-3">
+                        <?php if (count($err_array) > 0) : ?>
+                            <?php foreach ($err_array as $err_msg) : ?>
+                                <p><?php h($err_msg); ?></p>
+                                <a href="../view.php">戻る</a>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+
+                        <?php if (count($err_array) === 0) : ?>
+                            <p class="fw-bold">削除が完了しました。</p>
+                            <?php header('refresh:3;url=../view.php'); ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
 
 
-    <div class="container">
-        <div class="box mt-5 py-5">
-            <div class="mx-auto col-lg-5">
-                <?php if (count($err_array) > 0) : ?>
-                    <?php foreach ($err_array as $err_msg) : ?>
-                        <p><?php h($err_msg); ?></p>
-                        <a href="../view.php">戻る</a>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+            <div class="side-bar col-md-4 bg-light sticky-top h-100">
+                <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item">
+                            <a style="background-color: #EB6440;" href="./view.php" class="nav-link active" aria-current="page">
+                                インターン体験記
+                            </a>
+                        </li>
+                        <li>
+                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                                インターン / イベント情報 / 説明会情報
+                            </a>
+                        </li>
+                    </ul>
 
-                <?php if (count($err_array) === 0) : ?>
-                    <p>削除が完了しました。</p>
-                    <?php header('refresh:3;url=../view.php'); ?>
-                <?php endif; ?>
+                    <hr>
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <strong><?php h($userName) ?></strong>
+                        </a>
+                        <ul class="dropdown-menu text-small shadow">
+                            <li><a class="dropdown-item" href="#">プロフィール</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="../logout.php">サインアウト</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 
-
+  
 
     <footer class="fixed-bottom">
         <nav class="navbar navbar-expand-lg navbar-light py-4">

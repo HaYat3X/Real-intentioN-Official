@@ -98,7 +98,7 @@ foreach ($delete_date as $date) {
         .square_box {
             position: relative;
             max-width: 100px;
-            background: #7F95D1;
+            background: #ffb6b9;
             border-radius: 5px;
         }
 
@@ -171,13 +171,6 @@ foreach ($delete_date as $date) {
     </header>
 
 
-
-
-    <div id="fixed">
-        <a href="./post/post_form.php">インターン体験記<br>を投稿する！</a>
-    </div>
-
-    <!-- <div class="bg-light"> -->
     <main role="main" class="container mt-5">
         <div class="row">
             <div class="col-md-8">
@@ -185,7 +178,6 @@ foreach ($delete_date as $date) {
                     <?php foreach ($delete_date as $row) : ?>
                         <div class="intern-contents mb-5">
 
-                            <!-- area1 -->
                             <div class="area1 d-flex px-3 py-4">
                                 <div class="info-left col-2">
                                     <div class="square_box">
@@ -257,14 +249,14 @@ foreach ($delete_date as $date) {
                                 </div>
                             </div>
 
-                            <div class="question px-4">
+                            <div class="question px-5">
                                 <p style="font-weight: bold;">
                                     <span style="color: blue;">Q.　</span>
                                     <?php h($row['question']) ?>
                                 </p>
                             </div>
 
-                            <div class="answer px-4">
+                            <div class="answer px-5">
                                 <p>
                                     <span style="color: red; font-weight: bold;">A.　</span>
                                     <span style="word-break: break-all; white-space: pre-line;"><?php h($row['answer']) ?></span>
@@ -288,29 +280,10 @@ foreach ($delete_date as $date) {
                     <?php endforeach; ?>
                 <?php endif; ?>
 
-                <!-- ページネーション -->
-                <div class="justify-content-center">
-                    <nav aria-label="Page navigation example justify-content-center">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+
             </div>
 
-            <div class="side-bar col-md-4 bg-light sticky-top vh-100">
+            <div class="side-bar col-md-4 bg-light sticky-top h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">

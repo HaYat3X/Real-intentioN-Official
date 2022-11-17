@@ -220,14 +220,14 @@ $results = $db_inst->data_select($sql);
                                 </div>
                             </div>
 
-                            <div class="question px-4">
+                            <div class="question px-5">
                                 <p style="font-weight: bold;">
                                     <span style="color: blue;">Q.　</span>
                                     <?php h($row['question']) ?>
                                 </p>
                             </div>
 
-                            <div class="answer px-4">
+                            <div class="answer px-5">
                                 <p>
                                     <span style="color: red; font-weight: bold;">A.　</span>
                                     <span style="word-break: break-all; white-space: pre-line;"><?php h($row['answer']) ?></span>
