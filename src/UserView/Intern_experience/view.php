@@ -264,7 +264,7 @@ $results = $db_inst->data_select($sql);
                         </li>
                         <li>
                             <a href="../staff_information/staff_information.php" class="nav-link link-dark">
-                                インターン / イベント / 説明会情報
+                                インターン情報　/ 説明会情報
                             </a>
                         </li>
                     </ul>

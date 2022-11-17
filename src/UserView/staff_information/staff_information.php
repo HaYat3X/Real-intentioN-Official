@@ -345,7 +345,7 @@ $sql3 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ? AND s
                         </li>
                         <li>
                             <a href="../staff_information/staff_information.php" style="background-color: #EB6440;" class="nav-link active">
-                                インターン / イベント情報 / 説明会情報
+                                インターン情報 / 説明会情報
                             </a>
                         </li>
                     </ul>
