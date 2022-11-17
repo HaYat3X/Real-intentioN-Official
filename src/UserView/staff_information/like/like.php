@@ -3,8 +3,8 @@
 session_start();
 
 // 外部ファイルのインポート
-require '../../../class/SystemLogic.php';
-require __DIR__ . '../../../../function/functions.php';
+require '../../../../class/SystemLogic.php';
+require __DIR__ . '../../../../../function/functions.php';
 
 // インスタンス化
 $val_inst = new DataValidationLogics();
@@ -26,12 +26,13 @@ $err_array = [];
 $post_id = filter_input(INPUT_GET, 'post_id');
 
 // SQL発行
-$sql = "DELETE FROM `staff_information_like_table` WHERE like_post_id = ? AND student_id = ?";
+$sql = "INSERT INTO `staff_information_like_table`(`like_post_id`, `student_id`) VALUES (?, ?)";
+
 
 // バインドするパラメータの指定
 $argument = $arr_prm_inst->like_post_prm($userId, $post_id);
 
-// 削除するメソッド実行
+// 編集するメソッド実行
 $already_read = $db_inst->data_various_kinds($sql, $argument);
 
 // 返り値がFalseの場合リダイレクト 配列でメッセージ
@@ -99,8 +100,8 @@ if (!$already_read) {
                         <?php endif; ?>
 
                         <?php if (count($err_array) === 0) : ?>
-                            <label>いいねを解除しました。</label>
-                            <?php $link = './staff_information.php?post_id=' . $post_id; ?>
+                            <label>投稿をいいねしました。</label>
+                            <?php $link = '../staff_information.php?post_id=' . $post_id; ?>
                             <?php header('refresh:3;url=' . $link); ?>
                         <?php endif; ?>
                     </div>

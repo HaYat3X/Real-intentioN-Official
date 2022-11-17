@@ -3,8 +3,8 @@
 session_start();
 
 // 外部ファイルのインポート
-require '../../../class/SystemLogic.php';
-require __DIR__ . '../../../../function/functions.php';
+require '../../../../class/SystemLogic.php';
+require __DIR__ . '../../../../../function/functions.php';
 
 // インスタンス化
 $val_inst = new DataValidationLogics();
@@ -25,11 +25,23 @@ if (!$userId) {
     header('Location:' . $url);
 }
 
-// SQL発行
-$sql = 'SELECT * FROM `staff_information_table` INNER JOIN `staff_master` ON staff_information_table.staff_id = staff_master.staff_id ORDER BY staff_information_table.post_id DESC';
+// フォームリクエストを受け取る
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $keyword = filter_input(INPUT_POST, 'keyword');
+} else {
+    $url = '../../Incorrect_request.php';
+    header('Location:' . $url);
+}
+
+
+// 企業名検索のSQL
+$sql = "SELECT * FROM `staff_information_table` INNER JOIN `staff_master` ON staff_information_table.staff_id = staff_master.staff_id WHERE staff_information_table.type LIKE ? ORDER BY staff_information_table.post_id DESC";
+
+// バインド
+$argument = $arr_prm_inst->post_search_prm($keyword);
 
 // テーブル全部取得
-$results = $db_inst->data_select($sql);
+$results = $db_inst->data_select_argument($sql, $argument);
 
 // 投稿にいいねしているか判定する
 $sql2 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ?';
@@ -354,49 +366,38 @@ $sql3 = 'SELECT * FROM staff_information_like_table WHERE like_post_id = ? AND s
 
                     <hr>
                     <div class="dropdown">
-                        <form action="./search/free_word_search.php" method="post">
-                            <div class="input-group">
-                                <input class="form-control" type="text" name="keyword" placeholder="フリーワード検索" id="name">
-                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
-                            </div>
-                        </form>
-
                         <form action="./search/type_search.php" method="post">
                             <div class="input-group mt-4">
                                 <select class="form-select" name="keyword" aria-label="Default select example">
                                     <option selected>情報の種類</option>
                                     <option value="インターン情報">インターン情報</option>
-                                    <option value="イベント情報">イベント情報</option>
-                                    <option value="説明会情報">説明会情報</option>
+                                    <option value="イベントぞ情報">イベント情報</option>
+                                    <option value="説明会形式">説明会情報</option>
                                 </select>
                                 <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
                             </div>
                         </form>
 
-                        <form action="./search/format_search.php" method="post">
-                            <div class="input-group mt-4">
-                                <select class="form-select" name="keyword" aria-label="Default select example">
-                                    <option selected>開催形式</option>
-                                    <option value="対面開催">対面開催</option>
-                                    <option value="オンライン開催">オンライン開催</option>
-                                </select>
-                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
-                            </div>
-                        </form>
-
-                        <form action="./search/field_search.php" method="post">
+                        <form action="./format_search.php" method="post">
                             <div class="input-group mt-4">
                                 <select class="form-select" name="keyword" aria-label="Default select example">
                                     <option selected>開催分野</option>
-                                    <option value="IT分野">IT分野</option>
-                                    <option value="ゲームソフト分野">ゲームソフト分野</option>
-                                    <option value="ハード分野">ハード分野</option>
-                                    <option value="ビジネス分野">ビジネス分野</option>
-                                    <option value="CAD分野">CAD分野</option>
-                                    <option value="グラフィックス分野">グラフィックス分野</option>
-                                    <option value="サウンド分野">サウンド分野</option>
-                                    <option value="日本語分野">日本語分野</option>
-                                    <option value="国際コミュニケーション分野">国際コミュニケーション分野</option>
+                                    <option value="対面形式">対面開催</option>
+                                    <option value="オンライン形式">オンライン開催</option>
+                                </select>
+                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
+                            </div>
+                        </form>
+
+                        <form action="./field_search.php" method="post">
+                            <div class="input-group mt-4">
+                                <select class="form-select" name="keyword" aria-label="Default select example">
+                                    <option selected>開催形式</option>
+                                    <option value="IT・ソフトウェア">IT・ソフトウェア</option>
+                                    <option value="2">星2</option>
+                                    <option value="3">星3</option>
+                                    <option value="4">星4</option>
+                                    <option value="5">星5</option>
                                 </select>
                                 <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
                             </div>
