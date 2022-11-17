@@ -62,7 +62,7 @@ $notification = $db_inst->data_select_count($sql, $argument);
         }
 
         footer {
-            background-color: #D6E4E5;
+            background-color: #497174;
         }
 
         .nav-link {
@@ -119,6 +119,7 @@ $notification = $db_inst->data_select_count($sql, $argument);
 
         .side-bar {
             padding-top: 10px;
+            padding-bottom: 10px;
         }
     </style>
     <title>「Real IntentioN」 / インターン体験記</title>
@@ -166,7 +167,7 @@ $notification = $db_inst->data_select_count($sql, $argument);
     </div>
 
     <!-- <div class="bg-light"> -->
-    <main role="main" class="container mt-5">
+    <main role="main" class="container mt-5 mb-5">
         <div class="row">
             <div class="col-md-8">
                 <?php if (is_array($results) || is_object($results)) : ?>
@@ -276,7 +277,7 @@ $notification = $db_inst->data_select_count($sql, $argument);
                 <?php endif; ?>
 
                 <!-- ページネーション -->
-                <div class="justify-content-center">
+                <!-- <div class="justify-content-center">
                     <nav aria-label="Page navigation example justify-content-center">
                         <ul class="pagination">
                             <li class="page-item">
@@ -294,10 +295,12 @@ $notification = $db_inst->data_select_count($sql, $argument);
                             </li>
                         </ul>
                     </nav>
-                </div>
+                </div> -->
             </div>
 
-            <div class="side-bar col-md-4 bg-light sticky-top vh-100">
+
+
+            <div class="side-bar col-md-4 bg-light sticky-top h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
@@ -340,6 +343,28 @@ $notification = $db_inst->data_select_count($sql, $argument);
                     </div>
                 </div>
             </div>
+        </div>
+
+
+        <!-- ページネーション -->
+        <div class="justify-content-center">
+            <nav aria-label="Page navigation example justify-content-center">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </main>
 

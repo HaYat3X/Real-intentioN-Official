@@ -203,7 +203,7 @@ foreach ($update_date as $row) {
                                     <div class="mb-4">
                                         <label class="form-label" for="name">総合評価</label>
                                         <select class="form-select" name="ster" aria-label="Default select example">
-                                            <option selected>星<?php h($row['ster']) ?></option>
+                                            <option selected><?php h($row['ster']) ?></option>
                                             <option value="1">星1</option>
                                             <option value="2">星2</option>
                                             <option value="3">星3</option>

@@ -310,7 +310,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                 <form action="./comment.php" method="post">
-                    <div class="mb-2">
+                    <div class="mb-2 col-md-8">
                         <label for="exampleFormControlTextarea1" class="form-label">コメント</label>
                         <textarea required style="resize: none;" class="form-control" name="comment" id="exampleFormControlTextarea1" rows="3"></textarea>
                         <input type="hidden" name="post_id" value="<?php h($post_id) ?>">
@@ -326,7 +326,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                 <!-- コメント表示 -->
-                <div class="comment mt-5">
+                <div class="comment mt-5 col-md-8">
                     <?php if (is_array($comment_date) || is_object($comment_date)) : ?>
                         <?php foreach ($comment_date as $comments) : ?>
 
@@ -334,7 +334,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                 <!-- area1 -->
                                 <div class="area1 d-flex px-3 py-4">
-                                    <div class="info-left col-2">
+                                    <div class="info-left col-md-2">
                                         <!-- <div class="icon_box"> -->
                                         <img src="../../../../public/img/jeshoots-com-LtNvQHdKkmw-unsplash.jpg" width="70px" height="70px" style="object-fit: cover; border-radius: 50%;" alt="">
                                         <!-- </div> -->
