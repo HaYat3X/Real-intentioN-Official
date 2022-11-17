@@ -50,15 +50,13 @@ $comment_date = $db_inst->data_select_argument($sql2, $argument);
 // フォームリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // SQL3発行
-    $sql3 = 'INSERT INTO `intern_reply_table`(`post_id`, `post_user_id`, `user_id`, `comment`, `read_status`) VALUES (?, ?, ?, ?, ?)';
+    $sql3 = 'INSERT INTO `intern_reply_table`(`post_id`, `user_id`, `comment`) VALUES (?, ?, ?)';
 
     $post_id = filter_input(INPUT_POST, 'post_id');
-    $post_user_id = filter_input(INPUT_POST, 'post_user_id');
     $user_id = filter_input(INPUT_POST, 'user_id');
     $comment = filter_input(INPUT_POST, 'comment');
-    $read = filter_input(INPUT_POST, 'read');
 
-    $argument = $arr_prm_inst->student_comment_post_prm($post_id, $post_user_id, $user_id, $comment, $read);
+    $argument = $arr_prm_inst->student_comment_post_prm($post_id, $user_id, $comment);
 
     // 投稿を保存する
     $comment_insert = $db_inst->data_various_kinds($sql3, $argument);
@@ -119,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .square_box {
             position: relative;
             max-width: 100px;
-            background: #7F95D1;
+            background: #ffb6b9;
             border-radius: 5px;
         }
 
@@ -194,11 +192,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-    <div id="fixed">
-        <a href="./post/post_form.php">インターン体験記<br>を投稿する！</a>
-    </div>
-
-    <!-- <div class="bg-light"> -->
     <main role="main" class="container mt-5">
         <div class="row">
             <div class="col-md-8">
@@ -278,14 +271,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </div>
                             </div>
 
-                            <div class="question px-4">
+                            <div class="question px-5">
                                 <p style="font-weight: bold;">
                                     <span style="color: blue;">Q.　</span>
                                     <?php h($row['question']) ?>
                                 </p>
                             </div>
 
-                            <div class="answer px-4">
+                            <div class="answer px-5">
                                 <p>
                                     <span style="color: red; font-weight: bold;">A.　</span>
                                     <span style="word-break: break-all; white-space: pre-line;"><?php h($row['answer']) ?></span>
@@ -315,10 +308,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <textarea required style="resize: none;" class="form-control" name="comment" id="exampleFormControlTextarea1" rows="3"></textarea>
                         <input type="hidden" name="post_id" value="<?php h($post_id) ?>">
                         <input type="hidden" name="user_id" value="<?php h($userId) ?>">
-
-                        <!-- コメントする投稿を投稿したユーザIDを格納 -->
-                        <input type="hidden" name="post_user_id" value="<?php h($post_user_id) ?>">
-                        <input type="hidden" name="read" value="<?php h('0') ?>">
                     </div>
 
                     <button class="login-btn btn px-4">コメントする</button>
@@ -326,31 +315,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                 <!-- コメント表示 -->
-                <div class="comment mt-5 col-md-8">
+                <div class="comment mt-5 mb-5 col-md-8">
+
                     <?php if (is_array($comment_date) || is_object($comment_date)) : ?>
                         <?php foreach ($comment_date as $comments) : ?>
+                            <div class="mb-3 bg-light">
+                                <div class="intern-contents mb-3">
 
-                            <div class="mb-5 bg-light">
 
-                                <!-- area1 -->
-                                <div class="area1 d-flex px-3 py-4">
-                                    <div class="info-left col-md-2">
-                                        <!-- <div class="icon_box"> -->
-                                        <img src="../../../../public/img/jeshoots-com-LtNvQHdKkmw-unsplash.jpg" width="70px" height="70px" style="object-fit: cover; border-radius: 50%;" alt="">
-                                        <!-- </div> -->
+                                    <div class="area1 d-flex px-3 py-4">
+                                        <div class="info-left col-md-2">
+                                            <img src="../../../../public/img/jeshoots-com-LtNvQHdKkmw-unsplash.jpg" width="60px" height="60px" style="object-fit: cover; border-radius: 50%;" alt="">
+                                        </div>
+
+                                        <div class="info-center col-md-8">
+                                            <p class="fw-bold">
+                                                <span>
+                                                    <?php h($comments['name']) ?> ｜ <?php h($comments['department']) ?> ｜
+                                                    <?php h($comments['school_year']) ?>
+                                                </span>
+                                            </p>
+
+                                        </div>
+
+                                        <div class="info-right col-md-2">
+
+                                            <div class="text-end">
+                                                <div class="btn-group">
+                                                    <?php if ($userId == $comments['user_id']) : ?>
+                                                        <div class="btn-group dropstart" role="group">
+                                                            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-dark">
+                                                                <li><a href="./comment_delete.php?post_id=<?php h($comments['reply_id']) ?>" class="dropdown-item">削除</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
                                     </div>
 
-                                    <div class="info-center col-10">
-                                        <span>
-                                            <?php h($comments['name']) ?> ｜ <?php h($comments['department']) ?> ｜
-                                            <?php h($comments['school_year']) ?>
-                                        </span>
-
-                                        <p class="mt-3" style="font-weight: 400;">
+                                    <div class="question px-5">
+                                        <p class="pb-3" style="font-weight: 400;">
                                             <?php h($comments['comment']) ?>
                                         </p>
                                     </div>
-
                                 </div>
                             </div>
 
@@ -360,7 +372,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             </div>
 
-            <div class="side-bar col-md-4 bg-light sticky-top vh-100">
+            <div class="side-bar col-md-4 bg-light sticky-top h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
