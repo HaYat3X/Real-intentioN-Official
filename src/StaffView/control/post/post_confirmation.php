@@ -353,7 +353,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                 <div class="mb-4">
                                     <label for="exampleFormControlTextarea1" class="form-label">イベント内容</label>
-                                    <textarea class="form-control" name="overview" id="exampleFormControlTextarea1" readonly rows="10"><?php h($overview) ?></textarea>
+                                    <textarea class="form-control" name="overview" id="exampleFormControlTextarea1" readonly rows="8"><?php h($overview) ?></textarea>
                                 </div>
 
 
