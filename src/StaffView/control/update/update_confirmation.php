@@ -66,30 +66,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-color: #e6e6e6;
         }
 
-
-
-        .square_box {
-            position: relative;
-            max-width: 100px;
-            background: #ffb6c1;
+        header {
+            background-color: #D6E4E5;
         }
 
-        .square_box::before {
-            content: "";
-            display: block;
-            padding-bottom: 100%;
+        footer {
+            background-color: #D6E4E5;
         }
 
-        .square_box p {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .nav-link {
+            font-weight: bold;
         }
 
-        .side-area {
-            position: sticky;
-            top: 60px;
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            background-color: #EB6440;
+            color: white;
+        }
+
+        .login-btn:hover {
+            color: white;
+            background-color: #eb6540c1;
+        }
+
+        .box {
+            background-color: white;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -126,78 +131,91 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <p style="color: red;"><?php h($err_msg); ?></p>
                                 <?php endforeach; ?>
                                 <div class="backBtn">
-                                    <a class="btn btn-primary px-5" href="./update_form.php?post_id=<?php h($update_post_id) ?>">戻る</a>
+                                    <a class="btn btn-primary px-4" href="./update_form.php?post_id=<?php h($update_post_id) ?>">戻る</a>
                                 </div>
                             <?php endif; ?>
                         </div>
 
 
                         <?php if (count($err_array) === 0) : ?>
-                            <form class="mt-5" action="./update.php" method="post">
-                                <div class="mb-2">
+                            <form class="mt-5 mb-5" action="./update.php" method="post">
+
+                                <h1 class="text-center fs-2 mb-5">編集内容を確認する</h1>
+                                <div class="mb-4">
                                     <label class="form-label" for="name">投稿情報の種類</label>
-                                    <input class="form-control" 　type="text" name="type" value="<?php h($type) ?>">
+                                    <input class="form-control" 　type="text" name="type" value="<?php h($type) ?>" readonly>
                                 </div>
 
 
 
-                                <div class="mb-2">
+                                <div class="mb-4">
                                     <label class="form-label" for="name">イベント形式</label>
-                                    <input class="form-control" 　type="text" name="format" value="<?php h($format) ?>">
+                                    <input class="form-control" 　type="text" name="format" value="<?php h($format) ?>" readonly>
                                 </div>
 
 
 
-                                <div class="mb-2">
+                                <div class="mb-4">
                                     <label class="form-label" for="name">イベント分野</label>
-                                    <input class="form-control" 　type="text" name="field" value="<?php h($field) ?>">
+                                    <input class="form-control" 　type="text" name="field" value="<?php h($field) ?>" readonly>
                                 </div>
 
-                                <div class="mb-2">
+                                <div class="mb-4">
                                     <label class="form-label" for="name">イベント日時</label>
-                                    <input class="form-control" type="date" name="time" value="<?php h($time) ?>">
+                                    <input class="form-control" type="date" name="time" value="<?php h($time) ?>" readonly>
                                 </div>
 
 
-                                <div class="mb-2">
+                                <div class="mb-4">
                                     <label class="form-label" for="name">企業名</label>
-                                    <input class="form-control" type="text" name="company" value="<?php h($company) ?>">
+                                    <input class="form-control" type="text" name="company" value="<?php h($company) ?>" readonly>
                                 </div>
 
 
 
-                                <div class="mb-2">
+                                <div class="mb-4">
                                     <label for="exampleFormControlTextarea1" class="form-label">イベント内容</label>
-                                    <textarea class="form-control" name="overview" id="exampleFormControlTextarea1" rows="3"><?php h($overview) ?></textarea>
+                                    <textarea class="form-control" name="overview" id="exampleFormControlTextarea1" rows="8" readonly><?php h($overview) ?></textarea>
                                 </div>
 
 
-                                <div class="mb-2">
+                                <div class="mb-4">
                                     <label for="exampleFormControlTextarea1" class="form-label">添付資料</label>
-                                    <input class="form-control" type="text" name="attachment" value="<?php h($attachment) ?>">
+                                    <input class="form-control" type="text" name="attachment" value="<?php h($attachment) ?>" readonly>
                                 </div>
 
                                 <input type="hidden" name="post_id" value="<?php h($update_post_id) ?>">
 
-                                <a href="./update_form.php" class="btn btn-primary px-5">書き直す</a>
-                                <button type="submit" class="btn btn-primary px-5">編集する</button>
+                                <a href="./update_form.php" class="btn btn-primary px-4">書き直す</a>
+                                <button type="submit" class="login-btn btn px-4">更新する</button>
                             </form>
                         <?php endif; ?>
                     </div>
+
+
 
                 </div>
             </div>
 
 
-            <div class="col-md-4 bg-warning sticky-top vh-100">
-                <div>
-                    <h1>送信</h1>
+            <div class="side-bar col-md-4 bg-light sticky-top h-100">
+                <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item">
+                            <a style="background-color: #EB6440;" href="./view.php" class="nav-link active" aria-current="page">
+                                インターン体験記
+                            </a>
+                        </li>
+                        <li>
+                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                                インターン / イベント情報 / 説明会情報
+                            </a>
+                        </li>
+                    </ul>
+
                 </div>
-                <!-- <ul class=" list-group">
-                    <li class="list-group-item list-group-item-light">Latest Posts</li>
-                    <li class="list-group-item list-group-item-light">Announcements</li>
-                </ul> -->
-            </div><!-- col-md-4 終了-->
+            </div>
+
         </div><!-- Div row 終了-->
     </main>
 
