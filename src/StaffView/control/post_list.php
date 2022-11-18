@@ -210,13 +210,17 @@ $results = $db_inst->data_select($sql);
             <div class="col-md-8">
                 <?php if (is_array($results) || is_object($results)) : ?>
                     <?php foreach ($results as $row) : ?>
-
-
+                        <?php
+                        // 正規表現でリンク以外の文字列はエスケープ、リンクはaタグで囲んで、遷移できるようにする。
+                        $pattern = '/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/';
+                        $replace = '<a target="_blank" href="$1">$1</a>';
+                        $attachment = preg_replace($pattern, $replace, $row['attachment']);
+                        ?>
 
                         <div class="mb-5 bg-light">
 
                             <!-- area1 -->
-                            <div class="area1 d-flex px-3 py-4">
+                            <div class="area1 d-flex px-3 pt-4">
 
                                 <!-- 今はインターンで仮定 -->
                                 <div class="info-left col-md-2">
@@ -236,10 +240,6 @@ $results = $db_inst->data_select($sql);
 
 
                                 <div class="info-center col-md-10">
-
-                                    <!-- 時間の表示 -->
-                                    <!-- 最終的にはあと〇〇日って出るようにする -->
-                                    <!-- 日じを過ぎた場合終了とする　また自動削除などはできるのか？？ -->
                                     <p class="fw-bold">
                                         <?php h($row['time']) ?>
                                     </p>
@@ -256,14 +256,14 @@ $results = $db_inst->data_select($sql);
                             </div>
 
 
-                            <div class="area2 px-5">
-                                <div class="information">
-                                    <p class="border"><?php h($row['overview']) ?></p>
-                                </div>
+                            <div class="area2 px-5 mt-1 mb-4">
+                                <p class="information">
+                                    <span><?php h($row['overview']) ?></span>
+                                </p>
 
-                                <div class="information">
-                                    <p class="border"><?php h($row['attachment']) ?></p>
-                                </div>
+                                <p class="pt-3">
+                                    <span><?php echo $attachment ?></span>
+                                </p>
                             </div>
 
 
