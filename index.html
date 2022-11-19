@@ -2,18 +2,54 @@
 <html lang="ja">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
-
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="shortcut icon" href="./public/img/favicon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
-    <title>サービス紹介ページ</title>
+    <title>「Real intentioN」</title>
 
     <style>
+        body {
+            background-color: #EFF5F5;
+        }
+        
+        header {
+            background-color: #D6E4E5;
+        }
+        
+        footer {
+            background-color: #497174;
+        }
+        
+        .nav-link {
+            font-weight: bold;
+        }
+        
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+        
+        .login-btn {
+            background-color: #EB6440;
+            color: white;
+        }
+        
+        .login-btn:hover {
+            color: white;
+            background-color: #eb6540c4;
+        }
+        
+        .err-box {
+            background-color: white;
+            border-radius: 5px;
+        }
+        
+        .err-box h1 {
+            font-weight: 100;
+        }
+        
         .area1 {
             background-color: #FFFFFF;
         }
@@ -84,23 +120,27 @@
 
 <body>
     <div class="wrap">
-
-        <!-- 完成ヘッダー -->
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light py-4">
+        <header class="sticky-top">
+            <nav class="navbar navbar-expand-lg navbar-light py-4">
                 <div class="container">
                     <a class="navbar-brand" href="./index.html">
                         <img src="./public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
                                 align-text-top" style="object-fit: cover;"> Real intentioN
                     </a>
+
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span></button>
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item">
                                 <a class="nav-link" href="./src/StaffView/login/login_form.php">職員の方はこちら</a>
                             </li>
-                            <a class="btn btn-primary ms-3" href="./src/UserView/login/login_form.php">ログインはこちら</a>
+
+                            <li class="nav-item">
+                                <a class="login-btn btn" href="./src/UserView/login/login_form.php">ログインはこちら</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -112,10 +152,17 @@
                 <div class="row">
                     <div class="col-lg-7 mx-auto">
                         <div class="msg-area">
-                            <p class="text-light" style="margin-left: 2px;">Real intentioN
+                            <p class="text-light" style="margin-left: 2px;">
+                                Real intentioN
                             </p>
-                            <h1 style="font-weight: 900;">就職活動はここから始めよう！</h1>
-                            <a style="margin-top: 50px;" href="./src/UserView/register/provisional_registration_form.php" class="btn btn-primary px-5 py-2">今すぐ新規登録（無料）</a>
+
+                            <h1 style="font-weight: 900;">
+                                就職活動はここから始めよう！
+                            </h1>
+
+                            <a style="margin-top: 50px;" href="./src/UserView/register/provisional_registration_form.php" class="fw-bold login-btn btn px-4 py-3">
+                                今すぐ新規登録（無料）
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -125,142 +172,164 @@
 
 
         <div class="area1 py-5 mt-5">
-            <h2 class="text-center">Real intentioNとは</h2>
+            <h2 class="text-center">
+                Real intentioNとは
+            </h2>
+
             <p class="mb-5 text-center">
                 初めての就職活動、悩んでいませんか？<br>Real intentioNは神戸電子専門学校に所属する学生のための就職活動サポートアプリです。
             </p>
-
 
             <div class="container">
                 <div class="row o-3column">
                     <div class="col-md-4">
                         <div class="title-box2 py-5 mx-3">
-                            <div class="title-box2-title">01</div>
+                            <div class="title-box2-title">
+                                01
+                            </div>
 
                             <div class="text-center">
                                 <img src="./public/img/icons8-心理状態-100.png" width="100" height="100" style="object-fit:
                                         cover;" alt="">
                             </div>
 
-                            <p class="mt-4 mb-2 px-4" style="font-weight:bold;">就職活動のサポート</p>
-                            <p class="px-4">
-                                神戸電子専門学校に入学して初めての<br>就職活動、苦戦していませんか？<br> Real intentioNでは、
-                                <br>インターンシップやイベント情報を<br>たくさん掲載しています。
+                            <p class="mt-4 mb-2 px-4" style="font-weight:bold;">
+                                就職活動のサポート
                             </p>
 
+                            <p class="px-4">
+                                神戸電子専門学校に入学して初めての<br>就職活動、苦戦していませんか？
+                                <br>Real intentioNでは、
+                                <br>インターンシップやイベント情報を<br>たくさん掲載しています。
+                            </p>
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="title-box2 py-5 mx-3">
-                            <div class="title-box2-title">02</div>
+                            <div class="title-box2-title">
+                                02
+                            </div>
 
                             <div class="text-center">
                                 <img src="./public/img/icons8-学校長-100.png" width="100" height="100" style="object-fit:
                                         cover;" alt="">
                             </div>
 
-                            <p class="mt-4 mb-2 px-4" style="font-weight:bold;">安心・安全な情報を提供</p>
+                            <p class="mt-4 mb-2 px-4" style="font-weight:bold;">
+                                安心・安全な情報を提供
+                            </p>
+
                             <p class="px-4">
                                 学校の先生方が紹介する安心・安全な<br>求人情報を入手したいと思いませんか？
                                 <br>Real intentioNでは、<br>学校の先生方が調査されたおすすめの<br>企業情報を掲載しています。
                             </p>
-
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="title-box2 py-5 mx-3">
-                            <div class="title-box2-title">03</div>
+                            <div class="title-box2-title">
+                                03
+                            </div>
 
                             <div class="text-center">
                                 <img src="./public/img/icons8-友達-100.png" width="100" height="100" style="object-fit:
                                         cover;" alt="">
                             </div>
 
-                            <p class="mt-4 mb-2 px-4" style="font-weight:bold;">先輩・他学科の学生の体験記を掲載</p>
+                            <p class="mt-4 mb-2 px-4" style="font-weight:bold;">
+                                先輩・他学科の学生の体験記を掲載
+                            </p>
+
                             <p class="px-4">
                                 自分以外の学生がどのように<br>就職活動しているのか、<br>知りたいとは思いませんか？
                                 <br>Real intentioNでは、過去に学生が体験したことを体験記として掲載しています。
                             </p>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-
         <div class="area2 py-5 mt-5">
-            <h2 class="text-center mb-5">機能紹介</h2>
+            <h2 class="text-center mb-5">
+                機能紹介
+            </h2>
 
             <div class="container">
                 <div class="row o-2column">
                     <div class="col-md-6">
                         <div class="title-box2-second py-5 mx-3">
+                            <div class="title-box2-title-second">
+                                インターン体験記
+                            </div>
 
-                            <div class="title-box2-title-second">インターン体験記</div>
-                            <p class="mt-4 mb-2 px-4" style="font-weight:bold; color:black;">学生のリアルな体験を掲載</p>
-                            <p class="px-4" style="color: black;">
-                                Real intentioNでは、過去に学生が体験したことを体験記として<br>投稿、共有できる機能があります。<br>「インターンで起こった体験」や「選考の上でのヒント」などなど<br>たくさんの情報が掲載されています。<br>さらに、コメント機能を搭載しているので、気になったことを投稿者<br>に質問することができます。
+                            <p class="mt-4 mb-2 px-4" style="font-weight:bold; color:black;">
+                                学生のリアルな体験を掲載
                             </p>
 
+                            <p class="px-4" style="color: black;">
+                                Real intentioNでは、過去に学生が体験したことを体験記として<br>投稿、共有できる機能があります。<br>「インターンで起こった体験」や「選考の上でのヒント」などなど<br>たくさんの情報が掲載されています。
+                            </p>
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="title-box2-second py-5 mx-3">
-                            <div class="title-box2-title-second">インターン / イベント情報紹介
+                            <div class="title-box2-title-second">
+                                インターン / イベント情報紹介
                             </div>
 
-                            <p class="mt-4 mb-2 px-4" style="font-weight:bold; color:black;">先生が調査した安心・安全な情報を掲載
-                            </p>
-                            <p class="px-4" style="color: black;">
-                                COMING SOON
+                            <p class="mt-4 mb-2 px-4" style="font-weight:bold; color:black;">
+                                先生が調査した安心・安全な情報を掲載
                             </p>
 
+                            <p class="px-4" style="color: black;">
+                                Real intentioNでは、インターン情報と説明会情報を<br>掲載しています。<br>また、掲載している情報は学内の先生が投稿する情報なので、<br>安心・安全な情報を取り扱っています。
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-
-
-
-        <div class="area3 py-5 mt-5">
+        <div class="area3 py-5 my-5">
             <h2 class="text-center mb-5">サービス開発者紹介</h2>
 
             <div class="container">
                 <div class="row o-2column">
                     <div class="col-md-4">
-                        <div class="title-box2-second py-5 mx-3">
-
+                        <div class="title-box2-second py-3 mx-3">
                             <div class="text-center">
                                 <img src="./public/img/kaihatusya.png" width="300" height="300" style="object-fit:
-                                        cover;" alt="">
+                                        cover; border-radius: 5px;" alt="">
                             </div>
-
-                            <p class="mt-4 mb-2 px-4" style="font-weight:bold; color:black;">Hayate Takeda
-                            </p>
-                            <p class="px-4" style="color: black;">
-                                未定
-                            </p>
-
                         </div>
                     </div>
 
                     <div class="col-md-8">
-                        <div class="title-box2-second py-5 mx-3">
-
-                            <p class="mt-4 mb-2 px-4" style="font-weight:bold; color:black;">
-                                GitHub
-                                <a href="#"></a>
+                        <div class="title-box2-second py-3 mx-3">
+                            <p class="px-4" style="font-weight:bold;
+                                    color:black;">
+                                <div class="iframely-embed">
+                                    <div class="iframely-responsive" style="height: 140px;
+                                            padding-bottom: 0;">
+                                        <a href="https://github.com/Hayate12345" data-iframely-url="//iframely.net/Tqklcwh"></a>
+                                    </div>
+                                </div>
+                                <script async src="//iframely.net/embed.js"></script>
                             </p>
 
-                            <p class="mt-4 mb-2 px-4" style="font-weight:bold; color:black;">
-                                GitHub
-                                <a href="#"></a>
+                            <p class="pt-3 px-4" style="font-weight:bold;
+                                    color:black;">
+                                <div class="iframely-embed">
+                                    <div class="iframely-responsive" style="height: 140px;
+                                            padding-bottom: 0;">
+                                        <a href="https://hayate-takeda.xyz" data-iframely-url="//iframely.net/oOZFSB8"></a>
+                                    </div>
+                                </div>
+                                <script async src="//iframely.net/embed.js"></script>
                             </p>
                         </div>
                     </div>
@@ -268,76 +337,47 @@
             </div>
         </div>
 
-
-        <div class="area4 py-5 mt-5">
-            <h2 class="text-center mb-5">お問い合わせ</h2>
-
-            <div class="container">
-                <div class="row o-2column">
-                    <div class="mx-auto col-md-8">
-                        <div class="title-box2-second py-5 mx-3">
-
-                            <form class="mt-2" action="./login.php" method="post">
-
-                                <div class="mb-2">
-                                    <label class="form-label" for="name" style="color: black;">お名前</label>
-                                    <input class="form-control" type="text" name="email">
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label" for="name" style="color: black;">メールアドレス</label>
-                                    <input class="form-control" type="password" name="password">
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label" for="name" style="color: black;">お問い合わせ内容</label>
-                                    <textarea class="form-control" name="comment" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                </div>
-
-                                <button type="submit" class="btn btn-primary
-                                        px-5">ログインする</button>
-                            </form>
-
-                        </div>
+        <footer>
+            <nav class="navbar navbar-expand-lg navbar-light py-4">
+                <div class="container">
+                    <div class="col-md-4 d-flex align-items-center">
+                        <a href="./index.html" class="mb-3 me-2 mb-md-0
+                                text-muted text-decoration-none lh-1"><img src="./public/img/logo.png" width="30px" height="30px" alt=""></a>
+                        <span class="mb-3 mb-md-0" style="color: rgba(255,
+                                255, 255, 0.697);">&copy;
+                                2022 Toge-Company, Inc</span>
                     </div>
 
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav2" aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
 
+                    <div class="collapse navbar-collapse" id="navbarNav2">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" target="_blank" href="https://github.com/Hayate12345">
+                                    <img src="./public/img/icons8-github-120.png" width="35px" height="35px" alt="">
+                                </a>
+                            </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link" target="_blank" href="https://hayate-takeda.xyz/">
+                                    <img src="./public/img/icons8-ポートフォリオ-100.png" width="30px" height="30px" alt="">
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" target="_blank" href="https://twitter.com/hayate_KIC">
+                                    <img src="./public/img/icons8-ツイッター-100.png" width="30px" height="30px" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <footer class="d-flex flex-wrap
-                    justify-content-between align-items-center py-3
-                    my-4 border-top">
-                <div class="col-md-4 d-flex align-items-center">
-                    <a href="/" class="mb-3 me-2 mb-md-0
-                            text-muted text-decoration-none lh-1"><img src="./public/img/logo.png" width="30px" height="30px" alt=""></a>
-                    <span class="mb-3 mb-md-0 text-muted">&copy;
-                            2022 Company, Inc</span>
-                </div>
-
-                <ul class="nav col-md-4 justify-content-end
-                        list-unstyled d-flex">
-                    <li class="ms-3">
-                        <a class="text-muted" href="#"><img src="./public/img/icons8-ツイッター-100.png" width="30" height="30" s alt=""></a>
-                    </li>
-
-                    <li class="ms-3">
-                        <a class="text-muted" href="#"><img src="./public/img/icons8-ツイッター-100.png" width="30" height="30" s alt=""></a>
-                    </li>
-
-                    <li class="ms-3">
-                        <a class="text-muted" href="#"><img src="./public/img/icons8-ツイッター-100.png" width="30" height="30" s alt=""></a>
-                    </li>
-
-                </ul>
-            </footer>
-        </div>
-
-
+            </nav>
+        </footer>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js
             " integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM
             " crossorigin="anonymous "></script>
