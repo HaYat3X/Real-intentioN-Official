@@ -359,7 +359,7 @@ class DataValidationLogics
     {
         // 未入力のチェック
         if ($token == "") {
-            $this->errorMsg = "トークンを入力してください。";
+            $this->errorMsg = "認証コードを入力してください。";
             return false;
         }
 

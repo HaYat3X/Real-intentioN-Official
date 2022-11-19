@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <header class="sticky-top">
+    <header>
         <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
                 <a class="navbar-brand" href="../../../index.html">
@@ -146,12 +146,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <p style="color: red;" class="fw-bold"><?php h($err_msg); ?></p>
                     <?php endforeach; ?>
                     <div class="mt-3">
-                        <a class="login-btn btn px-4" href="./provisional_registration_form.php">戻る</a>
+                        <a class="btn btn-primary px-4" href="./provisional_registration_form.php">戻る</a>
                     </div>
                 <?php endif; ?>
 
                 <?php if (count($err_array) === 0) : ?>
-                    <p class="fw-bold">メールアドレスにトークンを送信しました。</p>
+                    <p class="fw-bold">メールアドレスに認証コードを送信しました。</p>
                 <?php endif; ?>
             </div>
         </div>

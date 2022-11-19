@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         footer {
-            background-color: #D6E4E5;
+            background-color: #497174;
         }
 
         .nav-link {
@@ -92,17 +92,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 5px;
         }
     </style>
-    <title>「Real IntentioN」 / ログイン（学生）</title>
+    <title>「Real IntentioN」 / 会員登録（学生）</title>
 </head>
 
 <body>
-    <header class="sticky-top">
+    <header>
         <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
                 <a class="navbar-brand" href="../../../index.html">
                     <img src="../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
-                                align-text-top" style="object-fit: cover;">
-                    Real intentioN
+                                align-text-top" style="object-fit: cover;"> Real intentioN
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -110,71 +109,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="./src/StaffView/login/login_form.php">Real intentioNとは</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="./src/StaffView/login/login_form.php">お問い合わせはこちら</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="../../StaffView/login/login_form.php">職員の方はこちら</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="login-btn btn px-4" href="./login_form.php">ログインはこちら</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-
-
-    <div class="container">
-        <div class="box mt-5 py-5">
-            <div class="mx-auto col-lg-5">
-                <?php if (count($err_array) > 0) : ?>
-                    <?php foreach ($err_array as $err_mag) : ?>
-                        <p style="color: red;"><?php h($err_mag); ?></p>
-                    <?php endforeach; ?>
-                    <div class="backBtn">
-                        <a class="login-btn btn px-5" href="./full_registration_form.php?key=<?php h($_POST['email']) ?>">戻る</a>
-                    </div>
-                <?php endif; ?>
-
-                <?php if (count($err_array) == 0) : ?>
-                    <p>ユーザ登録が完了しました。</p>
-                    <?php $url = '../login/login_form.php'; ?>
-                    <?php header('refresh:3;url=' . $url); ?>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-
-
-
-    <footer class="fixed-bottom">
-        <nav class="navbar navbar-expand-lg navbar-light py-4">
-            <div class="container">
-                <a class="navbar-brand" href="../../../index.html">
-                    <img src="../../../public/img" alt="" width="30" height="24" class="d-inline-block
-                                align-text-top" style="object-fit: cover;">
-                    Real intentioN
-                </a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav2" aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav2">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="./src/StaffView/login/login_form.php">職員の方はこちら</a>
@@ -187,8 +121,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
         </nav>
-    </footer>
+    </header>
 
+    <div class="container">
+        <div class="box my-5 py-5">
+            <div class="mx-auto col-lg-5">
+                <?php if (count($err_array) > 0) : ?>
+                    <?php foreach ($err_array as $err_mag) : ?>
+                        <p class="fw-bold" style="color: red;">
+                            <?php h($err_mag); ?>
+                        </p>
+                    <?php endforeach; ?>
+                    <a class="btn btn-primary px-4" href="./full_registration_form.php?key=<?php h($_POST['email']) ?>">戻る</a>
+                <?php endif; ?>
+
+                <?php if (count($err_array) == 0) : ?>
+                    <p class="fw-bold">ユーザ登録が完了しました。</p>
+                    <?php $url = '../login/login_form.php'; ?>
+                    <?php header('refresh:3;url=' . $url); ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <nav class="navbar navbar-expand-lg navbar-light py-4">
+            <div class="container">
+                <div class="col-md-4 d-flex align-items-center">
+                    <a href="../../../index.html" class="mb-3 me-2 mb-md-0
+                                text-muted text-decoration-none lh-1"><img src="../../../public/img/logo.png" width="30px" height="30px" alt=""></a>
+                    <span class="mb-3 mb-md-0" style="color: rgba(255,
+                                255, 255, 0.697);">&copy;
+                        2022 Toge-Company, Inc</span>
+                </div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav2" aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav2">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="https://github.com/Hayate12345">
+                                <img src="../../../public/img/icons8-github-120.png" width="35px" height="35px" alt="">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="https://hayate-takeda.xyz/">
+                                <img src="../../../public/img/icons8-ポートフォリオ-100.png" width="30px" height="30px" alt="">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="https://twitter.com/hayate_KIC">
+                                <img src="../../../public/img/icons8-ツイッター-100.png" width="30px" height="30px" alt="">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>

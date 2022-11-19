@@ -59,7 +59,7 @@ require '../../../function/functions.php';
 </head>
 
 <body>
-    <header class="sticky-top">
+    <header>
         <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
                 <a class="navbar-brand" href="../../../index.html">
@@ -90,7 +90,7 @@ require '../../../function/functions.php';
         <div class="box my-5 py-5">
             <div class="mx-auto col-lg-5">
                 <form action="./provisional_registration.php" method="post">
-                    <h1 class="text-center fs-1 mb-5">仮登録する</h1>
+                    <h1 class="text-center fs-2 mb-5">仮登録する</h1>
 
                     <div class="mb-4">
                         <label class="form-label" for="name">メールアドレス</label>
