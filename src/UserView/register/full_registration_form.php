@@ -114,8 +114,27 @@ $key = $_SESSION['email'];
                         <label class="form-label" for="name">学科情報</label>
                         <select class="form-select" name="department" aria-label="Default select example">
                             <option selected>-- 選択してください --</option>
+                            <option value="ITエキスパート学科">ITエキスパート学科</option>
+                            <option value="ITスペシャリスト学科">ITスペシャリスト学科</option>
+                            <option value="情報処理学科">情報処理学科</option>
                             <option value="AIシステム開発学科">AIシステム開発学科</option>
-                            <option value="ITソフトウェア学科">ITソフトウェア学科</option>
+                            <option value="ゲーム開発研究学科">ゲーム開発研究学科</option>
+                            <option value="エンターテインメントソフト学科">エンターテインメントソフト学科</option>
+                            <option value="ゲームソフト学科">ゲームソフト学科</option>
+                            <option value="情報工学学科">情報工学学科</option>
+                            <option value="情報ビジネス学科">情報ビジネス学科</option>
+                            <option value="建築インテリアデザイン学科">建築インテリアデザイン学科</option>
+                            <option value="インダストリアルデザイン学科">インダストリアルデザイン学科</option>
+                            <option value="総合研究科（建築コース）">総合研究科（建築コース）</option>
+                            <option value="3DCGアニメーション学科">3DCGアニメーション学科</option>
+                            <option value="デジタルアニメ学科">デジタルアニメ学科</option>
+                            <option value="グラフィックスデザイン学科">グラフィックデザイン学科</option>
+                            <option value="総合研究科（CGコース）">総合研究科（CGコース）</option>
+                            <option value="サウンドクリエイト学科">サウンドクリエイト学科</option>
+                            <option value="サウンドテクニック学科">サウンドテクニック学科</option>
+                            <option value="声優タレント学科">声優タレント学科</option>
+                            <option value="日本語学科">日本語学科</option>
+                            <option value="国際コミュニケーション学科">国際コミュニケーション学科</option>
                         </select>
                     </div>
 
@@ -125,6 +144,8 @@ $key = $_SESSION['email'];
                             <option selected>-- 選択してください --</option>
                             <option value="1年生">1年生</option>
                             <option value="2年生">2年生</option>
+                            <option value="3年生">3年生</option>
+                            <option value="3年生">3年生</option>
                         </select>
                     </div>
 

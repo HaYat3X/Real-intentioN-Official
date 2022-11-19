@@ -16,10 +16,10 @@ $student_inst = new StudentLogics();
 $userId = $student_inst->get_student_id();
 
 // ログインしている場合はログインフォームを表示させない
-if ($userId) {
-    $url = '../Intern_experience/view.php';
-    header('Location:' . $url);
-}
+// if ($userId) {
+//     $url = '../Intern_experience/view.php';
+//     header('Location:' . $url);
+// }
 
 ?>
 
