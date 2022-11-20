@@ -143,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <?php if (count($err_array) === 0) : ?>
                     <p class="fw-bold">ログインが完了しました。</p>
-                    <?php $url = '../Intern_experience/view.php'; ?>
+                    <?php $url = '../staff_information/staff_information.php'; ?>
                     <?php header('refresh:3;url=' . $url); ?>
                 <?php endif; ?>
             </div>
@@ -153,13 +153,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <footer>
         <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
-                <div class="col-md-4 d-flex align-items-center">
-                    <a href="../../../index.html" class="mb-3 me-2 mb-md-0
-                                text-muted text-decoration-none lh-1"><img src="../../../public/img/logo.png" width="30px" height="30px" alt=""></a>
-                    <span class="mb-3 mb-md-0" style="color: rgba(255,
-                                255, 255, 0.697);">&copy;
-                        2022 Toge-Company, Inc</span>
-                </div>
+                <a class="navbar-brand" href="../../../index.html">
+                    <img src="../../../public/img" alt="" width="30" height="24" class="d-inline-block
+                                align-text-top" style="object-fit: cover;">
+                    Real intentioN
+                </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav2" aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -168,21 +166,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="collapse navbar-collapse" id="navbarNav2">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" target="_blank" href="https://github.com/Hayate12345">
-                                <img src="../../../public/img/icons8-github-120.png" width="35px" height="35px" alt="">
-                            </a>
+                            <a class="nav-link" href="./src/StaffView/login/login_form.php">職員の方はこちら</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" target="_blank" href="https://hayate-takeda.xyz/">
-                                <img src="../../../public/img/icons8-ポートフォリオ-100.png" width="30px" height="30px" alt="">
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" target="_blank" href="https://twitter.com/hayate_KIC">
-                                <img src="../../../public/img/icons8-ツイッター-100.png" width="30px" height="30px" alt="">
-                            </a>
+                            <a class="login-btn btn" href="./src/UserView/login/login_form.php">ログインはこちら</a>
                         </li>
                     </ul>
                 </div>

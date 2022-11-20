@@ -133,22 +133,12 @@ $results = $db_inst->data_select($sql);
         </nav>
     </header>
 
-
     <main role="main" class="container mt-5 mb-5">
-
-        <div class="mb-4">
-            <a class="login-btn btn px-4 py-3" href="./post/post_form.php">インターン体験記を投稿する</a>
-        </div>
-
         <div class="row">
             <div class="col-md-8">
-
-
                 <?php if (is_array($results) || is_object($results)) : ?>
                     <?php foreach ($results as $row) : ?>
                         <div class="intern-contents mb-5">
-
-
                             <div class="area1 d-flex px-3 py-4">
                                 <div class="info-left col-2">
                                     <div class="square_box">
@@ -199,7 +189,6 @@ $results = $db_inst->data_select($sql);
                                 </div>
 
                                 <div class="info-right col-1 ms-4">
-
                                     <div class="text-center">
                                         <div class="btn-group">
                                             <?php if ($userId == $row['user_id']) : ?>
@@ -215,8 +204,6 @@ $results = $db_inst->data_select($sql);
                                             <?php endif; ?>
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
 
@@ -246,30 +233,31 @@ $results = $db_inst->data_select($sql);
                                 </div>
                             </div>
                         </div>
-
                     <?php endforeach; ?>
                 <?php endif; ?>
-
             </div>
-
-
 
             <div class="side-bar col-md-4 bg-light sticky-top h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
-                            <a style="background-color: #EB6440;" href="./view.php" class="nav-link active" aria-current="page">
-                                インターン体験記
-                            </a>
-                        </li>
-                        <li>
                             <a href="../staff_information/staff_information.php" class="nav-link link-dark">
                                 インターン情報　/ 説明会情報
                             </a>
                         </li>
+
+                        <li class="nav-item">
+                            <a href="./view.php" style="background-color: #EB6440;" class="nav-link active" aria-current="page">
+                                インターン体験記
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="./post/post_form.php" class="nav-link link-dark">
+                                インターン体験記を新規投稿
+                            </a>
+                        </li>
                     </ul>
-
-
 
                     <hr>
                     <div class="dropdown">
@@ -290,7 +278,7 @@ $results = $db_inst->data_select($sql);
                         <form action="./search/format_search.php" method="post">
                             <div class="input-group mt-4">
                                 <select class="form-select" name="keyword" aria-label="Default select example">
-                                    <option selected>開催形式</option>
+                                    <option selected>開催形式で検索</option>
                                     <option value="対面開催">対面開催</option>
                                     <option value="オンライン開催">オンライン開催</option>
                                 </select>
@@ -301,7 +289,7 @@ $results = $db_inst->data_select($sql);
                         <form action="./search/field_search.php" method="post">
                             <div class="input-group mt-4">
                                 <select class="form-select" name="keyword" aria-label="Default select example">
-                                    <option selected>業種分野</option>
+                                    <option selected>開催分野で検索</option>
                                     <option value="IT分野">IT分野</option>
                                     <option value="ゲームソフト分野">ゲームソフト分野</option>
                                     <option value="ハード分野">ハード分野</option>
@@ -317,7 +305,6 @@ $results = $db_inst->data_select($sql);
                         </form>
                     </div>
 
-
                     <hr>
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -325,17 +312,16 @@ $results = $db_inst->data_select($sql);
                             <strong><?php h($userName) ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow">
-                            <li><a class="dropdown-item" href="#">プロフィール</a></li>
-                            <li>
+                            <!-- <li><a class="dropdown-item" href="#">プロフィール</a></li> -->
+                            <!-- <li>
                                 <hr class="dropdown-divider">
-                            </li>
+                            </li> -->
                             <li><a class="dropdown-item" href="../logout.php">サインアウト</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-
 
         <!-- ページネーション -->
         <div class="justify-content-center">
@@ -359,16 +345,16 @@ $results = $db_inst->data_select($sql);
         </div>
     </main>
 
-
-
     <footer>
         <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
-                <a class="navbar-brand" href="../../../index.html">
-                    <img src="../../../public/img" alt="" width="30" height="24" class="d-inline-block
-                                align-text-top" style="object-fit: cover;">
-                    Real intentioN
-                </a>
+                <div class="col-md-4 d-flex align-items-center">
+                    <a href="../../../index.html" class="mb-3 me-2 mb-md-0
+                                text-muted text-decoration-none lh-1"><img src="../../../public/img/logo.png" width="30px" height="30px" alt=""></a>
+                    <span class="mb-3 mb-md-0" style="color: rgba(255,
+                                255, 255, 0.697);">&copy;
+                        2022 Toge-Company, Inc</span>
+                </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav2" aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -377,18 +363,27 @@ $results = $db_inst->data_select($sql);
                 <div class="collapse navbar-collapse" id="navbarNav2">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="./src/StaffView/login/login_form.php">職員の方はこちら</a>
+                            <a class="nav-link" target="_blank" href="https://github.com/Hayate12345">
+                                <img src="../../../public/img/icons8-github-120.png" width="35px" height="35px" alt="">
+                            </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="login-btn btn" href="./src/UserView/login/login_form.php">ログインはこちら</a>
+                            <a class="nav-link" target="_blank" href="https://hayate-takeda.xyz/">
+                                <img src="../../../public/img/icons8-ポートフォリオ-100.png" width="30px" height="30px" alt="">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="https://twitter.com/hayate_KIC">
+                                <img src="../../../public/img/icons8-ツイッター-100.png" width="30px" height="30px" alt="">
+                            </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </footer>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
