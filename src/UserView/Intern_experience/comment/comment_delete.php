@@ -58,7 +58,7 @@ if (!$delete) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
         body {
-            background-color: #EFF5F5;
+            background-color: #eaf0f0;
         }
 
         header {
@@ -66,7 +66,7 @@ if (!$delete) {
         }
 
         footer {
-            background-color: #D6E4E5;
+            background-color: #497174;
         }
 
         .nav-link {
@@ -87,20 +87,46 @@ if (!$delete) {
             background-color: #eb6540c1;
         }
 
-        .box {
+        .square_box {
+            position: relative;
+            max-width: 100px;
+            background: #ffb6b9;
+            border-radius: 5px;
+        }
+
+        .square_box::before {
+            content: "";
+            display: block;
+            padding-bottom: 100%;
+        }
+
+        .square_box p {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+        }
+
+        .intern-contents {
             background-color: white;
             border-radius: 5px;
+        }
+
+        .side-bar {
+            padding-top: 10px;
+            padding-bottom: 10px;
         }
     </style>
     <title>「Real IntentioN」 / ログイン（学生）</title>
 </head>
 
 <body>
-    <header class="sticky-top">
+    <header>
         <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
-                <a class="navbar-brand" href="../../../index.html">
-                    <img src="../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
+                <a class="navbar-brand" href="./view.php">
+                    <img src="../../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
                                 align-text-top" style="object-fit: cover;">
                     Real intentioN
                 </a>
@@ -108,30 +134,6 @@ if (!$delete) {
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="./src/StaffView/login/login_form.php">Real intentioNとは</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="./src/StaffView/login/login_form.php">お問い合わせはこちら</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="../../StaffView/login/login_form.php">職員の方はこちら</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="login-btn btn" href="./login_form.php">ログインはこちら</a>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </nav>
     </header>
@@ -161,14 +163,21 @@ if (!$delete) {
             <div class="side-bar col-md-4 bg-light sticky-top h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
-                        <li class="nav-item">
-                            <a style="background-color: #EB6440;" href="./view.php" class="nav-link active" aria-current="page">
+                        <li>
+                            <a href="../../staff_information/staff_information.php" class="nav-link link-dark">
+                                インターン情報　/ 説明会情報
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="../view.php" class="nav-link link-dark" aria-current="page">
                                 インターン体験記
                             </a>
                         </li>
+
                         <li>
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
-                                インターン / イベント情報 / 説明会情報
+                            <a href="./post_form.php" class="nav-link link-dark">
+                                インターン体験記を新規投稿
                             </a>
                         </li>
                     </ul>
@@ -180,11 +189,19 @@ if (!$delete) {
                             <strong><?php h($userName) ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow">
-                            <li><a class="dropdown-item" href="#">プロフィール</a></li>
-                            <li>
+                            <!-- <li>
+                                <a class="dropdown-item" href="#">プロフィール
+
+                                </a>
+                            </li> -->
+
+                            <!-- <li>
                                 <hr class="dropdown-divider">
+                            </li> -->
+
+                            <li>
+                                <a class="dropdown-item" href="../../logout.php">サインアウト</a>
                             </li>
-                            <li><a class="dropdown-item" href="../logout.php">サインアウト</a></li>
                         </ul>
                     </div>
                 </div>
@@ -194,14 +211,16 @@ if (!$delete) {
 
 
 
-    <footer class="fixed-bottom">
+    <footer>
         <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
-                <a class="navbar-brand" href="../../../index.html">
-                    <img src="../../../public/img" alt="" width="30" height="24" class="d-inline-block
-                                align-text-top" style="object-fit: cover;">
-                    Real intentioN
-                </a>
+                <div class="col-md-4 d-flex align-items-center">
+                    <a href="../../../../index.html" class="mb-3 me-2 mb-md-0
+                                text-muted text-decoration-none lh-1"><img src="../../../../public/img/logo.png" width="30px" height="30px" alt=""></a>
+                    <span class="mb-3 mb-md-0" style="color: rgba(255,
+                                255, 255, 0.697);">&copy;
+                        2022 Toge-Company, Inc</span>
+                </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav2" aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -210,11 +229,21 @@ if (!$delete) {
                 <div class="collapse navbar-collapse" id="navbarNav2">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="./src/StaffView/login/login_form.php">職員の方はこちら</a>
+                            <a class="nav-link" target="_blank" href="https://github.com/Hayate12345">
+                                <img src="../../../../public/img/icons8-github-120.png" width="35px" height="35px" alt="">
+                            </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="login-btn btn" href="./src/UserView/login/login_form.php">ログインはこちら</a>
+                            <a class="nav-link" target="_blank" href="https://hayate-takeda.xyz/">
+                                <img src="../../../../public/img/icons8-ポートフォリオ-100.png" width="30px" height="30px" alt="">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="https://twitter.com/hayate_KIC">
+                                <img src="../../../../public/img/icons8-ツイッター-100.png" width="30px" height="30px" alt="">
+                            </a>
                         </li>
                     </ul>
                 </div>
