@@ -10,6 +10,7 @@ class CsrfToken
      */
     public function create_csrf_token()
     {
+        session_regenerate_id(true);
         $_SESSION['csrf_token'] = bin2hex(openssl_random_pseudo_bytes(24));
         return $_SESSION['csrf_token'];
     }
@@ -27,5 +28,16 @@ class CsrfToken
         }
 
         return true;
+    }
+
+    /**
+     * csrfセッション情報消去
+     * @param
+     * @return 
+     * unit test ok
+     */
+    public function csrf_token_unset()
+    {
+        unset($_SESSION['csrf_token']);
     }
 }

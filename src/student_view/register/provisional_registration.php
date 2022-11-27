@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 require '../../../class/Csrf_calc.php';
@@ -20,12 +21,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location:' . $uri);
     }
 
+    // csrf_token削除　二重送信対策
+    $csrf_calc->csrf_token_unset();
+
     // バリデーションチェック
 } else {
-    $uri = '/Deliverables4/src/400_request.php';
+    $uri = '/Deliverables4/src/' . basename('400_request.php');
     header('Location:' . $uri);
 }
-
 
 ?>
 
