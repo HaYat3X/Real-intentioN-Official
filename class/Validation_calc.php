@@ -2,12 +2,12 @@
 
 class ValidationCheck
 {
-    private String $errorMsg = "";
+    private String $errorMsg;
 
-    // public function __construct(String $errorMsg)
-    // {
-    //     $this->errorMsg = $errorMsg;
-    // }
+    public function __construct(String $errorMsg)
+    {
+        $this->errorMsg = $errorMsg;
+    }
 
     /**
      * 神戸電子のメールアドレスでないメールアドレスが入力された場合エラーを出す

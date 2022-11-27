@@ -2,12 +2,15 @@
 
 session_start();
 
-require '../../../class/Csrf_calc.php';
+require '../../../class/Session_calc.php';
 require '../../../class/Validation_calc.php';
 require '../../../function/functions.php';
+require '../../../class/Register_calc.php';
 
-$csrf_calc = new Session();
-$val_calc = new ValidationCheck();
+$ses_calc = new Session();
+$val_calc = new ValidationCheck("");
+$rgs_calc = new Register();
+
 $err_array = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -16,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = filter_input(INPUT_POST, 'email');
 
     // csrfトークンの存在確認と正誤判定
-    $csrf_check = $csrf_calc->csrf_match_check($csrf_token);
+    $csrf_check = $ses_calc->csrf_match_check($csrf_token);
     if (!$csrf_check) {
         $uri = '/Deliverables4/src/' . basename('400_request.php');
         header('Location:' . $uri);
@@ -32,10 +35,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $err_array[] = $val_calc->getErrorMsg();
     }
 
+    // メールアドレスが既に登録されているか判定する
+    $email_set = $rgs_calc->set_email($email);
+
+    $sql = 'SELECT * FROM Student_Mst WHERE email = ?';
+
+    $registered_check = $rgs_calc->registered_check($sql);
+
+    // 配列が返ってくるということは登録されている
+    if ($registered_check) {
+        $err_array[] = 'メールアドレスが既に登録されています。';
+    }
+
     // エラーがない場合メールアドレスにトークン送信
+    $send_token = $rgs_calc->send_token();
+
+    // 送信したトークンをセッションに格納
 
     // csrf_token削除　二重送信対策
-    $csrf_calc->csrf_token_unset();
+    $ses_calc->csrf_token_unset();
 } else {
     $uri = '/Deliverables4/src/' . basename('400_request.php');
     header('Location:' . $uri);
