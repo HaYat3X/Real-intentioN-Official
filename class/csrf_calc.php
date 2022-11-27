@@ -1,6 +1,6 @@
 <?php
 
-class CsrfToken
+class Session
 {
     /**
      * csrfトークン発行
@@ -21,7 +21,7 @@ class CsrfToken
      * @return true
      * unit test ok
      */
-    public function csrf_match_check($csrf_token)
+    public function csrf_match_check(String $csrf_token)
     {
         if ($_SESSION['csrf_token'] !== $csrf_token) {
             return false;

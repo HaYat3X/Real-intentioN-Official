@@ -4,7 +4,7 @@ session_start();
 require '../../../class/Csrf_calc.php';
 require '../../../function/functions.php';
 
-$csrf_calc = new CsrfToken();
+$csrf_calc = new Session();
 
 ?>
 
