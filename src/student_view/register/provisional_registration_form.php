@@ -1,7 +1,7 @@
 <?php
 session_start();
 // csrf対策
-require '../../../class/csrf_calc.php';
+require '../../../class/Csrf_calc.php';
 require '../../../function/functions.php';
 
 $csrf_calc = new CsrfToken();

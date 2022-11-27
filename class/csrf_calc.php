@@ -22,7 +22,7 @@ class CsrfToken
      */
     public function csrf_match_check($csrf_token)
     {
-        if (!$_SESSION['csrf_token'] === $csrf_token) {
+        if ($_SESSION['csrf_token'] !== $csrf_token) {
             return false;
         }
 
