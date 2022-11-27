@@ -40,4 +40,50 @@ class Session
     {
         unset($_SESSION['csrf_token']);
     }
+
+
+
+
+
+
+
+    private $create_email_token = "";
+
+    /**
+     * メールアドレスに送信したトークン情報を格納するセッション
+     * @param
+     * @return 
+     */
+    public function create_email_token($send_token)
+    {
+        session_regenerate_id(true);
+        $this->create_email_token = $_SESSION['email_token'];
+        $_SESSION['email_token'] = $send_token;
+        return $this->create_email_token;
+    }
+
+    /**
+     * メールアドレスに送信したトークン情報を格納するセッション
+     * @param
+     * @return 
+     */
+    public function check_email_token()
+    {
+        if (!$_SESSION['email_token']) {
+            return false;
+        }
+
+        return $_SESSION['email_token'];
+    }
+
+    /**
+     * email_token削除
+     * @param
+     * @return 
+     * unit test ok
+     */
+    public function email_token_unset()
+    {
+        unset($_SESSION['email_token']);
+    }
 }

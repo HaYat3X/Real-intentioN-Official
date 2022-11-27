@@ -47,10 +47,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $err_array[] = 'メールアドレスが既に登録されています。';
     }
 
-    // エラーがない場合メールアドレスにトークン送信
-    $send_token = $rgs_calc->send_token();
+    if (count($err_array) === 0) {
+        // エラーがない場合メールアドレスにトークン送信
+        $send_token = $rgs_calc->send_token();
+        var_dump($send_token);
 
-    // 送信したトークンをセッションに格納
+        // 送信したトークンをセッションに格納
+        $ses_calc->create_email_token($send_token);
+    }
 
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
@@ -82,6 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <?php if (count($err_array) === 0) : ?>
         <p class="fw-bold">メールアドレスに認証トークンを送信しました。</p>
+        <?php $uri = './auth_email_form.php?email=' . $email ?>
+        <?php header('refresh:3;url=' . $uri); ?>
     <?php endif; ?>
     </div>
 </body>
