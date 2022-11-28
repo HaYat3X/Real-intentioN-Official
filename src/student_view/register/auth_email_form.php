@@ -7,14 +7,21 @@ require '../../../function/functions.php';
 
 $ses_calc = new Session();
 
-$email_token = $ses_calc->check_email_token();
+$email_token_check = $ses_calc->check_email_token();
 
-if (!$email_token) {
+if (!$email_token_check) {
     $uri = '../../400_request.php';
     header('Location:' . $uri);
 }
 
 $email = filter_input(INPUT_GET, 'email');
+
+// // クッキーの存在チェック
+// if (!$_COOKIE['auto_login']) {
+//     $uri = '../../400_request.php';
+//     header('Location:' . $uri);
+// }
+
 
 ?>
 
@@ -106,7 +113,7 @@ $email = filter_input(INPUT_GET, 'email');
 
                         <input type="hidden" name="email" value="<?php h($email); ?>">
                         <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
-                        <input type="hidden" name="email_token" value="<?php h($email_token); ?>">
+                        <input type="hidden" name="email_token" value="<?php h($email_token_check); ?>">
 
                         <button type="submit" class="login-btn btn px-4">認証する</button>
                     </form>
