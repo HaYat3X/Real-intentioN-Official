@@ -117,50 +117,58 @@ if (!$_COOKIE['auto_login']) {
 
                         <button type="submit" class="login-btn btn px-4">認証する</button>
                     </form>
+
+                    <form class="needs-validation" novalidate action="./auth_email.php" method="POST">
+                        <h1 class="text-center fs-2 mb-5">
+                            メールアドレスを認証する
+                        </h1>
+
+                        <div class="mt-4">
+                            <label for="validationCustom02" class="form-label">名前</label>
+                            <input type="text" class="form-control" id="validationCustom02" required name="email">
+
+                            <div class="invalid-feedback">
+                                <p>メールアドレスを入力してください。</p>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
+
+                        <div class="mt-4">
+                            <button type="submit" class="login-btn btn px-4">仮登録する</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer>
-        <nav class="navbar navbar-expand-lg navbar-light py-4">
-            <div class="container">
-                <div class="col-md-4 d-flex align-items-center">
-                    <a href="../../../index.html" class="mb-3 me-2 mb-md-0
-                                text-muted text-decoration-none lh-1"><img src="../../../public/img/logo.png" width="30px" height="30px" alt=""></a>
-                    <span class="mb-3 mb-md-0" style="color: rgba(255,
-                                255, 255, 0.697);">&copy;
-                        2022 Toge-Company, Inc</span>
-                </div>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav2" aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav2">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" target="_blank" href="https://github.com/Hayate12345">
-                                <img src="../../../public/img/icons8-github-120.png" width="35px" height="35px" alt="">
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" target="_blank" href="https://hayate-takeda.xyz/">
-                                <img src="../../../public/img/icons8-ポートフォリオ-100.png" width="30px" height="30px" alt="">
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" target="_blank" href="https://twitter.com/hayate_KIC">
-                                <img src="../../../public/img/icons8-ツイッター-100.png" width="30px" height="30px" alt="">
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    <footer class="text-center py-2">
+        <div class="text-light text-center small">
+            © 2020 Toge-company:
+            <a class="text-white" target="_blank" href="https://hayate-takeda.xyz/">hayate-takeda.xyz</a>
+        </div>
     </footer>
+
+    <script>
+        (() => {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // ループして帰順を防ぐ
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
     </script>

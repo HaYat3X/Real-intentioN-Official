@@ -94,7 +94,7 @@ $rgs_calc = new Register();
                         </h1>
 
                         <div class="mt-4">
-                            <label for="validationCustom02" class="form-label">名前</label>
+                            <label for="validationCustom02" class="form-label">メールアドレス</label>
                             <input type="text" class="form-control" id="validationCustom02" required name="email">
 
                             <div class="invalid-feedback">
