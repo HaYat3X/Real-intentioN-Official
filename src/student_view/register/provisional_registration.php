@@ -53,6 +53,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // 送信したトークンをセッションに格納
         $ses_calc->create_email_token($send_token);
+
+        // 認証コードを入力できる時間を制限　検証期間中のため一旦コメントアウト
+        // $cookieName = 'auto_login';
+        // $cookieValue = 'test';
+        // $cookieExpire = time() + 10;
+        // setcookie($cookieName, $cookieValue, $cookieExpire);
     }
 
     // csrf_token削除　二重送信対策

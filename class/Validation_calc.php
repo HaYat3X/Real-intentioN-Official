@@ -32,6 +32,9 @@ class ValidationCheck
             if ($val == "") {
                 $this->errorMsg = '未入力の項目があります。';
                 return false;
+            } elseif ($val === '-- 選択してください --') {
+                $this->errorMsg = '未選択の項目があります。';
+                return false;
             }
 
             return true;

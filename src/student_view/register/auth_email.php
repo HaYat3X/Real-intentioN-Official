@@ -9,6 +9,8 @@ require '../../../class/Validation_calc.php';
 $val_calc = new ValidationCheck("");
 $ses_calc = new Session();
 
+
+
 $err_array = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -29,7 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$val_calc->not_yet_entered($val_check_arr)) {
         $err_array[] = $val_calc->getErrorMsg();
     }
-
 
     if ($email_token !== $user_input_token) {
         $err_array[] = '認証コードが間違っています。';
@@ -122,12 +123,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php foreach ($err_array as $err_msg) : ?>
                             <p class="fw-bold" style="color: red;"><?php h($err_msg); ?></p>
                         <?php endforeach; ?>
-                        <a class="btn btn-primary px-4" href="./auth_email_form.php">戻る</a>
+                        <a class="btn btn-primary px-4" href="./auth_email_form.php?email=<?php h($email) ?>">戻る</a>
                     <?php endif; ?>
 
                     <?php if (count($err_array) === 0) : ?>
                         <p class="fw-bold">メールアドレスに認証トークンを送信しました。</p>
-                        <?php $uri = './auth_email_form.php?email=' . $email ?>
+                        <?php $uri = './register_form.php?email=' . $email ?>
                         <?php header('refresh:3;url=' . $uri); ?>
                     <?php endif; ?>
                 </div>
