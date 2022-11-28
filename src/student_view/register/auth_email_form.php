@@ -16,11 +16,11 @@ if (!$email_token_check) {
 
 $email = filter_input(INPUT_GET, 'email');
 
-// // クッキーの存在チェック
-// if (!$_COOKIE['auto_login']) {
-//     $uri = '../../400_request.php';
-//     header('Location:' . $uri);
-// }
+// クッキーの存在チェック　なければ不正レクエスト
+if (!$_COOKIE['auto_login']) {
+    $uri = '../../400_request.php';
+    header('Location:' . $uri);
+}
 
 
 ?>

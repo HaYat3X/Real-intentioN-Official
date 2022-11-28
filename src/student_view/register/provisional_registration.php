@@ -1,14 +1,18 @@
 <?php
 
 session_start();
+define('PATH', '/Applications/MAMP/htdocs/Deliverables4');
 
-require '../../../class/Session_calc.php';
-require '../../../class/Validation_calc.php';
-require '../../../function/functions.php';
-require '../../../class/Register_calc.php';
+// 外部ファイルのインポート
+require_once PATH . '/class/Session_calc.php';
+require_once PATH . '/class/Database_calc.php';
+require_once PATH . '/class/Register_calc.php';
+require_once PATH . '/class/Validation_calc.php';
+require_once PATH . '/function/functions.php';
 
+// インスタンス化
 $ses_calc = new Session();
-$val_calc = new ValidationCheck("");
+$val_calc = new ValidationCheck();
 $rgs_calc = new Register();
 
 $err_array = [];
@@ -21,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // csrfトークンの存在確認と正誤判定
     $csrf_check = $ses_calc->csrf_match_check($csrf_token);
     if (!$csrf_check) {
-        $uri = '/Deliverables4/src/' . basename('400_request.php');
+        $uri = PATH . '/src/400_request.php';
         header('Location:' . $uri);
     }
 
@@ -37,16 +41,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // メールアドレスが既に登録されているか判定する
     $email_set = $rgs_calc->set_email($email);
-
     $sql = 'SELECT * FROM Student_Mst WHERE email = ?';
-
     $registered_check = $rgs_calc->registered_check($sql);
 
-    // 配列が返ってくるということは登録されている
+    // 配列が返ってきた場合登録済みであるためエラー
     if ($registered_check) {
         $err_array[] = 'メールアドレスが既に登録されています。';
     }
 
+    // エラーがない場合の処理
     if (count($err_array) === 0) {
         // エラーがない場合メールアドレスにトークン送信
         $send_token = $rgs_calc->send_token();
@@ -54,11 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // 送信したトークンをセッションに格納
         $ses_calc->create_email_token($send_token);
 
-        // 認証コードを入力できる時間を制限　検証期間中のため一旦コメントアウト
-        // $cookieName = 'auto_login';
-        // $cookieValue = 'test';
-        // $cookieExpire = time() + 10;
-        // setcookie($cookieName, $cookieValue, $cookieExpire);
+        // 認証コードを入力できる時間を制限 20分間
+        $cookieName = 'auth_time_limit';
+        $cookieValue = 'test';
+        $cookieExpire = time() + 1200;
+        setcookie($cookieName, $cookieValue, $cookieExpire);
     }
 
     // csrf_token削除　二重送信対策
@@ -148,13 +151,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="col-lg-5 mx-auto">
                     <?php if (count($err_array) > 0) : ?>
                         <?php foreach ($err_array as $err_msg) : ?>
-                            <p class="fw-bold" style="color: red;"><?php h($err_msg); ?></p>
+                            <div class="alert alert-danger" role="alert"><strong>エラー</strong>　-<?php h($err_msg) ?></div>
                         <?php endforeach; ?>
-                        <a class="btn btn-primary px-4" href="./provisional_registration_form.php">戻る</a>
+
+                        <div class="mt-2">
+                            <a class="btn btn-primary px-4" href="./provisional_registration_form.php">戻る</a>
+                        </div>
                     <?php endif; ?>
 
                     <?php if (count($err_array) === 0) : ?>
-                        <p class="fw-bold">メールアドレスに認証トークンを送信しました。</p>
+                        <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-メールアドレスに認証トークンを送信しました。</div>
                         <?php $uri = './auth_email_form.php?email=' . $email ?>
                         <?php header('refresh:3;url=' . $uri); ?>
                     <?php endif; ?>
@@ -163,44 +169,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <footer>
-        <nav class="navbar navbar-expand-lg navbar-light py-4">
-            <div class="container">
-                <div class="col-md-4 d-flex align-items-center">
-                    <a href="../../../index.html" class="mb-3 me-2 mb-md-0
-                                text-muted text-decoration-none lh-1"><img src="../../../public/img/logo.png" width="30px" height="30px" alt=""></a>
-                    <span class="mb-3 mb-md-0" style="color: rgba(255,
-                                255, 255, 0.697);">&copy;
-                        2022 Toge-Company, Inc</span>
-                </div>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav2" aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav2">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" target="_blank" href="https://github.com/Hayate12345">
-                                <img src="../../../public/img/icons8-github-120.png" width="35px" height="35px" alt="">
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" target="_blank" href="https://hayate-takeda.xyz/">
-                                <img src="../../../public/img/icons8-ポートフォリオ-100.png" width="30px" height="30px" alt="">
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" target="_blank" href="https://twitter.com/hayate_KIC">
-                                <img src="../../../public/img/icons8-ツイッター-100.png" width="30px" height="30px" alt="">
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    <footer class="text-center py-2">
+        <div class="text-light text-center small">
+            © 2020 Toge-company:
+            <a class="text-white" target="_blank" href="https://hayate-takeda.xyz/">hayate-takeda.xyz</a>
+        </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
