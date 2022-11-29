@@ -50,4 +50,30 @@ class Register
         mb_send_mail($to, $subject, $message, $headers);
         return $token;
     }
+
+    /**
+     * メールアドレスにトークンを送信する (メールアドレス認証のため)
+     * @param \src\Userview\register\provisional_registration.php $email, $token
+     * @return token
+     * @return false
+     */
+    public function student_register($name, $email, $password, $course_of_study, $grade_in_school, $attendance_record_number)
+    {
+        $pdo_calc = new Database();
+
+        $sql = "INSERT INTO `Student_Mst` (`name`, `email`, `password`, `course_of_study`, `grade_in_school`, `status`, `attendance_record_number`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        $argument = [];
+        $argument[] = strval($name);
+        $argument[] = strval($email);
+        $argument[] = strval(password_hash($password, PASSWORD_DEFAULT));
+        $argument[] = strval($course_of_study);
+        $argument[] = strval($grade_in_school);
+        $argument[] = strval('活動中');
+        $argument[] = strval($attendance_record_number);
+
+        $result = $pdo_calc->data_various_kinds($sql, $argument);
+
+        return $result;
+    }
 }

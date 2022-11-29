@@ -1,14 +1,19 @@
 <?php
 
 session_start();
+define('PATH', '/Applications/MAMP/htdocs/Deliverables4');
 
-require '../../../class/Session_calc.php';
-require '../../../function/functions.php';
-require '../../../class/Validation_calc.php';
+// 外部ファイルのインポート
+require_once PATH . '/class/Session_calc.php';
+require_once PATH . '/class/Database_calc.php';
+require_once PATH . '/class/Register_calc.php';
+require_once PATH . '/class/Validation_calc.php';
+require_once PATH . '/function/functions.php';
 
-$val_calc = new ValidationCheck("");
+// インスタンス化
 $ses_calc = new Session();
-
+$val_calc = new ValidationCheck();
+$rgs_calc = new Register();
 
 
 $err_array = [];
@@ -35,6 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($email_token !== $user_input_token) {
         $err_array[] = '認証コードが間違っています。';
     }
+
+    // 認証コードを入力できる時間を制限 20分間
+    $cookieName = 'input_time_limit';
+    $cookieValue = rand();
+    $cookieExpire = time() + 1200;
+    setcookie($cookieName, $cookieValue, $cookieExpire);
 
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
@@ -121,13 +132,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="col-lg-5 mx-auto">
                     <?php if (count($err_array) > 0) : ?>
                         <?php foreach ($err_array as $err_msg) : ?>
-                            <p class="fw-bold" style="color: red;"><?php h($err_msg); ?></p>
+                            <div class="alert alert-danger" role="alert"><strong>エラー</strong>　-<?php h($err_msg) ?></div>
                         <?php endforeach; ?>
-                        <a class="btn btn-primary px-4" href="./auth_email_form.php?email=<?php h($email) ?>">戻る</a>
+
+                        <div class="mt-2">
+                            <a class="btn btn-primary px-4" href="./provisional_registration_form.php">戻る</a>
+                        </div>
                     <?php endif; ?>
 
                     <?php if (count($err_array) === 0) : ?>
-                        <p class="fw-bold">メールアドレスに認証トークンを送信しました。</p>
+                        <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-認証が完了しました。</div>
                         <?php $uri = './register_form.php?email=' . $email ?>
                         <?php header('refresh:3;url=' . $uri); ?>
                     <?php endif; ?>

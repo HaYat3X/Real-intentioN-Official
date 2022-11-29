@@ -1,11 +1,19 @@
 <?php
 
 session_start();
+define('PATH', '/Applications/MAMP/htdocs/Deliverables4');
 
-require '/Applications/MAMP/htdocs/Deliverables4/class/Session_calc.php';
-require '../../../function/functions.php';
+// 外部ファイルのインポート
+require_once PATH . '/class/Session_calc.php';
+require_once PATH . '/class/Database_calc.php';
+require_once PATH . '/class/Register_calc.php';
+require_once PATH . '/class/Validation_calc.php';
+require_once PATH . '/function/functions.php';
 
+// インスタンス化
 $ses_calc = new Session();
+$val_calc = new ValidationCheck();
+$rgs_calc = new Register();
 
 $email_token_check = $ses_calc->check_email_token();
 
@@ -17,7 +25,7 @@ if (!$email_token_check) {
 $email = filter_input(INPUT_GET, 'email');
 
 // クッキーの存在チェック　なければ不正レクエスト
-if (!$_COOKIE['auto_login']) {
+if (!$_COOKIE['auth_time_limit']) {
     $uri = '../../400_request.php';
     header('Location:' . $uri);
 }
@@ -101,41 +109,26 @@ if (!$_COOKIE['auto_login']) {
         <div class="container bg-light py-5">
             <div class="row py-5">
                 <div class="col-lg-5 mx-auto">
-                    <form action="./auth_email.php" method="post">
-                        <h1 class="text-center fs-2 mb-5">
-                            メールアドレスを認証する
-                        </h1>
-
-                        <div class="mb-4">
-                            <label class="form-label" for="name">認証トークン</label>
-                            <input class="form-control" type="password" name="token">
-                        </div>
-
-                        <input type="hidden" name="email" value="<?php h($email); ?>">
-                        <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
-                        <input type="hidden" name="email_token" value="<?php h($email_token_check); ?>">
-
-                        <button type="submit" class="login-btn btn px-4">認証する</button>
-                    </form>
-
                     <form class="needs-validation" novalidate action="./auth_email.php" method="POST">
                         <h1 class="text-center fs-2 mb-5">
                             メールアドレスを認証する
                         </h1>
 
                         <div class="mt-4">
-                            <label for="validationCustom02" class="form-label">名前</label>
-                            <input type="text" class="form-control" id="validationCustom02" required name="email">
+                            <label for="validationCustom02" class="form-label"></label>
+                            <input type="password" class="form-control" id="validationCustom02" required name="token">
 
                             <div class="invalid-feedback">
-                                <p>メールアドレスを入力してください。</p>
+                                <p>認証コードを入力してください。</p>
                             </div>
                         </div>
 
                         <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
+                        <input type="hidden" name="email" value="<?php h($email); ?>">
+                        <input type="hidden" name="email_token" value="<?php h($email_token_check); ?>">
 
                         <div class="mt-4">
-                            <button type="submit" class="login-btn btn px-4">仮登録する</button>
+                            <button type="submit" class="login-btn btn px-4">認証する</button>
                         </div>
                     </form>
                 </div>

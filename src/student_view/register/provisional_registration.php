@@ -54,12 +54,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // エラーがない場合メールアドレスにトークン送信
         $send_token = $rgs_calc->send_token();
 
-        // 送信したトークンをセッションに格納
-        $ses_calc->create_email_token($send_token);
+        if ($send_token) {
+            // 送信したトークンをセッションに格納
+            $ses_calc->create_email_token($send_token);
+        }
 
         // 認証コードを入力できる時間を制限 20分間
         $cookieName = 'auth_time_limit';
-        $cookieValue = 'test';
+        $cookieValue = rand();
         $cookieExpire = time() + 1200;
         setcookie($cookieName, $cookieValue, $cookieExpire);
     }

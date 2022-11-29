@@ -1,15 +1,19 @@
 <?php
 
 session_start();
+define('PATH', '/Applications/MAMP/htdocs/Deliverables4');
 
-require '../../../class/Session_calc.php';
-require '../../../function/functions.php';
-require '../../../class/Validation_calc.php';
+// 外部ファイルのインポート
+require_once PATH . '/class/Session_calc.php';
+require_once PATH . '/class/Database_calc.php';
+require_once PATH . '/class/Register_calc.php';
+require_once PATH . '/class/Validation_calc.php';
+require_once PATH . '/function/functions.php';
 
-$val_calc = new ValidationCheck("");
+// インスタンス化
 $ses_calc = new Session();
-
-
+$val_calc = new ValidationCheck();
+$rgs_calc = new Register();
 
 $err_array = [];
 
@@ -17,28 +21,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = filter_input(INPUT_POST, 'name');
     $email = filter_input(INPUT_POST, 'email');
     $password = filter_input(INPUT_POST, 'password');
-    $department = filter_input(INPUT_POST, 'department');
-    $school_year = filter_input(INPUT_POST, 'school_year');
-    $number = filter_input(INPUT_POST, 'number');
+    $course_of_study = filter_input(INPUT_POST, 'department');
+    $grade_in_school = filter_input(INPUT_POST, 'school_year');
+    $attendance_record_number = filter_input(INPUT_POST, 'number');
     $csrf_token = filter_input(INPUT_POST, 'csrf_token');
     var_dump($_POST);
 
-    var_dump($_SESSION['csrf_token']);
-
     // csrfトークンの存在確認と正誤判定
     $csrf_check = $ses_calc->csrf_match_check($csrf_token);
-    var_dump($csrf_check);
-    // if (!$csrf_check) {
-    //     $uri = '/Deliverables4/src/' . basename('400_request.php');
-    //     header('Location:' . $uri);
-    // }
+
+    if (!$csrf_check) {
+        $uri = '/Deliverables4/src/' . basename('400_request.php');
+        header('Location:' . $uri);
+    }
 
     // バリデーションチェック
+    $val_check_arr = [];
     $val_check_arr[] = strval($name);
+    $val_check_arr[] = strval($email);
+    $val_check_arr[] = strval($password);
+    $val_check_arr[] = strval($grade_in_school);
+    $val_check_arr[] = strval($course_of_study);
+    $val_check_arr[] = strval($attendance_record_number);
 
-    if (!$val_calc->not_yet_entered($val_check_arr)) {
+    if (!$test = $val_calc->not_yet_entered($val_check_arr)) {
         $err_array[] = $val_calc->getErrorMsg();
     }
+
+    // エラーがない場合の登録処理
+    if (count($err_array) === 0) {
+
+        // 登録処置をする関数
+        $register = $rgs_calc->student_register($name, $email, $password, $course_of_study, $grade_in_school, $attendance_record_number);
+
+        if (!$register) {
+            $err_array[] = '登録に失敗しました。';
+        }
+    }
+
+    // csrf_token削除　二重送信対策
+    $ses_calc->csrf_token_unset();
 }
 ?>
 
@@ -120,14 +142,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="col-lg-5 mx-auto">
                     <?php if (count($err_array) > 0) : ?>
                         <?php foreach ($err_array as $err_msg) : ?>
-                            <p class="fw-bold" style="color: red;"><?php h($err_msg); ?></p>
+                            <div class="alert alert-danger" role="alert"><strong>エラー</strong>　-<?php h($err_msg) ?></div>
                         <?php endforeach; ?>
-                        <a class="btn btn-primary px-4" href="./register_form.php?email=<?php h($email) ?>">戻る</a>
+
+                        <div class="mt-2">
+                            <a class="btn btn-primary px-4" href="./register_form.php?email=<?php h($email) ?>">戻る</a>
+                        </div>
                     <?php endif; ?>
 
                     <?php if (count($err_array) === 0) : ?>
-                        <p class="fw-bold">メールアドレスに認証トークンを送信しました。</p>
-                        <?php $uri = './register_form.php?email=' . $email ?>
+                        <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-登録が完了しました。</div>
+                        <?php $uri = '../login/login_form.php'; ?>
                         <?php header('refresh:3;url=' . $uri); ?>
                     <?php endif; ?>
                 </div>

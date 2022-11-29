@@ -36,9 +36,9 @@ class ValidationCheck
                 $this->errorMsg = '未選択の項目があります。';
                 return false;
             }
-
-            return true;
         }
+
+        return true;
     }
 
     /**
