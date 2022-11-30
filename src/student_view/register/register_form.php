@@ -202,6 +202,13 @@ if (!$_COOKIE['input_time_limit']) {
         </div>
     </div>
 
+    <footer class="text-center py-2">
+        <div class="text-light text-center small">
+            © 2020 Toge-company:
+            <a class="text-white" target="_blank" href="https://hayate-takeda.xyz/">hayate-takeda.xyz</a>
+        </div>
+    </footer>
+
     <script>
         (() => {
             'use strict'
@@ -220,9 +227,6 @@ if (!$_COOKIE['input_time_limit']) {
             })
         })()
     </script>
-
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
     </script>

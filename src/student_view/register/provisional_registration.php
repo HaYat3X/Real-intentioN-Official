@@ -135,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="./src/StaffView/login/login_form.php">職員の方はこちら</a>
+                            <a class="nav-link fw-bold" href="./src/StaffView/login/login_form.php">職員の方はこちら</a>
                         </li>
 
                         <li class="nav-item">
