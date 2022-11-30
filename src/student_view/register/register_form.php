@@ -157,7 +157,7 @@ if (!$_COOKIE['input_time_limit']) {
                             </div>
                         </div>
 
-                        <div class="mb-4">
+                        <div class="mt-4">
                             <label for="validationCustom04" class="form-label">学年情報</label>
                             <select class="form-select" class="form-select" id="validationCustom04" name="school_year" required>
                                 <option selected disabled value="">-- 選択してください --</option>
