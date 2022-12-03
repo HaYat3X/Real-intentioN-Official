@@ -1,5 +1,6 @@
 <?php
 
+// セッション開始
 session_start();
 define('PATH', '/Applications/MAMP/htdocs/Deliverables4');
 
@@ -15,9 +16,11 @@ $ses_calc = new Session();
 $val_calc = new ValidationCheck();
 $rgs_calc = new Register();
 
+// エラーメッセージが入る配列を定義
 $err_array = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // 送信された値を受け取り
     $name = filter_input(INPUT_POST, 'name');
     $email = filter_input(INPUT_POST, 'email');
     $password = filter_input(INPUT_POST, 'password');
@@ -34,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location:' . $uri);
     }
 
-    // バリデーションチェック
+    // バリデーションチェックする値を配列に格納
     $val_check_arr = [];
     $val_check_arr[] = strval($name);
     $val_check_arr[] = strval($email);
@@ -43,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $val_check_arr[] = strval($course_of_study);
     $val_check_arr[] = strval($attendance_record_number);
 
+    // バリデーションチェック
     if (!$test = $val_calc->not_yet_entered($val_check_arr)) {
         $err_array[] = $val_calc->getErrorMsg();
     }
@@ -60,7 +64,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
+} else {
+    $uri = PATH . '/src/Exception/400_request.php';
+    header('Location:' . $uri);
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -108,12 +116,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <header>
+    <header class="sticky-top">
         <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
                 <a class="navbar-brand" href="./index.html">
-                    <img src="../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
-                                align-text-top" style="object-fit: cover;"> Real intentioN
+                    <img src="../../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
+                            align-text-top" style="object-fit: cover;"> Real intentioN
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -123,11 +131,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="./src/StaffView/login/login_form.php">職員の方はこちら</a>
+                            <a class="nav-link px-4" href="./src/StaffView/login/login_form.php">職員の方はこちら</a>
                         </li>
-
                         <li class="nav-item">
-                            <a class="login-btn btn px-3" href="./src/UserView/login/login_form.php">ログインはこちら</a>
+                            <a class="login-btn btn px-4" href="./src/UserView/login/login_form.php">ログインはこちら</a>
                         </li>
                     </ul>
                 </div>
@@ -159,9 +166,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <footer class="text-center py-2">
+    <footer class="text-center py-3">
         <div class="text-light text-center small">
-            © 2020 Toge-company:
+            &copy; 2022 Toge-Company, Inc
             <a class="text-white" target="_blank" href="https://hayate-takeda.xyz/">hayate-takeda.xyz</a>
         </div>
     </footer>

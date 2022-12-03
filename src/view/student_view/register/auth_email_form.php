@@ -1,5 +1,6 @@
 <?php
 
+// セッション開始
 session_start();
 define('PATH', '/Applications/MAMP/htdocs/Deliverables4');
 
@@ -78,7 +79,31 @@ $email = filter_input(INPUT_GET, 'email');
 </head>
 
 <body>
-    <?php include(PATH . '/src/template/header_template.php') ?>
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-light py-4">
+            <div class="container">
+                <a class="navbar-brand" href="./index.html">
+                    <img src="../../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
+                            align-text-top" style="object-fit: cover;"> Real intentioN
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link px-4" href="./src/StaffView/login/login_form.php">職員の方はこちら</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="login-btn btn px-4" href="./src/UserView/login/login_form.php">ログインはこちら</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 
     <div class="box d-flex vh-100 align-items-center">
         <div class="container bg-light py-5">
@@ -111,7 +136,12 @@ $email = filter_input(INPUT_GET, 'email');
         </div>
     </div>
 
-    <?php include(PATH . '/src/template/footer.php') ?>
+    <footer class="text-center py-3">
+        <div class="text-light text-center small">
+            &copy; 2022 Toge-Company, Inc
+            <a class="text-white" target="_blank" href="https://hayate-takeda.xyz/">hayate-takeda.xyz</a>
+        </div>
+    </footer>
 
     <script>
         (() => {

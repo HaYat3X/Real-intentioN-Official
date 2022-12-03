@@ -1,5 +1,6 @@
 <?php
 
+// セッション開始
 session_start();
 ob_start();
 define('PATH', '/Applications/MAMP/htdocs/Deliverables4');
@@ -16,10 +17,11 @@ $ses_calc = new Session();
 $val_calc = new ValidationCheck();
 $rgs_calc = new Register();
 
+// エラーが格納される配列を定義
 $err_array = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // フォームで送信したリクエストを受け取る
+    // フォームで送信されてきたリクエストを受け取る
     $csrf_token = filter_input(INPUT_POST, 'csrf_token');
     $email = filter_input(INPUT_POST, 'email');
 
@@ -27,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $csrf_check = $ses_calc->csrf_match_check($csrf_token);
 
     if (!$csrf_check) {
-        $uri = PATH . '/src/400_request.php';
+        $uri = PATH . '/src/Exception/400_request.php';
         header('Location:' . $uri);
     }
 
@@ -42,8 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // メールアドレスが既に登録されているか判定する
-    $email_set = $rgs_calc->set_email($email);
     $sql = 'SELECT * FROM Student_Mst WHERE email = ?';
+    $email_set = $rgs_calc->set_email($email);
     $registered_check = $rgs_calc->registered_check($sql);
 
     // 配列が返ってきた場合登録済みであるためエラー
@@ -51,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $err_array[] = 'メールアドレスが既に登録されています。';
     }
 
-    // エラーがない場合の処理
+    // エラーがない場合メールアドレスにトークン送信
     if (count($err_array) === 0) {
         // エラーがない場合メールアドレスにトークン送信
         $send_token = $rgs_calc->send_token();
@@ -59,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // セッションに生成したトークンを格納
         $ses_calc->create_email_token($send_token);
 
-        // 認証コードを入力できる時間を制限 20分間
+        // クッキーを発行し、認証時間を制限 20分間
         $cookieName = 'auth_time_limit';
         $cookieValue = rand();
         $cookieExpire = time() + 1200;
@@ -69,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
 } else {
-    $uri = '/Deliverables4/src/' . basename('400_request.php');
+    $uri = PATH . '/src/Exception/400_request.php';
     header('Location:' . $uri);
 }
 
@@ -120,8 +122,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <!-- ヘッダーテンプレート -->
-    <?php include(PATH . '/src/template/header_template.php'); ?>
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-light py-4">
+            <div class="container">
+                <a class="navbar-brand" href="./index.html">
+                    <img src="../../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
+                            align-text-top" style="object-fit: cover;"> Real intentioN
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link px-4" href="./src/StaffView/login/login_form.php">職員の方はこちら</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="login-btn btn px-4" href="./src/UserView/login/login_form.php">ログインはこちら</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 
     <div class="box d-flex vh-100 align-items-center">
         <div class="container bg-light py-5">
@@ -147,7 +172,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <?php include(PATH . '/src/template/footer.php') ?>
+    <footer class="text-center py-3">
+        <div class="text-light text-center small">
+            &copy; 2022 Toge-Company, Inc
+            <a class="text-white" target="_blank" href="https://hayate-takeda.xyz/">hayate-takeda.xyz</a>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
     </script>

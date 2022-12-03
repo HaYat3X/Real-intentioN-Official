@@ -1,5 +1,6 @@
 <?php
 
+// セッション開始
 session_start();
 ob_start();
 define('PATH', '/Applications/MAMP/htdocs/Deliverables4');
@@ -16,16 +17,19 @@ $ses_calc = new Session();
 $val_calc = new ValidationCheck();
 $rgs_calc = new Register();
 
+// パラメータからメールアドレスを受け取る
 $email = filter_input(INPUT_GET, 'email');
 
+// パラメータが存在しない場合はエラー
 if (!$email) {
-    $uri = '../../400_request.php';
+    $uri = PATH . '/src/Exception/400_request.php';
     header('Location:' . $uri);
 }
 
+// メールアドレス認証トークンの破棄
 $ses_calc->email_token_unset();
 
-// クッキーの存在チェック　なければ不正レクエスト
+// クッキーの存在チェック　存在しなければエラー
 if (!$_COOKIE['input_time_limit']) {
     $uri = '../../400_request.php';
     header('Location:' . $uri);
@@ -78,7 +82,31 @@ if (!$_COOKIE['input_time_limit']) {
 </head>
 
 <body>
-    <?php include(PATH . '/src/template/header_template.php') ?>
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-light py-4">
+            <div class="container">
+                <a class="navbar-brand" href="./index.html">
+                    <img src="../../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
+                            align-text-top" style="object-fit: cover;"> Real intentioN
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link px-4" href="./src/StaffView/login/login_form.php">職員の方はこちら</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="login-btn btn px-4" href="./src/UserView/login/login_form.php">ログインはこちら</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 
     <div class="box my-5">
         <div class="container bg-light py-5">
@@ -175,7 +203,12 @@ if (!$_COOKIE['input_time_limit']) {
         </div>
     </div>
 
-    <?php include(PATH . '/src/template/footer.php') ?>
+    <footer class="text-center py-3">
+        <div class="text-light text-center small">
+            &copy; 2022 Toge-Company, Inc
+            <a class="text-white" target="_blank" href="https://hayate-takeda.xyz/">hayate-takeda.xyz</a>
+        </div>
+    </footer>
 
     <script>
         (() => {
