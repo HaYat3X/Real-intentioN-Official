@@ -90,7 +90,7 @@ $email = filter_input(INPUT_GET, 'email');
                         </h1>
 
                         <div class="mt-4">
-                            <label for="validationCustom02" class="form-label"></label>
+                            <label for="validationCustom02" class="form-label">認証コード</label>
                             <input type="password" class="form-control" id="validationCustom02" required name="token">
 
                             <div class="invalid-feedback">
