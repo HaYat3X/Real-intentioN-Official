@@ -59,7 +59,7 @@ $rgs_calc = new Register();
 <body>
 
     <!-- ヘッダーテンプレート -->
-    <?php include(PATH . '/src/template/header.php'); ?>
+    <?php include(PATH . '/src/template/header_template.php'); ?>
 
     <div class="box d-flex vh-100 align-items-center">
         <div class="container bg-light py-5">

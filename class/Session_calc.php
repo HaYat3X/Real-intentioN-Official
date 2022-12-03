@@ -10,7 +10,6 @@ class Session
      */
     public function create_csrf_token()
     {
-        session_regenerate_id(true);
         $_SESSION['csrf_token'] = bin2hex(openssl_random_pseudo_bytes(24));
         return $_SESSION['csrf_token'];
     }
@@ -47,7 +46,7 @@ class Session
 
 
 
-    private $create_email_token = "";
+
 
     /**
      * メールアドレスに送信したトークン情報を格納するセッション
@@ -56,10 +55,7 @@ class Session
      */
     public function create_email_token($send_token)
     {
-        session_regenerate_id(true);
-        $this->create_email_token = $_SESSION['email_token'];
         $_SESSION['email_token'] = $send_token;
-        return $this->create_email_token;
     }
 
     /**
