@@ -4,13 +4,12 @@ require_once '/Applications/MAMP/htdocs/Deliverables4/class/Database_calc.php';
 
 class Register
 {
-    // プロパティ定義初期化
     private string $email = "";
 
     /**
      * emailプロパティに値をセット
      * @param $email
-     * @return void
+     * @return null
      */
     public function set_email($email)
     {
@@ -18,14 +17,13 @@ class Register
     }
 
     /**
-     * 登録済みかどうか判定する
+     * 登録済みかどうか判定する 登録済みの場合配列が返る
      * @param $email
-     * @return false
+     * @return array
      */
     public function registered_check($sql)
     {
         $pdo_calc = new Database();
-
         $argument[] = strval($this->email);
         $result = $pdo_calc->data_select_argument($sql, $argument);
 
@@ -34,9 +32,8 @@ class Register
 
     /**
      * メールアドレスにトークンを送信する (メールアドレス認証のため)
-     * @param \src\Userview\register\provisional_registration.php $email, $token
+     * @param
      * @return token
-     * @return false
      */
     public function send_token()
     {
@@ -52,10 +49,9 @@ class Register
     }
 
     /**
-     * メールアドレスにトークンを送信する (メールアドレス認証のため)
-     * @param \src\Userview\register\provisional_registration.php $email, $token
-     * @return token
-     * @return false
+     * 学生登録データをデータベースに登録する
+     * @param $name, $email, $password, $course_of_study, $grade_in_school, $attendance_record_number
+     * @return bool
      */
     public function student_register($name, $email, $password, $course_of_study, $grade_in_school, $attendance_record_number)
     {
