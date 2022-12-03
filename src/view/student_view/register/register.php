@@ -15,43 +15,52 @@ $ses_calc = new Session();
 $val_calc = new ValidationCheck();
 $rgs_calc = new Register();
 
-
 $err_array = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = filter_input(INPUT_POST, 'name');
     $email = filter_input(INPUT_POST, 'email');
-    $user_input_token = filter_input(INPUT_POST, 'token');
-    $email_token = filter_input(INPUT_POST, 'email_token');
+    $password = filter_input(INPUT_POST, 'password');
+    $course_of_study = filter_input(INPUT_POST, 'department');
+    $grade_in_school = filter_input(INPUT_POST, 'school_year');
+    $attendance_record_number = filter_input(INPUT_POST, 'number');
     $csrf_token = filter_input(INPUT_POST, 'csrf_token');
 
     // csrfトークンの存在確認と正誤判定
     $csrf_check = $ses_calc->csrf_match_check($csrf_token);
+
     if (!$csrf_check) {
         $uri = '/Deliverables4/src/' . basename('400_request.php');
         header('Location:' . $uri);
     }
 
     // バリデーションチェック
-    $val_check_arr[] = strval($user_input_token);
-    if (!$val_calc->not_yet_entered($val_check_arr)) {
+    $val_check_arr = [];
+    $val_check_arr[] = strval($name);
+    $val_check_arr[] = strval($email);
+    $val_check_arr[] = strval($password);
+    $val_check_arr[] = strval($grade_in_school);
+    $val_check_arr[] = strval($course_of_study);
+    $val_check_arr[] = strval($attendance_record_number);
+
+    if (!$test = $val_calc->not_yet_entered($val_check_arr)) {
         $err_array[] = $val_calc->getErrorMsg();
     }
 
-    if ($email_token !== $user_input_token) {
-        $err_array[] = '認証コードが間違っています。';
-    }
+    // エラーがない場合の登録処理
+    if (count($err_array) === 0) {
 
-    // 認証コードを入力できる時間を制限 20分間
-    $cookieName = 'input_time_limit';
-    $cookieValue = rand();
-    $cookieExpire = time() + 1200;
-    setcookie($cookieName, $cookieValue, $cookieExpire);
+        // 登録処置をする関数
+        $register = $rgs_calc->student_register($name, $email, $password, $course_of_study, $grade_in_school, $attendance_record_number);
+
+        if (!$register) {
+            $err_array[] = '登録に失敗しました。';
+        }
+    }
 
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
-} else {
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -136,13 +145,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endforeach; ?>
 
                         <div class="mt-2">
-                            <a class="btn btn-primary px-4" href="./provisional_registration_form.php">戻る</a>
+                            <a class="btn btn-primary px-4" href="./register_form.php?email=<?php h($email) ?>">戻る</a>
                         </div>
                     <?php endif; ?>
 
                     <?php if (count($err_array) === 0) : ?>
-                        <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-認証が完了しました。</div>
-                        <?php $uri = './register_form.php?email=' . $email ?>
+                        <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-登録が完了しました。</div>
+                        <?php $uri = '../login/login_form.php'; ?>
                         <?php header('refresh:3;url=' . $uri); ?>
                     <?php endif; ?>
                 </div>

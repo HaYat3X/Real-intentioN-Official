@@ -15,21 +15,21 @@ $ses_calc = new Session();
 $val_calc = new ValidationCheck();
 $rgs_calc = new Register();
 
-$email_token_check = $ses_calc->check_email_token();
-
-if (!$email_token_check) {
-    $uri = '../../400_request.php';
+// メールアドレストークンの存在チェック
+$email_token = $ses_calc->check_email_token();
+if (!$email_token) {
+    $uri = PATH . '/src/Exception/400_request.php';
     header('Location:' . $uri);
 }
 
-$email = filter_input(INPUT_GET, 'email');
-
-// クッキーの存在チェック　なければ不正レクエスト
+// クッキーの存在チェック　
 if (!$_COOKIE['auth_time_limit']) {
-    $uri = '../../400_request.php';
+    $uri = PATH . '/src/Exception/400_request.php';
     header('Location:' . $uri);
 }
 
+// パラメータからメールアドレスを受け取る
+$email = filter_input(INPUT_GET, 'email');
 
 ?>
 
@@ -78,32 +78,7 @@ if (!$_COOKIE['auth_time_limit']) {
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light py-4">
-            <div class="container">
-                <a class="navbar-brand" href="./index.html">
-                    <img src="../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
-                                align-text-top" style="object-fit: cover;"> Real intentioN
-                </a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="./src/StaffView/login/login_form.php">職員の方はこちら</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="login-btn btn px-3" href="./src/UserView/login/login_form.php">ログインはこちら</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <?php include(PATH . '/src/template/header_template.php') ?>
 
     <div class="box d-flex vh-100 align-items-center">
         <div class="container bg-light py-5">
@@ -125,7 +100,7 @@ if (!$_COOKIE['auth_time_limit']) {
 
                         <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
                         <input type="hidden" name="email" value="<?php h($email); ?>">
-                        <input type="hidden" name="email_token" value="<?php h($email_token_check); ?>">
+                        <input type="hidden" name="email_token" value="<?php h($email_token); ?>">
 
                         <div class="mt-4">
                             <button type="submit" class="login-btn btn px-4">認証する</button>
@@ -136,13 +111,7 @@ if (!$_COOKIE['auth_time_limit']) {
         </div>
     </div>
 
-
-    <footer class="text-center py-2">
-        <div class="text-light text-center small">
-            © 2020 Toge-company:
-            <a class="text-white" target="_blank" href="https://hayate-takeda.xyz/">hayate-takeda.xyz</a>
-        </div>
-    </footer>
+    <?php include(PATH . '/src/template/footer.php') ?>
 
     <script>
         (() => {

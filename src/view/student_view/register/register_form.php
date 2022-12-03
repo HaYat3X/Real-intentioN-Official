@@ -1,9 +1,7 @@
 <?php
 
-// なぜこれでこれで会決意するのか不明？
-ob_start();
-
 session_start();
+ob_start();
 define('PATH', '/Applications/MAMP/htdocs/Deliverables4');
 
 // 外部ファイルのインポート
@@ -80,32 +78,7 @@ if (!$_COOKIE['input_time_limit']) {
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light py-4">
-            <div class="container">
-                <a class="navbar-brand" href="./index.html">
-                    <img src="../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
-                                align-text-top" style="object-fit: cover;"> Real intentioN
-                </a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="./src/StaffView/login/login_form.php">職員の方はこちら</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="login-btn btn px-3" href="./src/UserView/login/login_form.php">ログインはこちら</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <?php include(PATH . '/src/template/header_template.php') ?>
 
     <div class="box my-5">
         <div class="container bg-light py-5">
@@ -202,12 +175,7 @@ if (!$_COOKIE['input_time_limit']) {
         </div>
     </div>
 
-    <footer class="text-center py-2">
-        <div class="text-light text-center small">
-            © 2020 Toge-company:
-            <a class="text-white" target="_blank" href="https://hayate-takeda.xyz/">hayate-takeda.xyz</a>
-        </div>
-    </footer>
+    <?php include(PATH . '/src/template/footer.php') ?>
 
     <script>
         (() => {
