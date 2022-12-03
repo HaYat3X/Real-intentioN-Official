@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $send_token = $rgs_calc->send_token();
 
         // セッションに生成したトークンを格納
-        $ses_calc->create_email_token($send_token);
+        $_SESSION['email_token'] = $send_token;
 
         // クッキーを発行し、認証時間を制限 20分間
         $cookieName = 'auth_time_limit';

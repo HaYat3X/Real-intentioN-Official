@@ -27,7 +27,7 @@ if (!$email) {
 }
 
 // メールアドレス認証トークンの破棄
-$ses_calc->email_token_unset();
+unset($_SESSION['email_token']);
 
 // クッキーの存在チェック　存在しなければエラー
 if (!$_COOKIE['input_time_limit']) {

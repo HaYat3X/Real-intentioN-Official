@@ -17,8 +17,7 @@ $val_calc = new ValidationCheck();
 $rgs_calc = new Register();
 
 // メールアドレストークンの存在チェック
-$email_token = $ses_calc->check_email_token();
-if (!$email_token) {
+if (!$_SESSION['email_token']) {
     $uri = PATH . '/src/Exception/400_request.php';
     header('Location:' . $uri);
 }
@@ -125,7 +124,7 @@ $email = filter_input(INPUT_GET, 'email');
 
                         <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
                         <input type="hidden" name="email" value="<?php h($email); ?>">
-                        <input type="hidden" name="email_token" value="<?php h($email_token); ?>">
+                        <input type="hidden" name="email_token" value="<?php h($_SESSION['email_token']); ?>">
 
                         <div class="mt-4">
                             <button type="submit" class="login-btn btn px-4">認証する</button>

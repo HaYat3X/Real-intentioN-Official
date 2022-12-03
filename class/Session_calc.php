@@ -2,27 +2,31 @@
 
 class Session
 {
+    private $csrf_token = "";
+
     /**
-     * csrfトークン発行
-     * @param 
-     * @return token
-     * unit test ok
+     * csrfトークンを発行する
+     * @param null
+     * @return string
+     * single_unit_test ok
      */
     public function create_csrf_token()
     {
+        $this->csrf_token = $_SESSION['csrf_token'];
         $_SESSION['csrf_token'] = bin2hex(openssl_random_pseudo_bytes(24));
-        return $_SESSION['csrf_token'];
+        return $this->csrf_token;
     }
 
     /**
-     * csrfトークンのチェック
+     * csrfトークンの存在確認と正誤判定
      * @param $csrf_token
-     * @return true
-     * unit test ok
+     * @return bool
+     * single_unit_test ok
      */
     public function csrf_match_check($csrf_token)
     {
-        if ($_SESSION['csrf_token'] !== $csrf_token) {
+        $this->csrf_token = $_SESSION['csrf_token'];
+        if ($this->csrf_token !== $csrf_token) {
             return false;
         }
 
@@ -31,55 +35,12 @@ class Session
 
     /**
      * csrfセッション情報消去
-     * @param
-     * @return 
-     * unit test ok
+     * @param null
+     * @return null
+     * single_unit_test ok
      */
     public function csrf_token_unset()
     {
         unset($_SESSION['csrf_token']);
-    }
-
-
-
-
-
-
-
-
-
-    /**
-     * メールアドレスに送信したトークン情報を格納するセッション
-     * @param
-     * @return 
-     */
-    public function create_email_token($send_token)
-    {
-        $_SESSION['email_token'] = $send_token;
-    }
-
-    /**
-     * メールアドレスに送信したトークン情報を格納するセッション
-     * @param
-     * @return 
-     */
-    public function check_email_token()
-    {
-        if (!$_SESSION['email_token']) {
-            return false;
-        }
-
-        return $_SESSION['email_token'];
-    }
-
-    /**
-     * email_token削除
-     * @param
-     * @return 
-     * unit test ok
-     */
-    public function email_token_unset()
-    {
-        unset($_SESSION['email_token']);
     }
 }
