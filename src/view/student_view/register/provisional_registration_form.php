@@ -2,14 +2,13 @@
 
 // セッション開始
 session_start();
-define('PATH', '/Applications/MAMP/htdocs/Deliverables4');
 
 // 外部ファイルのインポート
-require_once PATH . '/class/Session_calc.php';
-require_once PATH . '/class/Database_calc.php';
-require_once PATH . '/class/Register_calc.php';
-require_once PATH . '/class/Validation_calc.php';
-require_once PATH . '/function/functions.php';
+require_once '../../../../class/Session_calc.php';
+require_once '../../../../class/Database_calc.php';
+require_once '../../../../class/Register_calc.php';
+require_once '../../../../class/Validation_calc.php';
+require_once '../../../../function/functions.php';
 
 // インスタンス化
 $ses_calc = new Session();

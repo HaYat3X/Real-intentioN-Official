@@ -2,8 +2,6 @@
 
 class Session
 {
-    private $csrf_token = "";
-
     /**
      * csrfトークンを発行する
      * @param null
@@ -11,9 +9,8 @@ class Session
      */
     public function create_csrf_token()
     {
-        $this->csrf_token = $_SESSION['csrf_token'];
         $_SESSION['csrf_token'] = bin2hex(openssl_random_pseudo_bytes(24));
-        return $this->csrf_token;
+        return $_SESSION['csrf_token'];
     }
 
     /**
@@ -23,8 +20,8 @@ class Session
      */
     public function csrf_match_check($csrf_token)
     {
-        $this->csrf_token = $_SESSION['csrf_token'];
-        if ($this->csrf_token !== $csrf_token) {
+
+        if ($_SESSION['csrf_token'] !== $csrf_token) {
             return false;
         }
 

@@ -3,14 +3,13 @@
 // セッション開始
 session_start();
 ob_start();
-define('PATH', '/Applications/MAMP/htdocs/Deliverables4');
 
 // 外部ファイルのインポート
-require_once PATH . '/class/Session_calc.php';
-require_once PATH . '/class/Database_calc.php';
-require_once PATH . '/class/Register_calc.php';
-require_once PATH . '/class/Validation_calc.php';
-require_once PATH . '/function/functions.php';
+require_once '../../../../class/Session_calc.php';
+require_once '../../../../class/Database_calc.php';
+require_once '../../../../class/Register_calc.php';
+require_once '../../../../class/Validation_calc.php';
+require_once '../../../../function/functions.php';
 
 // インスタンス化
 $ses_calc = new Session();
@@ -29,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $csrf_check = $ses_calc->csrf_match_check($csrf_token);
 
     if (!$csrf_check) {
-        $uri = PATH . '/src/Exception/400_request.php';
+        $uri = '../../../Exception/400_request.php';
         header('Location:' . $uri);
     }
 
@@ -71,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
 } else {
-    $uri = PATH . '/src/Exception/400_request.php';
+    $uri = '../../../Exception/400_request.php';
     header('Location:' . $uri);
 }
 

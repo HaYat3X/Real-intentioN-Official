@@ -2,15 +2,13 @@
 
 // セッション開始
 session_start();
-ob_start();
-define('PATH', '/Applications/MAMP/htdocs/Deliverables4');
 
 // 外部ファイルのインポート
-require_once PATH . '/class/Session_calc.php';
-require_once PATH . '/class/Database_calc.php';
-require_once PATH . '/class/Register_calc.php';
-require_once PATH . '/class/Validation_calc.php';
-require_once PATH . '/function/functions.php';
+require_once '../../../../class/Session_calc.php';
+require_once '../../../../class/Database_calc.php';
+require_once '../../../../class/Register_calc.php';
+require_once '../../../../class/Validation_calc.php';
+require_once '../../../../function/functions.php';
 
 // インスタンス化
 $ses_calc = new Session();
@@ -22,7 +20,7 @@ $email = filter_input(INPUT_GET, 'email');
 
 // パラメータが存在しない場合はエラー
 if (!$email) {
-    $uri = PATH . '/src/Exception/400_request.php';
+    $uri = '../../../Exception/400_request.php';
     header('Location:' . $uri);
 }
 
@@ -31,7 +29,7 @@ unset($_SESSION['email_token']);
 
 // クッキーの存在チェック　存在しなければエラー
 if (!$_COOKIE['input_time_limit']) {
-    $uri = '../../400_request.php';
+    $uri = '../../../Exception/400_request.php';
     header('Location:' . $uri);
 }
 
