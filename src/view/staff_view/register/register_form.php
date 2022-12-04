@@ -16,7 +16,7 @@ $val_calc = new ValidationCheck();
 $rgs_calc = new Register();
 
 // クッキーの存在チェック　
-if (!$_COOKIE['auth_time_limit']) {
+if (!$_COOKIE['input_limit']) {
     $uri = '../../../Exception/400_request.php';
     header('Location:' . $uri);
 }
