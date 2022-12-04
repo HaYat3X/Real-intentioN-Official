@@ -12,7 +12,7 @@ class Database
     /**
      * データベースに接続する
      * @param 
-     * @return $pdo
+     * @return object
      */
     public function db_connect()
     {
@@ -35,8 +35,8 @@ class Database
 
     /**
      * データベースからデータを取得する　（パラメータなし）
-     * @param 
-     * @return $pdo
+     * @param $sql
+     * @return array
      */
     public function data_select($sql)
     {
@@ -46,22 +46,18 @@ class Database
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            // データを返す
             return $result;
         } catch (\Exception $e) {
             echo $e;
             error_log($e, 3, '../error.log');
-
-            // エラーの場合Falseを返す
             return false;
         }
     }
 
     /**
      * データベースからデータを取得する　（パラメータあり）
-     * @param $argument
-     * @return $pdo
+     * @param $sql $argument
+     * @return array
      */
     public function data_select_argument($sql, $argument)
     {
@@ -71,19 +67,19 @@ class Database
             $stmt = $pdo->prepare($sql);
             $stmt->execute($argument);
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            // データを返す
             return $result;
         } catch (\Exception $e) {
             echo $e;
             error_log($e, 3, '../error.log');
-
-            // エラーの場合Falseを返す
             return false;
         }
     }
 
-    // INSERT UPDATE DELETE
+    /**
+     *  SQL文 INSERT UPDATE DELETEを実行
+     * @param $sql $argument
+     * @return bool
+     */
     public function data_various_kinds($sql, $argument)
     {
         try {
@@ -95,13 +91,15 @@ class Database
         } catch (\Exception $e) {
             echo $e;
             error_log($e, 3, '../error.log');
-
-            // エラーの場合Falseを返す
             return false;
         }
     }
 
-    // セレクトした回数を判定する
+    /**
+     * 取得したデータの件数をカウントする
+     * @param $sql $argument
+     * @return array
+     */
     public function data_select_count($sql, $argument)
     {
         try {
@@ -110,14 +108,10 @@ class Database
             $stmt = $pdo->prepare($sql);
             $stmt->execute($argument);
             $result = $stmt->rowCount();
-
-            // データを返す
             return $result;
         } catch (\Exception $e) {
             echo $e;
             error_log($e, 3, '../error.log');
-
-            // エラーの場合Falseを返す
             return false;
         }
     }
