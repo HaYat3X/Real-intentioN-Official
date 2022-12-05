@@ -2,31 +2,21 @@
 
 class Database
 {
-    //DB接続定数
-    const DB_NAME = 'Real intentioN';
-    const HOST = 'localhost';
-    const UTF = 'utf8';
-    const USER = 'root';
-    const PASS = 'root';
-
     /**
      * データベースに接続する
      */
     public function db_connect()
     {
-        $dsn = "mysql:dbname=" . self::DB_NAME . ";host=" . self::HOST . ";charset=" . self::UTF;
-        $user = self::USER;
-        $pass = self::PASS;
+        $dsn = 'mysql:dbname=Real intentioN;host=localhost';
+        $user = 'root';
+        $password = 'root';
 
         try {
-            $pdo = new PDO($dsn, $user, $pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES ' . SELF::UTF));
-        } catch (Exception $e) {
-            echo 'DB接続に失敗しました。' . $e->getMessage();
-            exit();
+            $pdo = new PDO($dsn, $user, $password);
+        } catch (PDOException $e) {
+            print('Error:' . $e->getMessage());
+            die();
         }
-
-        //エラーを表示してくれる。
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 
         return $pdo;
     }

@@ -1,6 +1,6 @@
 <?php
 
-require_once './Database_calc.php';
+require_once '/Applications/MAMP/htdocs/Deliverables4/class/Database_calc.php';
 
 class Register
 {

@@ -38,6 +38,15 @@ class ValidationCheck
     /**
      * パスワードが半角英数字8文字以上であることをチェックする
      */
+    public function password_check($password)
+    {
+        if (preg_match("/\A[!-~]{8, 100}\z/", $password)) {
+            $this->errorMsg = 'パスワードは英数字8文字以上で作成してください。';
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      * バリデーションにj引っ掛かった場合のエラーメッセージを表示
