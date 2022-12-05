@@ -110,11 +110,29 @@ if (!$_SESSION['staff_auth']) {
                         </h1>
 
                         <div class="mt-4">
-                            <label for="validationCustom02" class="form-label">職員認証コード</label>
-                            <input type="password" class="form-control" id="validationCustom02" required name="token">
+                            <label for="validationCustom02" class="form-label">職員名</label>
+                            <input type="text" class="form-control" id="validationCustom02" required name="name">
 
                             <div class="invalid-feedback">
-                                <p>認証コードを入力してください。</p>
+                                <p>職員名を入力してください。</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label for="validationCustom02" class="form-label">メールアドレス</label>
+                            <input type="email" class="form-control" id="validationCustom02" required name="email">
+
+                            <div class="invalid-feedback">
+                                <p>メールアドレスを入力してください。</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label for="validationCustom02" class="form-label">パスワード</label>
+                            <input type="password" class="form-control" id="validationCustom02" required name="password">
+
+                            <div class="invalid-feedback">
+                                <p>パスワードを入力してください。</p>
                             </div>
                         </div>
 
