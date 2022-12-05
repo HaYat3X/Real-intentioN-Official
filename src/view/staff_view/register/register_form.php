@@ -104,7 +104,7 @@ if (!$_SESSION['staff_auth']) {
         <div class="container bg-light py-5">
             <div class="row py-5">
                 <div class="col-lg-5 mx-auto">
-                    <form class="needs-validation" novalidate action="./staff_auth.php" method="POST">
+                    <form class="needs-validation" novalidate action="./register.php" method="POST">
                         <h1 class="text-center fs-2 mb-5">
                             職員情報を登録する
                         </h1>

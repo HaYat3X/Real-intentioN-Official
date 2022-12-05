@@ -6,8 +6,6 @@ class ValidationCheck
 
     /**
      * 神戸電子のメールアドレスでないメールアドレスが入力された場合エラーを出す
-     * @param $email
-     * @return bool
      */
     public function not_yet_kic($email)
     {
@@ -21,8 +19,6 @@ class ValidationCheck
 
     /**
      * フォームの未入力、未選択をチェックする
-     * @param $val_check_arr
-     * @return bool
      */
     public function not_yet_entered($val_check_arr)
     {
@@ -40,9 +36,11 @@ class ValidationCheck
     }
 
     /**
+     * パスワードが半角英数字8文字以上であることをチェックする
+     */
+
+    /**
      * バリデーションにj引っ掛かった場合のエラーメッセージを表示
-     * @param 
-     * @return errorMsg
      */
     public function getErrorMsg()
     {

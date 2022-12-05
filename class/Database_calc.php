@@ -11,8 +11,6 @@ class Database
 
     /**
      * データベースに接続する
-     * @param 
-     * @return object
      */
     public function db_connect()
     {
@@ -35,8 +33,6 @@ class Database
 
     /**
      * データベースからデータを取得する　（パラメータなし）
-     * @param $sql
-     * @return array
      */
     public function data_select($sql)
     {
@@ -56,8 +52,6 @@ class Database
 
     /**
      * データベースからデータを取得する　（パラメータあり）
-     * @param $sql $argument
-     * @return array
      */
     public function data_select_argument($sql, $argument)
     {
@@ -77,8 +71,6 @@ class Database
 
     /**
      *  SQL文 INSERT UPDATE DELETEを実行
-     * @param $sql $argument
-     * @return bool
      */
     public function data_various_kinds($sql, $argument)
     {
@@ -97,8 +89,6 @@ class Database
 
     /**
      * 取得したデータの件数をカウントする
-     * @param $sql $argument
-     * @return array
      */
     public function data_select_count($sql, $argument)
     {

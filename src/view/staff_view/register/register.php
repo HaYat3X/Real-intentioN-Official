@@ -24,39 +24,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = filter_input(INPUT_POST, 'email');
     $password = filter_input(INPUT_POST, 'password');
     $csrf_token = filter_input(INPUT_POST, 'csrf_token');
-    var_dump($_POST);
 
-    // // csrfトークンの存在確認と正誤判定
-    // $csrf_check = $ses_calc->csrf_match_check($csrf_token);
-    // if (!$csrf_check) {
-    //     $uri = '../../../Exception/400_request.php';
-    //     header('Location:' . $uri);
-    // }
+    // csrfトークンの存在確認と正誤判定
+    $csrf_check = $ses_calc->csrf_match_check($csrf_token);
+    if (!$csrf_check) {
+        $uri = '../../../Exception/400_request.php';
+        header('Location:' . $uri);
+    }
 
-    // // バリデーションチェック
-    // $val_check_arr = [];
-    // $val_check_arr[] = strval($token);
-    // if (!$val_calc->not_yet_entered($val_check_arr)) {
-    //     $err_array[] = $val_calc->getErrorMsg();
-    // }
+    // バリデーションチェックする値を配列に格納
+    $val_check_arr = [];
+    $val_check_arr[] = strval($name);
+    $val_check_arr[] = strval($email);
+    $val_check_arr[] = strval($password);
 
-    // // 認証コードが一致するか判定する
-    // $private_key = 'testtest';
-    // if ($token !== $private_key) {
-    //     $err_array[] = '認証コードが間違っています。';
-    // }
+    // 未入力、未選択をチェック
+    if (!$val_calc->not_yet_entered($val_check_arr)) {
+        $err_array[] = $val_calc->getErrorMsg();
+    }
 
-    // // 学生情報を入力できる時間を20分間に制限 
-    // $cookieName = 'input_limit';
-    // $cookieValue = rand();
-    // $cookieExpire = time() + 1200;
-    // setcookie($cookieName, $cookieValue, $cookieExpire);
+    // 神戸電子のメールアドレスかチェック
+    if (!$val_calc->not_yet_kic($email)) {
+        $err_array[] = $val_calc->getErrorMsg();
+    }
 
-    // // セッション発行
-    // $_SESSION['staff_auth'] = rand();
+    // メールアドレスが既に登録されているか判定する
+    $sql = 'SELECT * FROM staff_master WHERE email = ?';
+    $email_set = $rgs_calc->set_email($email);
+    $registered_check = $rgs_calc->registered_check($sql);
 
-    // // csrf_token削除　二重送信対策
-    // $ses_calc->csrf_token_unset();
+    // 配列が返ってきた場合登録済みであるためエラー
+    if ($registered_check) {
+        $err_array[] = 'メールアドレスが既に登録されています。';
+    }
+
+    // エラーがない場合登録処理
+
+
+    // csrf_token削除　二重送信対策
+    $ses_calc->csrf_token_unset();
 } else {
     $uri = '../../../Exception/400_request.php';
     header('Location:' . $uri);
@@ -145,14 +151,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endforeach; ?>
 
                         <div class="mt-2">
-                            <a class="btn btn-primary px-4" href="./staff_auth_form.php">戻る</a>
+                            <a class="btn btn-primary px-4" href="./register_form.php">戻る</a>
                         </div>
                     <?php endif; ?>
 
                     <?php if (count($err_array) === 0) : ?>
                         <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-登録が完了しました。</div>
                         <?php $uri = './register_form.php'; ?>
-                        <?php header('refresh:3;url=' . $uri); ?>
+                        <?php //header('refresh:3;url=' . $uri); 
+                        ?>
                     <?php endif; ?>
                 </div>
             </div>

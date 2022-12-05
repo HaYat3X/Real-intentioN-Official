@@ -4,8 +4,6 @@ class Session
 {
     /**
      * csrfトークンを発行する
-     * @param null
-     * @return string
      */
     public function create_csrf_token()
     {
@@ -15,8 +13,6 @@ class Session
 
     /**
      * csrfトークンの存在確認と正誤判定
-     * @param $csrf_token
-     * @return bool
      */
     public function csrf_match_check($csrf_token)
     {
@@ -30,8 +26,6 @@ class Session
 
     /**
      * csrfセッション情報消去
-     * @param null
-     * @return null
      */
     public function csrf_token_unset()
     {

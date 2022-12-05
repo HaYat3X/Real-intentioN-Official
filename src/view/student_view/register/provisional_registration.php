@@ -38,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $err_array[] = $val_calc->getErrorMsg();
     }
 
+    // 神戸電子のメアドかどうかテックする
     if (!$val_calc->not_yet_kic($email)) {
         $err_array[] = $val_calc->getErrorMsg();
     }
