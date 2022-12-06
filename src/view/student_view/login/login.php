@@ -15,6 +15,46 @@ $ses_calc = new Session();
 $val_calc = new ValidationCheck();
 $rgs_calc = new Register();
 
+// エラーメッセージが入る配列を定義
+$err_array = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // 送信された値を受け取り
+    $email = filter_input(INPUT_POST, 'email');
+    $password = filter_input(INPUT_POST, 'password');
+    $csrf_token = filter_input(INPUT_POST, 'csrf_token');
+
+    // csrfトークンの存在確認と正誤判定
+    $csrf_check = $ses_calc->csrf_match_check($csrf_token);
+
+    if (!$csrf_check) {
+        $uri = '../../../Exception/400_request.php';
+        header('Location:' . $uri);
+    }
+
+    // バリデーションチェックする値を配列に格納
+    $val_check_arr = [];
+    $val_check_arr[] = strval($email);
+    $val_check_arr[] = strval($password);
+
+    // バリデーションチェック
+    if (!$test = $val_calc->not_yet_entered($val_check_arr)) {
+        $err_array[] = $val_calc->getErrorMsg();
+    }
+
+    // エラーがない場合の登録処理
+    if (count($err_array) === 0) {
+
+        // ログインに成功した場合セッションを発行する。
+    }
+
+    // csrf_token削除　二重送信対策
+    $ses_calc->csrf_token_unset();
+} else {
+    $uri = '../../../Exception/400_request.php';
+    header('Location:' . $uri);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +67,7 @@ $rgs_calc = new Register();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet" />
     <link rel="shortcut icon" href="../../../public/img/favicon.ico" type="image/x-icon">
-    <title>学生ログイン / 「Real intentioN」</title>
+    <title>学生情報登録 / 「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
@@ -92,35 +132,21 @@ $rgs_calc = new Register();
         <div class="container bg-light py-5">
             <div class="row py-5">
                 <div class="col-lg-5 mx-auto">
-                    <form class="needs-validation" novalidate action="./auth_email.php" method="POST">
-                        <h1 class="text-center fs-2 mb-5">
-                            メールアドレスを認証する
-                        </h1>
+                    <?php if (count($err_array) > 0) : ?>
+                        <?php foreach ($err_array as $err_msg) : ?>
+                            <div class="alert alert-danger" role="alert"><strong>エラー</strong>　-<?php h($err_msg) ?></div>
+                        <?php endforeach; ?>
 
-                        <div class="mt-4">
-                            <label for="validationCustom02" class="form-label">メールアドレス</label>
-                            <input type="email" class="form-control" id="validationCustom02" required name="email">
-
-                            <div class="invalid-feedback">
-                                <p>メールアドレスを入力してください。</p>
-                            </div>
+                        <div class="mt-2">
+                            <a class="btn btn-primary px-4" href="./register_form.php?email=<?php h($email) ?>">戻る</a>
                         </div>
+                    <?php endif; ?>
 
-                        <div class="mt-4">
-                            <label for="validationCustom02" class="form-label">パスワード</label>
-                            <input type="password" class="form-control" id="validationCustom02" required name="password">
-
-                            <div class="invalid-feedback">
-                                <p>パスワードを入力してください。</p>
-                            </div>
-                        </div>
-
-                        <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
-
-                        <div class="mt-4">
-                            <button type="submit" class="login-btn btn px-4">認証する</button>
-                        </div>
-                    </form>
+                    <?php if (count($err_array) === 0) : ?>
+                        <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-登録が完了しました。</div>
+                        <?php $uri = '../login/login_form.php'; ?>
+                        <?php header('refresh:3;url=' . $uri); ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -132,25 +158,6 @@ $rgs_calc = new Register();
             <a class="text-white" target="_blank" href="https://hayate-takeda.xyz/">hayate-takeda.xyz</a>
         </div>
     </footer>
-
-    <script>
-        (() => {
-            'use strict'
-            const forms = document.querySelectorAll('.needs-validation')
-
-            // ループして帰順を防ぐ
-            Array.from(forms).forEach(form => {
-                form.addEventListener('submit', event => {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-        })()
-    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
     </script>

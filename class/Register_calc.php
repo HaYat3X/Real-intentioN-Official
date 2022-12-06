@@ -86,4 +86,8 @@ class Register
 
         return $result;
     }
+
+    /**
+     * 学生ログイン処理
+     */
 }
