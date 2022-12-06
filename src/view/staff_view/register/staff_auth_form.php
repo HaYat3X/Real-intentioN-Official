@@ -15,8 +15,6 @@ $ses_calc = new Session();
 $val_calc = new ValidationCheck();
 $rgs_calc = new Register();
 
-
-
 ?>
 
 <!DOCTYPE html>

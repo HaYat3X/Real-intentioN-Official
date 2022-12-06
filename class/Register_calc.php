@@ -67,4 +67,23 @@ class Register
 
         return $result;
     }
+
+    /**
+     * 職員情報をデータベースに登録する
+     */
+    public function staff_register($name, $email, $password)
+    {
+        $pdo_calc = new Database();
+
+        $sql = "INSERT INTO `staff_master`(`name`, `email`, `password`) VALUES (?, ?, ?)";
+
+        $argument = [];
+        $argument[] = strval($name);
+        $argument[] = strval($email);
+        $argument[] = strval(password_hash($password, PASSWORD_DEFAULT));
+
+        $result = $pdo_calc->data_various_kinds($sql, $argument);
+
+        return $result;
+    }
 }

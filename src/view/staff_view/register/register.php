@@ -59,7 +59,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // エラーがない場合登録処理
+    if (count($err_array) === 0) {
+        // 登録処置をする関数
+        $register = $rgs_calc->staff_register($name, $email, $password);
 
+        if (!$register) {
+            $err_array[] = '登録に失敗しました。';
+        }
+    }
 
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
