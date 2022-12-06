@@ -45,7 +45,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // エラーがない場合の登録処理
     if (count($err_array) === 0) {
 
-        // ログインに成功した場合セッションを発行する。
+        // プロパティに値をセット
+        $rgs_calc->student_set_email($email);
+        $rgs_calc->student_set_password($password);
+
+        // ログイン処理をする
+        $student_login = $rgs_calc->student_login();
+
+        if (!$student_login) {
+            $err_array[] = 'ログインに失敗しました。';
+        }
+
+        // ログイン情報をセッションに格納
+        $ses_calc->create_login_session($student_login);
     }
 
     // csrf_token削除　二重送信対策
@@ -138,13 +150,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endforeach; ?>
 
                         <div class="mt-2">
-                            <a class="btn btn-primary px-4" href="./register_form.php?email=<?php h($email) ?>">戻る</a>
+                            <a class="btn btn-primary px-4" href="./login_form.php">戻る</a>
                         </div>
                     <?php endif; ?>
 
                     <?php if (count($err_array) === 0) : ?>
-                        <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-登録が完了しました。</div>
-                        <?php $uri = '../login/login_form.php'; ?>
+                        <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-ログインが完了しました。</div>
+                        <?php $uri = '../intern_experience/posts.php'; ?>
                         <?php header('refresh:3;url=' . $uri); ?>
                     <?php endif; ?>
                 </div>

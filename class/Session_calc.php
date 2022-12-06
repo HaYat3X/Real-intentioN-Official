@@ -31,4 +31,24 @@ class Session
     {
         unset($_SESSION['csrf_token']);
     }
+
+    /**
+     * 学生ログインが成功したらセッションを発行する。
+     */
+    public function create_login_session($login_data)
+    {
+        $_SESSION['student_login_data'] = $login_data;
+    }
+
+    /**
+     * 学生ログインチェックをする
+     */
+    public function student_login_check()
+    {
+        if (!$_SESSION['student_login_data']) {
+            return false;
+        }
+
+        return $_SESSION['student_login_data'];
+    }
 }
