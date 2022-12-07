@@ -35,7 +35,7 @@ class Session
     /**
      * 学生ログインが成功したらセッションを発行する。
      */
-    public function create_login_session($login_data)
+    public function create_student_login_session($login_data)
     {
         $_SESSION['student_login_data'] = $login_data;
     }
@@ -50,5 +50,25 @@ class Session
         }
 
         return $_SESSION['student_login_data'];
+    }
+
+    /**
+     * 職員ログインが成功したらセッションを発行する。
+     */
+    public function create_staff_login_session($login_data)
+    {
+        $_SESSION['staff_login_data'] = $login_data;
+    }
+
+    /**
+     * 職員ログインチェックをする
+     */
+    public function staff_login_check()
+    {
+        if (!$_SESSION['staff_login_data']) {
+            return false;
+        }
+
+        return $_SESSION['staff_login_data'];
     }
 }

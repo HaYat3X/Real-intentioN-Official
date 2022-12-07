@@ -19,14 +19,14 @@ $rgs_calc = new Register();
 $err_array = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 送信された値の受け取り
-    $name = filter_input(INPUT_POST, 'name');
+    // 送信された値を受け取り
     $email = filter_input(INPUT_POST, 'email');
     $password = filter_input(INPUT_POST, 'password');
     $csrf_token = filter_input(INPUT_POST, 'csrf_token');
 
     // csrfトークンの存在確認と正誤判定
     $csrf_check = $ses_calc->csrf_match_check($csrf_token);
+
     if (!$csrf_check) {
         $uri = '../../../Exception/400_request.php';
         header('Location:' . $uri);
@@ -34,38 +34,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // バリデーションチェックする値を配列に格納
     $val_check_arr = [];
-    $val_check_arr[] = strval($name);
     $val_check_arr[] = strval($email);
     $val_check_arr[] = strval($password);
 
-    // 未入力、未選択をチェック
-    if (!$val_calc->not_yet_entered($val_check_arr)) {
+    // バリデーションチェック
+    if (!$test = $val_calc->not_yet_entered($val_check_arr)) {
         $err_array[] = $val_calc->getErrorMsg();
     }
 
-    // 神戸電子のメールアドレスかチェック
-    if (!$val_calc->not_yet_kic($email)) {
-        $err_array[] = $val_calc->getErrorMsg();
-    }
-
-    // メールアドレスが既に登録されているか判定する
-    $sql = 'SELECT * FROM staff_mst WHERE email = ?';
-    $email_set = $rgs_calc->set_email($email);
-    $registered_check = $rgs_calc->registered_check($sql);
-
-    // 配列が返ってきた場合登録済みであるためエラー
-    if ($registered_check) {
-        $err_array[] = 'メールアドレスが既に登録されています。';
-    }
-
-    // エラーがない場合登録処理
+    // エラーがない場合の登録処理
     if (count($err_array) === 0) {
-        // 登録処置をする関数
-        $register = $rgs_calc->staff_register($name, $email, $password);
 
-        if (!$register) {
-            $err_array[] = '登録に失敗しました。';
+        // プロパティに値をセット
+        $rgs_calc->staff_set_email($email);
+        $rgs_calc->staff_set_password($password);
+
+        // ログイン処理をする
+        $staff_login = $rgs_calc->staff_login();
+
+        if (!$staff_login) {
+            $err_array[] = 'ログインに失敗しました。';
         }
+
+        // ログイン情報をセッションに格納
+        $ses_calc->create_staff_login_session($staff_login);
     }
 
     // csrf_token削除　二重送信対策
@@ -158,15 +150,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endforeach; ?>
 
                         <div class="mt-2">
-                            <a class="btn btn-primary px-4" href="./register_form.php">戻る</a>
+                            <a class="btn btn-primary px-4" href="./login_form.php">戻る</a>
                         </div>
                     <?php endif; ?>
 
                     <?php if (count($err_array) === 0) : ?>
-                        <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-登録が完了しました。</div>
-                        <?php $uri = '../login/login_form.php'; ?>
-                        <?php header('refresh:3;url=' . $uri); 
-                        ?>
+                        <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-ログインが完了しました。</div>
+                        <?php $uri = '../../staff_view/intern_information/posts.php'; ?>
+                        <?php header('refresh:3;url=' . $uri); ?>
                     <?php endif; ?>
                 </div>
             </div>

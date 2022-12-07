@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // ログイン情報をセッションに格納
-        $ses_calc->create_login_session($student_login);
+        $ses_calc->create_student_login_session($student_login);
     }
 
     // csrf_token削除　二重送信対策
