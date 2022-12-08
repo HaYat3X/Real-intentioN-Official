@@ -6,14 +6,14 @@ session_start();
 // 外部ファイルのインポート
 require_once '../../../../class/Session_calc.php';
 require_once '../../../../class/Database_calc.php';
-require_once '../../../../class/Register_calc.php';
+require_once '../../../../class/Login_calc.php';
 require_once '../../../../class/Validation_calc.php';
 require_once '../../../../function/functions.php';
 
 // インスタンス化
 $ses_calc = new Session();
 $val_calc = new ValidationCheck();
-$rgs_calc = new Register();
+$lgn_calc = new Login();
 
 // エラーメッセージが入る配列を定義
 $err_array = [];
@@ -46,11 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (count($err_array) === 0) {
 
         // プロパティに値をセット
-        $rgs_calc->staff_set_email($email);
-        $rgs_calc->staff_set_password($password);
+        $lgn_calc->staff_set_email($email);
+        $lgn_calc->staff_set_password($password);
 
         // ログイン処理をする
-        $staff_login = $rgs_calc->staff_login();
+        $staff_login = $lgn_calc->staff_login();
 
         if (!$staff_login) {
             $err_array[] = 'ログインに失敗しました。';
