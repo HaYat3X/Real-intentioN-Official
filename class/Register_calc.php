@@ -134,7 +134,7 @@ class Register
         }
 
         // パスワードの照会
-        if (password_verify($this->staff_password, $db_password)) {
+        if (password_verify($this->student_password, $db_password)) {
             return $login_data_select;
         } else {
             return false;

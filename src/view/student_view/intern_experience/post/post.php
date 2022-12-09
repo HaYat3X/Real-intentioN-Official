@@ -10,6 +10,7 @@ require_once '../../../../../class/Validation_calc.php';
 require_once '../../../../../function/functions.php';
 require_once '../../../../../class/View_calc.php';
 require_once '../../../../../class/Like_calc.php';
+require_once '../../../../../class/Post_calc.php';
 
 // インスタンス化
 $ses_calc = new Session();
@@ -17,6 +18,7 @@ $val_calc = new ValidationCheck();
 $rgs_calc = new Register();
 $viw_calc = new View();
 $lik_calc = new Like();
+$pos_calc = new Post();
 
 // ログインチェック
 $student_login_data = $ses_calc->student_login_check();
@@ -34,8 +36,6 @@ if (!$student_login_data) {
 
 // エラーメッセージが入る配列を定義
 $err_array = [];
-
-var_dump($_POST);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 送信された値の受け取り
@@ -69,6 +69,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // エラーがない場合投稿処理
+    if (count($err_array) === 0) {
+        $new_post = $pos_calc->intern_experience_new_post($user_id, $company, $format, $content, $question, $answer, $ster, $field);
+
+        if (!$new_post) {
+            $err_array[] = '投稿に失敗しました。';
+        }
+    }
 
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
@@ -160,14 +167,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endforeach; ?>
 
                         <div class="mt-2">
-                            <a class="btn btn-primary px-4" href="./auth_email_form.php?email=<?php h($email); ?>">戻る</a>
+                            <a class="btn btn-primary px-4" href="./post_form.php">戻る</a>
                         </div>
                     <?php endif; ?>
 
                     <?php if (count($err_array) === 0) : ?>
                         <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-認証が完了しました。</div>
-                        <?php $uri = './register_form.php?email=' . $email ?>
-                        <?php //header('refresh:3;url=' . $uri); 
+                        <?php $uri = '../posts.php' ?>
+                        <?php header('refresh:3;url=' . $uri);
                         ?>
                     <?php endif; ?>
                 </div>
