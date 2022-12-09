@@ -39,18 +39,41 @@ $intern_experience_data = $viw_calc->intern_experience_data();
 if (isset($_POST['like'])) {
     $lik_calc->set_post_id($_POST['post_id']);
     $lik_calc->set_student_id($_POST['student_id']);
+
+    // csrfトークンの存在確認と正誤判定
+    $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
+    if (!$csrf_check) {
+        $uri = '../../../Exception/400_request.php';
+        header('Location:' . $uri);
+    }
+
     $lik_calc->intern_experience_like();
     $uri = './posts.php';
     header('Location: ' . $uri);
+
+    // csrf_token削除　二重送信対策
+    $ses_calc->csrf_token_unset();
 }
 
 // 投稿のいいねを解除する
 if (isset($_POST['like_delete'])) {
     $lik_calc->set_post_id($_POST['post_id']);
     $lik_calc->set_student_id($_POST['student_id']);
+
+    // csrfトークンの存在確認と正誤判定
+    $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
+    if (!$csrf_check) {
+        $uri = '../../../Exception/400_request.php';
+        header('Location:' . $uri);
+    }
+
     $lik_calc->intern_experience_like_delete();
+
     $uri = './posts.php';
     header('Location: ' . $uri);
+
+    // csrf_token削除　二重送信対策
+    $ses_calc->csrf_token_unset();
 }
 ?>
 
@@ -260,6 +283,7 @@ if (isset($_POST['like_delete'])) {
                                         <form action="./posts.php" method="post">
                                             <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
                                             <input type="hidden" name="student_id" value="<?php h($row['student_id']) ?>">
+                                            <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
                                             <button class="btn fs-5" name="like_delete">
                                                 <i style="color: red;" class="bi bi-heart-fill"></i>
                                             </button>
@@ -268,6 +292,7 @@ if (isset($_POST['like_delete'])) {
                                         <form action="./posts.php" method="post">
                                             <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
                                             <input type="hidden" name="student_id" value="<?php h($row['student_id']) ?>">
+                                            <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
                                             <button class="btn fs-5" name="like">
                                                 <i style="color: red;" class="bi bi-heart"></i>
                                             </button>
@@ -289,7 +314,7 @@ if (isset($_POST['like_delete'])) {
             </div>
 
 
-            <div class="side-bar col-md-4 bg-light sticky-top h-100" style="margin-top: 100px;">
+            <div class="side-bar col-md-4 bg-light  h-100" style="margin-top: 100px;">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
