@@ -7,13 +7,29 @@ class View
     /**
      * インターン体験記のテーブル全レコード取得
      */
-    public function intern_experience_data()
+    public function intern_experience_data($start)
     {
         $db_calc = new Database();
 
-        $sql = 'SELECT * FROM `intern_experience_tbl` INNER JOIN `student_mst` ON intern_experience_tbl.user_id = student_mst.student_id ORDER BY intern_experience_tbl.post_id DESC';
+        $sql = "SELECT * FROM `intern_experience_tbl` INNER JOIN `student_mst` ON intern_experience_tbl.user_id = student_mst.student_id ORDER BY intern_experience_tbl.post_id DESC LIMIT {$start}, 10";
 
         $result = $db_calc->data_select($sql);
+
+        return $result;
+    }
+
+    /**
+     * インターン体験記のテーブルのレコードの数を取得
+     */
+    public function intern_experience_data_val()
+    {
+        $db_calc = new Database();
+
+        $sql = "SELECT * FROM `intern_experience_tbl` INNER JOIN `student_mst` ON intern_experience_tbl.user_id = student_mst.student_id ORDER BY intern_experience_tbl.post_id DESC";
+
+        $argument = [];
+        
+        $result = $db_calc->data_select_count($sql, $argument);
 
         return $result;
     }

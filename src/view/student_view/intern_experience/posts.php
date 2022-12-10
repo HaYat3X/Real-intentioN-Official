@@ -5,7 +5,6 @@ session_start();
 
 // 外部ファイルのインポート
 require_once '../../../../class/Session_calc.php';
-require_once '../../../../class/Register_calc.php';
 require_once '../../../../class/Validation_calc.php';
 require_once '../../../../function/functions.php';
 require_once '../../../../class/View_calc.php';
@@ -14,7 +13,6 @@ require_once '../../../../class/Like_calc.php';
 // インスタンス化
 $ses_calc = new Session();
 $val_calc = new ValidationCheck();
-$rgs_calc = new Register();
 $viw_calc = new View();
 $lik_calc = new Like();
 
@@ -26,14 +24,33 @@ foreach ($student_login_data as $row) {
     $user_id = $row['student_id'];
 }
 
+// ユーザ名を抽出
+foreach ($student_login_data as $row) {
+    $user_name = $row['name'];
+}
+
 // ログイン情報がない場合リダイレクト
 if (!$student_login_data) {
     $uri = '../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
 
-// データを取得
-$intern_experience_data = $viw_calc->intern_experience_data();
+// GETで現在のページ数を取得する（未入力の場合は1を挿入）
+if (isset($_GET['page'])) {
+    $page = (int)$_GET['page'];
+} else {
+    $page = 1;
+}
+
+// スタートのポジションを計算する
+if ($page > 1) {
+    $start = ($page * 10) - 10;
+} else {
+    $start = 0;
+}
+
+// インターン体験記投稿データを取得
+$intern_experience_data = $viw_calc->intern_experience_data($start);
 
 // 投稿にいいねする
 if (isset($_POST['like'])) {
@@ -76,6 +93,11 @@ if (isset($_POST['like_delete'])) {
     header('Location: ' . $uri);
 }
 
+$page_num = $viw_calc->intern_experience_data_val();
+
+// ページネーションの数を取得する
+$pagination = ceil($page_num / 10);
+
 ?>
 
 <!DOCTYPE html>
@@ -87,8 +109,8 @@ if (isset($_POST['like_delete'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-    <link rel="shortcut icon" href="../../../public/img/favicon.ico" type="image/x-icon">
-    <title>学生ログイン / 「Real intentioN」</title>
+    <link rel="shortcut icon" href="../../../../public/img/favicon.ico" type="image/x-icon">
+    <title>インターン体験記 /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
@@ -147,7 +169,7 @@ if (isset($_POST['like_delete'])) {
     <header class="sticky-top">
         <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
-                <a class="navbar-brand" href="./index.html">
+                <a class="navbar-brand" href="">
                     <img src="../../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
                             align-text-top" style="object-fit: cover;"> Real intentioN
                 </a>
@@ -161,7 +183,6 @@ if (isset($_POST['like_delete'])) {
                 <?php if (is_array($intern_experience_data) || is_object($intern_experience_data)) : ?>
                     <?php foreach ($intern_experience_data as $row) : ?>
                         <div class="intern-contents mb-5 px-4 py-4 bg-light">
-
                             <div class="row mt-3">
                                 <div class="info-left col-lg-2 col-md-2 col-2">
                                     <div class="text-center">
@@ -271,16 +292,12 @@ if (isset($_POST['like_delete'])) {
 
                             <div class="row mt-4">
                                 <div class="col-lg-1 col-md-1 col-1">
-                                    <?php
-                                    $lik_calc->set_post_id($row['post_id']);
-                                    $lik_calc->set_student_id($row['student_id']);
 
-                                    // 未いいねかいいね済みか判定
-                                    $like_check = $lik_calc->intern_experience_like_check();
+                                    <?php $lik_calc->set_post_id($row['post_id']); ?>
+                                    <?php $lik_calc->set_student_id($row['student_id']); ?>
+                                    <?php $like_check = $lik_calc->intern_experience_like_check(); ?>
+                                    <?php $like_val = $lik_calc->intern_experience_like_count(); ?>
 
-                                    // 投稿についているいいね数を取得
-                                    $like_val = $lik_calc->intern_experience_like_count();
-                                    ?>
                                     <?php if ($like_check) : ?>
                                         <form action="./posts.php" method="post">
                                             <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
@@ -313,38 +330,83 @@ if (isset($_POST['like_delete'])) {
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
+
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <?php if ($page > 1) : ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<?php h($page - 1); ?>" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;<?php h($page - 1); ?></span>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+
+                        <?php if ($page < $pagination) : ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<?php h($page + 1); ?>" aria-label="Next">
+                                    <span aria-hidden="true"><?php h($page + 1); ?>&raquo;</span>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </nav>
             </div>
 
-
-            <div class="side-bar col-md-4 bg-light  h-100" style="margin-top: 100px;">
+            <div class="side-bar col-md-4 bg-light  h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
                             <a href="../staff_information/staff_information.php" class="nav-link link-dark">
-                                インターン情報　/ 説明会情報
+                                インターンシップ情報
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="./view.php" style="background-color: #EB6440;" class="nav-link active" aria-current="page">
-                                インターン体験記
+                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                                会社説明会情報
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                                キャリアセンターからのお知らせ
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="./posts.php" style="background-color: #EB6440;" class="nav-link active" aria-current="page">
+                                インターンシップ体験記
                             </a>
                         </li>
 
                         <li>
                             <a href="./post/post_form.php" class="nav-link link-dark">
-                                インターン体験記を新規投稿
+                                ES体験記
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="./post/post_form.php" class="nav-link link-dark">
+                                インターンシップ体験記を投稿
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="./post/post_form.php" class="nav-link link-dark">
+                                ES体験記を投稿
                             </a>
                         </li>
                     </ul>
 
                     <hr>
+
                     <div class="dropdown">
                         <form action="./search/search_result.php" method="post">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="keyword" placeholder="フリーワード検索">
-                                <input type="hidden" name="category" value="company">
-                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
+                                <input type="hidden" name="category" value="answer">
+                                <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
+                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
                             </div>
                         </form>
 
@@ -386,24 +448,23 @@ if (isset($_POST['like_delete'])) {
                     </div>
 
                     <hr>
-                    <!-- <div class="dropdown">
+                    <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                            <strong><?php h($userName) ?></strong>
+                            <strong><?php h($user_name) ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow">
-                            <!-- <li><a class="dropdown-item" href="#">プロフィール</a></li> -->
-                    <!-- <li>
+                            <li><a class="dropdown-item" href="#">プロフィール</a></li>
+                            <li>
                                 <hr class="dropdown-divider">
-                            </li> -->
-                    <li><a class="dropdown-item" href="../logout.php">サインアウト</a></li>
-                    </ul>
-                </div> -->
+                            </li>
+                            <li><a class="dropdown-item" href="../logout.php">サインアウト</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    </div>
-
 
     <footer class="text-center py-3">
         <div class="text-light text-center small">
