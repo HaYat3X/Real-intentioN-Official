@@ -406,7 +406,6 @@ $pagination = ceil($page_num / 10);
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="keyword" placeholder="フリーワード検索">
                                     <input type="hidden" name="category" value="answer">
-                                    <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
                                     <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
                                 </div>
                             </form>
@@ -417,7 +416,6 @@ $pagination = ceil($page_num / 10);
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="keyword" placeholder="企業名で検索">
                                     <input type="hidden" name="category" value="company">
-                                    <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
                                     <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
                                 </div>
                             </form>
@@ -432,7 +430,6 @@ $pagination = ceil($page_num / 10);
                                         <option value="オンライン開催">オンライン開催</option>
                                     </select>
                                     <input type="hidden" name="category" value="format">
-                                    <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
                                     <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
                                 </div>
                             </form>
@@ -454,7 +451,6 @@ $pagination = ceil($page_num / 10);
                                         <option value="国際コミュニケーション分野">国際コミュニケーション分野</option>
                                     </select>
                                     <input type="hidden" name="category" value="field">
-                                    <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
                                     <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
                                 </div>
                             </form>

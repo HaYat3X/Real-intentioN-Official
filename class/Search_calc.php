@@ -4,6 +4,9 @@ require_once '/Applications/MAMP/htdocs/Deliverables4/class/Database_calc.php';
 
 class Search
 {
+    /**
+     * インターン体験記のデータを検索する
+     */
     public function intern_experience_search($search_category, $search_keyword)
     {
         $db_calc = new Database();

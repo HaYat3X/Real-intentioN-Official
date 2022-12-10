@@ -2,6 +2,7 @@
 
 // セッション開始
 session_start();
+ob_start();
 
 // 外部ファイルのインポート
 require_once '../../../../../class/Session_calc.php';
@@ -38,21 +39,9 @@ if (!$student_login_data) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $search_category = filter_input(INPUT_POST, 'category');
     $search_keyword = filter_input(INPUT_POST, 'keyword');
-    $csrf_token = filter_input(INPUT_POST, 'csrf_token');
-
-    // csrfトークンの存在確認と正誤判定
-    $csrf_check = $ses_calc->csrf_match_check($csrf_token);
-
-    if (!$csrf_check) {
-        $uri = '../../../Exception/400_request.php';
-        header('Location:' . $uri);
-    }
 
     // 検索結果を取得
     $search_result = $srh_calc->intern_experience_search($search_category, $search_keyword);
-
-    // csrf_token削除　二重送信対策
-    $ses_calc->csrf_token_unset();
 }
 
 // 投稿にいいねする
