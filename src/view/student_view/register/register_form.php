@@ -23,6 +23,11 @@ if (!$email) {
     header('Location:' . $uri);
 }
 
+if (!$_SESSION['email_token']) {
+    $uri = '../../../Exception/400_request.php';
+    header('Location:' . $uri);
+}
+
 // メールアドレス認証トークンの破棄
 unset($_SESSION['email_token']);
 
