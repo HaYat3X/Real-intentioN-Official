@@ -2,6 +2,7 @@
 
 // セッション開始
 session_start();
+ob_start();
 
 // 外部ファイルのインポート
 require_once '../../../../class/Session_calc.php';

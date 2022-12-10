@@ -219,7 +219,7 @@ if (!$_COOKIE['input_time_limit']) {
                         </h1>
 
                         <div class="mt-4">
-                            <label for="validationCustom02" class="form-label">ニックネーム</label>
+                            <label for="validationCustom02" class="form-label">ニックネーム<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="validationCustom02" required name="name">
 
                             <div class="invalid-feedback">
@@ -228,7 +228,7 @@ if (!$_COOKIE['input_time_limit']) {
                         </div>
 
                         <div class="mt-4">
-                            <label for="validationCustom04" class="form-label">所属学科</label>
+                            <label for="validationCustom04" class="form-label">所属学科<span class="text-danger">*</span></label>
                             <select class="form-select" id="validationCustom04" name="department" required>
                                 <option selected disabled value="">-- 選択してください --</option>
                                 <option value="ITエキスパート学科">ITエキスパート学科</option>
@@ -260,7 +260,7 @@ if (!$_COOKIE['input_time_limit']) {
                         </div>
 
                         <div class="mt-4">
-                            <label for="validationCustom04" class="form-label">学年情報</label>
+                            <label for="validationCustom04" class="form-label">学年情報<span class="text-danger">*</span></label>
                             <select class="form-select" class="form-select" id="validationCustom04" name="school_year" required>
                                 <option selected disabled value="">-- 選択してください --</option>
                                 <option value="1年生">1年生</option>
@@ -275,7 +275,7 @@ if (!$_COOKIE['input_time_limit']) {
                         </div>
 
                         <div class="mt-4">
-                            <label for="validationCustom02" class="form-label">出席番号</label>
+                            <label for="validationCustom02" class="form-label">出席番号<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="validationCustom02" required name="number">
 
                             <div class="invalid-feedback">
@@ -284,7 +284,7 @@ if (!$_COOKIE['input_time_limit']) {
                         </div>
 
                         <div class="mt-4">
-                            <label for="validationCustom02" class="form-label">パスワード</label>
+                            <label for="validationCustom02" class="form-label">パスワード<span class="text-danger">*</span></label>
                             <input type="password" class="form-control" id="validationCustom02" required name="password">
 
                             <div class="invalid-feedback">
