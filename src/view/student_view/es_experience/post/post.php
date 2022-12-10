@@ -4,25 +4,48 @@
 session_start();
 
 // 外部ファイルのインポート
-require_once '../../../../class/Session_calc.php';
-require_once '../../../../class/Database_calc.php';
-require_once '../../../../class/Register_calc.php';
-require_once '../../../../class/Validation_calc.php';
-require_once '../../../../function/functions.php';
+require_once '../../../../../class/Session_calc.php';
+require_once '../../../../../class/Register_calc.php';
+require_once '../../../../../class/Validation_calc.php';
+require_once '../../../../../function/functions.php';
+require_once '../../../../../class/View_calc.php';
+require_once '../../../../../class/Like_calc.php';
+require_once '../../../../../class/Post_calc.php';
 
 // インスタンス化
 $ses_calc = new Session();
 $val_calc = new ValidationCheck();
 $rgs_calc = new Register();
+$viw_calc = new View();
+$lik_calc = new Like();
+$pos_calc = new Post();
+
+// ログインチェック
+$student_login_data = $ses_calc->student_login_check();
+
+// ユーザIDを抽出
+foreach ($student_login_data as $row) {
+    $user_id = $row['student_id'];
+}
+
+// ログイン情報がない場合リダイレクト
+if (!$student_login_data) {
+    $uri = '../../../Exception/400_request.php';
+    header('Location: ' . $uri);
+}
 
 // エラーメッセージが入る配列を定義
 $err_array = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 送信された値の受け取り
-    $email = filter_input(INPUT_POST, 'email');
-    $user_input_token = filter_input(INPUT_POST, 'token');
-    $email_token = filter_input(INPUT_POST, 'email_token');
+    $company = filter_input(INPUT_POST, 'company');
+    $content = filter_input(INPUT_POST, 'content');
+    $format = filter_input(INPUT_POST, 'format');
+    $question = filter_input(INPUT_POST, 'question');
+    $field = filter_input(INPUT_POST, 'field');
+    $answer = filter_input(INPUT_POST, 'answer');
+    $ster = filter_input(INPUT_POST, 'ster');
     $csrf_token = filter_input(INPUT_POST, 'csrf_token');
 
     // csrfトークンの存在確認と正誤判定
@@ -33,21 +56,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // バリデーションチェック
-    $val_check_arr[] = strval($user_input_token);
+    $val_check_arr[] = strval($company);
+    $val_check_arr[] = strval($content);
+    $val_check_arr[] = strval($format);
+    $val_check_arr[] = strval($question);
+    $val_check_arr[] = strval($field);
+    $val_check_arr[] = strval($answer);
+    $val_check_arr[] = strval($ster);
+
     if (!$val_calc->not_yet_entered($val_check_arr)) {
         $err_array[] = $val_calc->getErrorMsg();
     }
 
-    // 認証コードが一致するか判定する
-    if ($email_token !== $user_input_token) {
-        $err_array[] = '認証コードが間違っています。';
-    }
+    // エラーがない場合投稿処理
+    if (count($err_array) === 0) {
+        $new_post = $pos_calc->intern_experience_new_post($user_id, $company, $format, $content, $question, $answer, $ster, $field);
 
-    // 学生情報を入力できる時間を20分間に制限 
-    $cookieName = 'input_time_limit';
-    $cookieValue = rand();
-    $cookieExpire = time() + 1200;
-    setcookie($cookieName, $cookieValue, $cookieExpire);
+        if (!$new_post) {
+            $err_array[] = '投稿に失敗しました。';
+        }
+    }
 
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
@@ -68,32 +96,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet" />
     <link rel="shortcut icon" href="../../../public/img/favicon.ico" type="image/x-icon">
-    <title>学生利用登録 /「Real intentioN」</title>
+    <title>学生情報登録 / 「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
         }
 
         header {
-            background-color: #c2dbde;
+            background-color: #D6E4E5;
         }
 
         footer {
             background-color: #497174;
-            margin-top: 120px;
-        }
-
-        .footer-top {
-            padding-bottom: 90px;
-            padding: 90px;
-        }
-
-        .footer-top a {
-            color: #fff;
-        }
-
-        .footer-top a:hover {
-            color: #fff;
         }
 
         .nav-link {
@@ -113,96 +127,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: white;
             background-color: #eb6540c4;
         }
-
-        section {
-            padding-top: 120px;
-        }
-
-        .hero {
-            background-image: url('./public/img/92d501bc70777a3bf854e9e1aab4881d.jpg');
-            background-position: center;
-            background-size: cover;
-            background-attachment: fixed;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero::after {
-            content: "";
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: rgba(37, 39, 71, 0.3);
-            z-index: -1;
-        }
-
-        .card-effect {
-            box-shadow: blue;
-            background-color: #fff;
-            padding: 25px;
-            transition: all 0.35s ease;
-        }
-
-        .card-effect:hover {
-            box-shadow: none;
-            transform: translateY(5px);
-        }
-
-        .iconbox {
-            width: 54px;
-            height: 54px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #EB6440;
-            color: white;
-            font-size: 32px;
-            border-radius: 100px;
-            flex: none;
-        }
-
-        .service {
-            position: relative;
-            z-index: 2;
-            overflow: hidden;
-        }
-
-        .service::after {
-            content: "";
-            position: absolute;
-            top: -100%;
-            left: 0;
-            background-color: #EB6440;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0;
-            transition: all 0.4s ease;
-        }
-
-        .service:hover h5,
-        .service:hover p {
-            color: white;
-        }
-
-        .service:hover .iconbox {
-            background-color: #fff;
-            color: #EB6440;
-        }
-
-        .service:hover::after {
-            opacity: 1;
-            top: 0;
-        }
-
-        .col-img {
-            background-image: url('./public/img/kaihatusya.png');
-            background-position: center;
-            background-size: cover;
-            min-height: 480px;
-        }
     </style>
 </head>
 
@@ -210,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <header class="sticky-top">
         <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
-                <a class="navbar-brand" href="../../../../index.html">
+                <a class="navbar-brand" href="./index.html">
                     <img src="../../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
                             align-text-top" style="object-fit: cover;"> Real intentioN
                 </a>
@@ -222,10 +146,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link px-4" href="../../staff_view/login/login_form.php">職員の方はこちら</a>
+                            <a class="nav-link px-4" href="./src/StaffView/login/login_form.php">職員の方はこちら</a>
                         </li>
                         <li class="nav-item">
-                            <a class="login-btn btn px-4" href="../login/login_form.php">ログインはこちら</a>
+                            <a class="login-btn btn px-4" href="./src/UserView/login/login_form.php">ログインはこちら</a>
                         </li>
                     </ul>
                 </div>
@@ -243,14 +167,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endforeach; ?>
 
                         <div class="mt-2">
-                            <a class="btn btn-primary px-4" href="./auth_email_form.php?email=<?php h($email); ?>">戻る</a>
+                            <a class="btn btn-primary px-4" href="./post_form.php">戻る</a>
                         </div>
                     <?php endif; ?>
 
                     <?php if (count($err_array) === 0) : ?>
                         <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-認証が完了しました。</div>
-                        <?php $uri = './register_form.php?email=' . $email ?>
-                        <?php header('refresh:3;url=' . $uri); ?>
+                        <?php $uri = '../posts.php' ?>
+                        <?php header('refresh:3;url=' . $uri);
+                        ?>
                     <?php endif; ?>
                 </div>
             </div>
