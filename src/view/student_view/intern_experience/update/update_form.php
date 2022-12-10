@@ -250,7 +250,7 @@ if (!$update_data) {
                 <?php endif; ?>
             </div>
 
-            <div class="side-bar col-md-4 bg-light  h-100">
+            <div class="side-bar col-md-4 bg-light h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
@@ -284,7 +284,7 @@ if (!$update_data) {
                         </li>
 
                         <li>
-                            <a href="./post/post_form.php" style="background-color: #EB6440;" class="nav-link active" aria-current="page">
+                            <a href="./post/post_form.php" class="nav-link link-dark">
                                 インターンシップ体験記を投稿
                             </a>
                         </li>

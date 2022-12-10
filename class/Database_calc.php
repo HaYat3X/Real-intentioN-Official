@@ -35,7 +35,6 @@ class Database
             return $result;
         } catch (\Exception $e) {
             echo $e;
-            error_log($e, 3, '../error.log');
             return false;
         }
     }
@@ -54,7 +53,6 @@ class Database
             return $result;
         } catch (\Exception $e) {
             echo $e;
-            error_log($e, 3, '../error.log');
             return false;
         }
     }
@@ -72,7 +70,6 @@ class Database
             return true;
         } catch (\Exception $e) {
             echo $e;
-            error_log($e, 3, '../error.log');
             return false;
         }
     }
@@ -91,7 +88,6 @@ class Database
             return $result;
         } catch (\Exception $e) {
             echo $e;
-            error_log($e, 3, '../error.log');
             return false;
         }
     }

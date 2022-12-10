@@ -1,0 +1,6 @@
+PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIKE '%%' ORDER BY intern_experience_tbl.post_id DESC' at line 1 in /Applications/MAMP/htdocs/Deliverables4/class/Database_calc.php:52
+Stack trace:
+#0 /Applications/MAMP/htdocs/Deliverables4/class/Database_calc.php(52): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/Deliverables4/class/Search_calc.php(19): Database->data_select_argument('SELECT * FROM `...', Array)
+#2 /Applications/MAMP/htdocs/Deliverables4/src/view/student_view/intern_experience/search/search_result.php(49): Search->intern_experience_search(NULL, NULL)
+#3 {main}

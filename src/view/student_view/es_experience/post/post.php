@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet" />
     <link rel="shortcut icon" href="../../../public/img/favicon.ico" type="image/x-icon">
-    <title>学生情報登録 / 「Real intentioN」</title>
+    <title>インターンシップ体験記を投稿 /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
@@ -127,6 +127,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: white;
             background-color: #eb6540c4;
         }
+
+        .square_box {
+            position: relative;
+            max-width: 100px;
+            background: #ffb6b9;
+            border-radius: 5px;
+        }
+
+        .square_box::before {
+            content: "";
+            display: block;
+            padding-bottom: 100%;
+        }
+
+        .square_box p {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -134,25 +155,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <header class="sticky-top">
         <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
-                <a class="navbar-brand" href="./index.html">
-                    <img src="../../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
+                <a class="navbar-brand" href="">
+                    <img src="../../../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
                             align-text-top" style="object-fit: cover;"> Real intentioN
                 </a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link px-4" href="./src/StaffView/login/login_form.php">職員の方はこちら</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="login-btn btn px-4" href="./src/UserView/login/login_form.php">ログインはこちら</a>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </nav>
     </header>
