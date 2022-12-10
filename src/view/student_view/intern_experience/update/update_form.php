@@ -114,7 +114,7 @@ if (!$update_data) {
             var submit = confirm("更新しますか？　編集内容を確認してください。");
 
             if (!submit) {
-                window.location.href = './update_form.php';
+                window.location.href = '../posts.php';
             }
         }
     </script>
