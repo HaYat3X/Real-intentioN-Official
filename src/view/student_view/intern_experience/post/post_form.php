@@ -358,7 +358,6 @@ if (!$student_login_data) {
             </div>
         </div>
     </div>
-    </div>
 
     <footer class="text-center py-3">
         <div class="text-light text-center small">

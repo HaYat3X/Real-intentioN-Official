@@ -26,6 +26,11 @@ foreach ($student_login_data as $row) {
     $user_id = $row['student_id'];
 }
 
+// ユーザ名を抽出
+foreach ($student_login_data as $row) {
+    $user_name = $row['name'];
+}
+
 // ログイン情報がない場合リダイレクト
 if (!$student_login_data) {
     $uri = '../../../Exception/400_request.php';
@@ -54,8 +59,8 @@ if (!$update_data) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-    <link rel="shortcut icon" href="../../../public/img/favicon.ico" type="image/x-icon">
-    <title>学生ログイン / 「Real intentioN」</title>
+    <link rel="shortcut icon" href="../../../../../public/img/favicon.ico" type="image/x-icon">
+    <title>インターンシップ体験記を編集 /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
@@ -124,8 +129,8 @@ if (!$update_data) {
     <header class="sticky-top">
         <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
-                <a class="navbar-brand" href="./index.html">
-                    <img src="../../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
+                <a class="navbar-brand" href="">
+                    <img src="../../../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
                             align-text-top" style="object-fit: cover;"> Real intentioN
                 </a>
             </div>
@@ -144,7 +149,7 @@ if (!$update_data) {
                                 </h1>
 
                                 <div class="mt-4">
-                                    <label for="validationCustom02" class="form-label">企業名</label>
+                                    <label for="validationCustom02" class="form-label">企業名<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="validationCustom02" value="<?php h($row['company']) ?>" required name="company">
 
                                     <div class="invalid-feedback">
@@ -153,7 +158,7 @@ if (!$update_data) {
                                 </div>
 
                                 <div class="mt-4">
-                                    <label for="validationCustom02" class="form-label">体験内容</label>
+                                    <label for="validationCustom02" class="form-label">体験内容<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="validationCustom02" value="<?php h($row['content']) ?>" required name="content">
 
                                     <div class="invalid-feedback">
@@ -162,7 +167,7 @@ if (!$update_data) {
                                 </div>
 
                                 <div class="mt-4">
-                                    <label for="validationCustom04" class="form-label">開催形式</label>
+                                    <label for="validationCustom04" class="form-label">開催形式<span class="text-danger">*</span></label>
                                     <select class="form-select" id="validationCustom04" name="format" required>
                                         <option selected value="<?php h($row['format']) ?>"><?php h($row['format']) ?></option>
                                         <option value="オンライン開催">オンライン開催</option>
@@ -175,7 +180,7 @@ if (!$update_data) {
                                 </div>
 
                                 <div class="mt-4">
-                                    <label for="validationCustom04" class="form-label">参加分野</label>
+                                    <label for="validationCustom04" class="form-label">参加分野<span class="text-danger">*</span></label>
                                     <select class="form-select" class="form-select" id="validationCustom04" name="field" required>
                                         <option selected value="<?php h($row['field']) ?>"><?php h($row['field']) ?></option>
                                         <option value="IT分野">IT分野</option>
@@ -195,7 +200,7 @@ if (!$update_data) {
                                 </div>
 
                                 <div class="mt-4">
-                                    <label for="validationCustom04" class="form-label">回答する質問を選択</label>
+                                    <label for="validationCustom04" class="form-label">回答する質問を選択<span class="text-danger">*</span></label>
                                     <select class="form-select" class="form-select" id="validationCustom04" name="question" required>
                                         <option selected value="<?php h($row['question']) ?>"><?php h($row['question']) ?></option>
                                         <option value="インターンの参加は選考に有利になったと感じますか？その理由も教えてください。">インターンの参加は選考に有利になったと感じますか？その理由も教えてください。</option>
@@ -209,7 +214,7 @@ if (!$update_data) {
                                 </div>
 
                                 <div class="mt-4">
-                                    <label for="validationCustom04" class="form-label">選択した質問に回答</label>
+                                    <label for="validationCustom04" class="form-label">選択した質問に回答<span class="text-danger">*</span></label>
                                     <textarea class="form-control" name="answer" id="validationCustom04" rows="6" required><?php h($row['answer']) ?></textarea>
                                     <div class="invalid-feedback">
                                         質問に回答してください。
@@ -217,7 +222,7 @@ if (!$update_data) {
                                 </div>
 
                                 <div class="mt-4">
-                                    <label for="validationCustom04" class="form-label">総合評価</label>
+                                    <label for="validationCustom04" class="form-label">総合評価<span class="text-danger">*</span></label>
                                     <select class="form-select" class="form-select" id="validationCustom04" name="ster" required>
                                         <option selected value="<?php h($row['ster']) ?>"><?php h($row['ster']) ?></option>
                                         <option value="星1">星1</option>
@@ -245,93 +250,129 @@ if (!$update_data) {
                 <?php endif; ?>
             </div>
 
-
-
-            <div class="side-bar col-md-4 bg-light  h-100" style="margin-top: 100px;">
+            <div class="side-bar col-md-4 bg-light  h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
                             <a href="../staff_information/staff_information.php" class="nav-link link-dark">
-                                インターン情報　/ 説明会情報
+                                インターンシップ情報
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="./view.php" style="background-color: #EB6440;" class="nav-link active" aria-current="page">
-                                インターン体験記
+                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                                会社説明会情報
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                                キャリアセンターからのお知らせ
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="../posts.php" class="nav-link link-dark">
+                                インターンシップ体験記
                             </a>
                         </li>
 
                         <li>
                             <a href="./post/post_form.php" class="nav-link link-dark">
-                                インターン体験記を新規投稿
+                                ES体験記
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="./post/post_form.php" style="background-color: #EB6440;" class="nav-link active" aria-current="page">
+                                インターンシップ体験記を投稿
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="./post/post_form.php" class="nav-link link-dark">
+                                ES体験記を投稿
                             </a>
                         </li>
                     </ul>
 
                     <hr>
+
                     <div class="dropdown">
-                        <form action="./search/free_word_search.php" method="post">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="keyword" placeholder="フリーワード検索">
-                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
-                            </div>
-                        </form>
+                        <div class="mb-4">
+                            <form action="../search/search_result.php" method="post">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="keyword" placeholder="フリーワード検索">
+                                    <input type="hidden" name="category" value="answer">
+                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
 
-                        <form action="./search/company_search.php" method="post">
-                            <div class="input-group mt-4">
-                                <input type="text" class="form-control" name="keyword" placeholder="企業名で検索">
-                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
-                            </div>
-                        </form>
+                        <div class="mb-4">
+                            <form action="../search/search_result.php" method="post">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="keyword" placeholder="企業名で検索">
+                                    <input type="hidden" name="category" value="company">
+                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
 
-                        <form action="./search/format_search.php" method="post">
-                            <div class="input-group mt-4">
-                                <select class="form-select" name="keyword" aria-label="Default select example">
-                                    <option selected>開催形式で検索</option>
-                                    <option value="対面開催">対面開催</option>
-                                    <option value="オンライン開催">オンライン開催</option>
-                                </select>
-                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
-                            </div>
-                        </form>
+                        <div class="mb-4">
+                            <form action="../search/search_result.php" method="post">
+                                <div class="input-group">
+                                    <select class="form-select" name="keyword" aria-label="Default select example">
+                                        <option selected>開催形式で検索</option>
+                                        <option value="対面開催">対面開催</option>
+                                        <option value="オンライン開催">オンライン開催</option>
+                                    </select>
+                                    <input type="hidden" name="category" value="format">
+                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
 
-                        <form action="./search/field_search.php" method="post">
-                            <div class="input-group mt-4">
-                                <select class="form-select" name="keyword" aria-label="Default select example">
-                                    <option selected>開催分野で検索</option>
-                                    <option value="IT分野">IT分野</option>
-                                    <option value="ゲームソフト分野">ゲームソフト分野</option>
-                                    <option value="ハード分野">ハード分野</option>
-                                    <option value="ビジネス分野">ビジネス分野</option>
-                                    <option value="CAD分野">CAD分野</option>
-                                    <option value="グラフィックス分野">グラフィックス分野</option>
-                                    <option value="サウンド分野">サウンド分野</option>
-                                    <option value="日本語分野">日本語分野</option>
-                                    <option value="国際コミュニケーション分野">国際コミュニケーション分野</option>
-                                </select>
-                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
-                            </div>
-                        </form>
+                        <div class="mb-4">
+                            <form action="../search/search_result.php" method="post">
+                                <div class="input-group">
+                                    <select class="form-select" name="keyword" aria-label="Default select example">
+                                        <option selected>職種分野で検索</option>
+                                        <option value="IT分野">IT分野</option>
+                                        <option value="ゲームソフト分野">ゲームソフト分野</option>
+                                        <option value="ハード分野">ハード分野</option>
+                                        <option value="ビジネス分野">ビジネス分野</option>
+                                        <option value="CAD分野">CAD分野</option>
+                                        <option value="グラフィックス分野">グラフィックス分野</option>
+                                        <option value="サウンド分野">サウンド分野</option>
+                                        <option value="日本語分野">日本語分野</option>
+                                        <option value="国際コミュニケーション分野">国際コミュニケーション分野</option>
+                                    </select>
+                                    <input type="hidden" name="category" value="field">
+                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
 
                     <hr>
-                    <!-- <div class="dropdown">
+
+                    <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                            <strong><?php h($userName) ?></strong>
+                            <strong><?php h($user_name) ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow">
-                            <!-- <li><a class="dropdown-item" href="#">プロフィール</a></li> -->
-                    <!-- <li>
+                            <li><a class="dropdown-item" href="#">プロフィール</a></li>
+                            <li>
                                 <hr class="dropdown-divider">
-                            </li> -->
-                    <li><a class="dropdown-item" href="../logout.php">サインアウト</a></li>
-                    </ul>
-                </div> -->
+                            </li>
+                            <li><a class="dropdown-item" href="../logout.php">サインアウト</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 
     <footer class="text-center py-3">
