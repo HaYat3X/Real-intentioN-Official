@@ -47,12 +47,12 @@ if (isset($_POST['like'])) {
         header('Location:' . $uri);
     }
 
+    // csrf_token削除　二重送信対策
+    $ses_calc->csrf_token_unset();
+
     $lik_calc->intern_experience_like();
     $uri = './posts.php';
     header('Location: ' . $uri);
-
-    // csrf_token削除　二重送信対策
-    $ses_calc->csrf_token_unset();
 }
 
 // 投稿のいいねを解除する
@@ -69,12 +69,13 @@ if (isset($_POST['like_delete'])) {
 
     $lik_calc->intern_experience_like_delete();
 
-    $uri = './posts.php';
-    header('Location: ' . $uri);
-
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
+
+    $uri = './posts.php';
+    header('Location: ' . $uri);
 }
+
 ?>
 
 <!DOCTYPE html>
