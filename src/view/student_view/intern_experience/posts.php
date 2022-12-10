@@ -401,53 +401,68 @@ $pagination = ceil($page_num / 10);
                     <hr>
 
                     <div class="dropdown">
-                        <form action="./search/search_result.php" method="post">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="keyword" placeholder="フリーワード検索">
-                                <input type="hidden" name="category" value="answer">
-                                <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
-                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-                            </div>
-                        </form>
+                        <div class="mb-4">
+                            <form action="./search/search_result.php" method="post">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="keyword" placeholder="フリーワード検索">
+                                    <input type="hidden" name="category" value="answer">
+                                    <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
+                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
 
-                        <form action="./search/company_search.php" method="post">
-                            <div class="input-group mt-4">
-                                <input type="text" class="form-control" name="keyword" placeholder="企業名で検索">
-                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
-                            </div>
-                        </form>
+                        <div class="mb-4">
+                            <form action="./search/search_result.php" method="post">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="keyword" placeholder="企業名で検索">
+                                    <input type="hidden" name="category" value="company">
+                                    <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
+                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
 
-                        <form action="./search/format_search.php" method="post">
-                            <div class="input-group mt-4">
-                                <select class="form-select" name="keyword" aria-label="Default select example">
-                                    <option selected>開催形式で検索</option>
-                                    <option value="対面開催">対面開催</option>
-                                    <option value="オンライン開催">オンライン開催</option>
-                                </select>
-                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
-                            </div>
-                        </form>
+                        <div class="mb-4">
+                            <form action="./search/search_result.php" method="post">
+                                <div class="input-group">
+                                    <select class="form-select" name="keyword" aria-label="Default select example">
+                                        <option selected>開催形式で検索</option>
+                                        <option value="対面開催">対面開催</option>
+                                        <option value="オンライン開催">オンライン開催</option>
+                                    </select>
+                                    <input type="hidden" name="category" value="format">
+                                    <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
+                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
 
-                        <form action="./search/field_search.php" method="post">
-                            <div class="input-group mt-4">
-                                <select class="form-select" name="keyword" aria-label="Default select example">
-                                    <option selected>開催分野で検索</option>
-                                    <option value="IT分野">IT分野</option>
-                                    <option value="ゲームソフト分野">ゲームソフト分野</option>
-                                    <option value="ハード分野">ハード分野</option>
-                                    <option value="ビジネス分野">ビジネス分野</option>
-                                    <option value="CAD分野">CAD分野</option>
-                                    <option value="グラフィックス分野">グラフィックス分野</option>
-                                    <option value="サウンド分野">サウンド分野</option>
-                                    <option value="日本語分野">日本語分野</option>
-                                    <option value="国際コミュニケーション分野">国際コミュニケーション分野</option>
-                                </select>
-                                <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
-                            </div>
-                        </form>
+                        <div class="mb-4">
+                            <form action="./search/search_result.php" method="post">
+                                <div class="input-group">
+                                    <select class="form-select" name="keyword" aria-label="Default select example">
+                                        <option selected>職種分野で検索</option>
+                                        <option value="IT分野">IT分野</option>
+                                        <option value="ゲームソフト分野">ゲームソフト分野</option>
+                                        <option value="ハード分野">ハード分野</option>
+                                        <option value="ビジネス分野">ビジネス分野</option>
+                                        <option value="CAD分野">CAD分野</option>
+                                        <option value="グラフィックス分野">グラフィックス分野</option>
+                                        <option value="サウンド分野">サウンド分野</option>
+                                        <option value="日本語分野">日本語分野</option>
+                                        <option value="国際コミュニケーション分野">国際コミュニケーション分野</option>
+                                    </select>
+                                    <input type="hidden" name="category" value="field">
+                                    <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
+                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
 
                     <hr>
+
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
