@@ -4,12 +4,14 @@
 session_start();
 
 // 外部ファイルのインポート
-require_once '../../../../class/Session_calc.php';
-require_once '../../../../class/Register_calc.php';
-require_once '../../../../class/Validation_calc.php';
-require_once '../../../../function/functions.php';
-require_once '../../../../class/View_calc.php';
-require_once '../../../../class/Like_calc.php';
+require_once '../../../../../class/Session_calc.php';
+require_once '../../../../../class/Register_calc.php';
+require_once '../../../../../class/Validation_calc.php';
+require_once '../../../../../function/functions.php';
+require_once '../../../../../class/View_calc.php';
+require_once '../../../../../class/Like_calc.php';
+require_once '../../../../../class/Search_calc.php';
+
 
 // インスタンス化
 $ses_calc = new Session();
@@ -17,6 +19,7 @@ $val_calc = new ValidationCheck();
 $rgs_calc = new Register();
 $viw_calc = new View();
 $lik_calc = new Like();
+$srh_calc = new Search();
 
 // ログインチェック
 $student_login_data = $ses_calc->student_login_check();
@@ -32,8 +35,13 @@ if (!$student_login_data) {
     header('Location: ' . $uri);
 }
 
-// データを取得
-$intern_experience_data = $viw_calc->intern_experience_data();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $search_category = filter_input(INPUT_POST, 'category');
+    $search_keyword = filter_input(INPUT_POST, 'keyword');
+
+    // 検索結果を取得
+    $search_result = $srh_calc->intern_experience_search($search_category, $search_keyword);
+}
 
 // 投稿にいいねする
 if (isset($_POST['like'])) {
@@ -158,8 +166,8 @@ if (isset($_POST['like_delete'])) {
     <div class="container my-5">
         <div class="row">
             <div class="col-lg-8 col-md-12 col-12">
-                <?php if (is_array($intern_experience_data) || is_object($intern_experience_data)) : ?>
-                    <?php foreach ($intern_experience_data as $row) : ?>
+                <?php if (is_array($search_result) || is_object($search_result)) : ?>
+                    <?php foreach ($search_result as $row) : ?>
                         <div class="intern-contents mb-5 px-4 py-4 bg-light">
 
                             <div class="row mt-3">
@@ -340,10 +348,9 @@ if (isset($_POST['like_delete'])) {
 
                     <hr>
                     <div class="dropdown">
-                        <form action="./search/search_result.php" method="post">
+                        <form action="./search/free_word_search.php" method="post">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="keyword" placeholder="フリーワード検索">
-                                <input type="hidden" name="category" value="company">
                                 <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fas fa-search"></i>検索</button>
                             </div>
                         </form>
