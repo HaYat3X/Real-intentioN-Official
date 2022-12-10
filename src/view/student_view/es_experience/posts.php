@@ -49,8 +49,8 @@ if ($page > 1) {
     $start = 0;
 }
 
-// インターン体験記投稿データを取得
-$intern_experience_data = $viw_calc->intern_experience_data($start);
+// ES体験記投稿データを取得
+$es_experience_data = $viw_calc->es_experience_data($start);
 
 // 投稿にいいねする
 if (isset($_POST['like'])) {
@@ -93,7 +93,7 @@ if (isset($_POST['like_delete'])) {
     header('Location: ' . $uri);
 }
 
-$page_num = $viw_calc->intern_experience_data_val();
+$page_num = $viw_calc->es_experience_data_val();
 
 // ページネーションの数を取得する
 $pagination = ceil($page_num / 10);
@@ -110,7 +110,7 @@ $pagination = ceil($page_num / 10);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../../../../public/img/favicon.ico" type="image/x-icon">
-    <title>インターン体験記 /「Real intentioN」</title>
+    <title>ES体験記 /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
@@ -180,8 +180,8 @@ $pagination = ceil($page_num / 10);
     <div class="container my-5">
         <div class="row">
             <div class="col-lg-8 col-md-12 col-12">
-                <?php if (is_array($intern_experience_data) || is_object($intern_experience_data)) : ?>
-                    <?php foreach ($intern_experience_data as $row) : ?>
+                <?php if (is_array($es_experience_data) || is_object($es_experience_data)) : ?>
+                    <?php foreach ($es_experience_data as $row) : ?>
                         <div class="intern-contents mb-5 px-4 py-4 bg-light">
                             <div class="row mt-3">
                                 <div class="info-left col-lg-2 col-md-2 col-2">
@@ -194,44 +194,8 @@ $pagination = ceil($page_num / 10);
 
                                 <div class="col-lg-9 col-md-9 col-9">
                                     <p class="fs-5">
-                                        <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?><span style="margin: 0 10px;">/</span><?php h($row['format']) ?>
+                                        <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?>
                                     </p>
-
-                                    <span><?php h($row['content']) ?></span><br>
-
-                                    <span class="student-review" style="color: #FCCA4D;">
-                                        <?php if ($row['ster'] === '星1') : ?>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                        <?php elseif ($row['ster'] === '星2') : ?>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                        <?php elseif ($row['ster'] === '星3') : ?>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                        <?php elseif ($row['ster'] === '星4') : ?>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star"></i>
-                                        <?php elseif ($row['ster'] === '星5') : ?>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                        <?php endif; ?>
-                                    </span>
                                 </div>
 
                                 <div class="info-right col-lg-1 col-md-1 col-1">
