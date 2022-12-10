@@ -54,9 +54,6 @@ $es_experience_data = $viw_calc->es_experience_data($start);
 
 // 投稿にいいねする
 if (isset($_POST['like'])) {
-    $lik_calc->set_post_id($_POST['post_id']);
-    $lik_calc->set_student_id($_POST['student_id']);
-
     // csrfトークンの存在確認と正誤判定
     $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
     if (!$csrf_check) {
@@ -67,16 +64,13 @@ if (isset($_POST['like'])) {
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
 
-    $lik_calc->intern_experience_like();
+    $lik_calc->es_experience_like($_POST['post_id'], $user_id);
     $uri = './posts.php';
     header('Location: ' . $uri);
 }
 
 // 投稿のいいねを解除する
 if (isset($_POST['like_delete'])) {
-    $lik_calc->set_post_id($_POST['post_id']);
-    $lik_calc->set_student_id($_POST['student_id']);
-
     // csrfトークンの存在確認と正誤判定
     $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
     if (!$csrf_check) {
@@ -84,7 +78,7 @@ if (isset($_POST['like_delete'])) {
         header('Location:' . $uri);
     }
 
-    $lik_calc->intern_experience_like_delete();
+    $lik_calc->es_experience_like_delete($_POST['post_id'], $user_id);
 
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
@@ -257,10 +251,8 @@ $pagination = ceil($page_num / 10);
                             <div class="row mt-4">
                                 <div class="col-lg-1 col-md-1 col-1">
 
-                                    <?php $lik_calc->set_post_id($row['post_id']); ?>
-                                    <?php $lik_calc->set_student_id($row['student_id']); ?>
-                                    <?php $like_check = $lik_calc->intern_experience_like_check(); ?>
-                                    <?php $like_val = $lik_calc->intern_experience_like_count(); ?>
+                                    <?php $like_check = $lik_calc->es_experience_like_check($row['post_id'], $user_id); ?>
+                                    <?php $like_val = $lik_calc->es_experience_like_count($row['post_id']); ?>
 
                                     <?php if ($like_check) : ?>
                                         <form action="./posts.php" method="post">

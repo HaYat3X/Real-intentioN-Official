@@ -380,7 +380,7 @@ $pagination = ceil($page_num / 10);
                         </li>
 
                         <li>
-                            <a href="./post/post_form.php" class="nav-link link-dark">
+                            <a href="../es_experience/posts.php" class="nav-link link-dark">
                                 ES体験記
                             </a>
                         </li>
