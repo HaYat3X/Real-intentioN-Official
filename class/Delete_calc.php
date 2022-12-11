@@ -22,13 +22,13 @@ class Delete
     }
 
     /**
-     * インターン体験記のデータを削除する
+     * ES体験記のデータを削除する
      */
     public function es_experience_delete($post_id)
     {
         $db_calc = new Database();
 
-        $sql = 'DELETE FROM `intern_experience_tbl` WHERE post_id = ?';
+        $sql = 'DELETE FROM `es_experience_tbl` WHERE post_id = ?';
 
         $argument = [];
         $argument[] = strval($post_id);

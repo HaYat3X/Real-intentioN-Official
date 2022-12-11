@@ -44,16 +44,16 @@ $err_array = [];
 $post_id = filter_input(INPUT_GET, 'post_id');
 
 // 削除するデータを取得
-$update_data = $viw_calc->intern_experience_data_one($post_id);
+$delete_data = $viw_calc->intern_experience_data_one($post_id);
 
 // 削除するデータがない場合はリダイレクト
-if (!$update_data) {
+if (!$delete_data) {
     $uri = '../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
 
 // 削除権限がない場合はリダイレクト
-foreach ($update_data as $row) {
+foreach ($delete_data as $row) {
     $post_user_id = $row['student_id'];
 }
 
@@ -63,7 +63,7 @@ if ($post_user_id !== $user_id) {
 }
 
 // 削除処理
-$delete = $dlt_calc->intern_experience_delete($post_id);
+$delete = $dlt_calc->es_experience_delete($post_id);
 
 if (!$delete) {
     $err_array[] = '削除に失敗しました。';
