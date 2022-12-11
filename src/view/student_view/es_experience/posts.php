@@ -139,7 +139,7 @@ $pagination = ceil($page_num / 10);
         .square_box {
             position: relative;
             max-width: 100px;
-            background: #ffb6b9;
+            background: #ff3278;
             border-radius: 5px;
         }
 
@@ -181,7 +181,7 @@ $pagination = ceil($page_num / 10);
                                 <div class="info-left col-lg-2 col-md-2 col-2">
                                     <div class="text-center">
                                         <div class="square_box">
-                                            <p>INTERN</p>
+                                            <p>ES</p>
                                         </div>
                                     </div>
                                 </div>
@@ -330,13 +330,13 @@ $pagination = ceil($page_num / 10);
                         </li>
 
                         <li class="nav-item">
-                            <a href="./posts.php" style="background-color: #EB6440;" class="nav-link active" aria-current="page">
+                            <a href="../intern_experience/posts.php" class="nav-link link-dark">
                                 インターンシップ体験記
                             </a>
                         </li>
 
                         <li>
-                            <a href="./post/post_form.php" class="nav-link link-dark">
+                            <a href="./posts.php" style="background-color: #EB6440;" class="nav-link active" aria-current="page">
                                 ES体験記
                             </a>
                         </li>

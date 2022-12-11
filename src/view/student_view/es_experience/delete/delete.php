@@ -44,7 +44,7 @@ $err_array = [];
 $post_id = filter_input(INPUT_GET, 'post_id');
 
 // 削除するデータを取得
-$delete_data = $viw_calc->intern_experience_data_one($post_id);
+$delete_data = $viw_calc->es_experience_data_one($post_id);
 
 // 削除するデータがない場合はリダイレクト
 if (!$delete_data) {
