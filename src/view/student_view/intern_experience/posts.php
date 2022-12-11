@@ -294,14 +294,14 @@ $pagination = ceil($page_num / 10);
                                 <div class="col-lg-1 col-md-1 col-1">
 
                                     <?php $lik_calc->set_post_id($row['post_id']); ?>
-                                    <?php $lik_calc->set_student_id($row['student_id']); ?>
+                                    <?php $lik_calc->set_student_id($user_id); ?>
                                     <?php $like_check = $lik_calc->intern_experience_like_check(); ?>
                                     <?php $like_val = $lik_calc->intern_experience_like_count(); ?>
 
                                     <?php if ($like_check) : ?>
                                         <form action="./posts.php" method="post">
                                             <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
-                                            <input type="hidden" name="student_id" value="<?php h($row['student_id']) ?>">
+                                            <input type="hidden" name="student_id" value="<?php h($user_id) ?>">
                                             <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
                                             <button class="btn fs-5" name="like_delete">
                                                 <i style="color: red;" class="bi bi-heart-fill"></i>
@@ -310,7 +310,7 @@ $pagination = ceil($page_num / 10);
                                     <?php else : ?>
                                         <form action="./posts.php" method="post">
                                             <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
-                                            <input type="hidden" name="student_id" value="<?php h($row['student_id']) ?>">
+                                            <input type="hidden" name="student_id" value="<?php h($user_id) ?>">
                                             <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
                                             <button class="btn fs-5" name="like">
                                                 <i style="color: red;" class="bi bi-heart"></i>
