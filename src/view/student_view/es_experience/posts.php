@@ -381,20 +381,6 @@ $pagination = ceil($page_num / 10);
                             <form action="./search/search_result.php" method="post">
                                 <div class="input-group">
                                     <select class="form-select" name="keyword" aria-label="Default select example">
-                                        <option selected>開催形式で検索</option>
-                                        <option value="対面開催">対面開催</option>
-                                        <option value="オンライン開催">オンライン開催</option>
-                                    </select>
-                                    <input type="hidden" name="category" value="format">
-                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="mb-4">
-                            <form action="./search/search_result.php" method="post">
-                                <div class="input-group">
-                                    <select class="form-select" name="keyword" aria-label="Default select example">
                                         <option selected>職種分野で検索</option>
                                         <option value="IT分野">IT分野</option>
                                         <option value="ゲームソフト分野">ゲームソフト分野</option>

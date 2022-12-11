@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $search_keyword = filter_input(INPUT_POST, 'keyword');
 
     // 検索結果を取得
-    $search_result = $srh_calc->intern_experience_search($search_category, $search_keyword);
+    $search_result = $srh_calc->es_experience_search($search_category, $search_keyword);
 }
 
 // 投稿にいいねする
@@ -186,44 +186,8 @@ if (isset($_POST['like_delete'])) {
 
                                 <div class="col-lg-9 col-md-9 col-9">
                                     <p class="fs-5">
-                                        <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?><span style="margin: 0 10px;">/</span><?php h($row['format']) ?>
+                                        <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?>
                                     </p>
-
-                                    <span><?php h($row['content']) ?></span><br>
-
-                                    <span class="student-review" style="color: #FCCA4D;">
-                                        <?php if ($row['ster'] === '星1') : ?>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                        <?php elseif ($row['ster'] === '星2') : ?>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                        <?php elseif ($row['ster'] === '星3') : ?>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star"></i>
-                                            <i class="bi bi-star"></i>
-                                        <?php elseif ($row['ster'] === '星4') : ?>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star"></i>
-                                        <?php elseif ($row['ster'] === '星5') : ?>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                        <?php endif; ?>
-                                    </span>
                                 </div>
 
                                 <div class="info-right col-lg-1 col-md-1 col-1">
