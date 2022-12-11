@@ -80,4 +80,21 @@ class View
 
         return $result;
     }
+
+    /**
+     * ES体験記の投稿一件を取得
+     */
+    public function es_experience_data_one($post_id)
+    {
+        $db_calc = new Database();
+
+        $sql = 'SELECT * FROM `es_experience_tbl` INNER JOIN `student_mst` ON es_experience_tbl.student_id = student_mst.student_id AND es_experience_tbl.post_id = ?';
+
+        $argument = [];
+        $argument[] = $post_id;
+
+        $result = $db_calc->data_select_argument($sql, $argument);
+
+        return $result;
+    }
 }

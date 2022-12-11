@@ -28,4 +28,26 @@ class Update
 
         return $result;
     }
+
+    /**
+     * ES体験記を編集する
+     */
+    public function es_experience_update($user_id, $company, $question, $answer, $field, $post_id)
+    {
+        $db_calc = new Database();
+
+        $sql = "UPDATE `es_experience_tbl` SET `student_id` = ?, `company` = ?, `question` = ?, `answer` = ?, `field` = ? WHERE post_id = ?";
+
+        $argument = [];
+        $argument[] = strval($user_id);
+        $argument[] = strval($company);
+        $argument[] = strval($question);
+        $argument[] = strval($answer);
+        $argument[] = strval($field);
+        $argument[] = strval($post_id);
+
+        $result = $db_calc->data_various_kinds($sql, $argument);
+
+        return $result;
+    }
 }

@@ -40,7 +40,7 @@ if (!$student_login_data) {
 $post_id = filter_input(INPUT_GET, 'post_id');
 
 // 編集するデータを取得
-$update_data = $viw_calc->intern_experience_data_one($post_id);
+$update_data = $viw_calc->es_experience_data_one($post_id);
 
 // 編集するデータがない場合はリダイレクト
 if (!$update_data) {
@@ -60,7 +60,7 @@ if (!$update_data) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../../../../../public/img/favicon.ico" type="image/x-icon">
-    <title>インターンシップ体験記を編集 /「Real intentioN」</title>
+    <title>ES体験記を編集 /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
@@ -145,7 +145,7 @@ if (!$update_data) {
                         <div class="bg-light py-5">
                             <form class="needs-validation col-lg-7 mx-auto" novalidate action="./update.php" method="POST">
                                 <h1 class="text-center fs-2 mb-5">
-                                    インターン体験記を編集する
+                                    ES体験記を編集する
                                 </h1>
 
                                 <div class="mt-4">
@@ -154,28 +154,6 @@ if (!$update_data) {
 
                                     <div class="invalid-feedback">
                                         <p>企業名を入力してください。</p>
-                                    </div>
-                                </div>
-
-                                <div class="mt-4">
-                                    <label for="validationCustom02" class="form-label">体験内容<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="validationCustom02" value="<?php h($row['content']) ?>" required name="content">
-
-                                    <div class="invalid-feedback">
-                                        <p>体験内容を入力してください。</p>
-                                    </div>
-                                </div>
-
-                                <div class="mt-4">
-                                    <label for="validationCustom04" class="form-label">開催形式<span class="text-danger">*</span></label>
-                                    <select class="form-select" id="validationCustom04" name="format" required>
-                                        <option selected value="<?php h($row['format']) ?>"><?php h($row['format']) ?></option>
-                                        <option value="オンライン開催">オンライン開催</option>
-                                        <option value="対面開催">対面開催</option>
-                                    </select>
-
-                                    <div class="invalid-feedback">
-                                        開催形式を選択してください。
                                     </div>
                                 </div>
 
@@ -218,22 +196,6 @@ if (!$update_data) {
                                     <textarea class="form-control" name="answer" id="validationCustom04" rows="6" required><?php h($row['answer']) ?></textarea>
                                     <div class="invalid-feedback">
                                         質問に回答してください。
-                                    </div>
-                                </div>
-
-                                <div class="mt-4">
-                                    <label for="validationCustom04" class="form-label">総合評価<span class="text-danger">*</span></label>
-                                    <select class="form-select" class="form-select" id="validationCustom04" name="ster" required>
-                                        <option selected value="<?php h($row['ster']) ?>"><?php h($row['ster']) ?></option>
-                                        <option value="星1">星1</option>
-                                        <option value="星2">星2</option>
-                                        <option value="星3">星3</option>
-                                        <option value="星4">星4</option>
-                                        <option value="星5">星5</option>
-                                    </select>
-
-                                    <div class="invalid-feedback">
-                                        総合評価を選択してください。
                                     </div>
                                 </div>
 
