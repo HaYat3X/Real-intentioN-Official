@@ -49,7 +49,7 @@ if (!$student_login_data) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../../../../../public/img/favicon.ico" type="image/x-icon">
-    <title>インターンシップ体験記を投稿 /「Real intentioN」</title>
+    <title>ES体験記を投稿 /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
@@ -132,7 +132,7 @@ if (!$student_login_data) {
                 <div class="bg-light py-5">
                     <form class="needs-validation col-lg-7 mx-auto" novalidate action="./post.php" method="POST">
                         <h1 class="text-center fs-2 mb-5">
-                            インターン体験記を投稿する
+                            ES体験記を投稿する
                         </h1>
 
                         <div class="mt-4">
@@ -141,28 +141,6 @@ if (!$student_login_data) {
 
                             <div class="invalid-feedback">
                                 <p>企業名を入力してください。</p>
-                            </div>
-                        </div>
-
-                        <div class="mt-4">
-                            <label for="validationCustom02" class="form-label">体験内容<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="validationCustom02" required name="content">
-
-                            <div class="invalid-feedback">
-                                <p>体験内容を入力してください。</p>
-                            </div>
-                        </div>
-
-                        <div class="mt-4">
-                            <label for="validationCustom04" class="form-label">開催形式<span class="text-danger">*</span></label>
-                            <select class="form-select" id="validationCustom04" name="format" required>
-                                <option selected disabled value="">-- 選択してください --</option>
-                                <option value="オンライン開催">オンライン開催</option>
-                                <option value="対面開催">対面開催</option>
-                            </select>
-
-                            <div class="invalid-feedback">
-                                開催形式を選択してください。
                             </div>
                         </div>
 
@@ -190,9 +168,8 @@ if (!$student_login_data) {
                             <label for="validationCustom04" class="form-label">回答する質問を選択<span class="text-danger">*</span></label>
                             <select class="form-select" class="form-select" id="validationCustom04" name="question" required>
                                 <option selected disabled value="">-- 選択してください --</option>
-                                <option value="インターンの参加は選考に有利になったと感じますか？その理由も教えてください。">インターンの参加は選考に有利になったと感じますか？その理由も教えてください。</option>
-                                <option value="インターンで体験した内容を教えてください。">インターンで体験した内容を教えてください。</option>
-                                <option value="交通費の支給など、金銭面でのサポートはありましたか？">交通費の支給など、金銭面でのサポートはありましたか？</option>
+                                <option value="学校で頑張ったことを教えてください。">学校で頑張ったことを教えてください。</option>
+                                <option value="志望理由を教えてください。">志望理由を教えてください。</option>
                             </select>
 
                             <div class="invalid-feedback">
@@ -205,22 +182,6 @@ if (!$student_login_data) {
                             <textarea class="form-control" name="answer" id="validationCustom04" rows="6" required></textarea>
                             <div class="invalid-feedback">
                                 質問に回答してください。
-                            </div>
-                        </div>
-
-                        <div class="mt-4">
-                            <label for="validationCustom04" class="form-label">総合評価<span class="text-danger">*</span></label>
-                            <select class="form-select" class="form-select" id="validationCustom04" name="ster" required>
-                                <option selected disabled value="">-- 選択してください --</option>
-                                <option value="星1">星1</option>
-                                <option value="星2">星2</option>
-                                <option value="星3">星3</option>
-                                <option value="星4">星4</option>
-                                <option value="星5">星5</option>
-                            </select>
-
-                            <div class="invalid-feedback">
-                                総合評価を選択してください。
                             </div>
                         </div>
 

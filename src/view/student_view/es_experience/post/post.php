@@ -40,12 +40,9 @@ $err_array = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 送信された値の受け取り
     $company = filter_input(INPUT_POST, 'company');
-    $content = filter_input(INPUT_POST, 'content');
-    $format = filter_input(INPUT_POST, 'format');
     $question = filter_input(INPUT_POST, 'question');
     $field = filter_input(INPUT_POST, 'field');
     $answer = filter_input(INPUT_POST, 'answer');
-    $ster = filter_input(INPUT_POST, 'ster');
     $csrf_token = filter_input(INPUT_POST, 'csrf_token');
 
     // csrfトークンの存在確認と正誤判定
@@ -57,12 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // バリデーションチェック
     $val_check_arr[] = strval($company);
-    $val_check_arr[] = strval($content);
-    $val_check_arr[] = strval($format);
     $val_check_arr[] = strval($question);
     $val_check_arr[] = strval($field);
     $val_check_arr[] = strval($answer);
-    $val_check_arr[] = strval($ster);
 
     if (!$val_calc->not_yet_entered($val_check_arr)) {
         $err_array[] = $val_calc->getErrorMsg();
@@ -70,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // エラーがない場合投稿処理
     if (count($err_array) === 0) {
-        $new_post = $pos_calc->intern_experience_new_post($user_id, $company, $format, $content, $question, $answer, $ster, $field);
+        $new_post = $pos_calc->es_experience_new_post($user_id, $company, $question, $answer, $field);
 
         if (!$new_post) {
             $err_array[] = '投稿に失敗しました。';
@@ -178,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php endif; ?>
 
                     <?php if (count($err_array) === 0) : ?>
-                        <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-認証が完了しました。</div>
+                        <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-投稿が完了しました。</div>
                         <?php $uri = '../posts.php' ?>
                         <?php header('refresh:3;url=' . $uri);
                         ?>

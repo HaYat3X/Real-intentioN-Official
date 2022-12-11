@@ -27,4 +27,25 @@ class Post
 
         return $result;
     }
+
+    /**
+     * ES体験記を新規投稿する
+     */
+    public function es_experience_new_post($user_id, $company, $question, $answer, $field)
+    {
+        $db_calc = new Database();
+
+        $sql = 'INSERT INTO `es_experience_tbl` (`student_id`, `company`, `question`, `answer`, `field`) VALUES (?, ?, ?, ?, ?)';
+
+        $argument = [];
+        $argument[] = strval($user_id);
+        $argument[] = strval($company);
+        $argument[] = strval($question);
+        $argument[] = strval($answer);
+        $argument[] = strval($field);
+
+        $result = $db_calc->data_various_kinds($sql, $argument);
+
+        return $result;
+    }
 }
