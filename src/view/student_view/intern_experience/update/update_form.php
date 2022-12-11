@@ -48,6 +48,16 @@ if (!$update_data) {
     header('Location: ' . $uri);
 }
 
+// 編集権限がない場合はリダイレクト
+foreach ($update_data as $row) {
+    $post_user_id = $row['student_id'];
+}
+
+if ($post_user_id !== $user_id) {
+    $uri = '../../../Exception/400_request.php';
+    header('Location: ' . $uri);
+}
+
 ?>
 
 <!DOCTYPE html>
