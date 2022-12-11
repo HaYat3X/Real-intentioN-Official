@@ -97,4 +97,18 @@ class View
 
         return $result;
     }
+
+    /**
+     * ES体験記のテーブル全レコード取得
+     */
+    public function intern_information_data($start)
+    {
+        $db_calc = new Database();
+
+        $sql = "SELECT * FROM `intern_information_tbl` INNER JOIN `staff_mst` ON intern_information_tbl.staff_id = staff_mst.staff_id ORDER BY intern_information_tbl.post_id DESC LIMIT {$start}, 10";
+
+        $result = $db_calc->data_select($sql);
+
+        return $result;
+    }
 }

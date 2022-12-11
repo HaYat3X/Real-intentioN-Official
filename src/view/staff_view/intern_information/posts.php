@@ -17,20 +17,20 @@ $viw_calc = new View();
 $lik_calc = new Like();
 
 // ログインチェック
-$student_login_data = $ses_calc->student_login_check();
+$staff_login_data = $ses_calc->staff_login_check();
 
 // ユーザIDを抽出
-foreach ($student_login_data as $row) {
-    $user_id = $row['student_id'];
+foreach ($staff_login_data as $row) {
+    $user_id = $row['staff_id'];
 }
 
 // ユーザ名を抽出
-foreach ($student_login_data as $row) {
+foreach ($staff_login_data as $row) {
     $user_name = $row['name'];
 }
 
 // ログイン情報がない場合リダイレクト
-if (!$student_login_data) {
+if (!$staff_login_data) {
     $uri = '../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
@@ -50,42 +50,7 @@ if ($page > 1) {
 }
 
 // ES体験記投稿データを取得
-$es_experience_data = $viw_calc->es_experience_data($start);
-
-// 投稿にいいねする
-if (isset($_POST['like'])) {
-    // csrfトークンの存在確認と正誤判定
-    $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
-    if (!$csrf_check) {
-        $uri = '../../../Exception/400_request.php';
-        header('Location:' . $uri);
-    }
-
-    // csrf_token削除　二重送信対策
-    $ses_calc->csrf_token_unset();
-
-    $lik_calc->es_experience_like($_POST['post_id'], $user_id);
-    $uri = './posts.php';
-    header('Location: ' . $uri);
-}
-
-// 投稿のいいねを解除する
-if (isset($_POST['like_delete'])) {
-    // csrfトークンの存在確認と正誤判定
-    $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
-    if (!$csrf_check) {
-        $uri = '../../../Exception/400_request.php';
-        header('Location:' . $uri);
-    }
-
-    $lik_calc->es_experience_like_delete($_POST['post_id'], $user_id);
-
-    // csrf_token削除　二重送信対策
-    $ses_calc->csrf_token_unset();
-
-    $uri = './posts.php';
-    header('Location: ' . $uri);
-}
+$intern_information_data = $viw_calc->intern_information_data($start);
 
 $page_num = $viw_calc->es_experience_data_val();
 
@@ -174,8 +139,8 @@ $pagination = ceil($page_num / 10);
     <div class="container my-5">
         <div class="row">
             <div class="col-lg-8 col-md-12 col-12">
-                <?php if (is_array($es_experience_data) || is_object($es_experience_data)) : ?>
-                    <?php foreach ($es_experience_data as $row) : ?>
+                <?php if (is_array($intern_information_data) || is_object($intern_information_data)) : ?>
+                    <?php foreach ($intern_information_data as $row) : ?>
                         <div class="intern-contents mb-5 px-4 py-4 bg-light">
                             <div class="row mt-3">
                                 <div class="info-left col-lg-2 col-md-2 col-2">
@@ -187,101 +152,36 @@ $pagination = ceil($page_num / 10);
                                 </div>
 
                                 <div class="col-lg-9 col-md-9 col-9">
+                                    <p class="fw-bold">
+                                        <?php h($row['time']) ?>
+                                    </p>
+
                                     <p class="fs-5">
-                                        <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?>
+                                        <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?><span style="margin: 0 10px;">/</span><?php h($row['format']) ?>
                                     </p>
                                 </div>
+                            </div>
 
-                                <div class="info-right col-lg-1 col-md-1 col-1">
-                                    <div class="text-end">
-                                        <div class="btn-group">
-                                            <?php if ($user_id == $row['student_id']) : ?>
-                                                <div class="btn-group dropstart" role="group">
-                                                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-dark">
-                                                        <li><a href="./delete/delete.php?post_id=<?php h($row['post_id']) ?>" class="dropdown-item">削除</a></li>
+                            <div class="mt-4 px-3">
+                                <p class="information">
+                                    <span><?php h($row['overview']) ?></span>
+                                </p>
 
-                                                        <li><a class="dropdown-item" href="./update/update_form.php?post_id=<?php h($row['post_id']) ?>">編集</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-                                </div>
+                                <p class="pt-1">
+                                    <?php
+                                    // 正規表現でリンク以外の文字列はエスケープ、リンクはaタグで囲んで、遷移できるようにする。
+                                    $pattern = '/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/';
+                                    $replace = '<a target="_blank" href="$1">$1</a>';
+                                    $attachment = preg_replace($pattern, $replace, $row['attachment']);
+                                    ?>
+                                    <span><?php echo $attachment ?></span>
+                                </p>
                             </div>
 
                             <div class="mt-4">
-                                <div class="row">
-                                    <div class="col-lg-1 col-md-1 col-1">
-                                        <div class="text-end">
-                                            <span style="color: blue;" class="fw-bold">Q.</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-11 col-md-11 col-11 fw-bold">
-                                        <div class="text-start">
-                                            <span>
-                                                <?php h($row['question']) ?>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mt-4">
-                                <div class="row">
-                                    <div class="col-lg-1 col-md-1 col-1">
-                                        <div class="text-end">
-                                            <span style="color: red; font-weight: bold;">A.</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-11 col-md-11 col-11">
-                                        <div class="text-start">
-                                            <span>
-                                                <?php echo preg_replace('/\n/', "<br>",  $row['answer']); ?>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row mt-4">
-                                <div class="col-lg-1 col-md-1 col-1">
-
-                                    <?php $like_check = $lik_calc->es_experience_like_check($row['post_id'], $user_id); ?>
-                                    <?php $like_val = $lik_calc->es_experience_like_count($row['post_id']); ?>
-
-                                    <?php if ($like_check) : ?>
-                                        <form action="./posts.php" method="post">
-                                            <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
-                                            <input type="hidden" name="student_id" value="<?php h($row['student_id']) ?>">
-                                            <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
-                                            <button class="btn fs-5" name="like_delete">
-                                                <i style="color: red;" class="bi bi-heart-fill"></i>
-                                            </button>
-                                        </form>
-                                    <?php else : ?>
-                                        <form action="./posts.php" method="post">
-                                            <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
-                                            <input type="hidden" name="student_id" value="<?php h($row['student_id']) ?>">
-                                            <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
-                                            <button class="btn fs-5" name="like">
-                                                <i style="color: red;" class="bi bi-heart"></i>
-                                            </button>
-                                        </form>
-                                    <?php endif; ?>
-                                </div>
-
-                                <div class="col-lg-4 col-md-4 col-5 mt-2">
-                                    <span class="fs-6">いいね数：<?php h($like_val) ?></span>
-                                </div>
-
-                                <div class="col-lg-7 col-md-7 col-6 text-end mt-2">
-                                    <?php h($row['name']) ?> ｜ <?php h($row['course_of_study']) ?> ｜ <?php h($row['grade_in_school']) ?>
-                                </div>
+                                <a class="btn login-btn" href="#">編集する</a>
+                                <a class="btn login-btn" href="#">削除する</a>
+                                <a class="btn login-btn" href="#">参加希望者リスト<span class="badge text-dark bg-light">4</span></a>
                             </div>
                         </div>
                     <?php endforeach; ?>
