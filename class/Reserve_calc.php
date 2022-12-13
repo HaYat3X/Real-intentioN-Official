@@ -63,7 +63,7 @@ class Reserve
     public function intern_information_reserve_delete($post_id, $student_id)
     {
         $db_calc = new Database();
-        
+
         $sql = "DELETE FROM `intern_information_reserve_tbl` WHERE reserve_post_id = ? AND student_id = ?";
 
         $argument = [];
@@ -71,6 +71,23 @@ class Reserve
         $argument[] = strval($student_id);
 
         $result = $db_calc->data_various_kinds($sql, $argument);
+
+        return $result;
+    }
+
+    /**
+     * インターンシップ情報投稿に予約した学生の情報を取得する
+     */
+    public function intern_information_reserve_data($post_id)
+    {
+        $db_calc = new Database();
+        
+        $sql = "SELECT * FROM `intern_information_reserve_tbl` INNER JOIN `student_mst` ON intern_information_reserve_tbl.student_id = student_mst.student_id AND intern_information_reserve_tbl.reserve_post_id = ? ORDER BY intern_information_reserve_tbl.reserve_id DESC";
+
+        $argument = [];
+        $argument[] = strval($post_id);
+
+        $result = $db_calc->data_select_argument($sql, $argument);
 
         return $result;
     }

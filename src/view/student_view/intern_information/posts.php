@@ -179,85 +179,106 @@ if (isset($_POST['reserve_delete'])) {
             <div class="col-lg-8 col-md-12 col-12">
                 <?php if (is_array($intern_information_data) || is_object($intern_information_data)) : ?>
                     <?php foreach ($intern_information_data as $row) : ?>
-                        <div class="intern-contents mb-5 px-4 py-4 bg-light">
-                            <div class="row mt-3">
-                                <div class="info-left col-lg-2 col-md-2 col-2">
-                                    <div class="text-center">
-                                        <div class="square_box">
-                                            <p>ES</p>
+
+                        <!-- 現在時刻との差を求め、開催まで後何日なのか計算 -->
+                        <?php $objDateTime = new DateTime(); ?>
+                        <?php $time = $objDateTime->format('Y-m-d'); ?>
+                        <?php $time1 = new DateTime($time); ?>
+                        <?php $time2 = new DateTime($row['time']); ?>
+                        <?php $diff = $time1->diff($time2); ?>
+                        <?php $limit = $diff->format('%R%a'); ?>
+                        <?php $limit2 = $diff->format('%a'); ?>
+
+                        <!-- 期日が過ぎた情報は表示しない -->
+                        <?php if ($limit >= 1) : ?>
+                            <div class="intern-contents mb-5 px-4 py-4 bg-light">
+                                <div class="row mt-3">
+                                    <div class="info-left col-lg-2 col-md-2 col-2">
+                                        <div class="text-center">
+                                            <div class="square_box">
+                                                <p>ES</p>
+                                            </div>
                                         </div>
                                     </div>
+
+                                    <div class="col-lg-9 col-md-9 col-9">
+                                        <p class="fw-bold">
+                                            <?php if ($limit <= 7) : ?>
+                                                <span style="color: red;" class="fw-bold">
+                                                    <?php h('予約締め切りまであと' . $limit2 . '日') ?>
+                                                </span>
+                                            <?php else : ?>
+                                                <span class="fw-bold">
+                                                    <?php h('予約締め切りまであと' . $limit2 . '日') ?>
+                                                </span>
+                                            <?php endif; ?>
+                                        </p>
+
+                                        <p class="fs-5">
+                                            <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?><span style="margin: 0 10px;">/</span><?php h($row['format']) ?>
+                                        </p>
+                                    </div>
                                 </div>
 
-                                <div class="col-lg-9 col-md-9 col-9">
-                                    <p class="fw-bold">
-                                        <?php h($row['time']) ?>
+                                <div class="mt-4 px-3">
+                                    <p class="information">
+                                        <span><?php h($row['overview']) ?></span>
                                     </p>
 
-                                    <p class="fs-5">
-                                        <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?><span style="margin: 0 10px;">/</span><?php h($row['format']) ?>
+                                    <p class="pt-1">
+                                        <?php
+                                        // 正規表現でリンク以外の文字列はエスケープ、リンクはaタグで囲んで、遷移できるようにする。
+                                        $pattern = '/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/';
+                                        $replace = '<a target="_blank" href="$1">$1</a>';
+                                        $attachment = preg_replace($pattern, $replace, $row['attachment']);
+                                        ?>
+                                        <span><?php echo $attachment; ?></span>
                                     </p>
                                 </div>
-                            </div>
 
-                            <div class="mt-4 px-3">
-                                <p class="information">
-                                    <span><?php h($row['overview']) ?></span>
-                                </p>
+                                <div class="row mt-4">
+                                    <div class="col-lg-1 col-md-1 col-1">
+                                        <?php $reserve_check = $rsv_calc->intern_information_reserve_check($row['post_id'], $user_id); ?>
+                                        <?php $reserve_val = $rsv_calc->intern_information_reserve_count($row['post_id']); ?>
 
-                                <p class="pt-1">
-                                    <?php
-                                    // 正規表現でリンク以外の文字列はエスケープ、リンクはaタグで囲んで、遷移できるようにする。
-                                    $pattern = '/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/';
-                                    $replace = '<a target="_blank" href="$1">$1</a>';
-                                    $attachment = preg_replace($pattern, $replace, $row['attachment']);
-                                    ?>
-                                    <span><?php echo $attachment ?></span>
-                                </p>
-                            </div>
+                                        <?php if ($reserve_check) : ?>
+                                            <form action="./posts.php" method="post">
+                                                <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
+                                                <input type="hidden" name="student_id" value="<?php h($user_id) ?>">
+                                                <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
+                                                <button class="btn fs-5" name="reserve_delete">
+                                                    <i style="color: red;" class="bi bi-clipboard-check"></i>
+                                                </button>
+                                            </form>
+                                        <?php else : ?>
+                                            <form action="./posts.php" method="post">
+                                                <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
+                                                <input type="hidden" name="student_id" value="<?php h($user_id) ?>">
+                                                <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
+                                                <button class="btn fs-5" name="reserve">
+                                                    <i class="bi bi-clipboard"></i>
 
-                            <div class="row mt-4">
-                                <div class="col-lg-1 col-md-1 col-1">
-                                    <?php $reserve_check = $rsv_calc->intern_information_reserve_check($row['post_id'], $user_id); ?>
-                                    <?php $reserve_val = $rsv_calc->intern_information_reserve_count($row['post_id']); ?>
+                                                </button>
+                                            </form>
+                                        <?php endif; ?>
+                                    </div>
 
                                     <?php if ($reserve_check) : ?>
-                                        <form action="./posts.php" method="post">
-                                            <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
-                                            <input type="hidden" name="student_id" value="<?php h($user_id) ?>">
-                                            <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
-                                            <button class="btn fs-5" name="reserve_delete">
-                                                <i style="color: red;" class="bi bi-clipboard-check"></i>
-                                            </button>
-                                        </form>
+                                        <div class="col-lg-4 col-md-4 col-5 mt-2">
+                                            <span class="fs-6">予約中</span>
+                                        </div>
                                     <?php else : ?>
-                                        <form action="./posts.php" method="post">
-                                            <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
-                                            <input type="hidden" name="student_id" value="<?php h($user_id) ?>">
-                                            <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
-                                            <button class="btn fs-5" name="reserve">
-                                                <i class="bi bi-clipboard"></i>
-
-                                            </button>
-                                        </form>
+                                        <div class="col-lg-4 col-md-4 col-5 mt-2">
+                                            <span class="fs-6">未予約</span>
+                                        </div>
                                     <?php endif; ?>
-                                </div>
 
-                                <?php if ($reserve_check) : ?>
-                                    <div class="col-lg-4 col-md-4 col-5 mt-2">
-                                        <span class="fs-6">予約中</span>
+                                    <div class="col-lg-7 col-md-4 col-5 mt-2 text-end">
+                                        <span class="fs-6">予約者数：<?php h($reserve_val) ?>人</span>
                                     </div>
-                                <?php else : ?>
-                                    <div class="col-lg-4 col-md-4 col-5 mt-2">
-                                        <span class="fs-6">未予約</span>
-                                    </div>
-                                <?php endif; ?>
-
-                                <div class="col-lg-7 col-md-4 col-5 mt-2 text-end">
-                                    <span class="fs-6">予約者数：<?php h($reserve_val) ?>人</span>
                                 </div>
                             </div>
-                        </div>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 <?php endif; ?>
 

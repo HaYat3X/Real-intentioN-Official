@@ -4,12 +4,12 @@
 session_start();
 
 // 外部ファイルのインポート
-require_once '../../../../class/Session_calc.php';
-require_once '../../../../class/Validation_calc.php';
-require_once '../../../../function/functions.php';
-require_once '../../../../class/View_calc.php';
-require_once '../../../../class/Like_calc.php';
-require_once '../../../../class/Reserve_calc.php';
+require_once '../../../../../class/Session_calc.php';
+require_once '../../../../../class/Validation_calc.php';
+require_once '../../../../../function/functions.php';
+require_once '../../../../../class/View_calc.php';
+require_once '../../../../../class/Like_calc.php';
+require_once '../../../../../class/Reserve_calc.php';
 
 // インスタンス化
 $ses_calc = new Session();
@@ -37,28 +37,10 @@ if (!$staff_login_data) {
     header('Location: ' . $uri);
 }
 
-// GETで現在のページ数を取得する（未入力の場合は1を挿入）
-if (isset($_GET['page'])) {
-    $page = (int)$_GET['page'];
-} else {
-    $page = 1;
-}
+$post_id = filter_input(INPUT_GET, 'post_id');
 
-// スタートのポジションを計算する
-if ($page > 1) {
-    $start = ($page * 10) - 10;
-} else {
-    $start = 0;
-}
-
-// インターンシップ情報投稿データを取得
-$intern_information_data = $viw_calc->intern_information_data($start);
-
-// インターンシップ情報のデータ数を取得
-$page_num = $viw_calc->intern_information_data_val();
-
-// ページネーションの数を取得する
-$pagination = ceil($page_num / 10);
+// インターンシップ情報投稿に予約をした学生情報を取得する
+$reserve_data = $rsv_calc->intern_information_reserve_data($post_id);
 
 ?>
 
@@ -142,75 +124,16 @@ $pagination = ceil($page_num / 10);
     <div class="container my-5">
         <div class="row">
             <div class="col-lg-8 col-md-12 col-12">
-                <?php if (is_array($intern_information_data) || is_object($intern_information_data)) : ?>
-                    <?php foreach ($intern_information_data as $row) : ?>
-                        <div class="intern-contents mb-5 px-4 py-4 bg-light">
-                            <div class="row mt-3">
-                                <div class="info-left col-lg-2 col-md-2 col-2">
-                                    <div class="text-center">
-                                        <div class="square_box">
-                                            <p>ES</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-9 col-md-9 col-9">
-                                    <p class="fw-bold">
-                                        <?php h($row['time']) ?>
-                                    </p>
-
-                                    <p class="fs-5">
-                                        <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?><span style="margin: 0 10px;">/</span><?php h($row['format']) ?>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="mt-4 px-3">
-                                <p class="information">
-                                    <span><?php h($row['overview']) ?></span>
-                                </p>
-
-                                <p class="pt-1">
-                                    <?php
-                                    // 正規表現でリンク以外の文字列はエスケープ、リンクはaタグで囲んで、遷移できるようにする。
-                                    $pattern = '/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/';
-                                    $replace = '<a target="_blank" href="$1">$1</a>';
-                                    $attachment = preg_replace($pattern, $replace, $row['attachment']);
-                                    ?>
-                                    <span><?php echo $attachment ?></span>
-                                </p>
-                            </div>
-
-                            <?php $reserve_val = $rsv_calc->intern_information_reserve_count($row['post_id']); ?>
-
-                            <div class="mt-4">
-                                <a class="btn login-btn" href="#">編集する</a>
-                                <a class="btn login-btn" href="#">削除する</a>
-                                <a class="btn login-btn" href="./reserve/reserve_list.php?post_id=<?php h($row['post_id']); ?>">参加希望者リスト<span class="badge text-dark bg-light"><?php h($reserve_val); ?></span></a>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <?php if ($page > 1) : ?>
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<?php h($page - 1); ?>" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;<?php h($page - 1); ?></span>
-                                </a>
-                            </li>
-                        <?php endif; ?>
-
-                        <?php if ($page < $pagination) : ?>
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<?php h($page + 1); ?>" aria-label="Next">
-                                    <span aria-hidden="true"><?php h($page + 1); ?>&raquo;</span>
-                                </a>
-                            </li>
-                        <?php endif; ?>
-                    </ul>
-                </nav>
+                <div class="intern-contents mb-5 px-4 py-4 bg-light">
+                    <h1 class="fs-4 mb-4">予約者リスト</h1>
+                    <?php if (is_array($reserve_data) || is_object($reserve_data)) : ?>
+                        <?php foreach ($reserve_data as $row) : ?>
+                            <ul class="list-group">
+                                <li class="list-group-item mb-2"><?php h($row['name']) ?> ｜ <?php h($row['email']) ?> ｜ <?php h($row['course_of_study']) ?> ｜ <?php h($row['grade_in_school']) ?> ｜ <?php h($row['attendance_record_number']) ?></li>
+                            </ul>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
             </div>
 
             <div class="side-bar col-md-4 bg-light  h-100">
