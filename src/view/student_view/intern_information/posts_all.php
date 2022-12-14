@@ -86,7 +86,7 @@ if (isset($_POST['reserve_delete'])) {
         header('Location:' . $uri);
     }
 
-    $ets = $rsv_calc->intern_information_reserve_delete($_POST['post_id'], $user_id);
+    $rsv_calc->intern_information_reserve_delete($_POST['post_id'], $user_id);
 
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
@@ -177,6 +177,9 @@ if (isset($_POST['reserve_delete'])) {
     <div class="container my-5">
         <div class="row">
             <div class="col-lg-8 col-md-12 col-12">
+
+                <a href="./posts_recommendation.php" class="btn btn-primary">フィルターON</a>
+
                 <?php if (is_array($intern_information_data) || is_object($intern_information_data)) : ?>
                     <?php foreach ($intern_information_data as $row) : ?>
 
@@ -257,7 +260,6 @@ if (isset($_POST['reserve_delete'])) {
                                                 <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
                                                 <button class="btn fs-5" name="reserve">
                                                     <i class="bi bi-clipboard"></i>
-
                                                 </button>
                                             </form>
                                         <?php endif; ?>
