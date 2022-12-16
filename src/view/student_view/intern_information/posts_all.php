@@ -73,7 +73,7 @@ if (isset($_POST['reserve'])) {
     $ses_calc->csrf_token_unset();
 
     $rsv_calc->intern_information_reserve($_POST['post_id'], $user_id);
-    $uri = './posts.php';
+    $uri = './posts_all.php';
     header('Location: ' . $uri);
 }
 
@@ -91,7 +91,7 @@ if (isset($_POST['reserve_delete'])) {
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
 
-    $uri = './posts.php';
+    $uri = './posts_all.php';
     header('Location: ' . $uri);
 }
 
@@ -245,7 +245,7 @@ if (isset($_POST['reserve_delete'])) {
                                         <?php $reserve_val = $rsv_calc->intern_information_reserve_count($row['post_id']); ?>
 
                                         <?php if ($reserve_check) : ?>
-                                            <form action="./posts.php" method="post">
+                                            <form action="./posts_all.php" method="post">
                                                 <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
                                                 <input type="hidden" name="student_id" value="<?php h($user_id) ?>">
                                                 <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
@@ -254,7 +254,7 @@ if (isset($_POST['reserve_delete'])) {
                                                 </button>
                                             </form>
                                         <?php else : ?>
-                                            <form action="./posts.php" method="post">
+                                            <form action="./posts_all.php" method="post">
                                                 <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
                                                 <input type="hidden" name="student_id" value="<?php h($user_id) ?>">
                                                 <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
