@@ -21,15 +21,20 @@ $lik_calc = new Like();
 $pos_calc = new Post();
 
 // ログインチェック
-$student_login_data = $ses_calc->student_login_check();
+$staff_login_data = $ses_calc->staff_login_check();
 
 // ユーザIDを抽出
-foreach ($student_login_data as $row) {
-    $user_id = $row['student_id'];
+foreach ($staff_login_data as $row) {
+    $user_id = $row['staff_id'];
+}
+
+// ユーザ名を抽出
+foreach ($staff_login_data as $row) {
+    $user_name = $row['name'];
 }
 
 // ログイン情報がない場合リダイレクト
-if (!$student_login_data) {
+if (!$staff_login_data) {
     $uri = '../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
@@ -38,11 +43,15 @@ if (!$student_login_data) {
 $err_array = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     // 送信された値の受け取り
     $company = filter_input(INPUT_POST, 'company');
-    $question = filter_input(INPUT_POST, 'question');
+    $format = filter_input(INPUT_POST, 'format');
+    $outgoing_course_of_study = implode($_POST['outgoing_course_of_study']);
     $field = filter_input(INPUT_POST, 'field');
-    $answer = filter_input(INPUT_POST, 'answer');
+    $overview = filter_input(INPUT_POST, 'overview');
+    $time = filter_input(INPUT_POST, 'time');
+    $attachment = filter_input(INPUT_POST, 'attachment');
     $csrf_token = filter_input(INPUT_POST, 'csrf_token');
 
     // csrfトークンの存在確認と正誤判定
@@ -54,9 +63,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // バリデーションチェック
     $val_check_arr[] = strval($company);
-    $val_check_arr[] = strval($question);
+    $val_check_arr[] = strval($format);
     $val_check_arr[] = strval($field);
-    $val_check_arr[] = strval($answer);
+    $val_check_arr[] = strval($overview);
+    $val_check_arr[] = strval($time);
 
     if (!$val_calc->not_yet_entered($val_check_arr)) {
         $err_array[] = $val_calc->getErrorMsg();
@@ -64,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // エラーがない場合投稿処理
     if (count($err_array) === 0) {
-        $new_post = $pos_calc->es_experience_new_post($user_id, $company, $question, $answer, $field);
+        $new_post = $pos_calc->intern_information_new_post($user_id, $company, $format, $overview, $field, $time, $attachment, $outgoing_course_of_study);
 
         if (!$new_post) {
             $err_array[] = '投稿に失敗しました。';
@@ -174,8 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php if (count($err_array) === 0) : ?>
                         <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-投稿が完了しました。</div>
                         <?php $uri = '../posts.php' ?>
-                        <?php header('refresh:3;url=' . $uri);
-                        ?>
+                        <?php header('refresh:3;url=' . $uri); ?>
                     <?php endif; ?>
                 </div>
             </div>

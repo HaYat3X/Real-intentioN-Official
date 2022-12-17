@@ -19,20 +19,20 @@ $viw_calc = new View();
 $lik_calc = new Like();
 
 // ログインチェック
-$student_login_data = $ses_calc->student_login_check();
+$staff_login_data = $ses_calc->staff_login_check();
 
 // ユーザIDを抽出
-foreach ($student_login_data as $row) {
-    $user_id = $row['student_id'];
+foreach ($staff_login_data as $row) {
+    $user_id = $row['staff_id'];
 }
 
 // ユーザ名を抽出
-foreach ($student_login_data as $row) {
+foreach ($staff_login_data as $row) {
     $user_name = $row['name'];
 }
 
 // ログイン情報がない場合リダイレクト
-if (!$student_login_data) {
+if (!$staff_login_data) {
     $uri = '../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
@@ -132,7 +132,7 @@ if (!$student_login_data) {
                 <div class="bg-light py-5">
                     <form class="needs-validation col-lg-7 mx-auto" novalidate action="./post.php" method="POST">
                         <h1 class="text-center fs-2 mb-5">
-                            ES体験記を投稿する
+                            インターンシップ情報を投稿する
                         </h1>
 
                         <div class="mt-4">
@@ -145,7 +145,29 @@ if (!$student_login_data) {
                         </div>
 
                         <div class="mt-4">
-                            <label for="validationCustom04" class="form-label">参加分野<span class="text-danger">*</span></label>
+                            <label for="validationCustom02" class="form-label">インターンシップ予約締切日<span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="validationCustom02" required name="time">
+
+                            <div class="invalid-feedback">
+                                <p>インターンシップ予約締切日を入力してください。</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label for="validationCustom04" class="form-label">開催形式<span class="text-danger">*</span></label>
+                            <select class="form-select" class="form-select" id="validationCustom04" name="format" required>
+                                <option selected disabled value="">-- 選択してください --</option>
+                                <option value="対面">対面</option>
+                                <option value="オンライン">オンライン</option>
+                            </select>
+
+                            <div class="invalid-feedback">
+                                参加分野を選択してください。
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label for="validationCustom04" class="form-label">業種分野<span class="text-danger">*</span></label>
                             <select class="form-select" class="form-select" id="validationCustom04" name="field" required>
                                 <option selected disabled value="">-- 選択してください --</option>
                                 <option value="IT分野">IT分野</option>
@@ -165,27 +187,49 @@ if (!$student_login_data) {
                         </div>
 
                         <div class="mt-4">
-                            <label for="validationCustom04" class="form-label">回答する質問を選択<span class="text-danger">*</span></label>
-                            <select class="form-select" class="form-select" id="validationCustom04" name="question" required>
-                                <option selected disabled value="">-- 選択してください --</option>
-                                <option value="学校で頑張ったことを教えてください。">学校で頑張ったことを教えてください。</option>
-                                <option value="志望理由を教えてください。">志望理由を教えてください。</option>
+                            <label for="validationCustom04" class="form-label">情報投稿対象学科<span class="text-danger">*（Shiftキーを押しながら選択すると複数選択できます。）</span></label>
+                            <select class="form-select" multiple required name="outgoing_course_of_study[]" c size="5">
+                                <option value="ITエキスパート学科">ITエキスパート学科</option>
+                                <option value="ITスペシャリスト学科">ITスペシャリスト学科</option>
+                                <option value="情報処理学科">情報処理学科</option>
+                                <option value="AIシステム開発学科">AIシステム開発学科</option>
+                                <option value="ゲーム開発研究学科">ゲーム開発研究学科</option>
+                                <option value="エンターテインメントソフト学科">エンターテインメントソフト学科</option>
+                                <option value="ゲームソフト学科">ゲームソフト学科</option>
+                                <option value="情報工学学科">情報工学学科</option>
+                                <option value="情報ビジネス学科">情報ビジネス学科</option>
+                                <option value="建築インテリアデザイン学科">建築インテリアデザイン学科</option>
+                                <option value="インダストリアルデザイン学科">インダストリアルデザイン学科</option>
+                                <option value="総合研究科（建築コース）">総合研究科（建築コース）</option>
+                                <option value="3DCGアニメーション学科">3DCGアニメーション学科</option>
+                                <option value="デジタルアニメ学科">デジタルアニメ学科</option>
+                                <option value="グラフィックスデザイン学科">グラフィックデザイン学科</option>
+                                <option value="総合研究科（CGコース）">総合研究科（CGコース）</option>
+                                <option value="サウンドクリエイト学科">サウンドクリエイト学科</option>
+                                <option value="サウンドテクニック学科">サウンドテクニック学科</option>
+                                <option value="声優タレント学科">声優タレント学科</option>
+                                <option value="日本語学科">日本語学科</option>
+                                <option value="国際コミュニケーション学科">国際コミュニケーション学科</option>
                             </select>
 
                             <div class="invalid-feedback">
-                                質問を選択してください。
+                                少なくとも一つの学科を選択してください。
                             </div>
                         </div>
 
                         <div class="mt-4">
-                            <label for="validationCustom04" class="form-label">選択した質問に回答<span class="text-danger">*</span></label>
-                            <textarea class="form-control" name="answer" id="validationCustom04" rows="6" required></textarea>
+                            <label for="validationCustom04" class="form-label">インターンシップ内容<span class="text-danger">*</span></label>
+                            <textarea class="form-control" name="overview" id="validationCustom04" rows="6" required></textarea>
                             <div class="invalid-feedback">
-                                質問に回答してください。
+                                インターンシップ内容を入力してください。
                             </div>
                         </div>
 
-                        <input type="hidden" name="user_id" value="<?php h($user_id) ?>">
+                        <div class="mt-4">
+                            <label for="validationCustom04" class="form-label">添付資料</label>
+                            <textarea class="form-control" name="attachment" id="validationCustom04" rows="1"></textarea>
+                        </div>
+
                         <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
 
                         <div class="mt-4">

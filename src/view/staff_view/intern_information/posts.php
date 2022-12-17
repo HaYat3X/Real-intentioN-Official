@@ -257,6 +257,12 @@ $pagination = ceil($page_num / 10);
                                 ES体験記を投稿
                             </a>
                         </li>
+
+                        <li>
+                            <a href="./post/post_form.php" class="nav-link link-dark">
+                                インターンシップ情報を新規投稿
+                            </a>
+                        </li>
                     </ul>
 
                     <hr>
