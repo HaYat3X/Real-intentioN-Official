@@ -50,4 +50,30 @@ class Update
 
         return $result;
     }
+
+
+    /**
+     * インターンシップ情報を編集する
+     */
+    public function intern_information_update($user_id, $company, $format, $overview, $field, $time, $attachment, $outgoing_course_of_study, $post_id)
+    {
+        $db_calc = new Database();
+
+        $sql = "UPDATE `intern_information_tbl` SET `staff_id`=?, `company`=?,`format`=?,`overview`=?,`field`=?,`time`=?,`attachment`=?,`outgoing_course_of_study`=? WHERE post_id = ?";
+
+        $argument = [];
+        $argument[] = strval($user_id);
+        $argument[] = strval($company);
+        $argument[] = strval($format);
+        $argument[] = strval($overview);
+        $argument[] = strval($field);
+        $argument[] = strval($time);
+        $argument[] = strval($attachment);
+        $argument[] = strval($outgoing_course_of_study);
+        $argument[] = strval($post_id);
+
+        $result = $db_calc->data_various_kinds($sql, $argument);
+
+        return $result;
+    }
 }

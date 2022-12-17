@@ -184,7 +184,7 @@ $pagination = ceil($page_num / 10);
                             <?php $reserve_val = $rsv_calc->intern_information_reserve_count($row['post_id']); ?>
 
                             <div class="mt-4">
-                                <a class="btn login-btn" href="#">編集する</a>
+                                <a class="btn login-btn" href="./update/update_form.php?post_id=<?php h($row['post_id']) ?>">編集する</a>
                                 <a class="btn login-btn" href="#">削除する</a>
                                 <a class="btn login-btn" href="./reserve/reserve_list.php?post_id=<?php h($row['post_id']); ?>">参加希望者リスト<span class="badge text-dark bg-light"><?php h($reserve_val); ?></span></a>
                             </div>

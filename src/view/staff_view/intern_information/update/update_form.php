@@ -19,20 +19,20 @@ $viw_calc = new View();
 $lik_calc = new Like();
 
 // ログインチェック
-$student_login_data = $ses_calc->student_login_check();
+$staff_login_data = $ses_calc->staff_login_check();
 
 // ユーザIDを抽出
-foreach ($student_login_data as $row) {
-    $user_id = $row['student_id'];
+foreach ($staff_login_data as $row) {
+    $user_id = $row['staff_id'];
 }
 
 // ユーザ名を抽出
-foreach ($student_login_data as $row) {
+foreach ($staff_login_data as $row) {
     $user_name = $row['name'];
 }
 
 // ログイン情報がない場合リダイレクト
-if (!$student_login_data) {
+if (!$staff_login_data) {
     $uri = '../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
@@ -40,20 +40,10 @@ if (!$student_login_data) {
 $post_id = filter_input(INPUT_GET, 'post_id');
 
 // 編集するデータを取得
-$update_data = $viw_calc->es_experience_data_one($post_id);
+$update_data = $viw_calc->intern_information_data_one($post_id);
 
 // 編集するデータがない場合はリダイレクト
 if (!$update_data) {
-    $uri = '../../../Exception/400_request.php';
-    header('Location: ' . $uri);
-}
-
-// 編集権限がない場合はリダイレクト
-foreach ($update_data as $row) {
-    $post_user_id = $row['student_id'];
-}
-
-if ($post_user_id !== $user_id) {
     $uri = '../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
@@ -70,7 +60,7 @@ if ($post_user_id !== $user_id) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../../../../../public/img/favicon.ico" type="image/x-icon">
-    <title>ES体験記を編集 /「Real intentioN」</title>
+    <title>ES体験記を投稿 /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
@@ -126,10 +116,10 @@ if ($post_user_id !== $user_id) {
 
     <script>
         function alertFunction1() {
-            var submit = confirm("更新しますか？　編集内容を確認してください。");
+            var submit = confirm("投稿しますか？　投稿内容を確認してください。");
 
             if (!submit) {
-                window.location.href = '../posts.php';
+                window.location.href = './post_form.php';
             }
         }
     </script>
@@ -150,17 +140,17 @@ if ($post_user_id !== $user_id) {
     <div class="container my-5">
         <div class="row">
             <div class="col-lg-8 col-md-12 col-12">
-                <?php if (is_array($update_data) || is_object($update_data)) : ?>
-                    <?php foreach ($update_data as $row) : ?>
-                        <div class="bg-light py-5">
+                <div class="bg-light py-5">
+                    <?php if (is_array($update_data) || is_object($update_data)) : ?>
+                        <?php foreach ($update_data as $row) : ?>
                             <form class="needs-validation col-lg-7 mx-auto" novalidate action="./update.php" method="POST">
                                 <h1 class="text-center fs-2 mb-5">
-                                    ES体験記を編集する
+                                    インターンシップ情報を編集する
                                 </h1>
 
                                 <div class="mt-4">
                                     <label for="validationCustom02" class="form-label">企業名<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="validationCustom02" value="<?php h($row['company']) ?>" required name="company">
+                                    <input type="text" class="form-control" id="validationCustom02" required name="company" value="<?php h($row['company']) ?>">
 
                                     <div class="invalid-feedback">
                                         <p>企業名を入力してください。</p>
@@ -168,7 +158,29 @@ if ($post_user_id !== $user_id) {
                                 </div>
 
                                 <div class="mt-4">
-                                    <label for="validationCustom04" class="form-label">参加分野<span class="text-danger">*</span></label>
+                                    <label for="validationCustom02" class="form-label">インターンシップ予約締切日<span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="validationCustom02" required name="time" value="<?php h($row['time']) ?>">
+
+                                    <div class="invalid-feedback">
+                                        <p>インターンシップ予約締切日を入力してください。</p>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <label for="validationCustom04" class="form-label">開催形式<span class="text-danger">*</span></label>
+                                    <select class="form-select" class="form-select" id="validationCustom04" name="format" required>
+                                        <option selected value="<?php h($row['format']) ?>"><?php h($row['format']) ?></option>
+                                        <option value="対面">対面</option>
+                                        <option value="オンライン">オンライン</option>
+                                    </select>
+
+                                    <div class="invalid-feedback">
+                                        参加分野を選択してください。
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <label for="validationCustom04" class="form-label">業種分野<span class="text-danger">*</span></label>
                                     <select class="form-select" class="form-select" id="validationCustom04" name="field" required>
                                         <option selected value="<?php h($row['field']) ?>"><?php h($row['field']) ?></option>
                                         <option value="IT分野">IT分野</option>
@@ -188,41 +200,63 @@ if ($post_user_id !== $user_id) {
                                 </div>
 
                                 <div class="mt-4">
-                                    <label for="validationCustom04" class="form-label">回答する質問を選択<span class="text-danger">*</span></label>
-                                    <select class="form-select" class="form-select" id="validationCustom04" name="question" required>
-                                        <option selected value="<?php h($row['question']) ?>"><?php h($row['question']) ?></option>
-                                        <option value="インターンの参加は選考に有利になったと感じますか？その理由も教えてください。">インターンの参加は選考に有利になったと感じますか？その理由も教えてください。</option>
-                                        <option value="インターンで体験した内容を教えてください。">インターンで体験した内容を教えてください。</option>
-                                        <option value="交通費の支給など、金銭面でのサポートはありましたか？">交通費の支給など、金銭面でのサポートはありましたか？</option>
+                                    <label for="validationCustom04" class="form-label">情報投稿対象学科<span class="text-danger">*（Shiftキーを押しながら選択すると複数選択できます。）</span></label>
+                                    <select class="form-select" multiple required name="outgoing_course_of_study[]" c size="5">
+                                        <option value="ITエキスパート学科">ITエキスパート学科</option>
+                                        <option value="ITスペシャリスト学科">ITスペシャリスト学科</option>
+                                        <option value="情報処理学科">情報処理学科</option>
+                                        <option value="AIシステム開発学科">AIシステム開発学科</option>
+                                        <option value="ゲーム開発研究学科">ゲーム開発研究学科</option>
+                                        <option value="エンターテインメントソフト学科">エンターテインメントソフト学科</option>
+                                        <option value="ゲームソフト学科">ゲームソフト学科</option>
+                                        <option value="情報工学学科">情報工学学科</option>
+                                        <option value="情報ビジネス学科">情報ビジネス学科</option>
+                                        <option value="建築インテリアデザイン学科">建築インテリアデザイン学科</option>
+                                        <option value="インダストリアルデザイン学科">インダストリアルデザイン学科</option>
+                                        <option value="総合研究科（建築コース）">総合研究科（建築コース）</option>
+                                        <option value="3DCGアニメーション学科">3DCGアニメーション学科</option>
+                                        <option value="デジタルアニメ学科">デジタルアニメ学科</option>
+                                        <option value="グラフィックスデザイン学科">グラフィックデザイン学科</option>
+                                        <option value="総合研究科（CGコース）">総合研究科（CGコース）</option>
+                                        <option value="サウンドクリエイト学科">サウンドクリエイト学科</option>
+                                        <option value="サウンドテクニック学科">サウンドテクニック学科</option>
+                                        <option value="声優タレント学科">声優タレント学科</option>
+                                        <option value="日本語学科">日本語学科</option>
+                                        <option value="国際コミュニケーション学科">国際コミュニケーション学科</option>
                                     </select>
 
                                     <div class="invalid-feedback">
-                                        質問を選択してください。
+                                        少なくとも一つの学科を選択してください。
                                     </div>
                                 </div>
 
                                 <div class="mt-4">
-                                    <label for="validationCustom04" class="form-label">選択した質問に回答<span class="text-danger">*</span></label>
-                                    <textarea class="form-control" name="answer" id="validationCustom04" rows="6" required><?php h($row['answer']) ?></textarea>
+                                    <label for="validationCustom04" class="form-label">インターンシップ内容<span class="text-danger">*</span></label>
+                                    <textarea class="form-control" name="overview" id="validationCustom04" rows="6" required><?php h($row['overview']) ?></textarea>
                                     <div class="invalid-feedback">
-                                        質問に回答してください。
+                                        インターンシップ内容を入力してください。
                                     </div>
                                 </div>
 
-                                <input type="hidden" name="user_id" value="<?php h($user_id) ?>">
+                                <div class="mt-4">
+                                    <label for="validationCustom04" class="form-label">添付資料</label>
+                                    <textarea class="form-control" name="attachment" id="validationCustom04" rows="1"><?php h($row['attachment']) ?></textarea>
+                                </div>
+
                                 <input type="hidden" name="post_id" value="<?php h($post_id) ?>">
+
                                 <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
 
                                 <div class="mt-4">
-                                    <button class="btn login-btn" onclick="alertFunction1()">投稿する</button>
+                                    <button class="btn login-btn" onclick="alertFunction1()">編集する</button>
                                 </div>
                             </form>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
             </div>
 
-            <div class="side-bar col-md-4 bg-light h-100">
+            <div class="side-bar col-md-4 bg-light  h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
@@ -256,7 +290,7 @@ if ($post_user_id !== $user_id) {
                         </li>
 
                         <li>
-                            <a href="./post/post_form.php" class="nav-link link-dark">
+                            <a href="./post/post_form.php" style="background-color: #EB6440;" class="nav-link active" aria-current="page">
                                 インターンシップ体験記を投稿
                             </a>
                         </li>
