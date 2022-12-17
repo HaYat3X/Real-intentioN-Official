@@ -25,15 +25,20 @@ $upd_calc = new Update();
 $dlt_calc = new Delete();
 
 // ログインチェック
-$student_login_data = $ses_calc->student_login_check();
+$staff_login_data = $ses_calc->staff_login_check();
 
 // ユーザIDを抽出
-foreach ($student_login_data as $row) {
-    $user_id = $row['student_id'];
+foreach ($staff_login_data as $row) {
+    $user_id = $row['staff_id'];
+}
+
+// ユーザ名を抽出
+foreach ($staff_login_data as $row) {
+    $user_name = $row['name'];
 }
 
 // ログイン情報がない場合リダイレクト
-if (!$student_login_data) {
+if (!$staff_login_data) {
     $uri = '../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
@@ -44,7 +49,7 @@ $err_array = [];
 $post_id = filter_input(INPUT_GET, 'post_id');
 
 // 削除するデータを取得
-$delete_data = $viw_calc->es_experience_data_one($post_id);
+$delete_data = $viw_calc->intern_information_data_one($post_id);
 
 // 削除するデータがない場合はリダイレクト
 if (!$delete_data) {
@@ -52,18 +57,8 @@ if (!$delete_data) {
     header('Location: ' . $uri);
 }
 
-// 削除権限がない場合はリダイレクト
-foreach ($delete_data as $row) {
-    $post_user_id = $row['student_id'];
-}
-
-if ($post_user_id !== $user_id) {
-    $uri = '../../../Exception/400_request.php';
-    header('Location: ' . $uri);
-}
-
 // 削除処理
-$delete = $dlt_calc->es_experience_delete($post_id);
+$delete = $dlt_calc->intern_information_delete($post_id);
 
 if (!$delete) {
     $err_array[] = '削除に失敗しました。';
