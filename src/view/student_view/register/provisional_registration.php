@@ -18,26 +18,31 @@ $rgs_calc = new Register();
 // エラーが格納される配列を定義
 $err_array = [];
 
+// POSTリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // フォームで送信されてきたリクエストを受け取る
+
+    // フォームで送信された値を受け取る
     $csrf_token = filter_input(INPUT_POST, 'csrf_token');
     $email = filter_input(INPUT_POST, 'email');
 
-    // csrfトークンの存在確認と正誤判定
+    // csrfトークンの存在確認
     $csrf_check = $ses_calc->csrf_match_check($csrf_token);
 
+    // csrfトークンが一致しない場合リダイレクト
     if (!$csrf_check) {
         $uri = '../../../Exception/400_request.php';
         header('Location:' . $uri);
     }
 
-    // バリデーションチェック
+    // バリデーションチェックする値を配列に格納
     $val_check_arr[] = strval($email);
+
+    // バリデーションチェック
     if (!$val_calc->not_yet_entered($val_check_arr)) {
         $err_array[] = $val_calc->getErrorMsg();
     }
 
-    // 神戸電子のメアドかどうかテックする
+    // 神戸電子のメールアドレスかチェックする
     if (!$val_calc->not_yet_kic($email)) {
         $err_array[] = $val_calc->getErrorMsg();
     }
@@ -47,20 +52,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email_set = $rgs_calc->set_email($email);
     $registered_check = $rgs_calc->registered_check($sql);
 
-    // 配列が返ってきた場合登録済みであるためエラー
+    // 配列が返ってきた場合登録済みであるためエラーを出す
     if ($registered_check) {
         $err_array[] = 'メールアドレスが既に登録されています。';
     }
 
-    // エラーがない場合メールアドレスにトークン送信
+    // エラーがない場合の処理
     if (count($err_array) === 0) {
+
         // エラーがない場合メールアドレスにトークン送信
         $send_token = $rgs_calc->send_token();
 
         // セッションに生成したトークンを格納
         $_SESSION['email_token'] = $send_token;
 
-        // クッキーを発行し、認証時間を制限 20分間
+        // クッキーを発行し、認証時間を20分に制限する
         $cookieName = 'auth_time_limit';
         $cookieValue = rand();
         $cookieExpire = time() + 1200;
