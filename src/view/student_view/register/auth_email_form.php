@@ -20,7 +20,7 @@ if (!$_SESSION['email_token']) {
     header('Location:' . $uri);
 }
 
-// クッキーの存在チェック　
+// クッキーの存在チェックをし、認証権限があるか確認
 if (!$_COOKIE['auth_time_limit']) {
     $uri = '../../../Exception/400_request.php';
     header('Location:' . $uri);

@@ -6,7 +6,6 @@ ob_start();
 
 // 外部ファイルのインポート
 require_once '../../../../class/Session_calc.php';
-require_once '../../../../class/Database_calc.php';
 require_once '../../../../class/Register_calc.php';
 require_once '../../../../class/Validation_calc.php';
 require_once '../../../../function/functions.php';
@@ -19,22 +18,28 @@ $rgs_calc = new Register();
 // エラーメッセージが入る配列を定義
 $err_array = [];
 
+// POSTリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     // 送信された値の受け取り
     $email = filter_input(INPUT_POST, 'email');
     $user_input_token = filter_input(INPUT_POST, 'token');
     $email_token = filter_input(INPUT_POST, 'email_token');
     $csrf_token = filter_input(INPUT_POST, 'csrf_token');
 
-    // csrfトークンの存在確認と正誤判定
+    // csrfトークンの存在確認
     $csrf_check = $ses_calc->csrf_match_check($csrf_token);
+
+    // csrfトークンの正誤判定をする
     if (!$csrf_check) {
         $uri = '../../../Exception/400_request.php';
         header('Location:' . $uri);
     }
 
-    // バリデーションチェック
+    // バリデーションチェックする値を配列に格納
     $val_check_arr[] = strval($user_input_token);
+
+    // バリデーションチェック
     if (!$val_calc->not_yet_entered($val_check_arr)) {
         $err_array[] = $val_calc->getErrorMsg();
     }
