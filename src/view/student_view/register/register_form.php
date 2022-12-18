@@ -23,6 +23,7 @@ if (!$email) {
     header('Location:' . $uri);
 }
 
+// セッション情報がない場合リダイレクト
 if (!$_SESSION['email_token']) {
     $uri = '../../../Exception/400_request.php';
     header('Location:' . $uri);
@@ -31,7 +32,7 @@ if (!$_SESSION['email_token']) {
 // メールアドレス認証トークンの破棄
 unset($_SESSION['email_token']);
 
-// クッキーの存在チェック　存在しなければエラー
+// クッキーの存在チェックし、認証権限があるか確認
 if (!$_COOKIE['input_time_limit']) {
     $uri = '../../../Exception/400_request.php';
     header('Location:' . $uri);
@@ -184,6 +185,17 @@ if (!$_COOKIE['input_time_limit']) {
             min-height: 480px;
         }
     </style>
+
+    <script>
+        function alertFunction1() {
+            var submit = confirm("登録しますか？　投稿内容を確認してください。");
+
+            if (!submit) {
+                window.location.href = './post_form.php';
+            }
+        }
+    </script>
+
     <title>学生利用登録 /「Real IntentioN」</title>
 </head>
 
@@ -301,7 +313,7 @@ if (!$_COOKIE['input_time_limit']) {
                         <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
 
                         <div class="mt-4">
-                            <button type="submit" class="login-btn btn px-4">登録する</button>
+                            <button type="submit" class="login-btn btn px-4" onclick="alertFunction1()">登録する</button>
                         </div>
                     </form>
                 </div>

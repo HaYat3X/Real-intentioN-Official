@@ -18,7 +18,9 @@ $rgs_calc = new Register();
 // エラーメッセージが入る配列を定義
 $err_array = [];
 
+// POSTリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     // 送信された値を受け取り
     $name = filter_input(INPUT_POST, 'name');
     $email = filter_input(INPUT_POST, 'email');
@@ -28,9 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $attendance_record_number = filter_input(INPUT_POST, 'number');
     $csrf_token = filter_input(INPUT_POST, 'csrf_token');
 
-    // csrfトークンの存在確認と正誤判定
+    // csrfトークンの存在確認
     $csrf_check = $ses_calc->csrf_match_check($csrf_token);
 
+    // csrfトークンの正誤判定をする
     if (!$csrf_check) {
         $uri = '../../../Exception/400_request.php';
         header('Location:' . $uri);
