@@ -5,14 +5,10 @@ session_start();
 
 // 外部ファイルのインポート
 require_once '../../../../class/Session_calc.php';
-require_once '../../../../class/Login_calc.php';
-require_once '../../../../class/Validation_calc.php';
 require_once '../../../../function/functions.php';
 
 // インスタンス化
 $ses_calc = new Session();
-$val_calc = new ValidationCheck();
-$lgn_calc = new Login();
 
 ?>
 
@@ -221,7 +217,7 @@ $lgn_calc = new Login();
                         <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
 
                         <div class="mt-4">
-                            <button type="submit" class="login-btn btn px-4">認証する</button>
+                            <button type="submit" class="login-btn btn px-4">ログインする</button>
                         </div>
                     </form>
                 </div>

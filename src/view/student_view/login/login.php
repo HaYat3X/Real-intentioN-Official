@@ -18,15 +18,18 @@ $lgn_calc = new Login();
 // エラーメッセージが入る配列を定義
 $err_array = [];
 
+// POSTリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     // 送信された値を受け取り
     $email = filter_input(INPUT_POST, 'email');
     $password = filter_input(INPUT_POST, 'password');
     $csrf_token = filter_input(INPUT_POST, 'csrf_token');
 
-    // csrfトークンの存在確認と正誤判定
+    // csrfトークンの存在確認
     $csrf_check = $ses_calc->csrf_match_check($csrf_token);
 
+    // csrfトークンの正誤判定
     if (!$csrf_check) {
         $uri = '../../../Exception/400_request.php';
         header('Location:' . $uri);
