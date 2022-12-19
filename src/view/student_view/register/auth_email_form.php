@@ -209,7 +209,7 @@ $email = filter_input(INPUT_GET, 'email');
     <div class="box d-flex vh-100 align-items-center">
         <div class="container bg-light py-5">
             <div class="row py-5">
-                <div class="col-lg-5 mx-auto">
+                <div class="col-lg-5 col-md-11 col-11 mx-auto">
                     <form class="needs-validation" novalidate action="./auth_email.php" method="POST">
                         <h1 class="text-center fs-2 mb-5">
                             メールアドレスを認証する
