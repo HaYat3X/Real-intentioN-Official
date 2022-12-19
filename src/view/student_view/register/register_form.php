@@ -229,7 +229,7 @@ if (!$_COOKIE['input_time_limit']) {
     <div class="box my-5">
         <div class="container bg-light py-5">
             <div class="row py-5">
-                <div class="col-lg-5 mx-auto">
+                <div class="col-lg-5 col-md-11 col-11 mx-auto">
                     <form class="needs-validation" novalidate action="./register.php" method="POST">
                         <h1 class="text-center fs-2 mb-5">
                             学生情報を登録する
