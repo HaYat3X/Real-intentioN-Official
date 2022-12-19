@@ -7,10 +7,12 @@ class Database
      */
     public function db_connect()
     {
+        // 接続変数
         $dsn = 'mysql:dbname=Real intentioN;host=localhost';
         $user = 'root';
         $password = 'root';
 
+        // try catchで接続
         try {
             $pdo = new PDO($dsn, $user, $password);
         } catch (PDOException $e) {
@@ -27,11 +29,16 @@ class Database
     public function data_select($sql)
     {
         try {
-            // sql実行
             $pdo = $this->db_connect();
+
+            // SQL発行
             $stmt = $pdo->prepare($sql);
+
+            // SQL実行
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // 返り値を変数に格納
             return $result;
         } catch (\Exception $e) {
             echo $e;
@@ -45,7 +52,6 @@ class Database
     public function data_select_argument($sql, $argument)
     {
         try {
-            // sql実行
             $pdo = $this->db_connect();
             $stmt = $pdo->prepare($sql);
             $stmt->execute($argument);
@@ -63,7 +69,6 @@ class Database
     public function data_various_kinds($sql, $argument)
     {
         try {
-            // sql実行
             $pdo = $this->db_connect();
             $stmt = $pdo->prepare($sql);
             $stmt->execute($argument);
@@ -80,7 +85,6 @@ class Database
     public function data_select_count($sql, $argument)
     {
         try {
-            // sql実行
             $pdo = $this->db_connect();
             $stmt = $pdo->prepare($sql);
             $stmt->execute($argument);

@@ -2,6 +2,7 @@
 
 class ValidationCheck
 {
+    // プロパティを定義
     private $errorMsg = "";
 
     /**
@@ -22,7 +23,10 @@ class ValidationCheck
      */
     public function not_yet_entered($val_check_arr)
     {
+        // バリデーションチェックする値が配列で格納されるためforeachでループ処理
         foreach ($val_check_arr as $val) {
+
+            // 未入力と未選択のチェック
             if ($val == "") {
                 $this->errorMsg = '未入力の項目があります。';
                 return false;
