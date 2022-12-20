@@ -232,6 +232,7 @@ if (isset($_POST['like_delete'])) {
                                                 <div class="btn-group dropstart" role="group">
                                                     <button type="button" class="py-2 btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                                     </button>
+
                                                     <ul class="dropdown-menu dropdown-menu-dark">
                                                         <li><a href="./delete/delete.php?post_id=<?php h($row['post_id']) ?>" class="dropdown-item">削除</a></li>
 
@@ -286,7 +287,11 @@ if (isset($_POST['like_delete'])) {
 
                                     <?php $lik_calc->set_post_id($row['post_id']); ?>
                                     <?php $lik_calc->set_student_id($user_id); ?>
+
+                                    <!-- 投稿にいいねできるか確認 -->
                                     <?php $like_check = $lik_calc->intern_experience_like_check(); ?>
+
+                                    <!-- 投稿のついたいいねする -->
                                     <?php $like_val = $lik_calc->intern_experience_like_count(); ?>
 
                                     <?php if ($like_check) : ?>
@@ -347,7 +352,7 @@ if (isset($_POST['like_delete'])) {
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../intern_information/posts_recommendation.php" class="nav-link link-dark">
                                 インターンシップ情報
                             </a>
                         </li>
@@ -383,7 +388,7 @@ if (isset($_POST['like_delete'])) {
                         </li>
 
                         <li>
-                            <a href="./post/post_form.php" class="nav-link link-dark">
+                            <a href="../es_experience/post/post_form.php" class="nav-link link-dark">
                                 ES体験記を投稿
                             </a>
                         </li>
@@ -426,7 +431,7 @@ if (isset($_POST['like_delete'])) {
                             </form>
                         </div>
 
-                        <div class="mb-4">
+                        <div>
                             <form action="./search/search_result.php" method="post">
                                 <div class="input-group">
                                     <select class="form-select" name="keyword" aria-label="Default select example">
@@ -447,16 +452,16 @@ if (isset($_POST['like_delete'])) {
                             </form>
                         </div>
                     </div>
-
+                    
                     <hr>
 
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <img src="../../../../test/icon.jpg" alt="" width="32" height="32" class="rounded-circle me-2">
                             <strong><?php h($user_name) ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow">
-                            <li><a class="dropdown-item" href="#">プロフィール</a></li>
+                            <li><a class="dropdown-item" href="../profile/profile.php">プロフィール</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
