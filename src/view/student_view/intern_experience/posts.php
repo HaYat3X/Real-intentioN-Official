@@ -173,7 +173,7 @@ if (isset($_POST['like_delete'])) {
                     <?php foreach ($intern_experience_data as $row) : ?>
                         <div class="intern-contents mb-5 px-4 py-4 bg-light">
                             <div class="row mt-2">
-                                <div class="info-left col-lg-2 col-md-2 col-5">
+                                <div class="info-left col-lg-2 col-md-2 col-4">
                                     <div class="text-center">
                                         <div class="ratio ratio-1x1" style="background-color: #ffb6b9; border-radius: 5px;">
                                             <div class="fs-5 text-light fw-bold d-flex align-items-center justify-content-center">
@@ -183,7 +183,7 @@ if (isset($_POST['like_delete'])) {
                                     </div>
                                 </div>
 
-                                <div class="col-lg-9 col-md-9 col-9">
+                                <div class="col-lg-9 col-md-9 col-7">
                                     <p class="fs-5 fw-bold mt-1">
                                         <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?><span style="margin: 0 10px;">/</span><?php h($row['format']) ?>
                                     </p>
@@ -283,7 +283,7 @@ if (isset($_POST['like_delete'])) {
                             </div>
 
                             <div class="row mt-3">
-                                <div class="col-lg-1 col-md-1 col-1">
+                                <div class="col-lg-1 col-md-1 col-2">
 
                                     <?php $lik_calc->set_post_id($row['post_id']); ?>
                                     <?php $lik_calc->set_student_id($user_id); ?>
@@ -315,11 +315,11 @@ if (isset($_POST['like_delete'])) {
                                     <?php endif; ?>
                                 </div>
 
-                                <div class="col-lg-4 col-md-4 col-5 mt-2">
+                                <div class="col-lg-4 col-md-4 col-6 mt-2">
                                     <span class="fs-6">いいね数：<?php h($like_val) ?></span>
                                 </div>
 
-                                <div class="col-lg-7 col-md-7 col-6 text-end mt-2">
+                                <div class="col-lg-7 col-md-7 col-12 text-end mt-2">
                                     <?php h($row['name']) ?> ｜ <?php h($row['course_of_study']) ?> ｜ <?php h($row['grade_in_school']) ?>
                                 </div>
                             </div>
@@ -348,7 +348,7 @@ if (isset($_POST['like_delete'])) {
                 </nav>
             </div>
 
-            <div class="side-bar col-md-4 bg-light  h-100">
+            <div class="side-bar col-12 col-lg-4 col-md-12 bg-light h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
@@ -452,7 +452,7 @@ if (isset($_POST['like_delete'])) {
                             </form>
                         </div>
                     </div>
-                    
+
                     <hr>
 
                     <div class="dropdown">

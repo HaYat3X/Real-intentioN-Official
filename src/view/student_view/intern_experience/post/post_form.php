@@ -47,8 +47,8 @@ if (!$student_login_data) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../../../../../public/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <title>インターンシップ体験記を投稿 /「Real intentioN」</title>
     <style>
         body {
@@ -80,27 +80,6 @@ if (!$student_login_data) {
             color: white;
             background-color: #eb6540c4;
         }
-
-        .square_box {
-            position: relative;
-            max-width: 100px;
-            background: #ffb6b9;
-            border-radius: 5px;
-        }
-
-        .square_box::before {
-            content: "";
-            display: block;
-            padding-bottom: 100%;
-        }
-
-        .square_box p {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-weight: bold;
-        }
     </style>
 
     <script>
@@ -128,9 +107,9 @@ if (!$student_login_data) {
 
     <div class="container my-5">
         <div class="row">
-            <div class="col-lg-8 col-md-12 col-12">
+            <div class="col-lg-8 col-md-12 col-12 mb-5">
                 <div class="bg-light py-5">
-                    <form class="needs-validation col-lg-7 mx-auto" novalidate action="./post.php" method="POST">
+                    <form class="needs-validation col-lg-7 col-md-9 col-11 mx-auto" novalidate action="./post.php" method="POST">
                         <h1 class="text-center fs-2 mb-5">
                             インターン体験記を投稿する
                         </h1>
@@ -228,13 +207,13 @@ if (!$student_login_data) {
                         <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
 
                         <div class="mt-4">
-                            <button class="btn login-btn" onclick="alertFunction1()">投稿する</button>
+                            <button class="btn login-btn px-4" onclick="alertFunction1()">投稿する</button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <div class="side-bar col-md-4 bg-light  h-100">
+            <div class="side-bar col-md-12 col-12 col-lg-4 g-light h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">

@@ -166,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="box d-flex vh-100 align-items-center">
         <div class="container bg-light py-5">
             <div class="row py-5">
-                <div class="col-lg-5 mx-auto">
+                <div class="col-lg-5 col-md-11 col-11 mx-auto">
                     <?php if (count($err_array) > 0) : ?>
                         <?php foreach ($err_array as $err_msg) : ?>
                             <div class="alert alert-danger" role="alert"><strong>エラー</strong>　-<?php h($err_msg) ?></div>
@@ -178,10 +178,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php endif; ?>
 
                     <?php if (count($err_array) === 0) : ?>
-                        <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-認証が完了しました。</div>
+                        <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-投稿が完了しました。</div>
                         <?php $uri = '../posts.php' ?>
-                        <?php header('refresh:3;url=' . $uri);
-                        ?>
+                        <?php header('refresh:3;url=' . $uri); ?>
                     <?php endif; ?>
                 </div>
             </div>
