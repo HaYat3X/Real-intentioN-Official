@@ -52,51 +52,61 @@ if ($page > 1) {
 // インターン体験記投稿データを取得
 $intern_experience_data = $viw_calc->intern_experience_data($start);
 
-// 投稿にいいねする
-if (isset($_POST['like'])) {
-    $lik_calc->set_post_id($_POST['post_id']);
-    $lik_calc->set_student_id($_POST['student_id']);
-
-    // csrfトークンの存在確認と正誤判定
-    $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
-    if (!$csrf_check) {
-        $uri = '../../../Exception/400_request.php';
-        header('Location:' . $uri);
-    }
-
-    // csrf_token削除　二重送信対策
-    $ses_calc->csrf_token_unset();
-
-    $lik_calc->intern_experience_like();
-    $uri = './posts.php';
-    header('Location: ' . $uri);
-}
-
-// 投稿のいいねを解除する
-if (isset($_POST['like_delete'])) {
-    $lik_calc->set_post_id($_POST['post_id']);
-    $lik_calc->set_student_id($_POST['student_id']);
-
-    // csrfトークンの存在確認と正誤判定
-    $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
-    if (!$csrf_check) {
-        $uri = '../../../Exception/400_request.php';
-        header('Location:' . $uri);
-    }
-
-    $lik_calc->intern_experience_like_delete();
-
-    // csrf_token削除　二重送信対策
-    $ses_calc->csrf_token_unset();
-
-    $uri = './posts.php';
-    header('Location: ' . $uri);
-}
-
+// インタアーン体験記のデータ数を取得
 $page_num = $viw_calc->intern_experience_data_val();
 
 // ページネーションの数を取得する
 $pagination = ceil($page_num / 10);
+
+// likeリクエストが来たら投稿にいいねする
+if (isset($_POST['like'])) {
+
+    // 送信された値を受け取る
+    $lik_calc->set_post_id($_POST['post_id']);
+    $lik_calc->set_student_id($_POST['student_id']);
+
+    // csrfトークンの存在確認
+    $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
+
+    // csrfトークンの正誤判定
+    if (!$csrf_check) {
+        $uri = '../../../Exception/400_request.php';
+        header('Location:' . $uri);
+    }
+
+    // 投稿にいいねする
+    $lik_calc->intern_experience_like();
+
+    // csrf_token削除　二重送信対策
+    $ses_calc->csrf_token_unset();
+    $uri = './posts.php';
+    header('Location: ' . $uri);
+}
+
+// like_deleteリクエストが来たらいいねを解除する
+if (isset($_POST['like_delete'])) {
+
+    // 送信された値を取得
+    $lik_calc->set_post_id($_POST['post_id']);
+    $lik_calc->set_student_id($_POST['student_id']);
+
+    // csrfトークンの存在確認
+    $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
+
+    // csrfトークンの正誤判定
+    if (!$csrf_check) {
+        $uri = '../../../Exception/400_request.php';
+        header('Location:' . $uri);
+    }
+
+    // 投稿のいいねを解除する
+    $lik_calc->intern_experience_like_delete();
+
+    // csrf_token削除　二重送信対策
+    $ses_calc->csrf_token_unset();
+    $uri = './posts.php';
+    header('Location: ' . $uri);
+}
 
 ?>
 
@@ -141,27 +151,6 @@ $pagination = ceil($page_num / 10);
             color: white;
             background-color: #eb6540c4;
         }
-
-        .square_box {
-            position: relative;
-            max-width: 100px;
-            background: #ffb6b9;
-            border-radius: 5px;
-        }
-
-        .square_box::before {
-            content: "";
-            display: block;
-            padding-bottom: 100%;
-        }
-
-        .square_box p {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-weight: bold;
-        }
     </style>
 </head>
 
@@ -183,17 +172,19 @@ $pagination = ceil($page_num / 10);
                 <?php if (is_array($intern_experience_data) || is_object($intern_experience_data)) : ?>
                     <?php foreach ($intern_experience_data as $row) : ?>
                         <div class="intern-contents mb-5 px-4 py-4 bg-light">
-                            <div class="row mt-3">
-                                <div class="info-left col-lg-2 col-md-2 col-2">
+                            <div class="row mt-2">
+                                <div class="info-left col-lg-2 col-md-2 col-5">
                                     <div class="text-center">
-                                        <div class="square_box">
-                                            <p>INTERN</p>
+                                        <div class="ratio ratio-1x1" style="background-color: #ffb6b9; border-radius: 5px;">
+                                            <div class="fs-5 text-light fw-bold d-flex align-items-center justify-content-center">
+                                                INTERN
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-9 col-md-9 col-9">
-                                    <p class="fs-5">
+                                    <p class="fs-5 fw-bold mt-1">
                                         <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?><span style="margin: 0 10px;">/</span><?php h($row['format']) ?>
                                     </p>
 
@@ -239,7 +230,7 @@ $pagination = ceil($page_num / 10);
                                         <div class="btn-group">
                                             <?php if ($user_id == $row['student_id']) : ?>
                                                 <div class="btn-group dropstart" role="group">
-                                                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button type="button" class="py-2 btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-dark">
                                                         <li><a href="./delete/delete.php?post_id=<?php h($row['post_id']) ?>" class="dropdown-item">削除</a></li>
@@ -272,7 +263,7 @@ $pagination = ceil($page_num / 10);
                                 </div>
                             </div>
 
-                            <div class="mt-4">
+                            <div class="mt-2">
                                 <div class="row">
                                     <div class="col-lg-1 col-md-1 col-1">
                                         <div class="text-end">
@@ -290,7 +281,7 @@ $pagination = ceil($page_num / 10);
                                 </div>
                             </div>
 
-                            <div class="row mt-4">
+                            <div class="row mt-3">
                                 <div class="col-lg-1 col-md-1 col-1">
 
                                     <?php $lik_calc->set_post_id($row['post_id']); ?>
