@@ -41,6 +41,7 @@ if (!$student_login_data) {
 // エラーメッセージが入る配列を定義
 $err_array = [];
 
+// パラメータから投稿IDを取得
 $post_id = filter_input(INPUT_GET, 'post_id');
 
 // 削除するデータを取得
@@ -57,6 +58,7 @@ foreach ($delete_data as $row) {
     $post_user_id = $row['student_id'];
 }
 
+// 削除権限がない場合はリダイレクト
 if ($post_user_id !== $user_id) {
     $uri = '../../../Exception/400_request.php';
     header('Location: ' . $uri);
@@ -130,7 +132,7 @@ if (!$delete) {
     <div class="box d-flex vh-100 align-items-center">
         <div class="container bg-light py-5">
             <div class="row py-5">
-                <div class="col-lg-5 mx-auto">
+                <div class="col-lg-5 col-md-11 col-11 mx-auto">
                     <?php if (count($err_array) > 0) : ?>
                         <?php foreach ($err_array as $err_msg) : ?>
                             <div class="alert alert-danger" role="alert"><strong>エラー</strong>　-<?php h($err_msg) ?></div>
