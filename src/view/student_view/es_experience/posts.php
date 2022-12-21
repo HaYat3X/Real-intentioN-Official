@@ -52,45 +52,53 @@ if ($page > 1) {
 // ES体験記投稿データを取得
 $es_experience_data = $viw_calc->es_experience_data($start);
 
-// 投稿にいいねする
-if (isset($_POST['like'])) {
-    // csrfトークンの存在確認と正誤判定
-    $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
-    if (!$csrf_check) {
-        $uri = '../../../Exception/400_request.php';
-        header('Location:' . $uri);
-    }
-
-    // csrf_token削除　二重送信対策
-    $ses_calc->csrf_token_unset();
-
-    $lik_calc->es_experience_like($_POST['post_id'], $user_id);
-    $uri = './posts.php';
-    header('Location: ' . $uri);
-}
-
-// 投稿のいいねを解除する
-if (isset($_POST['like_delete'])) {
-    // csrfトークンの存在確認と正誤判定
-    $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
-    if (!$csrf_check) {
-        $uri = '../../../Exception/400_request.php';
-        header('Location:' . $uri);
-    }
-
-    $lik_calc->es_experience_like_delete($_POST['post_id'], $user_id);
-
-    // csrf_token削除　二重送信対策
-    $ses_calc->csrf_token_unset();
-
-    $uri = './posts.php';
-    header('Location: ' . $uri);
-}
-
+// ES体験記の投稿数を取得
 $page_num = $viw_calc->es_experience_data_val();
 
 // ページネーションの数を取得する
 $pagination = ceil($page_num / 10);
+
+// POSTリクエストがlikeの場合投稿にいいねする
+if (isset($_POST['like'])) {
+
+    // csrfトークンの存在確認
+    $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
+
+    // csrfトークンの正誤判定
+    if (!$csrf_check) {
+        $uri = '../../../Exception/400_request.php';
+        header('Location:' . $uri);
+    }
+
+    // 投稿にいいねをする
+    $lik_calc->es_experience_like($_POST['post_id'], $user_id);
+
+    // csrf_token削除　二重送信対策
+    $ses_calc->csrf_token_unset();
+    $uri = './posts.php';
+    header('Location: ' . $uri);
+}
+
+// POSTリクエストがlike_deleteの場合投稿にいいねする
+if (isset($_POST['like_delete'])) {
+
+    // csrfトークンの存在確認
+    $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
+
+    // csrfトークンの正誤判定
+    if (!$csrf_check) {
+        $uri = '../../../Exception/400_request.php';
+        header('Location:' . $uri);
+    }
+
+    // 投稿のいいねを解除する
+    $lik_calc->es_experience_like_delete($_POST['post_id'], $user_id);
+
+    // csrf_token削除　二重送信対策
+    $ses_calc->csrf_token_unset();
+    $uri = './posts.php';
+    header('Location: ' . $uri);
+}
 
 ?>
 
@@ -135,27 +143,6 @@ $pagination = ceil($page_num / 10);
             color: white;
             background-color: #eb6540c4;
         }
-
-        .square_box {
-            position: relative;
-            max-width: 100px;
-            background: #ff3278;
-            border-radius: 5px;
-        }
-
-        .square_box::before {
-            content: "";
-            display: block;
-            padding-bottom: 100%;
-        }
-
-        .square_box p {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-weight: bold;
-        }
     </style>
 </head>
 
@@ -177,16 +164,18 @@ $pagination = ceil($page_num / 10);
                 <?php if (is_array($es_experience_data) || is_object($es_experience_data)) : ?>
                     <?php foreach ($es_experience_data as $row) : ?>
                         <div class="intern-contents mb-5 px-4 py-4 bg-light">
-                            <div class="row mt-3">
-                                <div class="info-left col-lg-2 col-md-2 col-2">
+                            <div class="row mt-2">
+                                <div class="info-left col-lg-2 col-md-2 col-4">
                                     <div class="text-center">
-                                        <div class="square_box">
-                                            <p>ES</p>
+                                        <div class="ratio ratio-1x1" style="background-color: #bbded6; border-radius: 5px;">
+                                            <div class="fs-5 text-light fw-bold d-flex align-items-center justify-content-center">
+                                                ES
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-9 col-md-9 col-9">
+                                <div class="col-lg-9 col-md-9 col-7">
                                     <p class="fs-5">
                                         <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?>
                                     </p>
@@ -230,7 +219,7 @@ $pagination = ceil($page_num / 10);
                                 </div>
                             </div>
 
-                            <div class="mt-4">
+                            <div class="mt-2">
                                 <div class="row">
                                     <div class="col-lg-1 col-md-1 col-1">
                                         <div class="text-end">
@@ -248,9 +237,8 @@ $pagination = ceil($page_num / 10);
                                 </div>
                             </div>
 
-                            <div class="row mt-4">
-                                <div class="col-lg-1 col-md-1 col-1">
-
+                            <div class="row mt-3">
+                                <div class="col-lg-1 col-md-1 col-2">
                                     <?php $like_check = $lik_calc->es_experience_like_check($row['post_id'], $user_id); ?>
                                     <?php $like_val = $lik_calc->es_experience_like_count($row['post_id']); ?>
 
@@ -275,11 +263,11 @@ $pagination = ceil($page_num / 10);
                                     <?php endif; ?>
                                 </div>
 
-                                <div class="col-lg-4 col-md-4 col-5 mt-2">
+                                <div class="col-lg-4 col-md-4 col-6 mt-2">
                                     <span class="fs-6">いいね数：<?php h($like_val) ?></span>
                                 </div>
 
-                                <div class="col-lg-7 col-md-7 col-6 text-end mt-2">
+                                <div class="col-lg-7 col-md-7 col-12 text-end mt-2">
                                     <?php h($row['name']) ?> ｜ <?php h($row['course_of_study']) ?> ｜ <?php h($row['grade_in_school']) ?>
                                 </div>
                             </div>
@@ -308,7 +296,7 @@ $pagination = ceil($page_num / 10);
                 </nav>
             </div>
 
-            <div class="side-bar col-md-4 bg-light  h-100">
+            <div class="side-bar col-md-12 col-12 col-lg-4 bg-light h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
