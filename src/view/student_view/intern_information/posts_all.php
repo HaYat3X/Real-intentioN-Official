@@ -60,37 +60,44 @@ $page_num = $viw_calc->intern_information_data_val();
 // ページネーションの数を取得する
 $pagination = ceil($page_num / 10);
 
-// 投稿に予約する
+// POSTリクエストがreserveだった場合予約する
 if (isset($_POST['reserve'])) {
-    // csrfトークンの存在確認と正誤判定
+
+    // csrfトークンの存在確認
     $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
+
+    // csrfトークンの正誤判定
     if (!$csrf_check) {
         $uri = '../../../Exception/400_request.php';
         header('Location:' . $uri);
     }
 
+    // 予約する
+    $rsv_calc->intern_information_reserve($_POST['post_id'], $user_id);
+
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
-
-    $rsv_calc->intern_information_reserve($_POST['post_id'], $user_id);
     $uri = './posts_all.php';
     header('Location: ' . $uri);
 }
 
-// 投稿情報に予約解除する
+// POSTリクエストがreserve_deleteだった場合予約解除する
 if (isset($_POST['reserve_delete'])) {
-    // csrfトークンの存在確認と正誤判定
+
+    // csrfトークンの存在確認
     $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
+
+    // csrfトークン削除
     if (!$csrf_check) {
         $uri = '../../../Exception/400_request.php';
         header('Location:' . $uri);
     }
 
+    // 予約解除
     $rsv_calc->intern_information_reserve_delete($_POST['post_id'], $user_id);
 
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
-
     $uri = './posts_all.php';
     header('Location: ' . $uri);
 }
