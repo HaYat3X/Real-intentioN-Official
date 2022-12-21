@@ -296,7 +296,6 @@ if (isset($_POST['like_delete'])) {
 
                             <div class="row mt-3">
                                 <div class="col-lg-1 col-md-1 col-2">
-
                                     <?php $lik_calc->set_post_id($row['post_id']); ?>
                                     <?php $lik_calc->set_student_id($user_id); ?>
 
