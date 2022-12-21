@@ -188,7 +188,7 @@ if (isset($_POST['like_delete'])) {
                                 </div>
 
                                 <div class="col-lg-9 col-md-9 col-7">
-                                    <p class="fs-5">
+                                    <p class="fs-5 fw-bold">
                                         <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?>
                                     </p>
                                 </div>

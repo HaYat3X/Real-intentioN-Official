@@ -37,6 +37,7 @@ if (!$student_login_data) {
     header('Location: ' . $uri);
 }
 
+// パラメータから投稿IDを取得
 $post_id = filter_input(INPUT_GET, 'post_id');
 
 // 編集するデータを取得
@@ -53,6 +54,7 @@ foreach ($update_data as $row) {
     $post_user_id = $row['student_id'];
 }
 
+// 編集権限がない場合はリダイレクト
 if ($post_user_id !== $user_id) {
     $uri = '../../../Exception/400_request.php';
     header('Location: ' . $uri);
@@ -153,7 +155,7 @@ if ($post_user_id !== $user_id) {
                 <?php if (is_array($update_data) || is_object($update_data)) : ?>
                     <?php foreach ($update_data as $row) : ?>
                         <div class="bg-light py-5">
-                            <form class="needs-validation col-lg-7 mx-auto" novalidate action="./update.php" method="POST">
+                            <form class="needs-validation col-lg-7 col-md-9 col-11 mx-auto" novalidate action="./update.php" method="POST">
                                 <h1 class="text-center fs-2 mb-5">
                                     ES体験記を編集する
                                 </h1>
@@ -214,7 +216,7 @@ if ($post_user_id !== $user_id) {
                                 <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
 
                                 <div class="mt-4">
-                                    <button class="btn login-btn" onclick="alertFunction1()">投稿する</button>
+                                    <button class="btn login-btn px-4" onclick="alertFunction1()">投稿する</button>
                                 </div>
                             </form>
                         </div>
@@ -222,7 +224,7 @@ if ($post_user_id !== $user_id) {
                 <?php endif; ?>
             </div>
 
-            <div class="side-bar col-md-4 bg-light h-100">
+            <div class="side-bar col-md-12 col-12 col-lg-4 bg-light h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">

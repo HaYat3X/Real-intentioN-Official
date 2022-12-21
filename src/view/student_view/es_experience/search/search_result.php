@@ -41,7 +41,10 @@ if (!$student_login_data) {
     header('Location: ' . $uri);
 }
 
+// POSTリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // 送信された値を受け取る
     $search_category = filter_input(INPUT_POST, 'category');
     $search_keyword = filter_input(INPUT_POST, 'keyword');
 
@@ -49,43 +52,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $search_result = $srh_calc->es_experience_search($search_category, $search_keyword);
 }
 
-// 投稿にいいねする
+// POSTリクエストがlikeだったら投稿にいいねをする
 if (isset($_POST['like'])) {
+
+    // プロパティに値をセット
     $lik_calc->set_post_id($_POST['post_id']);
     $lik_calc->set_student_id($_POST['student_id']);
 
-    // csrfトークンの存在確認と正誤判定
+    // csrfトークンの存在確認
     $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
+
+    // csrfトークンの正誤判定
     if (!$csrf_check) {
         $uri = '../../../Exception/400_request.php';
         header('Location:' . $uri);
     }
 
+    // 投稿にいいねをする
+    $lik_calc->intern_experience_like();
+
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
-
-    $lik_calc->intern_experience_like();
     $uri = '../posts.php';
     header('Location: ' . $uri);
 }
 
-// 投稿のいいねを解除する
+// POSTリクエストがlike_deleteだった場合投稿のいいねを解除する
 if (isset($_POST['like_delete'])) {
+
+    // プロパティに値をセット
     $lik_calc->set_post_id($_POST['post_id']);
     $lik_calc->set_student_id($_POST['student_id']);
 
-    // csrfトークンの存在確認と正誤判定
+    // csrfトークンの存在確認
     $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
+
+    // csrfトークンの正誤判定
     if (!$csrf_check) {
         $uri = '../../../Exception/400_request.php';
         header('Location:' . $uri);
     }
 
+    // 投稿のいいねを解除
     $lik_calc->intern_experience_like_delete();
 
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
-
     $uri = '../posts.php';
     header('Location: ' . $uri);
 }
@@ -102,7 +114,7 @@ if (isset($_POST['like_delete'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../../../../../public/img/favicon.ico" type="image/x-icon">
-    <title>インターンシップ体験記を検索 /「Real intentioN」</title>
+    <title>ES体験記を検索 /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
@@ -133,27 +145,6 @@ if (isset($_POST['like_delete'])) {
             color: white;
             background-color: #eb6540c4;
         }
-
-        .square_box {
-            position: relative;
-            max-width: 100px;
-            background: #ffb6b9;
-            border-radius: 5px;
-        }
-
-        .square_box::before {
-            content: "";
-            display: block;
-            padding-bottom: 100%;
-        }
-
-        .square_box p {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-weight: bold;
-        }
     </style>
 </head>
 
@@ -175,17 +166,19 @@ if (isset($_POST['like_delete'])) {
                 <?php if (is_array($search_result) || is_object($search_result)) : ?>
                     <?php foreach ($search_result as $row) : ?>
                         <div class="intern-contents mb-5 px-4 py-4 bg-light">
-                            <div class="row mt-3">
-                                <div class="info-left col-lg-2 col-md-2 col-2">
+                            <div class="row mt-2">
+                                <div class="info-left col-lg-2 col-md-2 col-4">
                                     <div class="text-center">
-                                        <div class="square_box">
-                                            <p>INTERN</p>
+                                        <div class="ratio ratio-1x1" style="background-color: #bbded6; border-radius: 5px;">
+                                            <div class="fs-5 text-light fw-bold d-flex align-items-center justify-content-center">
+                                                ES
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-9 col-md-9 col-9">
-                                    <p class="fs-5">
+                                <div class="col-lg-9 col-md-9 col-7">
+                                    <p class="fs-5 fw-bold">
                                         <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?>
                                     </p>
                                 </div>
@@ -228,7 +221,7 @@ if (isset($_POST['like_delete'])) {
                                 </div>
                             </div>
 
-                            <div class="mt-4">
+                            <div class="mt-2">
                                 <div class="row">
                                     <div class="col-lg-1 col-md-1 col-1">
                                         <div class="text-end">
@@ -246,18 +239,13 @@ if (isset($_POST['like_delete'])) {
                                 </div>
                             </div>
 
-                            <div class="row mt-4">
-                                <div class="col-lg-1 col-md-1 col-1">
-                                    <?php
-                                    $lik_calc->set_post_id($row['post_id']);
-                                    $lik_calc->set_student_id($row['student_id']);
+                            <div class="row mt-3">
+                                <div class="col-lg-1 col-md-1 col-2">
+                                    <?php $lik_calc->set_post_id($row['post_id']); ?>
+                                    <?php $lik_calc->set_student_id($row['student_id']); ?>
+                                    <?php $like_check = $lik_calc->intern_experience_like_check(); ?>
+                                    <?php $like_val = $lik_calc->intern_experience_like_count(); ?>
 
-                                    // 未いいねかいいね済みか判定
-                                    $like_check = $lik_calc->intern_experience_like_check();
-
-                                    // 投稿についているいいね数を取得
-                                    $like_val = $lik_calc->intern_experience_like_count();
-                                    ?>
                                     <?php if ($like_check) : ?>
                                         <form action="./search_result.php" method="post">
                                             <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
@@ -279,11 +267,11 @@ if (isset($_POST['like_delete'])) {
                                     <?php endif; ?>
                                 </div>
 
-                                <div class="col-lg-4 col-md-4 col-5 mt-2">
+                                <div class="col-lg-4 col-md-4 col-6 mt-2">
                                     <span class="fs-6">いいね数：<?php h($like_val) ?></span>
                                 </div>
 
-                                <div class="col-lg-7 col-md-7 col-6 text-end mt-2">
+                                <div class="col-lg-7 col-md-7 col-12 text-end mt-2">
                                     <?php h($row['name']) ?> ｜ <?php h($row['course_of_study']) ?> ｜ <?php h($row['grade_in_school']) ?>
                                 </div>
                             </div>
@@ -292,7 +280,7 @@ if (isset($_POST['like_delete'])) {
                 <?php endif; ?>
             </div>
 
-            <div class="side-bar col-md-4 bg-light h-100">
+            <div class="side-bar col-md-12 col-12 col-lg-4 bg-light h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
