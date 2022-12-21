@@ -144,6 +144,18 @@ if (isset($_POST['like_delete'])) {
             background-color: #eb6540c4;
         }
     </style>
+
+    <script>
+        function alertFunction1(value) {
+            var submit = confirm("本当に削除しますか？");
+
+            if (submit) {
+                window.location.href = './delete/delete.php?post_id=' + value;
+            } else {
+                window.location.href = './posts.php';
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -189,7 +201,7 @@ if (isset($_POST['like_delete'])) {
                                                     <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-dark">
-                                                        <li><a href="./delete/delete.php?post_id=<?php h($row['post_id']) ?>" class="dropdown-item">削除</a></li>
+                                                        <li><button class="dropdown-item" value="<?php h($row['post_id']) ?>" onclick="alertFunction1(this.value)">削除</button></li>
 
                                                         <li><a class="dropdown-item" href="./update/update_form.php?post_id=<?php h($row['post_id']) ?>">編集</a>
                                                         </li>
