@@ -12,6 +12,7 @@ require_once '../../../../../function/functions.php';
 require_once '../../../../../class/View_calc.php';
 require_once '../../../../../class/Like_calc.php';
 require_once '../../../../../class/Search_calc.php';
+require_once '../../../../../class/Reserve_calc.php';
 
 
 // インスタンス化
@@ -21,6 +22,7 @@ $rgs_calc = new Register();
 $viw_calc = new View();
 $lik_calc = new Like();
 $srh_calc = new Search();
+$rsv_calc = new Reserve();
 
 // ログインチェック
 $student_login_data = $ses_calc->student_login_check();
@@ -41,52 +43,56 @@ if (!$student_login_data) {
     header('Location: ' . $uri);
 }
 
+// POSTリクエストを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // 送信された値の受け取り
     $search_category = filter_input(INPUT_POST, 'category');
     $search_keyword = filter_input(INPUT_POST, 'keyword');
 
     // 検索結果を取得
-    $search_result = $srh_calc->es_experience_search($search_category, $search_keyword);
+    $search_result = $srh_calc->intern_information_search($search_category, $search_keyword);
 }
 
-// 投稿にいいねする
-if (isset($_POST['like'])) {
-    $lik_calc->set_post_id($_POST['post_id']);
-    $lik_calc->set_student_id($_POST['student_id']);
-
-    // csrfトークンの存在確認と正誤判定
+// POSTリクエストがreserveだった場合予約する
+if (isset($_POST['reserve'])) {
+    
+    // csrfトークンの存在確認
     $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
+
+    // csrfトークンの正誤判定
     if (!$csrf_check) {
         $uri = '../../../Exception/400_request.php';
         header('Location:' . $uri);
     }
 
+    // 予約する
+    $rsv_calc->intern_information_reserve($_POST['post_id'], $user_id);
+
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
-
-    $lik_calc->intern_experience_like();
-    $uri = '../posts.php';
+    $uri = '../posts_recommendation.php';
     header('Location: ' . $uri);
 }
 
-// 投稿のいいねを解除する
-if (isset($_POST['like_delete'])) {
-    $lik_calc->set_post_id($_POST['post_id']);
-    $lik_calc->set_student_id($_POST['student_id']);
+// POSTリクエストがreserve_deleteだった場合予約する
+if (isset($_POST['reserve_delete'])) {
 
-    // csrfトークンの存在確認と正誤判定
+    // csrfトークンの存在確認
     $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
+
+    // csrfトークンの正誤判定
     if (!$csrf_check) {
         $uri = '../../../Exception/400_request.php';
         header('Location:' . $uri);
     }
 
-    $lik_calc->intern_experience_like_delete();
+    // 予約解除
+    $rsv_calc->intern_information_reserve_delete($_POST['post_id'], $user_id);
 
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
-
-    $uri = '../posts.php';
+    $uri = '../posts_recommendation.php';
     header('Location: ' . $uri);
 }
 
@@ -102,7 +108,7 @@ if (isset($_POST['like_delete'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../../../../../public/img/favicon.ico" type="image/x-icon">
-    <title>インターンシップ体験記を検索 /「Real intentioN」</title>
+    <title>インターンシップ情報を検索 /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
@@ -133,27 +139,6 @@ if (isset($_POST['like_delete'])) {
             color: white;
             background-color: #eb6540c4;
         }
-
-        .square_box {
-            position: relative;
-            max-width: 100px;
-            background: #ffb6b9;
-            border-radius: 5px;
-        }
-
-        .square_box::before {
-            content: "";
-            display: block;
-            padding-bottom: 100%;
-        }
-
-        .square_box p {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-weight: bold;
-        }
     </style>
 </head>
 
@@ -174,120 +159,111 @@ if (isset($_POST['like_delete'])) {
             <div class="col-lg-8 col-md-12 col-12">
                 <?php if (is_array($search_result) || is_object($search_result)) : ?>
                     <?php foreach ($search_result as $row) : ?>
-                        <div class="intern-contents mb-5 px-4 py-4 bg-light">
-                            <div class="row mt-3">
-                                <div class="info-left col-lg-2 col-md-2 col-2">
-                                    <div class="text-center">
-                                        <div class="square_box">
-                                            <p>INTERN</p>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="col-lg-9 col-md-9 col-9">
-                                    <p class="fs-5">
-                                        <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?>
-                                    </p>
-                                </div>
+                        <!-- 現在時刻との差を求め、開催まで後何日なのか計算 -->
+                        <?php $objDateTime = new DateTime(); ?>
+                        <?php $time = $objDateTime->format('Y-m-d'); ?>
+                        <?php $time1 = new DateTime($time); ?>
+                        <?php $time2 = new DateTime($row['time']); ?>
+                        <?php $diff = $time1->diff($time2); ?>
+                        <?php $limit = $diff->format('%R%a'); ?>
+                        <?php $limit2 = $diff->format('%a'); ?>
 
-                                <div class="info-right col-lg-1 col-md-1 col-1">
-                                    <div class="text-end">
-                                        <div class="btn-group">
-                                            <?php if ($user_id == $row['student_id']) : ?>
-                                                <div class="btn-group dropstart" role="group">
-                                                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-dark">
-                                                        <li><a href="./delete/delete.php?post_id=<?php h($row['post_id']) ?>" class="dropdown-item">削除</a></li>
-
-                                                        <li><a class="dropdown-item" href="./update/update_form.php?post_id=<?php h($row['post_id']) ?>">編集</a>
-                                                        </li>
-                                                    </ul>
+                        <!-- 期日が過ぎた情報は表示しない -->
+                        <?php if ($limit >= 1) : ?>
+                            <div class="intern-contents mb-5 px-4 py-4 bg-light">
+                                <div class="row mt-3">
+                                    <div class="info-left col-lg-2 col-md-2 col-4">
+                                        <div class="text-center">
+                                            <div class="ratio ratio-1x1" style="background-color: #ffb6b9; border-radius: 5px;">
+                                                <div class="fs-5 text-light fw-bold d-flex align-items-center justify-content-center">
+                                                    INTERN
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-10 col-md-10 col-8">
+                                        <p class="fw-bold mt-1">
+                                            <?php if ($limit <= 7) : ?>
+                                                <span style="color: red;" class="fw-bold">
+                                                    <?php h('予約締め切りまであと' . $limit2 . '日') ?>
+                                                </span>
+                                            <?php else : ?>
+                                                <span class="fw-bold">
+                                                    <?php h('予約締め切りまであと' . $limit2 . '日') ?>
+                                                </span>
                                             <?php endif; ?>
-                                        </div>
+                                        </p>
+
+                                        <p class="fs-5 fw-bold">
+                                            <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?><span style="margin: 0 10px;">/</span><?php h($row['format']) ?>
+                                        </p>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="mt-4">
-                                <div class="row">
-                                    <div class="col-lg-1 col-md-1 col-1">
-                                        <div class="text-end">
-                                            <span style="color: blue;" class="fw-bold">Q.</span>
-                                        </div>
-                                    </div>
+                                <div class="mt-4 px-4">
+                                    <p>
+                                        <span>
+                                            <?php echo preg_replace('/\n/', "<br>",  $row['overview']); ?>
+                                        </span>
+                                    </p>
 
-                                    <div class="col-lg-11 col-md-11 col-11 fw-bold">
-                                        <div class="text-start">
-                                            <span>
-                                                <?php h($row['question']) ?>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                    <!-- 添付資料がある場合は表示する -->
+                                    <?php if ($row['attachment']) : ?>
+                                        <p class="pt-1">
+                                            <!-- 正規表現でリンク以外の文字列はエスケープ、リンクはaタグで囲んで、遷移できるようにする。 -->
+                                            <?php $pattern = '/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/'; ?>
+                                            <?php $replace = '<a target="_blank" href="$1">$1</a>'; ?>
+                                            <?php $attachment = preg_replace($pattern, $replace, $row['attachment']);  ?>
 
-                            <div class="mt-4">
-                                <div class="row">
-                                    <div class="col-lg-1 col-md-1 col-1">
-                                        <div class="text-end">
-                                            <span style="color: red; font-weight: bold;">A.</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-11 col-md-11 col-11">
-                                        <div class="text-start">
-                                            <span>
-                                                <?php echo preg_replace('/\n/', "<br>",  $row['answer']); ?>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row mt-4">
-                                <div class="col-lg-1 col-md-1 col-1">
-                                    <?php
-                                    $lik_calc->set_post_id($row['post_id']);
-                                    $lik_calc->set_student_id($row['student_id']);
-
-                                    // 未いいねかいいね済みか判定
-                                    $like_check = $lik_calc->intern_experience_like_check();
-
-                                    // 投稿についているいいね数を取得
-                                    $like_val = $lik_calc->intern_experience_like_count();
-                                    ?>
-                                    <?php if ($like_check) : ?>
-                                        <form action="./search_result.php" method="post">
-                                            <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
-                                            <input type="hidden" name="student_id" value="<?php h($row['student_id']) ?>">
-                                            <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
-                                            <button class="btn fs-5" name="like_delete">
-                                                <i style="color: red;" class="bi bi-heart-fill"></i>
-                                            </button>
-                                        </form>
-                                    <?php else : ?>
-                                        <form action="./search_result.php" method="post">
-                                            <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
-                                            <input type="hidden" name="student_id" value="<?php h($row['student_id']) ?>">
-                                            <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
-                                            <button class="btn fs-5" name="like">
-                                                <i style="color: red;" class="bi bi-heart"></i>
-                                            </button>
-                                        </form>
+                                            <span>添付資料：<?php echo $attachment; ?></span>
+                                        </p>
                                     <?php endif; ?>
                                 </div>
 
-                                <div class="col-lg-4 col-md-4 col-5 mt-2">
-                                    <span class="fs-6">いいね数：<?php h($like_val) ?></span>
-                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-lg-1 col-md-1 col-2">
+                                        <?php $reserve_check = $rsv_calc->intern_information_reserve_check($row['post_id'], $user_id); ?>
+                                        <?php $reserve_val = $rsv_calc->intern_information_reserve_count($row['post_id']); ?>
 
-                                <div class="col-lg-7 col-md-7 col-6 text-end mt-2">
-                                    <?php h($row['name']) ?> ｜ <?php h($row['course_of_study']) ?> ｜ <?php h($row['grade_in_school']) ?>
+                                        <?php if ($reserve_check) : ?>
+                                            <form action="./search_result.php" method="post">
+                                                <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
+                                                <input type="hidden" name="student_id" value="<?php h($user_id) ?>">
+                                                <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
+                                                <button class="btn fs-5" name="reserve_delete">
+                                                    <i class="text-danger bi bi-calendar2-x-fill"></i>
+                                                </button>
+                                            </form>
+                                        <?php else : ?>
+                                            <form action="./search_result.php" method="post">
+                                                <input type="hidden" name="post_id" value="<?php h($row['post_id']) ?>">
+                                                <input type="hidden" name="student_id" value="<?php h($user_id) ?>">
+                                                <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
+                                                <button class="btn fs-5" name="reserve">
+                                                    <i class="bi bi-calendar2-plus"></i>
+                                                </button>
+                                            </form>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <?php if ($reserve_check) : ?>
+                                        <div class="col-lg-4 col-md-4 col-4" style="margin-top: 10px;">
+                                            <span class="fs-6">予約中</span>
+                                        </div>
+                                    <?php else : ?>
+                                        <div class="col-lg-4 col-md-4 col-4" style="margin-top: 10px;">
+                                            <span class="fs-6">未予約</span>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <div class="col-lg-7 col-md-7 col-6 mt-2 text-end">
+                                        <span class="fs-6">予約者数：<?php h($reserve_val) ?>人</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
