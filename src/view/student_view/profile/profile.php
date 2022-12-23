@@ -9,12 +9,16 @@ require_once '../../../../class/Validation_calc.php';
 require_once '../../../../function/functions.php';
 require_once '../../../../class/View_calc.php';
 require_once '../../../../class/Like_calc.php';
+require_once '../../../../class/Register_calc.php';
+require_once '../../../../class/Login_calc.php';
 
 // インスタンス化
 $ses_calc = new Session();
 $val_calc = new ValidationCheck();
 $viw_calc = new View();
 $lik_calc = new Like();
+$rgs_calc = new Register();
+$lgn_calc = new Login();
 
 // ログインチェック
 $student_login_data = $ses_calc->student_login_check();
@@ -35,6 +39,8 @@ if (!$student_login_data) {
     header('Location: ' . $uri);
 }
 
+// 学生情報を取得する
+$student_date = $lgn_calc->student_data($user_id);
 
 ?>
 
@@ -48,7 +54,7 @@ if (!$student_login_data) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../../../../public/img/favicon.ico" type="image/x-icon">
-    <title>ES体験記 /「Real intentioN」</title>
+    <title>プロフィール /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
@@ -79,27 +85,6 @@ if (!$student_login_data) {
             color: white;
             background-color: #eb6540c4;
         }
-
-        .square_box {
-            position: relative;
-            max-width: 100px;
-            background: #ff3278;
-            border-radius: 5px;
-        }
-
-        .square_box::before {
-            content: "";
-            display: block;
-            padding-bottom: 100%;
-        }
-
-        .square_box p {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-weight: bold;
-        }
     </style>
 </head>
 
@@ -117,28 +102,48 @@ if (!$student_login_data) {
 
     <div class="container my-5">
         <div class="row">
-            <div class="col-lg-8 col-md-12 col-12">
-                <div class="intern-contents mb-5 px-4 py-4 bg-light">
-                    <div class="col-lg-12 col-md-12">
-                        <img src="../../../../test/new.jpg" class="img-fluid" style="object-fit: cover; border-radius: 5px;">
-                    </div>
+            <?php foreach ($student_date as $row) : ?>
+                <div class="col-lg-8 col-md-12 col-12">
+                    <div class="intern-contents mb-5 px-4 py-4 bg-light">
+                        <div class="row px-3">
+                            <div class="mt-3 col-lg-2">
+                                <div class="ratio ratio-1x1">
+                                    <img src="../../../../test/icon.jpg" class="img-fluid" style="object-fit: cover; border-radius: 50%;">
+                                </div>
+                            </div>
 
-                    <div class="row px-3">
-                        <div class="mt-3 col-lg-3">
-                            <img src="../../../../test/icon.jpg" class="img-fluid" style="object-fit: cover; border-radius: 50%;">
+                            <div class="col-lg-10 px-4 mt-2">
+                                <p>
+                                    <label class="fs-3"><?php h($row['name']) ?></label>
+                                </p>
+
+                                <p>
+                                    <?php if ($row['status'] === '就職活動中') : ?>
+                                        <label class="btn btn-danger px-4"><?php h($row['status']) ?></label>
+                                    <?php else : ?>
+                                        <label class="btn btn-success px-4"><?php h($row['status']) ?></label>
+                                    <?php endif; ?>
+                                </p>
+
+                                <p>
+                                    <label class="btn btn-secondary px-4"><?php h($row['course_of_study']) ?></label>
+                                    <label class="btn btn-secondary px-4"><?php h($row['grade_in_school']) ?></label>
+                                </p>
+                            </div>
                         </div>
 
-                        <div class="col-lg-9 text-end mt-5 pt-4">
-                            <a href="#" class="btn login-btn px-4">プロフィール編集</a>
+                        <div class="px-4 mt-4 pt-2">
+                            <p class="text-dark">
+                                <?php echo preg_replace('/\n/', "<br>",  $row['doc']); ?>
+                            </p>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="info-left col-lg-2 col-md-2 col-2">
+                        <div class="px-4 mt-5">
+                            <a class="btn login-btn" href="./update/update_form.php">プロフィールを更新する</a>
                         </div>
                     </div>
                 </div>
-            </div>
+            <?php endforeach; ?>
 
             <div class="side-bar col-md-4 bg-light  h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">

@@ -72,7 +72,7 @@ class Register
         $argument[] = strval(password_hash($password, PASSWORD_DEFAULT));
         $argument[] = strval($course_of_study);
         $argument[] = strval($grade_in_school);
-        $argument[] = strval('活動中');
+        $argument[] = strval('就職活動中');
         $argument[] = strval($attendance_record_number);
 
         $result = $pdo_calc->data_various_kinds($sql, $argument);
