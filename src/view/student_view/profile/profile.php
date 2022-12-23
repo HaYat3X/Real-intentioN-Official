@@ -11,6 +11,7 @@ require_once '../../../../class/View_calc.php';
 require_once '../../../../class/Like_calc.php';
 require_once '../../../../class/Register_calc.php';
 require_once '../../../../class/Login_calc.php';
+require_once '../../../../class/Profile_calc.php';
 
 // インスタンス化
 $ses_calc = new Session();
@@ -19,6 +20,7 @@ $viw_calc = new View();
 $lik_calc = new Like();
 $rgs_calc = new Register();
 $lgn_calc = new Login();
+$pfl_calc = new Profile();
 
 // ログインチェック
 $student_login_data = $ses_calc->student_login_check();
@@ -40,7 +42,7 @@ if (!$student_login_data) {
 }
 
 // 学生情報を取得する
-$student_date = $lgn_calc->student_data($user_id);
+$student_date = $pfl_calc->student_data($user_id);
 
 ?>
 
