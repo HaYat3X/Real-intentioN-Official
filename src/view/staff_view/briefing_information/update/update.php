@@ -46,6 +46,7 @@ $err_array = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    // 送信された値を受け取る
     $post_id = filter_input(INPUT_POST, 'post_id');
     $company = filter_input(INPUT_POST, 'company');
     $format = filter_input(INPUT_POST, 'format');

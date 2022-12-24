@@ -37,10 +37,11 @@ if (!$staff_login_data) {
     header('Location: ' . $uri);
 }
 
+// パラメータから投稿IDを取得
 $post_id = filter_input(INPUT_GET, 'post_id');
 
 // 編集するデータを取得
-$update_data = $viw_calc->intern_information_data_one($post_id);
+$update_data = $viw_calc->briefing_information_data_one($post_id);
 
 // 編集するデータがない場合はリダイレクト
 if (!$update_data) {

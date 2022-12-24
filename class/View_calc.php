@@ -176,4 +176,21 @@ class View
 
         return $result;
     }
+
+    /**
+     * インターンシップ情報を特定の一件だけ取得
+     */
+    public function briefing_information_data_one($post_id)
+    {
+        $db_calc = new Database();
+
+        $sql = "SELECT * FROM `briefing_information_tbl` INNER JOIN `staff_mst` ON briefing_information_tbl.staff_id = staff_mst.staff_id AND briefing_information_tbl.post_id = ?";
+
+        $argument = [];
+        $argument[] = $post_id;
+
+        $result = $db_calc->data_select_argument($sql, $argument);
+
+        return $result;
+    }
 }
