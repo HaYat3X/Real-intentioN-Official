@@ -144,4 +144,36 @@ class View
 
         return $result;
     }
+
+    /**
+     * インターンシップ情報のテーブル全レコード取得
+     */
+    public function briefing_information_data($start)
+    {
+        $db_calc = new Database();
+
+        $sql = "SELECT * FROM `briefing_information_tbl` INNER JOIN `staff_mst` ON 
+        briefing_information_tbl.staff_id = staff_mst.staff_id ORDER BY briefing_information_tbl.post_id DESC LIMIT {$start}, 10";
+
+        $result = $db_calc->data_select($sql);
+
+        return $result;
+    }
+
+    /**
+     * インターンシップ情報のテーブルのレコードの数を取得
+     */
+    public function briefing_information_data_val()
+    {
+        $db_calc = new Database();
+
+        $sql = "SELECT * FROM `briefing_information_tbl` INNER JOIN `staff_mst` ON 
+        briefing_information_tbl.staff_id = staff_mst.staff_id ORDER BY briefing_information_tbl.post_id";
+
+        $argument = [];
+
+        $result = $db_calc->data_select_count($sql, $argument);
+
+        return $result;
+    }
 }
