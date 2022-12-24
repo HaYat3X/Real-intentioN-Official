@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // エラーがない場合投稿処理
     if (count($err_array) === 0) {
-        $new_post = $pos_calc->intern_information_new_post($user_id, $company, $format, $overview, $field, $time, $attachment, $outgoing_course_of_study);
+        $new_post = $pos_calc->briefing_information_new_post($user_id, $company, $format, $overview, $field, $time, $attachment, $outgoing_course_of_study);
 
         if (!$new_post) {
             $err_array[] = '投稿に失敗しました。';

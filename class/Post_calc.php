@@ -72,4 +72,28 @@ class Post
 
         return $result;
     }
+
+    /**
+     * 会社説明会情報を新規投稿する
+     */
+    public function briefing_information_new_post($user_id, $company, $format, $overview, $field, $time, $attachment, $outgoing_course_of_study)
+    {
+        $db_calc = new Database();
+
+        $sql = "INSERT INTO `briefing_information_tbl`(`staff_id`, `company`, `format`, `overview`, `field`, `time`, `attachment`, `outgoing_course_of_study`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $argument = [];
+        $argument[] = strval($user_id);
+        $argument[] = strval($company);
+        $argument[] = strval($format);
+        $argument[] = strval($overview);
+        $argument[] = strval($field);
+        $argument[] = strval($time);
+        $argument[] = strval($attachment);
+        $argument[] = strval($outgoing_course_of_study);
+
+        $result = $db_calc->data_various_kinds($sql, $argument);
+
+        return $result;
+    }
 }

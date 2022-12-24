@@ -51,10 +51,10 @@ if ($page > 1) {
     $start = 0;
 }
 
-// インターンシップ情報投稿データを取得
+// 会社説明会情報投稿データを取得
 $intern_information_data = $viw_calc->briefing_information_data($start);
 
-// インターンシップ情報のデータ数を取得
+// 会社説明会情報のデータ数を取得
 $page_num = $viw_calc->briefing_information_data_val();
 
 // ページネーションの数を取得する
