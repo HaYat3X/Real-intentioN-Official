@@ -38,7 +38,7 @@ class Delete
         return $result;
     }
 
-     /**
+    /**
      * インターンシップ情報のデータを削除する
      */
     public function intern_information_delete($post_id)
@@ -46,6 +46,23 @@ class Delete
         $db_calc = new Database();
 
         $sql = 'DELETE FROM `intern_information_tbl` WHERE post_id = ?';
+
+        $argument = [];
+        $argument[] = strval($post_id);
+
+        $result = $db_calc->data_various_kinds($sql, $argument);
+
+        return $result;
+    }
+
+    /**
+     * 会社説明会情報のデータを削除する
+     */
+    public function briefing_information_delete($post_id)
+    {
+        $db_calc = new Database();
+
+        $sql = 'DELETE FROM `briefing_information_tbl` WHERE post_id = ?';
 
         $argument = [];
         $argument[] = strval($post_id);
