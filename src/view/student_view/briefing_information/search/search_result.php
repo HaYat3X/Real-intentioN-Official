@@ -2,7 +2,6 @@
 
 // セッション開始
 session_start();
-ob_start();
 
 // 外部ファイルのインポート
 require_once '../../../../../class/Session_calc.php';
@@ -39,8 +38,13 @@ foreach ($student_login_data as $row) {
 
 // ログイン情報がない場合リダイレクト
 if (!$student_login_data) {
-    $uri = '../../../Exception/400_request.php';
+    $uri = '../../../../Exception/400_request.php';
     header('Location: ' . $uri);
+}
+
+// ユーザアイコンを抽出
+foreach ($student_login_data as $row) {
+    $user_icon = $row['icon'];
 }
 
 // POSTリクエストを受け取る
@@ -51,23 +55,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $search_keyword = filter_input(INPUT_POST, 'keyword');
 
     // 検索結果を取得
-    $search_result = $srh_calc->intern_information_search($search_category, $search_keyword);
+    $search_result = $srh_calc->briefing_information_search($search_category, $search_keyword);
 }
 
 // POSTリクエストがreserveだった場合予約する
 if (isset($_POST['reserve'])) {
-    
+
     // csrfトークンの存在確認
     $csrf_check = $ses_calc->csrf_match_check($_POST['csrf_token']);
 
     // csrfトークンの正誤判定
     if (!$csrf_check) {
-        $uri = '../../../Exception/400_request.php';
+        $uri = '../../../../Exception/400_request.php';
         header('Location:' . $uri);
     }
 
     // 予約する
-    $rsv_calc->intern_information_reserve($_POST['post_id'], $user_id);
+    $rsv_calc->briefing_information_reserve($_POST['post_id'], $user_id);
 
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
@@ -83,12 +87,12 @@ if (isset($_POST['reserve_delete'])) {
 
     // csrfトークンの正誤判定
     if (!$csrf_check) {
-        $uri = '../../../Exception/400_request.php';
+        $uri = '../../../../Exception/400_request.php';
         header('Location:' . $uri);
     }
 
     // 予約解除
-    $rsv_calc->intern_information_reserve_delete($_POST['post_id'], $user_id);
+    $rsv_calc->briefing_information_reserve_delete($_POST['post_id'], $user_id);
 
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
@@ -108,14 +112,14 @@ if (isset($_POST['reserve_delete'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../../../../../public/img/favicon.ico" type="image/x-icon">
-    <title>インターンシップ情報を検索 /「Real intentioN」</title>
+    <title>会社説明会情報検索結果 /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
         }
 
         header {
-            background-color: #D6E4E5;
+            background-color: #c2dbde;
         }
 
         footer {
@@ -175,9 +179,9 @@ if (isset($_POST['reserve_delete'])) {
                                 <div class="row mt-3">
                                     <div class="info-left col-lg-2 col-md-2 col-4">
                                         <div class="text-center">
-                                            <div class="ratio ratio-1x1" style="background-color: #ffb6b9; border-radius: 5px;">
+                                            <div class="ratio ratio-1x1" style="background-color: #bbded6; border-radius: 5px;">
                                                 <div class="fs-5 text-light fw-bold d-flex align-items-center justify-content-center">
-                                                    INTERN
+                                                    ES
                                                 </div>
                                             </div>
                                         </div>
@@ -272,43 +276,43 @@ if (isset($_POST['reserve_delete'])) {
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../../intern_information/posts_recommendation.php" class="nav-link link-dark">
                                 インターンシップ情報
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../posts_recommendation.php" class="nav-link link-dark">
                                 会社説明会情報
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../../kic_notification/posts.php" class="nav-link link-dark">
                                 キャリアセンターからのお知らせ
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="../posts.php" class="nav-link link-dark">
+                            <a href="../../intern_experience/posts.php" class="nav-link link-dark">
                                 インターンシップ体験記
                             </a>
                         </li>
 
                         <li>
-                            <a href="./post/post_form.php" class="nav-link link-dark">
+                            <a href="../../es_experience/posts.php" class="nav-link link-dark">
                                 ES体験記
                             </a>
                         </li>
 
                         <li>
-                            <a href="./post/post_form.php" class="nav-link link-dark">
+                            <a href="../../intern_experience/post/post_form.php" class="nav-link link-dark">
                                 インターンシップ体験記を投稿
                             </a>
                         </li>
 
                         <li>
-                            <a href="./post/post_form.php" class="nav-link link-dark">
+                            <a href="../../es_experience/post/post_form.php" class="nav-link link-dark">
                                 ES体験記を投稿
                             </a>
                         </li>
@@ -318,17 +322,17 @@ if (isset($_POST['reserve_delete'])) {
 
                     <div class="dropdown">
                         <div class="mb-4">
-                            <form action="../search/search_result.php" method="post">
+                            <form action="./search_result.php" method="post">
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="keyword" placeholder="フリーワード検索">
-                                    <input type="hidden" name="category" value="answer">
+                                    <input type="hidden" name="category" value="overview">
                                     <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
                                 </div>
                             </form>
                         </div>
 
                         <div class="mb-4">
-                            <form action="../search/search_result.php" method="post">
+                            <form action="./search_result.php" method="post">
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="keyword" placeholder="企業名で検索">
                                     <input type="hidden" name="category" value="company">
@@ -338,7 +342,7 @@ if (isset($_POST['reserve_delete'])) {
                         </div>
 
                         <div class="mb-4">
-                            <form action="../search/search_result.php" method="post">
+                            <form action="./search_result.php" method="post">
                                 <div class="input-group">
                                     <select class="form-select" name="keyword" aria-label="Default select example">
                                         <option selected>開催形式で検索</option>
@@ -352,7 +356,7 @@ if (isset($_POST['reserve_delete'])) {
                         </div>
 
                         <div class="mb-4">
-                            <form action="../search/search_result.php" method="post">
+                            <form action="./search_result.php" method="post">
                                 <div class="input-group">
                                     <select class="form-select" name="keyword" aria-label="Default select example">
                                         <option selected>職種分野で検索</option>
@@ -377,15 +381,15 @@ if (isset($_POST['reserve_delete'])) {
 
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <img src="../../../../../public/ICON/<?php h($user_icon) ?>" alt="" width="32" height="32" class="rounded-circle me-2">
                             <strong><?php h($user_name) ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow">
-                            <li><a class="dropdown-item" href="#">プロフィール</a></li>
+                            <li><a class="dropdown-item" href="../../profile/profile.php">プロフィール</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="../logout.php">サインアウト</a></li>
+                            <li><a class="dropdown-item" href="../../../../logout/logout.php">ログアウト</a></li>
                         </ul>
                     </div>
                 </div>

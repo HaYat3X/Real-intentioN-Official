@@ -54,4 +54,21 @@ class Search
 
         return $result;
     }
+
+    /**
+     * 会社説明会情報のデータを検索する
+     */
+    public function briefing_information_search($search_category, $search_keyword)
+    {
+        $db_calc = new Database();
+
+        $sql = "SELECT * FROM `briefing_information_tbl` INNER JOIN `staff_mst` ON briefing_information_tbl.staff_id = staff_mst.staff_id WHERE briefing_information_tbl.$search_category LIKE ? ORDER BY briefing_information_tbl.post_id DESC";
+
+        $argument = [];
+        $argument[] = '%' . $search_keyword . '%';
+
+        $result = $db_calc->data_select_argument($sql, $argument);
+
+        return $result;
+    }
 }

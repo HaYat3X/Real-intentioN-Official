@@ -19,3 +19,13 @@
         ・posts_recommenedation.php　✅
         /search
             search_result.php ✅
+
+    ◉briefing_information
+        ・posts_all.php　
+        ・posts_recommenedation.php　
+        /search
+            search_result.php 
+
+                                    <!-- 所属学科向けに発信されたおすすめ投稿のみ表示する falseにならない時が検索に引っかかる時-->
+                        <?php $posts_recommendation = strpos($row['outgoing_course_of_study'], $user_course_of_study); ?>
+                        <?php if ($posts_recommendation !== false) : ?>
