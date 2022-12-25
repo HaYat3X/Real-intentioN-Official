@@ -40,7 +40,7 @@ if (!$staff_login_data) {
 $post_id = filter_input(INPUT_GET, 'post_id');
 
 // インターンシップ情報投稿に予約をした学生情報を取得する
-$reserve_data = $rsv_calc->intern_information_reserve_data($post_id);
+$reserve_data = $rsv_calc->briefing_information_reserve_data($post_id);
 
 ?>
 

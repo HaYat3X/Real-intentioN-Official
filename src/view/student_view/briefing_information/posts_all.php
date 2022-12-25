@@ -52,10 +52,10 @@ if ($page > 1) {
 }
 
 // インターンシップ情報投稿データを取得
-$intern_information_data = $viw_calc->intern_information_data($start);
+$intern_information_data = $viw_calc->briefing_information_data($start);
 
 // インターンシップ情報のデータ数を取得
-$page_num = $viw_calc->intern_information_data_val();
+$page_num = $viw_calc->briefing_information_data_val();
 
 // ページネーションの数を取得する
 $pagination = ceil($page_num / 10);
@@ -73,7 +73,7 @@ if (isset($_POST['reserve'])) {
     }
 
     // 予約する
-    $rsv_calc->intern_information_reserve($_POST['post_id'], $user_id);
+    $rsv_calc->briefing_information_reserve($_POST['post_id'], $user_id);
 
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
@@ -94,7 +94,7 @@ if (isset($_POST['reserve_delete'])) {
     }
 
     // 予約解除
-    $rsv_calc->intern_information_reserve_delete($_POST['post_id'], $user_id);
+    $rsv_calc->briefing_information_reserve_delete($_POST['post_id'], $user_id);
 
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
@@ -233,8 +233,8 @@ if (isset($_POST['reserve_delete'])) {
 
                                 <div class="row mt-3">
                                     <div class="col-lg-1 col-md-1 col-2">
-                                        <?php $reserve_check = $rsv_calc->intern_information_reserve_check($row['post_id'], $user_id); ?>
-                                        <?php $reserve_val = $rsv_calc->intern_information_reserve_count($row['post_id']); ?>
+                                        <?php $reserve_check = $rsv_calc->briefing_information_reserve_check($row['post_id'], $user_id); ?>
+                                        <?php $reserve_val = $rsv_calc->briefing_information_reserve_count($row['post_id']); ?>
 
                                         <?php if ($reserve_check) : ?>
                                             <form action="./posts_all.php" method="post">

@@ -181,7 +181,7 @@ $pagination = ceil($page_num / 10);
                                 </p>
                             </div>
 
-                            <?php $reserve_val = $rsv_calc->intern_information_reserve_count($row['post_id']); ?>
+                            <?php $reserve_val = $rsv_calc->briefing_information_reserve_count($row['post_id']); ?>
 
                             <div class="mt-4">
                                 <a class="btn login-btn" href="./update/update_form.php?post_id=<?php h($row['post_id']) ?>">編集する</a>
