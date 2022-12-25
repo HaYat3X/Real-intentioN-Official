@@ -175,7 +175,7 @@ $ses_calc = new Session();
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link px-4" href="../../staff_view/login/login_form.php">職員の方はこちら</a>
+                            <a class="btn px-4" href="../../staff_view/login/login_form.php">職員の方はこちら</a>
                         </li>
                         <li class="nav-item">
                             <a class="login-btn btn px-4" href="../login/login_form.php">ログインはこちら</a>

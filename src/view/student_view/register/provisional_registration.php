@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet" />
-    <link rel="shortcut icon" href="../../../public/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../../../public/img/favicon.ico" type="image/x-icon">
     <title>学生利用登録 /「Real intentioN」</title>
     <style>
         body {
@@ -246,7 +246,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link px-4" href="../../staff_view/login/login_form.php">職員の方はこちら</a>
+                            <a class="btn px-4" href="../../staff_view/login/login_form.php">職員の方はこちら</a>
                         </li>
                         <li class="nav-item">
                             <a class="login-btn btn px-4" href="../login/login_form.php">ログインはこちら</a>
