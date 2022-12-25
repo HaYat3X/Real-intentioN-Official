@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // エラーがない場合更新処理
     if (count($err_array) === 0) {
-        $update = $upd_calc->intern_information_update($user_id, $company, $format, $overview, $field, $time, $attachment, $outgoing_course_of_study, $post_id);
+        $update = $upd_calc->briefing_information_update($user_id, $company, $format, $overview, $field, $time, $attachment, $outgoing_course_of_study, $post_id);
 
         if (!$update) {
             $err_array[] = '投稿に失敗しました。';
