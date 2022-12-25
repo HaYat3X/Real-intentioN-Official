@@ -236,7 +236,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link px-4" href="../../staff_view/login/login_form.php">職員の方はこちら</a>
+                            <a class="btn px-4" href="../../staff_view/login/login_form.php">職員の方はこちら</a>
                         </li>
                         <li class="nav-item">
                             <a class="login-btn btn px-4" href="../login/login_form.php">ログインはこちら</a>
@@ -263,7 +263,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <?php if (count($err_array) === 0) : ?>
                         <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-ログインが完了しました。</div>
-                        <?php $uri = '../intern_experience/posts.php'; ?>
+                        <?php $uri = '../intern_information/posts_recommendation.php'; ?>
                         <?php header('refresh:3;url=' . $uri); ?>
                     <?php endif; ?>
                 </div>
