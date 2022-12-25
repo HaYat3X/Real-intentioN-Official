@@ -4,5 +4,7 @@
     ◉register
         ・provisional_registration_form.php　✅
         ・provisional_registration.php　✅
-        ・auth_email_form.php
-        ・auth_email.php
+        ・auth_email_form.php　✅
+        ・auth_email.php　✅
+        ・register_form.php ✅
+        ・register.php　✅
