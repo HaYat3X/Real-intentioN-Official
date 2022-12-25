@@ -1,4 +1,5 @@
-◉index.htmlのリファクタリング　✅
+
+◉index.html　✅
 
 ★student_view
     ◉register
@@ -12,3 +13,9 @@
     ◉login
         ・login_form.php  ✅
         ・login.php　✅
+    
+    ◉intern_information
+        ・posts_all.php　✅
+        ・posts_recommenedation.php　✅
+        /search
+            search_result.php ✅
