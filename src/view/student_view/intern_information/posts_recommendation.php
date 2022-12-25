@@ -36,6 +36,11 @@ foreach ($student_login_data as $row) {
     $user_course_of_study = $row['course_of_study'];
 }
 
+// ユーザアイコンを抽出
+foreach ($student_login_data as $row) {
+    $user_icon = $row['icon'];
+}
+
 // ログイン情報がない場合リダイレクト
 if (!$student_login_data) {
     $uri = '../../../Exception/400_request.php';
@@ -437,7 +442,7 @@ if (isset($_POST['reserve_delete'])) {
 
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <img src="../../../../public/ICON/<?php h($user_icon) ?>" alt="" width="32" height="32" class="rounded-circle me-2">
                             <strong><?php h($user_name) ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow">
