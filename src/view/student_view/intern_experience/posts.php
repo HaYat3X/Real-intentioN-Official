@@ -281,7 +281,7 @@ if (isset($_POST['like_delete'])) {
                                 </div>
                             </div>
 
-                            <div class="mt-2">
+                            <div class="mt-3">
                                 <div class="row">
                                     <div class="col-lg-1 col-md-1 col-1">
                                         <div class="text-end">
