@@ -447,6 +447,21 @@ if (isset($_POST['like_delete'])) {
                             </form>
                         </div>
 
+                        <div class="mb-4">
+                            <form action="./search/search_result.php" method="post">
+                                <div class="input-group">
+                                    <select class="form-select" name="keyword" aria-label="Default select example">
+                                        <option selected>質問内容で検索</option>
+                                        <option value="インターンの参加は選考に有利になったと感じますか？その理由も教えてください。">インターンの参加は選考に有利になったと感じますか？その理由も教えてください。</option>
+                                        <option value="インターンで体験した内容を教えてください。">インターンで体験した内容を教えてください。</option>
+                                        <option value="交通費の支給など、金銭面でのサポートはありましたか？">交通費の支給など、金銭面でのサポートはありましたか？</option>
+                                    </select>
+                                    <input type="hidden" name="category" value="question">
+                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
+
                         <div>
                             <form action="./search/search_result.php" method="post">
                                 <div class="input-group">
