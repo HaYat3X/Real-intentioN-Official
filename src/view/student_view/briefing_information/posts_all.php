@@ -411,7 +411,11 @@ if (isset($_POST['reserve_delete'])) {
 
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="../../../../public/ICON/<?php h($user_icon) ?>" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <?php if ($user_icon === "") : ?>
+                                <img src="../../../../public/ICON/default-icon.jpeg" width="32" height="32" class="rounded-circle me-2" style="object-fit: cover;">
+                            <?php else : ?>
+                                <img src="../../../../public/ICON/<?php h($user_icon) ?>" width="32" height="32" class="rounded-circle me-2" style="object-fit: cover;">
+                            <?php endif; ?>
                             <strong><?php h($user_name) ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow">

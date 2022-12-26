@@ -228,8 +228,8 @@ if (isset($_POST['reserve_delete'])) {
 
                                 <div class="row mt-3">
                                     <div class="col-lg-1 col-md-1 col-2">
-                                        <?php $reserve_check = $rsv_calc->intern_information_reserve_check($row['post_id'], $user_id); ?>
-                                        <?php $reserve_val = $rsv_calc->intern_information_reserve_count($row['post_id']); ?>
+                                        <?php $reserve_check = $rsv_calc->briefing_information_reserve_check($row['post_id'], $user_id); ?>
+                                        <?php $reserve_val = $rsv_calc->briefing_information_reserve_count($row['post_id']); ?>
 
                                         <?php if ($reserve_check) : ?>
                                             <form action="./search_result.php" method="post">
@@ -381,7 +381,11 @@ if (isset($_POST['reserve_delete'])) {
 
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="../../../../../public/ICON/<?php h($user_icon) ?>" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <?php if ($user_icon === "") : ?>
+                                <img src="../../../../../public/ICON/default-icon.jpeg" width="32" height="32" class="rounded-circle me-2" style="object-fit: cover;">
+                            <?php else : ?>
+                                <img src="../../../../../public/ICON/<?php h($user_icon) ?>" width="32" height="32" class="rounded-circle me-2" style="object-fit: cover;">
+                            <?php endif; ?>
                             <strong><?php h($user_name) ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow">
