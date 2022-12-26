@@ -26,9 +26,9 @@
         /search/
             search_result.php ✅
 
-    ◉profile
-        ・profile.php
+    ◉profile　👍
+        ・profile.php　✅
         /update/
-            update_form.php
-            update.php
+            update_form.php ✅
+            update.php　✅
 
