@@ -39,5 +39,10 @@
         /post/
             post_form.php　✅
             post.php　✅
+        /update/
+            update_form.php　✅
+            update.php　✅
+        /search/
+            search_result.php 
 
 
