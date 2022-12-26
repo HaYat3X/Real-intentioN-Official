@@ -36,5 +36,8 @@
         .posts.php　✅
         /delete/
             delete.php　✅
+        /post/
+            post_form.php　✅
+            post.php　✅
 
 

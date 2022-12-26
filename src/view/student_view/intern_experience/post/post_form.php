@@ -31,9 +31,14 @@ foreach ($student_login_data as $row) {
     $user_name = $row['name'];
 }
 
+// ユーザアイコンを抽出
+foreach ($student_login_data as $row) {
+    $user_icon = $row['icon'];
+}
+
 // ログイン情報がない場合リダイレクト
 if (!$student_login_data) {
-    $uri = '../../../Exception/400_request.php';
+    $uri = '../../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
 
@@ -56,7 +61,7 @@ if (!$student_login_data) {
         }
 
         header {
-            background-color: #D6E4E5;
+            background-color: #c2dbde;
         }
 
         footer {
@@ -111,7 +116,7 @@ if (!$student_login_data) {
                 <div class="bg-light py-5">
                     <form class="needs-validation col-lg-7 col-md-9 col-11 mx-auto" novalidate action="./post.php" method="POST">
                         <h1 class="text-center fs-2 mb-5">
-                            インターン体験記を投稿する
+                            インターンシップ体験記を投稿
                         </h1>
 
                         <div class="mt-4">
@@ -217,19 +222,19 @@ if (!$student_login_data) {
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../../intern_information/posts_recommendation.php" class="nav-link link-dark">
                                 インターンシップ情報
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../../briefing_information/posts_recommendation.php" class="nav-link link-dark">
                                 会社説明会情報
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../../kic_notification/posts.php" class="nav-link link-dark">
                                 キャリアセンターからのお知らせ
                             </a>
                         </li>
@@ -241,19 +246,19 @@ if (!$student_login_data) {
                         </li>
 
                         <li>
-                            <a href="./post/post_form.php" class="nav-link link-dark">
+                            <a href="../../es_experience/posts.php" class="nav-link link-dark">
                                 ES体験記
                             </a>
                         </li>
 
                         <li>
-                            <a href="./post/post_form.php" style="background-color: #EB6440;" class="nav-link active" aria-current="page">
+                            <a href="./post_form.php" style="background-color: #EB6440;" class="nav-link active" aria-current="page">
                                 インターンシップ体験記を投稿
                             </a>
                         </li>
 
                         <li>
-                            <a href="./post/post_form.php" class="nav-link link-dark">
+                            <a href="../../es_experience/post/post_form.php" class="nav-link link-dark">
                                 ES体験記を投稿
                             </a>
                         </li>
@@ -262,75 +267,20 @@ if (!$student_login_data) {
                     <hr>
 
                     <div class="dropdown">
-                        <div class="mb-4">
-                            <form action="../search/search_result.php" method="post">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="keyword" placeholder="フリーワード検索">
-                                    <input type="hidden" name="category" value="answer">
-                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="mb-4">
-                            <form action="../search/search_result.php" method="post">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="keyword" placeholder="企業名で検索">
-                                    <input type="hidden" name="category" value="company">
-                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="mb-4">
-                            <form action="../search/search_result.php" method="post">
-                                <div class="input-group">
-                                    <select class="form-select" name="keyword" aria-label="Default select example">
-                                        <option selected>開催形式で検索</option>
-                                        <option value="対面開催">対面開催</option>
-                                        <option value="オンライン開催">オンライン開催</option>
-                                    </select>
-                                    <input type="hidden" name="category" value="format">
-                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="mb-4">
-                            <form action="../search/search_result.php" method="post">
-                                <div class="input-group">
-                                    <select class="form-select" name="keyword" aria-label="Default select example">
-                                        <option selected>職種分野で検索</option>
-                                        <option value="IT分野">IT分野</option>
-                                        <option value="ゲームソフト分野">ゲームソフト分野</option>
-                                        <option value="ハード分野">ハード分野</option>
-                                        <option value="ビジネス分野">ビジネス分野</option>
-                                        <option value="CAD分野">CAD分野</option>
-                                        <option value="グラフィックス分野">グラフィックス分野</option>
-                                        <option value="サウンド分野">サウンド分野</option>
-                                        <option value="日本語分野">日本語分野</option>
-                                        <option value="国際コミュニケーション分野">国際コミュニケーション分野</option>
-                                    </select>
-                                    <input type="hidden" name="category" value="field">
-                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <?php if ($user_icon === "") : ?>
+                                <img src="../../../../../public/ICON/default-icon.jpeg" width="32" height="32" class="rounded-circle me-2" style="object-fit: cover;">
+                            <?php else : ?>
+                                <img src="../../../../../public/ICON/<?php h($user_icon) ?>" width="32" height="32" class="rounded-circle me-2" style="object-fit: cover;">
+                            <?php endif; ?>
                             <strong><?php h($user_name) ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow">
-                            <li><a class="dropdown-item" href="#">プロフィール</a></li>
+                            <li><a class="dropdown-item" href="../../profile/profile.php">プロフィール</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="../logout.php">サインアウト</a></li>
+                            <li><a class="dropdown-item" href="../../../../logout/logout.php">ログアウト</a></li>
                         </ul>
                     </div>
                 </div>
