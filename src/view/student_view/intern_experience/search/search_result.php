@@ -2,7 +2,6 @@
 
 // セッション開始
 session_start();
-ob_start();
 
 // 外部ファイルのインポート
 require_once '../../../../../class/Session_calc.php';
@@ -34,9 +33,14 @@ foreach ($student_login_data as $row) {
     $user_name = $row['name'];
 }
 
+// ユーザアイコンを抽出
+foreach ($student_login_data as $row) {
+    $user_icon = $row['icon'];
+}
+
 // ログイン情報がない場合リダイレクト
 if (!$student_login_data) {
-    $uri = '../../../Exception/400_request.php';
+    $uri = '../../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
 
@@ -63,7 +67,7 @@ if (isset($_POST['like'])) {
 
     // csrfトークンの正誤判定
     if (!$csrf_check) {
-        $uri = '../../../Exception/400_request.php';
+        $uri = '../../../../Exception/400_request.php';
         header('Location:' . $uri);
     }
 
@@ -88,7 +92,7 @@ if (isset($_POST['like_delete'])) {
 
     // csrfトークンの正誤判定
     if (!$csrf_check) {
-        $uri = '../../../Exception/400_request.php';
+        $uri = '../../../../Exception/400_request.php';
         header('Location:' . $uri);
     }
 
@@ -113,14 +117,14 @@ if (isset($_POST['like_delete'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../../../../../public/img/favicon.ico" type="image/x-icon">
-    <title>インターンシップ体験記を検索 /「Real intentioN」</title>
+    <title>インターンシップ体験記検索結果 /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
         }
 
         header {
-            background-color: #D6E4E5;
+            background-color: #c2dbde;
         }
 
         footer {
@@ -145,6 +149,18 @@ if (isset($_POST['like_delete'])) {
             background-color: #eb6540c4;
         }
     </style>
+
+    <script>
+        function alertFunction1(value) {
+            var submit = confirm("本当に削除しますか？");
+
+            if (submit) {
+                window.location.href = '../delete/delete.php?post_id=' + value;
+            } else {
+                window.location.href = '../posts.php';
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -223,12 +239,12 @@ if (isset($_POST['like_delete'])) {
                                         <div class="btn-group">
                                             <?php if ($user_id == $row['student_id']) : ?>
                                                 <div class="btn-group dropstart" role="group">
-                                                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button type="button" class="btn py-2 btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-dark">
-                                                        <li><a href="./delete/delete.php?post_id=<?php h($row['post_id']) ?>" class="dropdown-item">削除</a></li>
+                                                        <li><button class="dropdown-item" value="<?php h($row['post_id']) ?>" onclick="alertFunction1(this.value)">削除</button></li>
 
-                                                        <li><a class="dropdown-item" href="./update/update_form.php?post_id=<?php h($row['post_id']) ?>">編集</a>
+                                                        <li><a class="dropdown-item" href="../update/update_form.php?post_id=<?php h($row['post_id']) ?>">編集</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -256,7 +272,7 @@ if (isset($_POST['like_delete'])) {
                                 </div>
                             </div>
 
-                            <div class="mt-2">
+                            <div class="mt-3">
                                 <div class="row">
                                     <div class="col-lg-1 col-md-1 col-1">
                                         <div class="text-end">
@@ -319,19 +335,19 @@ if (isset($_POST['like_delete'])) {
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../../intern_information/posts_recommendation.php" class="nav-link link-dark">
                                 インターンシップ情報
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../../briefing_information/posts_recommendation.php" class="nav-link link-dark">
                                 会社説明会情報
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../../kic_notification/posts.php" class="nav-link link-dark">
                                 キャリアセンターからのお知らせ
                             </a>
                         </li>
@@ -343,19 +359,19 @@ if (isset($_POST['like_delete'])) {
                         </li>
 
                         <li>
-                            <a href="./post/post_form.php" class="nav-link link-dark">
+                            <a href="../../es_experience/posts.php" class="nav-link link-dark">
                                 ES体験記
                             </a>
                         </li>
 
                         <li>
-                            <a href="./post/post_form.php" class="nav-link link-dark">
+                            <a href="../../intern_experience/post/post_form.php" class="nav-link link-dark">
                                 インターンシップ体験記を投稿
                             </a>
                         </li>
 
                         <li>
-                            <a href="./post/post_form.php" class="nav-link link-dark">
+                            <a href="../../es_experience/post/post_form.php" class="nav-link link-dark">
                                 ES体験記を投稿
                             </a>
                         </li>
@@ -365,7 +381,7 @@ if (isset($_POST['like_delete'])) {
 
                     <div class="dropdown">
                         <div class="mb-4">
-                            <form action="../search/search_result.php" method="post">
+                            <form action="./search_result.php" method="post">
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="keyword" placeholder="フリーワード検索">
                                     <input type="hidden" name="category" value="answer">
@@ -375,7 +391,7 @@ if (isset($_POST['like_delete'])) {
                         </div>
 
                         <div class="mb-4">
-                            <form action="../search/search_result.php" method="post">
+                            <form action="./search_result.php" method="post">
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="keyword" placeholder="企業名で検索">
                                     <input type="hidden" name="category" value="company">
@@ -385,7 +401,7 @@ if (isset($_POST['like_delete'])) {
                         </div>
 
                         <div class="mb-4">
-                            <form action="../search/search_result.php" method="post">
+                            <form action="./search_result.php" method="post">
                                 <div class="input-group">
                                     <select class="form-select" name="keyword" aria-label="Default select example">
                                         <option selected>開催形式で検索</option>
@@ -399,7 +415,22 @@ if (isset($_POST['like_delete'])) {
                         </div>
 
                         <div class="mb-4">
-                            <form action="../search/search_result.php" method="post">
+                            <form action="./search_result.php" method="post">
+                                <div class="input-group">
+                                    <select class="form-select" name="keyword" aria-label="Default select example">
+                                        <option selected>質問内容で検索</option>
+                                        <option value="インターンの参加は選考に有利になったと感じますか？その理由も教えてください。">インターンの参加は選考に有利になったと感じますか？その理由も教えてください。</option>
+                                        <option value="インターンで体験した内容を教えてください。">インターンで体験した内容を教えてください。</option>
+                                        <option value="交通費の支給など、金銭面でのサポートはありましたか？">交通費の支給など、金銭面でのサポートはありましたか？</option>
+                                    </select>
+                                    <input type="hidden" name="category" value="question">
+                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div>
+                            <form action="./search_result.php" method="post">
                                 <div class="input-group">
                                     <select class="form-select" name="keyword" aria-label="Default select example">
                                         <option selected>職種分野で検索</option>
@@ -424,15 +455,19 @@ if (isset($_POST['like_delete'])) {
 
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <?php if ($user_icon === "") : ?>
+                                <img src="../../../../../public/ICON/default-icon.jpeg" width="32" height="32" class="rounded-circle me-2" style="object-fit: cover;">
+                            <?php else : ?>
+                                <img src="../../../../../public/ICON/<?php h($user_icon) ?>" width="32" height="32" class="rounded-circle me-2" style="object-fit: cover;">
+                            <?php endif; ?>
                             <strong><?php h($user_name) ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow">
-                            <li><a class="dropdown-item" href="#">プロフィール</a></li>
+                            <li><a class="dropdown-item" href="../../profile/profile.php">プロフィール</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="../logout.php">サインアウト</a></li>
+                            <li><a class="dropdown-item" href="../../../../logout/logout.php">ログアウト</a></li>
                         </ul>
                     </div>
                 </div>
