@@ -29,6 +29,11 @@ foreach ($student_login_data as $row) {
     $user_name = $row['name'];
 }
 
+// ユーザアイコンを抽出
+foreach ($student_login_data as $row) {
+    $user_icon = $row['icon'];
+}
+
 // ログイン情報がない場合リダイレクト
 if (!$student_login_data) {
     $uri = '../../../Exception/400_request.php';
@@ -127,7 +132,7 @@ if (isset($_POST['like_delete'])) {
         }
 
         header {
-            background-color: #D6E4E5;
+            background-color: #c2dbde;
         }
 
         footer {
@@ -369,13 +374,13 @@ if (isset($_POST['like_delete'])) {
                         </li>
 
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../briefing_information/posts_recommendation.php" class="nav-link link-dark">
                                 会社説明会情報
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../kic_notification/posts.php" class="nav-link link-dark">
                                 キャリアセンターからのお知らせ
                             </a>
                         </li>
@@ -468,7 +473,11 @@ if (isset($_POST['like_delete'])) {
 
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="../../../../test/icon.jpg" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <?php if ($user_icon === "") : ?>
+                                <img src="../../../../public/ICON/default-icon.jpeg" width="32" height="32" class="rounded-circle me-2" style="object-fit: cover;">
+                            <?php else : ?>
+                                <img src="../../../../public/ICON/<?php h($user_icon) ?>" width="32" height="32" class="rounded-circle me-2" style="object-fit: cover;">
+                            <?php endif; ?>
                             <strong><?php h($user_name) ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow">
@@ -476,7 +485,7 @@ if (isset($_POST['like_delete'])) {
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="../logout.php">サインアウト</a></li>
+                            <li><a class="dropdown-item" href="../../../logout/logout.php">ログアウト</a></li>
                         </ul>
                     </div>
                 </div>

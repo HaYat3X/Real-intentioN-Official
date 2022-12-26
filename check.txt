@@ -32,3 +32,9 @@
             update_form.php ✅
             update.php　✅
 
+    ◉intern_experience
+        .posts.php　✅
+        /delete/
+            delete.php　✅
+
+
