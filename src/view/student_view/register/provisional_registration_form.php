@@ -192,7 +192,7 @@ $ses_calc = new Session();
                 <div class="col-lg-5 col-md-11 col-11 mx-auto">
                     <form class="needs-validation" novalidate action="./provisional_registration.php" method="POST">
                         <h1 class="text-center fs-2 mb-5">
-                            仮登録する
+                            仮登録
                         </h1>
 
                         <div class="mt-4">

@@ -188,10 +188,10 @@ if (!$_COOKIE['input_time_limit']) {
 
     <script>
         function alertFunction1() {
-            var submit = confirm("登録しますか？　投稿内容を確認してください。");
+            var submit = confirm("登録しますか？　登録内容を確認してください。");
 
             if (!submit) {
-                window.location.href = './post_form.php';
+                window.location.href = './register_form.php';
             }
         }
     </script>

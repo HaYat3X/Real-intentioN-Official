@@ -26,15 +26,15 @@ $rgs_calc = new Register();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet" />
-    <link rel="shortcut icon" href="../../../public/img/favicon.ico" type="image/x-icon">
-    <title>学生情報登録 / 「Real intentioN」</title>
+    <link rel="shortcut icon" href="../../../../public/img/favicon.ico" type="image/x-icon">
+    <title>職員利用登録 /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
         }
 
         header {
-            background-color: #D6E4E5;
+            background-color: #c2dbde;
         }
 
         footer {
@@ -65,7 +65,7 @@ $rgs_calc = new Register();
     <header class="sticky-top">
         <nav class="navbar navbar-expand-lg navbar-light py-4">
             <div class="container">
-                <a class="navbar-brand" href="./index.html">
+                <a class="navbar-brand" href="../../../../index.html">
                     <img src="../../../../public/img/logo.png" alt="" width="30" height="24" class="d-inline-block
                             align-text-top" style="object-fit: cover;"> Real intentioN
                 </a>
@@ -77,10 +77,10 @@ $rgs_calc = new Register();
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link px-4" href="./src/StaffView/login/login_form.php">職員の方はこちら</a>
+                            <a class="btn px-4" href="../login/login_form.php">職員の方はこちら</a>
                         </li>
                         <li class="nav-item">
-                            <a class="login-btn btn px-4" href="./src/UserView/login/login_form.php">ログインはこちら</a>
+                            <a class="login-btn btn px-4" href="../../student_view/login/login_form.php">ログインはこちら</a>
                         </li>
                     </ul>
                 </div>
@@ -91,10 +91,10 @@ $rgs_calc = new Register();
     <div class="box d-flex vh-100 align-items-center">
         <div class="container bg-light py-5">
             <div class="row py-5">
-                <div class="col-lg-5 mx-auto">
+                <div class="col-lg-5 col-md-11 col-11 mx-auto">
                     <form class="needs-validation" novalidate action="./staff_auth.php" method="POST">
                         <h1 class="text-center fs-2 mb-5">
-                            職員であることを認証する
+                            職員であることを認証
                         </h1>
 
                         <div class="mt-4">
