@@ -30,34 +30,39 @@ foreach ($student_login_data as $row) {
 
 // ログイン情報がない場合リダイレクト
 if (!$student_login_data) {
-    $uri = '../../../Exception/400_request.php';
+    $uri = '../../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
 
 // エラーメッセージが入る配列を定義
 $err_array = [];
 
+// POSTリクエストを受けとる
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 送信された値の受け取り
+
+    // 送信された値を受け取る
     $company = filter_input(INPUT_POST, 'company');
     $question = filter_input(INPUT_POST, 'question');
     $field = filter_input(INPUT_POST, 'field');
     $answer = filter_input(INPUT_POST, 'answer');
     $csrf_token = filter_input(INPUT_POST, 'csrf_token');
 
-    // csrfトークンの存在確認と正誤判定
+    // csrfトークンの存在確認
     $csrf_check = $ses_calc->csrf_match_check($csrf_token);
+
+    // csrfトークンの正誤判定
     if (!$csrf_check) {
-        $uri = '../../../Exception/400_request.php';
+        $uri = '../../../../Exception/400_request.php';
         header('Location:' . $uri);
     }
 
-    // バリデーションチェック
+    // バリデーションチェックする値を配列に格納
     $val_check_arr[] = strval($company);
     $val_check_arr[] = strval($question);
     $val_check_arr[] = strval($field);
     $val_check_arr[] = strval($answer);
 
+    // バリデーションチェック
     if (!$val_calc->not_yet_entered($val_check_arr)) {
         $err_array[] = $val_calc->getErrorMsg();
     }
@@ -89,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet" />
-    <link rel="shortcut icon" href="../../../public/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../../../../public/img/favicon.ico" type="image/x-icon">
     <title>ES体験記を投稿 /「Real intentioN」</title>
     <style>
         body {
@@ -97,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         header {
-            background-color: #D6E4E5;
+            background-color: #c2dbde;
         }
 
         footer {
