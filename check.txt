@@ -46,9 +46,9 @@
             search_result.php ✅
 
     ◉es_experience
-            .posts.php
+            .posts.php　✅
             /delete/
-                delete.php
+                delete.php　✅
             /post/
                 post_form.php
                 post.php
@@ -56,6 +56,6 @@
                 update_form.php
                 update.php
             /search/
-                search_result.php 
+                search_result.php 　✅
 
 

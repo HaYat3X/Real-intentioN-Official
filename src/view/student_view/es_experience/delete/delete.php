@@ -90,7 +90,7 @@ if (!$delete) {
         }
 
         header {
-            background-color: #D6E4E5;
+            background-color: #c2dbde;
         }
 
         footer {
