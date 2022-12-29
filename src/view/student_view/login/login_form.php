@@ -193,7 +193,7 @@ $ses_calc = new Session();
                 <div class="col-lg-5 col-md-11 col-11 mx-auto">
                     <form class="needs-validation" novalidate action="./login.php" method="POST">
                         <h1 class="text-center fs-2 mb-5">
-                            ログインする（学生）
+                            学生ログイン
                         </h1>
 
                         <div class="mt-4">
