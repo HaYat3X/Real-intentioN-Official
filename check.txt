@@ -85,9 +85,9 @@
             reserve_list.php ✅
     
     ◉briefing_information　
-        ・posts.php　
+        ・posts.php　✅
         /delete/
-            delete.php　
+            delete.php　✅
         /update/
             update_form.php　
             update.php 

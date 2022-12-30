@@ -104,6 +104,18 @@ $pagination = ceil($page_num / 10);
             background-color: #eb6540c4;
         }
     </style>
+
+    <script>
+        function alertFunction1(value) {
+            var submit = confirm("本当に削除しますか？");
+
+            if (submit) {
+                window.location.href = './delete/delete.php?post_id=' + value;
+            } else {
+                window.location.href = './posts.php';
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -135,39 +147,39 @@ $pagination = ceil($page_num / 10);
                                     </div>
                                 </div>
 
-                                <div class="col-lg-9 col-md-9 col-9">
-                                    <p class="fw-bold">
+                                <div class="col-lg-10 col-md-10 col-8">
+                                    <p class="mt-2">
                                         <?php h($row['time']) ?>
                                     </p>
 
-                                    <p class="fs-5">
+                                    <p class="fs-5 fw-bold">
                                         <?php h($row['company']) ?><span style="margin: 0 10px;">/</span><?php h($row['field']) ?><span style="margin: 0 10px;">/</span><?php h($row['format']) ?>
                                     </p>
                                 </div>
                             </div>
 
-                            <div class="mt-4 px-3">
-                                <p class="information">
-                                    <span><?php h($row['overview']) ?></span>
+                            <div class="mt-4 px-4">
+                                <p>
+                                    <span>
+                                        <?php echo preg_replace('/\n/', "<br>",  $row['overview']); ?>
+                                    </span>
                                 </p>
 
                                 <p class="pt-1">
-                                    <?php
-                                    // 正規表現でリンク以外の文字列はエスケープ、リンクはaタグで囲んで、遷移できるようにする。
-                                    $pattern = '/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/';
-                                    $replace = '<a target="_blank" href="$1">$1</a>';
-                                    $attachment = preg_replace($pattern, $replace, $row['attachment']);
+                                    <?php $pattern = '/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/'; ?>
+                                    <?php $replace = '<a target="_blank" href="$1">$1</a>'; ?>
+                                    <?php $attachment = preg_replace($pattern, $replace, $row['attachment']);
                                     ?>
-                                    <span><?php echo $attachment ?></span>
+                                    <span>添付資料：<?php echo $attachment ?></span>
                                 </p>
                             </div>
 
                             <?php $reserve_val = $rsv_calc->briefing_information_reserve_count($row['post_id']); ?>
 
-                            <div class="mt-4">
-                                <a class="btn login-btn" href="./update/update_form.php?post_id=<?php h($row['post_id']) ?>">編集する</a>
-                                <a class="btn login-btn" href="./delete/delete.php?post_id=<?php h($row['post_id']) ?>">削除する</a>
-                                <a class="btn login-btn" href="./reserve/reserve_list.php?post_id=<?php h($row['post_id']); ?>">参加希望者リスト<span class="badge text-dark bg-light"><?php h($reserve_val); ?></span></a>
+                            <div class="mt-4 mb-3">
+                                <a class="btn px-4 login-btn" href="./update/update_form.php?post_id=<?php h($row['post_id']) ?>">編集する</a>
+                                <button class="btn login-btn px-4" value="<?php h($row['post_id']) ?>" onclick="alertFunction1(this.value)">削除する</button>
+                                <a class="btn px-4 login-btn" href="./reserve/reserve_list.php?post_id=<?php h($row['post_id']); ?>">予約者一覧 <span class="badge text-dark bg-light"><?php h($reserve_val); ?></span></a>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -194,54 +206,42 @@ $pagination = ceil($page_num / 10);
                 </nav>
             </div>
 
-            <div class="side-bar col-md-4 bg-light  h-100">
+            <div class="side-bar col-md-12 col-12 col-lg-4 bg-light h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../intern_information/posts.php" class="nav-link link-dark">
                                 インターンシップ情報
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="./posts.php" style="background-color: #EB6440;" class="nav-link active" aria-current="page">
                                 会社説明会情報
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../kic_information/posts.php" class="nav-link link-dark">
                                 キャリアセンターからのお知らせ
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="../intern_experience/posts.php" class="nav-link link-dark">
-                                インターンシップ体験記
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="./posts.php" style="background-color: #EB6440;" class="nav-link active" aria-current="page">
-                                ES体験記
+                            <a href="../intern_information/post/post_form.php" class="nav-link link-dark">
+                                インターンシップ情報を投稿
                             </a>
                         </li>
 
                         <li>
                             <a href="./post/post_form.php" class="nav-link link-dark">
-                                インターンシップ体験記を投稿
+                                会社説明会情報を投稿
                             </a>
                         </li>
 
                         <li>
-                            <a href="./post/post_form.php" class="nav-link link-dark">
-                                ES体験記を投稿
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="./post/post_form.php" class="nav-link link-dark">
-                                インターンシップ情報を新規投稿
+                            <a href="../kic_information/post/post_form.php" class="nav-link link-dark">
+                                キャリアセンターからのお知らせを投稿
                             </a>
                         </li>
                     </ul>
@@ -249,61 +249,12 @@ $pagination = ceil($page_num / 10);
                     <hr>
 
                     <div class="dropdown">
-                        <div class="mb-4">
-                            <form action="./search/search_result.php" method="post">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="keyword" placeholder="フリーワード検索">
-                                    <input type="hidden" name="category" value="answer">
-                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="mb-4">
-                            <form action="./search/search_result.php" method="post">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="keyword" placeholder="企業名で検索">
-                                    <input type="hidden" name="category" value="company">
-                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="mb-4">
-                            <form action="./search/search_result.php" method="post">
-                                <div class="input-group">
-                                    <select class="form-select" name="keyword" aria-label="Default select example">
-                                        <option selected>職種分野で検索</option>
-                                        <option value="IT分野">IT分野</option>
-                                        <option value="ゲームソフト分野">ゲームソフト分野</option>
-                                        <option value="ハード分野">ハード分野</option>
-                                        <option value="ビジネス分野">ビジネス分野</option>
-                                        <option value="CAD分野">CAD分野</option>
-                                        <option value="グラフィックス分野">グラフィックス分野</option>
-                                        <option value="サウンド分野">サウンド分野</option>
-                                        <option value="日本語分野">日本語分野</option>
-                                        <option value="国際コミュニケーション分野">国際コミュニケーション分野</option>
-                                    </select>
-                                    <input type="hidden" name="category" value="field">
-                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <img src="../../../../public/ICON/default-icon.jpeg" alt="" width="32" height="32" class="rounded-circle me-2" style="object-fit: cover;">
                             <strong><?php h($user_name) ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow">
-                            <li><a class="dropdown-item" href="#">プロフィール</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="../logout.php">サインアウト</a></li>
+                            <li><a class="dropdown-item" href="../../../logout/logout.php">ログアウト</a></li>
                         </ul>
                     </div>
                 </div>
