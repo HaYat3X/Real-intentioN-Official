@@ -77,4 +77,4 @@
             delete.php　✅
         /update/
             update_form.php　✅
-            update.php 
+            update.php ✅
