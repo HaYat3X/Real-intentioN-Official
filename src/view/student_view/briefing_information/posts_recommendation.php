@@ -198,9 +198,9 @@ if (isset($_POST['reserve_delete'])) {
                                     <div class="row mt-3">
                                         <div class="info-left col-lg-2 col-md-2 col-4">
                                             <div class="text-center">
-                                                <div class="ratio ratio-1x1" style="background-color: #bbded6; border-radius: 5px;">
+                                                <div class="ratio ratio-1x1" style="background-color: #fae3d9; border-radius: 5px;">
                                                     <div class="fs-5 text-light fw-bold d-flex align-items-center justify-content-center">
-                                                        ES
+                                                        BRIEFING
                                                     </div>
                                                 </div>
                                             </div>

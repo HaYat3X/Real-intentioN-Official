@@ -72,14 +72,14 @@ $pagination = ceil($page_num / 10);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../../../../public/img/favicon.ico" type="image/x-icon">
-    <title>ES体験記 /「Real intentioN」</title>
+    <title>会社説明会情報 /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
         }
 
         header {
-            background-color: #D6E4E5;
+            background-color: #c2dbde;
         }
 
         footer {
@@ -103,27 +103,6 @@ $pagination = ceil($page_num / 10);
             color: white;
             background-color: #eb6540c4;
         }
-
-        .square_box {
-            position: relative;
-            max-width: 100px;
-            background: #ff3278;
-            border-radius: 5px;
-        }
-
-        .square_box::before {
-            content: "";
-            display: block;
-            padding-bottom: 100%;
-        }
-
-        .square_box p {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-weight: bold;
-        }
     </style>
 </head>
 
@@ -146,10 +125,12 @@ $pagination = ceil($page_num / 10);
                     <?php foreach ($intern_information_data as $row) : ?>
                         <div class="intern-contents mb-5 px-4 py-4 bg-light">
                             <div class="row mt-3">
-                                <div class="info-left col-lg-2 col-md-2 col-2">
+                                <div class="info-left col-lg-2 col-md-2 col-4">
                                     <div class="text-center">
-                                        <div class="square_box">
-                                            <p>ES</p>
+                                        <div class="ratio ratio-1x1" style="background-color: #ffb6b9; border-radius: 5px;">
+                                            <div class="fs-5 text-light fw-bold d-flex align-items-center justify-content-center">
+                                                BRIEFING
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

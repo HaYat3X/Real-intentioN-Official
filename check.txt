@@ -71,7 +71,7 @@
         ・login_form.php  ✅
         ・login.php　✅
 
-    ◉intern_information　
+    ◉intern_information　👍
         ・posts.php　✅
         /delete/
             delete.php　✅
@@ -83,3 +83,16 @@
             post.php ✅
         /reserve/
             reserve_list.php ✅
+    
+    ◉briefing_information　
+        ・posts.php　
+        /delete/
+            delete.php　
+        /update/
+            update_form.php　
+            update.php 
+        /post/
+            post_form.php 
+            post.php 
+        /reserve/
+            reserve_list.php 
