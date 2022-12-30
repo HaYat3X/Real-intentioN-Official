@@ -89,8 +89,8 @@
         /delete/
             delete.php　✅
         /update/
-            update_form.php　
-            update.php 
+            update_form.php　✅
+            update.php ✅
         /post/
             post_form.php ✅
             post.php ✅

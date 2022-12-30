@@ -33,7 +33,7 @@ foreach ($staff_login_data as $row) {
 
 // ログイン情報がない場合リダイレクト
 if (!$staff_login_data) {
-    $uri = '../../../Exception/400_request.php';
+    $uri = '../../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
 
@@ -45,7 +45,7 @@ $update_data = $viw_calc->briefing_information_data_one($post_id);
 
 // 編集するデータがない場合はリダイレクト
 if (!$update_data) {
-    $uri = '../../../Exception/400_request.php';
+    $uri = '../../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
 
@@ -61,14 +61,14 @@ if (!$update_data) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../../../../../public/img/favicon.ico" type="image/x-icon">
-    <title>ES体験記を投稿 /「Real intentioN」</title>
+    <title>会社説明会情報を編集 /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
         }
 
         header {
-            background-color: #D6E4E5;
+            background-color: #c2dbde;
         }
 
         footer {
@@ -117,7 +117,7 @@ if (!$update_data) {
 
     <script>
         function alertFunction1() {
-            var submit = confirm("投稿しますか？　投稿内容を確認してください。");
+            var submit = confirm("更新しますか？　投稿内容を確認してください。");
 
             if (!submit) {
                 window.location.href = './post_form.php';
@@ -146,7 +146,7 @@ if (!$update_data) {
                         <?php foreach ($update_data as $row) : ?>
                             <form class="needs-validation col-lg-7 mx-auto" novalidate action="./update.php" method="POST">
                                 <h1 class="text-center fs-2 mb-5">
-                                    インターンシップ情報を編集する
+                                    会社説明会情報を編集
                                 </h1>
 
                                 <div class="mt-4">
@@ -159,11 +159,11 @@ if (!$update_data) {
                                 </div>
 
                                 <div class="mt-4">
-                                    <label for="validationCustom02" class="form-label">インターンシップ予約締切日<span class="text-danger">*</span></label>
+                                    <label for="validationCustom02" class="form-label">会社説明会予約締切日<span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="validationCustom02" required name="time" value="<?php h($row['time']) ?>">
 
                                     <div class="invalid-feedback">
-                                        <p>インターンシップ予約締切日を入力してください。</p>
+                                        <p>会社説明会予約締切日を入力してください。</p>
                                     </div>
                                 </div>
 
@@ -232,10 +232,10 @@ if (!$update_data) {
                                 </div>
 
                                 <div class="mt-4">
-                                    <label for="validationCustom04" class="form-label">インターンシップ内容<span class="text-danger">*</span></label>
+                                    <label for="validationCustom04" class="form-label">会社説明会内容<span class="text-danger">*</span></label>
                                     <textarea class="form-control" name="overview" id="validationCustom04" rows="6" required><?php h($row['overview']) ?></textarea>
                                     <div class="invalid-feedback">
-                                        インターンシップ内容を入力してください。
+                                        会社説明会の内容を入力してください。
                                     </div>
                                 </div>
 
@@ -249,7 +249,7 @@ if (!$update_data) {
                                 <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
 
                                 <div class="mt-4">
-                                    <button class="btn login-btn" onclick="alertFunction1()">編集する</button>
+                                    <button class="btn px-4 login-btn" onclick="alertFunction1()">編集する</button>
                                 </div>
                             </form>
                         <?php endforeach; ?>
@@ -257,48 +257,42 @@ if (!$update_data) {
                 </div>
             </div>
 
-            <div class="side-bar col-md-4 bg-light  h-100">
+            <div class="side-bar col-md-12 col-12 col-lg-4 bg-light h-100">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../../intern_information/posts.php" class="nav-link link-dark">
                                 インターンシップ情報
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../posts.php" class="nav-link link-dark">
                                 会社説明会情報
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="../staff_information/staff_information.php" class="nav-link link-dark">
+                            <a href="../../kic_information/posts.php" class="nav-link link-dark">
                                 キャリアセンターからのお知らせ
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="../posts.php" class="nav-link link-dark">
-                                インターンシップ体験記
+                            <a href="../../intern_information/post/post_form.php" class="nav-link link-dark">
+                                インターンシップ情報を投稿
                             </a>
                         </li>
 
                         <li>
-                            <a href="./post/post_form.php" class="nav-link link-dark">
-                                ES体験記
+                            <a href="../post/post_form.php" class="nav-link link-dark">
+                                会社説明会情報を投稿
                             </a>
                         </li>
 
                         <li>
-                            <a href="./post/post_form.php" style="background-color: #EB6440;" class="nav-link active" aria-current="page">
-                                インターンシップ体験記を投稿
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="./post/post_form.php" class="nav-link link-dark">
-                                ES体験記を投稿
+                            <a href="../../kic_information/post/post_form.php" class="nav-link link-dark">
+                                キャリアセンターからのお知らせを投稿
                             </a>
                         </li>
                     </ul>
@@ -306,75 +300,12 @@ if (!$update_data) {
                     <hr>
 
                     <div class="dropdown">
-                        <div class="mb-4">
-                            <form action="../search/search_result.php" method="post">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="keyword" placeholder="フリーワード検索">
-                                    <input type="hidden" name="category" value="answer">
-                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="mb-4">
-                            <form action="../search/search_result.php" method="post">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="keyword" placeholder="企業名で検索">
-                                    <input type="hidden" name="category" value="company">
-                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="mb-4">
-                            <form action="../search/search_result.php" method="post">
-                                <div class="input-group">
-                                    <select class="form-select" name="keyword" aria-label="Default select example">
-                                        <option selected>開催形式で検索</option>
-                                        <option value="対面開催">対面開催</option>
-                                        <option value="オンライン開催">オンライン開催</option>
-                                    </select>
-                                    <input type="hidden" name="category" value="format">
-                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="mb-4">
-                            <form action="../search/search_result.php" method="post">
-                                <div class="input-group">
-                                    <select class="form-select" name="keyword" aria-label="Default select example">
-                                        <option selected>職種分野で検索</option>
-                                        <option value="IT分野">IT分野</option>
-                                        <option value="ゲームソフト分野">ゲームソフト分野</option>
-                                        <option value="ハード分野">ハード分野</option>
-                                        <option value="ビジネス分野">ビジネス分野</option>
-                                        <option value="CAD分野">CAD分野</option>
-                                        <option value="グラフィックス分野">グラフィックス分野</option>
-                                        <option value="サウンド分野">サウンド分野</option>
-                                        <option value="日本語分野">日本語分野</option>
-                                        <option value="国際コミュニケーション分野">国際コミュニケーション分野</option>
-                                    </select>
-                                    <input type="hidden" name="category" value="field">
-                                    <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <img src="../../../../../public/ICON/default-icon.jpeg" alt="" width="32" height="32" class="rounded-circle me-2" style="object-fit: cover;">
                             <strong><?php h($user_name) ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow">
-                            <li><a class="dropdown-item" href="#">プロフィール</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="../logout.php">サインアウト</a></li>
+                            <li><a class="dropdown-item" href="../../../../logout/logout.php">ログアウト</a></li>
                         </ul>
                     </div>
                 </div>
