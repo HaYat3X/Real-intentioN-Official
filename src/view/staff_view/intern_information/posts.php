@@ -179,7 +179,7 @@ $pagination = ceil($page_num / 10);
                             <div class="mt-4 mb-3">
                                 <a class="btn px-4 login-btn" href="./update/update_form.php?post_id=<?php h($row['post_id']) ?>">編集する</a>
                                 <button class="btn login-btn px-4" value="<?php h($row['post_id']) ?>" onclick="alertFunction1(this.value)">削除する</button>
-                                <a class="btn px-4 login-btn" href="./reserve/reserve_list.php?post_id=<?php h($row['post_id']); ?>">参加希望者一覧 <span class="badge text-dark bg-light"><?php h($reserve_val); ?></span></a>
+                                <a class="btn px-4 login-btn" href="./reserve/reserve_list.php?post_id=<?php h($row['post_id']); ?>">予約者一覧 <span class="badge text-dark bg-light"><?php h($reserve_val); ?></span></a>
                             </div>
                         </div>
                     <?php endforeach; ?>
