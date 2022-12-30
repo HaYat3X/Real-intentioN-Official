@@ -75,3 +75,6 @@
         ・posts.php　✅
         /delete/
             delete.php　✅
+        /update/
+            update_form.php　✅
+            update.php 
