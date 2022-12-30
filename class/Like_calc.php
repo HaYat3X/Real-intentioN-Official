@@ -31,7 +31,7 @@ class Like
         $db_calc = new Database();
 
         // 投稿にいいねできるか確認する。
-        $sql = 'SELECT * FROM intern_experience_like_tbl WHERE like_post_id = ? AND student_id = ?';
+        $sql = "SELECT * FROM intern_experience_like_tbl WHERE like_post_id = ? AND student_id = ?";
 
         $argument = [];
         $argument[] = strval($this->post_id);

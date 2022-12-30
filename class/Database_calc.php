@@ -7,17 +7,17 @@ class Database
      */
     public function db_connect()
     {
-        // 接続変数
+        // 接続するDBを設定
         $dsn = 'mysql:dbname=Real intentioN;host=localhost';
         $user = 'root';
         $password = 'root';
 
-        // try catchで接続
+        // DBに接続する
         try {
             $pdo = new PDO($dsn, $user, $password);
         } catch (PDOException $e) {
             print('Error:' . $e->getMessage());
-            die();
+            exit();
         }
 
         return $pdo;

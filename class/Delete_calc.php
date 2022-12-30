@@ -11,11 +11,14 @@ class Delete
     {
         $db_calc = new Database();
 
-        $sql = 'DELETE FROM `intern_experience_tbl` WHERE post_id = ?';
+        // SQL発行
+        $sql = "DELETE FROM `intern_experience_tbl` WHERE post_id = ?";
 
+        // パラメータを配列に格納
         $argument = [];
         $argument[] = strval($post_id);
 
+        // 削除処理実行
         $result = $db_calc->data_various_kinds($sql, $argument);
 
         return $result;
@@ -28,7 +31,7 @@ class Delete
     {
         $db_calc = new Database();
 
-        $sql = 'DELETE FROM `es_experience_tbl` WHERE post_id = ?';
+        $sql = "DELETE FROM `es_experience_tbl` WHERE post_id = ?";
 
         $argument = [];
         $argument[] = strval($post_id);
@@ -45,7 +48,7 @@ class Delete
     {
         $db_calc = new Database();
 
-        $sql = 'DELETE FROM `intern_information_tbl` WHERE post_id = ?';
+        $sql = "DELETE FROM `intern_information_tbl` WHERE post_id = ?";
 
         $argument = [];
         $argument[] = strval($post_id);
@@ -62,7 +65,7 @@ class Delete
     {
         $db_calc = new Database();
 
-        $sql = 'DELETE FROM `briefing_information_tbl` WHERE post_id = ?';
+        $sql = "DELETE FROM `briefing_information_tbl` WHERE post_id = ?";
 
         $argument = [];
         $argument[] = strval($post_id);
