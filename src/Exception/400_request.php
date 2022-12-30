@@ -5,7 +5,7 @@ session_start();
 session_destroy();
 
 // 3秒後リダイレクト
-$uri = '/Deliverables4/index.html';
+$uri = '../../index.html';
 header('refresh:3;url=' . $uri);
 
 ?>
@@ -173,7 +173,7 @@ header('refresh:3;url=' . $uri);
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link px-4" href="../view/staff_view/login/login_form.php">職員の方はこちら</a>
+                            <a class="btn px-4" href="../view/staff_view/login/login_form.php">職員の方はこちら</a>
                         </li>
                         <li class="nav-item">
                             <a class="login-btn btn px-4" href="../view/student_view/login/login_form.php">ログインはこちら</a>

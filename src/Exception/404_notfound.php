@@ -1,12 +1,12 @@
 <?php
 
-// セッション開始
+// セッション開始　全てのセッションを破棄
 session_start();
-ob_start();
-
-// 全てのセッションを破棄
-$_SESSION = array();
 session_destroy();
+
+// 3秒後リダイレクト
+$uri = '/index.html';
+header('refresh:3;url=' . $uri);
 
 ?>
 
@@ -17,10 +17,9 @@ session_destroy();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
-    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet" />
-    <link rel="shortcut icon" href="../../../../public/img/favicon.ico" type="image/x-icon">
-    <title>ログアウト /「Real intentioN」</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="shortcut icon" href="../../public/img/favicon.ico" type="image/x-icon">
+    <title>不正なリクエスト /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
@@ -188,10 +187,14 @@ session_destroy();
     <div class="box d-flex vh-100 align-items-center">
         <div class="container bg-light py-5">
             <div class="row py-5">
-                <div class="col-lg-5 col-md-11 col-11 mx-auto">
-                    <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-ログアウトしました。</div>
-                    <?php $uri = '../../index.html'; ?>
-                    <?php header('refresh:3;url=' . $uri); ?>
+                <div class="col-lg-5 mx-auto">
+                    <h1 class="text-center mb-5" style="font-size: 100px;">
+                        404
+                    </h1>
+
+                    <div class="mt-4 text-center">
+                        <p>ページが見つかりませんでした。</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -204,8 +207,26 @@ session_destroy();
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
+    <script>
+        (() => {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // ループして帰順を防ぐ
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 
 </html>
