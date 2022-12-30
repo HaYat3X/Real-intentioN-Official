@@ -55,6 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // 検索結果を取得
     $search_result = $srh_calc->es_experience_search($search_category, $search_keyword);
+} else {
+    $uri = '../../../../Exception/400_request.php';
+    header('Location:' . $uri);
 }
 
 // POSTリクエストがlikeだったら投稿にいいねをする

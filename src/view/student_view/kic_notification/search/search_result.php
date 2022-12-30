@@ -73,6 +73,9 @@ if (isset($_POST['reserve'])) {
     $ses_calc->csrf_token_unset();
     $uri = '../posts_recommendation.php';
     header('Location: ' . $uri);
+} else {
+    $uri = '../../../Exception/400_request.php';
+    header('Location:' . $uri);
 }
 
 // POSTリクエストがreserve_deleteだった場合予約する

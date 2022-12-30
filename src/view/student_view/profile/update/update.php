@@ -34,7 +34,7 @@ foreach ($student_login_data as $row) {
 
 // ログイン情報がない場合リダイレクト
 if (!$student_login_data) {
-    $uri = '../../../Exception/400_request.php';
+    $uri = '../../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
 
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // csrfトークンの正誤判定
     if (!$csrf_check) {
-        $uri = '../../../Exception/400_request.php';
+        $uri = '../../../../Exception/400_request.php';
         header('Location:' . $uri);
     }
 
@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // csrf_token削除　二重送信対策
     $ses_calc->csrf_token_unset();
 } else {
-    $uri = '../../../Exception/400_request.php';
+    $uri = '../../../../Exception/400_request.php';
     header('Location:' . $uri);
 }
 

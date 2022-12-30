@@ -74,4 +74,4 @@
     ◉intern_information　
         ・posts.php　✅
         /delete/
-            delete.php　
+            delete.php　✅

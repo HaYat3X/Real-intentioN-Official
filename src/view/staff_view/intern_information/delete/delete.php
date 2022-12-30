@@ -39,7 +39,7 @@ foreach ($staff_login_data as $row) {
 
 // ログイン情報がない場合リダイレクト
 if (!$staff_login_data) {
-    $uri = '../../../Exception/400_request.php';
+    $uri = '../../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
 
@@ -54,7 +54,7 @@ $delete_data = $viw_calc->intern_information_data_one($post_id);
 
 // 削除するデータがない場合はリダイレクト
 if (!$delete_data) {
-    $uri = '../../../Exception/400_request.php';
+    $uri = '../../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
 
