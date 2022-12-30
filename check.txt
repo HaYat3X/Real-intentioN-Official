@@ -1,4 +1,3 @@
-
 ◉index.html　👍
 
 ★student_view
@@ -84,7 +83,7 @@
         /reserve/
             reserve_list.php ✅
     
-    ◉briefing_information　
+    ◉briefing_information　👍
         ・posts.php　✅
         /delete/
             delete.php　✅
@@ -95,4 +94,4 @@
             post_form.php ✅
             post.php ✅
         /reserve/
-            reserve_list.php 
+            reserve_list.php ✅
