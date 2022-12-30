@@ -25,20 +25,15 @@ $upd_calc = new Update();
 $dlt_calc = new Delete();
 
 // ログインチェック
-$staff_login_data = $ses_calc->staff_login_check();
+$student_login_data = $ses_calc->student_login_check();
 
 // ユーザIDを抽出
-foreach ($staff_login_data as $row) {
-    $user_id = $row['staff_id'];
-}
-
-// ユーザ名を抽出
-foreach ($staff_login_data as $row) {
-    $user_name = $row['name'];
+foreach ($student_login_data as $row) {
+    $user_id = $row['student_id'];
 }
 
 // ログイン情報がない場合リダイレクト
-if (!$staff_login_data) {
+if (!$student_login_data) {
     $uri = '../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
@@ -49,8 +44,8 @@ $err_array = [];
 // パラメータから投稿IDを取得
 $post_id = filter_input(INPUT_GET, 'post_id');
 
-// 削除するデータを取得
-$delete_data = $viw_calc->intern_information_data_one($post_id);
+// 削除する投稿データを取得
+$delete_data = $viw_calc->es_experience_data_one($post_id);
 
 // 削除するデータがない場合はリダイレクト
 if (!$delete_data) {
@@ -58,8 +53,19 @@ if (!$delete_data) {
     header('Location: ' . $uri);
 }
 
+// 削除権限がない場合はリダイレクト
+foreach ($delete_data as $row) {
+    $post_user_id = $row['student_id'];
+}
+
+// 削除権限がない場合はリダイレクト
+if ($post_user_id !== $user_id) {
+    $uri = '../../../Exception/400_request.php';
+    header('Location: ' . $uri);
+}
+
 // 削除処理
-$delete = $dlt_calc->intern_information_delete($post_id);
+$delete = $dlt_calc->es_experience_delete($post_id);
 
 if (!$delete) {
     $err_array[] = '削除に失敗しました。';
@@ -77,7 +83,7 @@ if (!$delete) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet" />
     <link rel="shortcut icon" href="../../../../../public/img/favicon.ico" type="image/x-icon">
-    <title>インターンシップ情報を削除 /「Real intentioN」</title>
+    <title>ES体験記を削除 /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;

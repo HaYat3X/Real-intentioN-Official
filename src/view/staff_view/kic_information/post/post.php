@@ -11,8 +11,6 @@ require_once '../../../../../function/functions.php';
 require_once '../../../../../class/View_calc.php';
 require_once '../../../../../class/Like_calc.php';
 require_once '../../../../../class/Post_calc.php';
-require_once '../../../../../class/Update_calc.php';
-require_once '../../../../../class/Delete_calc.php';
 
 // インスタンス化
 $ses_calc = new Session();
@@ -21,48 +19,68 @@ $rgs_calc = new Register();
 $viw_calc = new View();
 $lik_calc = new Like();
 $pos_calc = new Post();
-$upd_calc = new Update();
-$dlt_calc = new Delete();
 
 // ログインチェック
-$staff_login_data = $ses_calc->staff_login_check();
+$student_login_data = $ses_calc->student_login_check();
 
 // ユーザIDを抽出
-foreach ($staff_login_data as $row) {
-    $user_id = $row['staff_id'];
-}
-
-// ユーザ名を抽出
-foreach ($staff_login_data as $row) {
-    $user_name = $row['name'];
+foreach ($student_login_data as $row) {
+    $user_id = $row['student_id'];
 }
 
 // ログイン情報がない場合リダイレクト
-if (!$staff_login_data) {
-    $uri = '../../../Exception/400_request.php';
+if (!$student_login_data) {
+    $uri = '../../../../Exception/400_request.php';
     header('Location: ' . $uri);
 }
 
 // エラーメッセージが入る配列を定義
 $err_array = [];
 
-// パラメータから投稿IDを取得
-$post_id = filter_input(INPUT_GET, 'post_id');
+// POSTリクエストを受けとる
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-// 削除するデータを取得
-$delete_data = $viw_calc->intern_information_data_one($post_id);
+    // 送信された値を受け取る
+    $company = filter_input(INPUT_POST, 'company');
+    $question = filter_input(INPUT_POST, 'question');
+    $field = filter_input(INPUT_POST, 'field');
+    $answer = filter_input(INPUT_POST, 'answer');
+    $csrf_token = filter_input(INPUT_POST, 'csrf_token');
 
-// 削除するデータがない場合はリダイレクト
-if (!$delete_data) {
+    // csrfトークンの存在確認
+    $csrf_check = $ses_calc->csrf_match_check($csrf_token);
+
+    // csrfトークンの正誤判定
+    if (!$csrf_check) {
+        $uri = '../../../../Exception/400_request.php';
+        header('Location:' . $uri);
+    }
+
+    // バリデーションチェックする値を配列に格納
+    $val_check_arr[] = strval($company);
+    $val_check_arr[] = strval($question);
+    $val_check_arr[] = strval($field);
+    $val_check_arr[] = strval($answer);
+
+    // バリデーションチェック
+    if (!$val_calc->not_yet_entered($val_check_arr)) {
+        $err_array[] = $val_calc->getErrorMsg();
+    }
+
+    // エラーがない場合投稿処理
+    if (count($err_array) === 0) {
+        $new_post = $pos_calc->es_experience_new_post($user_id, $company, $question, $answer, $field);
+
+        if (!$new_post) {
+            $err_array[] = '投稿に失敗しました。';
+        }
+    }
+
+    // csrf_token削除　二重送信対策
+    $ses_calc->csrf_token_unset();
+} else {
     $uri = '../../../Exception/400_request.php';
-    header('Location: ' . $uri);
-}
-
-// 削除処理
-$delete = $dlt_calc->intern_information_delete($post_id);
-
-if (!$delete) {
-    $err_array[] = '削除に失敗しました。';
+    header('Location:' . $uri);
 }
 
 ?>
@@ -77,7 +95,7 @@ if (!$delete) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet" />
     <link rel="shortcut icon" href="../../../../../public/img/favicon.ico" type="image/x-icon">
-    <title>インターンシップ情報を削除 /「Real intentioN」</title>
+    <title>ES体験記を投稿 /「Real intentioN」</title>
     <style>
         body {
             background-color: #EFF5F5;
@@ -108,6 +126,27 @@ if (!$delete) {
             color: white;
             background-color: #eb6540c4;
         }
+
+        .square_box {
+            position: relative;
+            max-width: 100px;
+            background: #ffb6b9;
+            border-radius: 5px;
+        }
+
+        .square_box::before {
+            content: "";
+            display: block;
+            padding-bottom: 100%;
+        }
+
+        .square_box p {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -133,14 +172,15 @@ if (!$delete) {
                         <?php endforeach; ?>
 
                         <div class="mt-2">
-                            <a class="btn btn-primary px-4" href="../posts.php">戻る</a>
+                            <a class="btn btn-primary px-4" href="./post_form.php">戻る</a>
                         </div>
                     <?php endif; ?>
 
                     <?php if (count($err_array) === 0) : ?>
-                        <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-削除が完了しました。</div>
+                        <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-投稿が完了しました。</div>
                         <?php $uri = '../posts.php' ?>
-                        <?php header('refresh:3;url=' . $uri); ?>
+                        <?php header('refresh:3;url=' . $uri);
+                        ?>
                     <?php endif; ?>
                 </div>
             </div>
