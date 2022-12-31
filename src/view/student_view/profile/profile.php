@@ -49,6 +49,14 @@ if (!$student_login_data) {
 // 学生情報を取得する
 $student_date = $pfl_calc->student_data($user_id);
 
+// 閲覧権限（自分以外見れない）がない場合リダイレクト
+foreach ($student_date as $row) {
+    if (!$row['student_id'] == $user_id) {
+        $uri = '../../../Exception/400_request.php';
+        header('Location: ' . $uri);
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
