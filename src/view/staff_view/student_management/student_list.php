@@ -123,7 +123,11 @@ $student_data = $sdn_calc->student_date();
                                 <?php if (is_array($student_data) || is_object($student_data)) : ?>
                                     <?php foreach ($student_data as $row) : ?>
                                         <tr>
-                                            <td><?php h($row['status']) ?></td>
+                                            <?php if ($row['status'] === '就職活動中') : ?>
+                                                <td class="fw-bold text-danger"><?php h($row['status']) ?></td>
+                                            <?php else : ?>
+                                                <td class="fw-bold text-success"><?php h($row['status']) ?></td>
+                                            <?php endif; ?>
                                             <td><?php h($row['email']) ?></td>
                                             <td><?php h($row['course_of_study']) ?></td>
                                             <td><?php h($row['grade_in_school']) ?></td>
