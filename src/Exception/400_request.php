@@ -5,7 +5,7 @@ session_start();
 session_destroy();
 
 // 3秒後リダイレクト
-$uri = '../../index.html';
+$uri = '/Deliverables4/index.html';
 header('refresh:3;url=' . $uri);
 
 ?>
@@ -188,7 +188,7 @@ header('refresh:3;url=' . $uri);
         <div class="container bg-light py-5">
             <div class="row py-5">
                 <div class="col-lg-5 mx-auto">
-                    <h1 class="text-center mb-5" style="font-size: 100px;">
+                    <h1 class="text-center text-secondary mb-3" style="font-size: 100px;">
                         400
                     </h1>
 

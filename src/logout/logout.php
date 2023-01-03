@@ -4,9 +4,12 @@
 session_start();
 ob_start();
 
-// 全てのセッションを破棄
-$_SESSION = array();
+// 全てのセッション破棄
 session_destroy();
+
+// リダイレクト
+$uri = '/Deliverables4/index.html';
+header('refresh:3;url=' . $uri);
 
 ?>
 
@@ -190,8 +193,6 @@ session_destroy();
             <div class="row py-5">
                 <div class="col-lg-5 col-md-11 col-11 mx-auto">
                     <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-ログアウトしました。</div>
-                    <?php $uri = '../../index.html'; ?>
-                    <?php header('refresh:3;url=' . $uri); ?>
                 </div>
             </div>
         </div>

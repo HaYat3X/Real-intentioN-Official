@@ -5,7 +5,7 @@ session_start();
 session_destroy();
 
 // 3秒後リダイレクト
-$uri = '/index.html';
+$uri = '/Deliverables4/index.html';
 header('refresh:3;url=' . $uri);
 
 ?>
@@ -68,92 +68,6 @@ header('refresh:3;url=' . $uri);
         section {
             padding-top: 120px;
         }
-
-        .hero {
-            background-image: url('./public/img/92d501bc70777a3bf854e9e1aab4881d.jpg');
-            background-position: center;
-            background-size: cover;
-            background-attachment: fixed;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero::after {
-            content: "";
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: rgba(37, 39, 71, 0.3);
-            z-index: -1;
-        }
-
-        .card-effect {
-            box-shadow: blue;
-            background-color: #fff;
-            padding: 25px;
-            transition: all 0.35s ease;
-        }
-
-        .card-effect:hover {
-            box-shadow: none;
-            transform: translateY(5px);
-        }
-
-        .iconbox {
-            width: 54px;
-            height: 54px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #EB6440;
-            color: white;
-            font-size: 32px;
-            border-radius: 100px;
-            flex: none;
-        }
-
-        .service {
-            position: relative;
-            z-index: 2;
-            overflow: hidden;
-        }
-
-        .service::after {
-            content: "";
-            position: absolute;
-            top: -100%;
-            left: 0;
-            background-color: #EB6440;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0;
-            transition: all 0.4s ease;
-        }
-
-        .service:hover h5,
-        .service:hover p {
-            color: white;
-        }
-
-        .service:hover .iconbox {
-            background-color: #fff;
-            color: #EB6440;
-        }
-
-        .service:hover::after {
-            opacity: 1;
-            top: 0;
-        }
-
-        .col-img {
-            background-image: url('./public/img/kaihatusya.png');
-            background-position: center;
-            background-size: cover;
-            min-height: 480px;
-        }
     </style>
 </head>
 
@@ -188,7 +102,7 @@ header('refresh:3;url=' . $uri);
         <div class="container bg-light py-5">
             <div class="row py-5">
                 <div class="col-lg-5 mx-auto">
-                    <h1 class="text-center mb-5" style="font-size: 100px;">
+                    <h1 class="text-center text-secondary mb-3" style="font-size: 80px;">
                         404
                     </h1>
 
