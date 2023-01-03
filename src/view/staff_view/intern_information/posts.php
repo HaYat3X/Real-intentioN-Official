@@ -139,8 +139,8 @@ $pagination = ceil($page_num / 10);
                             <div class="row mt-3">
                                 <div class="info-left col-lg-2 col-md-2 col-4">
                                     <div class="text-center">
-                                        <div class="ratio ratio-1x1" style="background-color: #ffb6b9; border-radius: 5px;">
-                                            <div class="fs-5 text-light fw-bold d-flex align-items-center justify-content-center">
+                                        <div class="ratio ratio-1x1" style="background-color: #96ceb4; border-radius: 5px;">
+                                            <div class="fs-5 fw-bold d-flex align-items-center justify-content-center">
                                                 INTERN
                                             </div>
                                         </div>
@@ -149,7 +149,7 @@ $pagination = ceil($page_num / 10);
 
                                 <div class="col-lg-10 col-md-10 col-8">
                                     <p class="mt-2">
-                                        <?php h($row['time']) ?>
+                                        予約締切日：<?php h($row['time']) ?>
                                     </p>
 
                                     <p class="fs-5 fw-bold">
@@ -222,8 +222,8 @@ $pagination = ceil($page_num / 10);
                         </li>
 
                         <li class="nav-item">
-                            <a href="../kic_information/posts.php" class="nav-link link-dark">
-                                キャリアセンターからのお知らせ
+                            <a href="../student_management/student_list.php" class="nav-link link-dark">
+                                学生の就活状況
                             </a>
                         </li>
 
@@ -236,12 +236,6 @@ $pagination = ceil($page_num / 10);
                         <li>
                             <a href="../briefing_information/post/post_form.php" class="nav-link link-dark">
                                 会社説明会情報を投稿
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="./post/post_form.php" class="nav-link link-dark">
-                                キャリアセンターからのお知らせを投稿
                             </a>
                         </li>
                     </ul>

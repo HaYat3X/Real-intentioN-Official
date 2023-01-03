@@ -133,7 +133,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <?php if (is_array($search_result) || is_object($search_result)) : ?>
                                     <?php foreach ($search_result as $row) : ?>
                                         <tr>
-                                            <td><?php h($row['status']) ?></td>
+                                            <?php if ($row['status'] === '就職活動中') : ?>
+                                                <td class="fw-bold text-danger"><?php h($row['status']) ?></td>
+                                            <?php else : ?>
+                                                <td class="fw-bold text-success"><?php h($row['status']) ?></td>
+                                            <?php endif; ?>
+
                                             <td><?php h($row['email']) ?></td>
                                             <td><?php h($row['course_of_study']) ?></td>
                                             <td><?php h($row['grade_in_school']) ?></td>
@@ -150,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
                         <ul class="nav nav-pills flex-column mb-auto">
                             <li class="nav-item">
-                                <a href="../posts.php" class="nav-link link-dark">
+                                <a href="../../intern_information/posts.php" class="nav-link link-dark">
                                     インターンシップ情報
                                 </a>
                             </li>
@@ -162,13 +167,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </li>
 
                             <li class="nav-item">
-                                <a href="../../kic_information/posts.php" class="nav-link link-dark">
-                                    キャリアセンターからのお知らせ
+                                <a href="../student_list.php" class="nav-link link-dark">
+                                    学生の就活状況
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="../post/post_form.php" class="nav-link link-dark">
+                                <a href="../../intern_information/post/post_form.php" class="nav-link link-dark">
                                     インターンシップ情報を投稿
                                 </a>
                             </li>
@@ -176,12 +181,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <li>
                                 <a href="../../briefing_information/post/post_form.php" class="nav-link link-dark">
                                     会社説明会情報を投稿
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="../../kic_information/post/post_form.php" class="nav-link link-dark">
-                                    キャリアセンターからのお知らせを投稿
                                 </a>
                             </li>
                         </ul>

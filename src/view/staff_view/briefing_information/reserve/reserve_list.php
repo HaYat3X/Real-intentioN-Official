@@ -172,8 +172,8 @@ $reserve_data = $rsv_calc->briefing_information_reserve_data($post_id);
                             </li>
 
                             <li class="nav-item">
-                                <a href="../../kic_information/posts.php" class="nav-link link-dark">
-                                    キャリアセンターからのお知らせ
+                                <a href="../../student_management/student_list.php" class="nav-link link-dark">
+                                    学生の就活状況
                                 </a>
                             </li>
 
@@ -186,12 +186,6 @@ $reserve_data = $rsv_calc->briefing_information_reserve_data($post_id);
                             <li>
                                 <a href="../post/post_form.php" class="nav-link link-dark">
                                     会社説明会情報を投稿
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="../../kic_information/post/post_form.php" class="nav-link link-dark">
-                                    キャリアセンターからのお知らせを投稿
                                 </a>
                             </li>
                         </ul>

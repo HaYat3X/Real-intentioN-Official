@@ -162,12 +162,12 @@ if (!$staff_login_data) {
                             </select>
 
                             <div class="invalid-feedback">
-                                参加分野を選択してください。
+                                開催形式を選択してください。
                             </div>
                         </div>
 
                         <div class="mt-4">
-                            <label for="validationCustom04" class="form-label">業種分野<span class="text-danger">*</span></label>
+                            <label for="validationCustom04" class="form-label">開催業界<span class="text-danger">*</span></label>
                             <select class="form-select" class="form-select" id="validationCustom04" name="field" required>
                                 <option selected disabled value="">-- 選択してください --</option>
                                 <option value="IT分野">IT分野</option>
@@ -182,12 +182,12 @@ if (!$staff_login_data) {
                             </select>
 
                             <div class="invalid-feedback">
-                                参加分野を選択してください。
+                                開催業界を選択してください。
                             </div>
                         </div>
 
                         <div class="mt-4">
-                            <label for="validationCustom04" class="form-label">情報投稿対象学科<span class="text-danger">*（Shiftキーを押しながら選択すると複数選択できます。）</span></label>
+                            <label for="validationCustom04" class="form-label">会社説明会をおすすめする学科<span class="text-danger">*（Shiftキーを押しながら選択すると複数選択できます。）</span></label>
                             <select class="form-select" multiple required name="outgoing_course_of_study[]" c size="5">
                                 <option value="ITエキスパート学科">ITエキスパート学科</option>
                                 <option value="ITスペシャリスト学科">ITスペシャリスト学科</option>
@@ -255,8 +255,8 @@ if (!$staff_login_data) {
                         </li>
 
                         <li class="nav-item">
-                            <a href="../../kic_information/posts.php" class="nav-link link-dark">
-                                キャリアセンターからのお知らせ
+                            <a href="../../student_management/student_list.php" class="nav-link link-dark">
+                                学生の就活状況
                             </a>
                         </li>
 
@@ -269,12 +269,6 @@ if (!$staff_login_data) {
                         <li>
                             <a href="./post_form.php" style="background-color: #EB6440;" class="nav-link active" aria-current="page">
                                 会社説明会情報を投稿
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="../../kic_information/post/post_form.php" class="nav-link link-dark">
-                                キャリアセンターからのお知らせを投稿
                             </a>
                         </li>
                     </ul>
