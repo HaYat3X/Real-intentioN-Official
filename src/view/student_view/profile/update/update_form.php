@@ -251,12 +251,6 @@ foreach ($student_date as $row) {
                         </li>
 
                         <li class="nav-item">
-                            <a href="../../kic_notification/posts.php" class="nav-link link-dark">
-                                キャリアセンターからのお知らせ
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
                             <a href="../../intern_experience/posts.php" class="nav-link link-dark">
                                 インターンシップ体験記
                             </a>

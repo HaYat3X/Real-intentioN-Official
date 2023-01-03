@@ -150,7 +150,7 @@ if (!$student_login_data) {
                         </div>
 
                         <div class="mt-4">
-                            <label for="validationCustom04" class="form-label">参加分野<span class="text-danger">*</span></label>
+                            <label for="validationCustom04" class="form-label">ESを提出した業界<span class="text-danger">*</span></label>
                             <select class="form-select" class="form-select" id="validationCustom04" name="field" required>
                                 <option selected disabled value="">-- 選択してください --</option>
                                 <option value="IT分野">IT分野</option>
@@ -165,12 +165,12 @@ if (!$student_login_data) {
                             </select>
 
                             <div class="invalid-feedback">
-                                参加分野を選択してください。
+                                業界を選択してください。
                             </div>
                         </div>
 
                         <div class="mt-4">
-                            <label for="validationCustom04" class="form-label">回答する質問を選択<span class="text-danger">*</span></label>
+                            <label for="validationCustom04" class="form-label">ES作成時に問われた質問<span class="text-danger">*</span></label>
                             <select class="form-select" class="form-select" id="validationCustom04" name="question" required>
                                 <option selected disabled value="">-- 選択してください --</option>
                                 <option value="学校で頑張ったことを教えてください。">学校で頑張ったことを教えてください。</option>
@@ -212,12 +212,6 @@ if (!$student_login_data) {
                         <li class="nav-item">
                             <a href="../../briefing_information/posts_recommendation.php" class="nav-link link-dark">
                                 会社説明会情報
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="../../kic_notification/posts.php" class="nav-link link-dark">
-                                キャリアセンターからのお知らせ
                             </a>
                         </li>
 

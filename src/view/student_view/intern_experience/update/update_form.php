@@ -283,12 +283,6 @@ if ($post_user_id !== $user_id) {
                         </li>
 
                         <li class="nav-item">
-                            <a href="../../kic_notification/posts.php" class="nav-link link-dark">
-                                キャリアセンターからのお知らせ
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
                             <a href="../posts.php" class="nav-link link-dark">
                                 インターンシップ体験記
                             </a>

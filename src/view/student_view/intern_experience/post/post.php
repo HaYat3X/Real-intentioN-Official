@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet" />
-    <link rel="shortcut icon" href="../../../public/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../../../../public/img/favicon.ico" type="image/x-icon">
     <title>インターンシップ体験記を投稿 /「Real intentioN」</title>
     <style>
         body {

@@ -187,8 +187,8 @@ if (isset($_POST['like_delete'])) {
                             <div class="row mt-3">
                                 <div class="info-left col-lg-2 col-md-2 col-4">
                                     <div class="text-center">
-                                        <div class="ratio ratio-1x1" style="background-color: #ffb6b9; border-radius: 5px;">
-                                            <div class="fs-5 text-light fw-bold d-flex align-items-center justify-content-center">
+                                        <div class="ratio ratio-1x1" style="background-color: #96ceb4; border-radius: 5px;">
+                                            <div class="fs-5 fw-bold d-flex align-items-center justify-content-center">
                                                 INTERN
                                             </div>
                                         </div>
@@ -350,12 +350,6 @@ if (isset($_POST['like_delete'])) {
                         </li>
 
                         <li class="nav-item">
-                            <a href="../../kic_notification/posts.php" class="nav-link link-dark">
-                                キャリアセンターからのお知らせ
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
                             <a href="../posts.php" class="nav-link link-dark">
                                 インターンシップ体験記
                             </a>
@@ -436,7 +430,7 @@ if (isset($_POST['like_delete'])) {
                             <form action="./search_result.php" method="post">
                                 <div class="input-group">
                                     <select class="form-select" name="keyword" aria-label="Default select example">
-                                        <option selected>職種分野で検索</option>
+                                        <option selected>開催業界で検索</option>
                                         <option value="IT分野">IT分野</option>
                                         <option value="ゲームソフト分野">ゲームソフト分野</option>
                                         <option value="ハード分野">ハード分野</option>

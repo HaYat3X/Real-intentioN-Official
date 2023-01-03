@@ -175,7 +175,7 @@ if ($post_user_id !== $user_id) {
                                 </div>
 
                                 <div class="mt-4">
-                                    <label for="validationCustom04" class="form-label">参加分野<span class="text-danger">*</span></label>
+                                    <label for="validationCustom04" class="form-label">ESを提出した業界<span class="text-danger">*</span></label>
                                     <select class="form-select" class="form-select" id="validationCustom04" name="field" required>
                                         <option selected value="<?php h($row['field']) ?>"><?php h($row['field']) ?></option>
                                         <option value="IT分野">IT分野</option>
@@ -190,12 +190,12 @@ if ($post_user_id !== $user_id) {
                                     </select>
 
                                     <div class="invalid-feedback">
-                                        参加分野を選択してください。
+                                        業界を選択してください。
                                     </div>
                                 </div>
 
                                 <div class="mt-4">
-                                    <label for="validationCustom04" class="form-label">回答する質問を選択<span class="text-danger">*</span></label>
+                                    <label for="validationCustom04" class="form-label">ES作成時に問われた質問を選択<span class="text-danger">*</span></label>
                                     <select class="form-select" class="form-select" id="validationCustom04" name="question" required>
                                         <option selected value="<?php h($row['question']) ?>"><?php h($row['question']) ?></option>
                                         <option value="インターンの参加は選考に有利になったと感じますか？その理由も教えてください。">インターンの参加は選考に有利になったと感じますか？その理由も教えてください。</option>
@@ -241,12 +241,6 @@ if ($post_user_id !== $user_id) {
                         <li class="nav-item">
                             <a href="../../briefing_information/posts_recommendation.php" class="nav-link link-dark">
                                 会社説明会情報
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="../../kic_notification/posts.php" class="nav-link link-dark">
-                                キャリアセンターからのお知らせ
                             </a>
                         </li>
 
