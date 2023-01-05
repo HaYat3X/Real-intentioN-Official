@@ -52,6 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $err_array[] = $val_calc->getErrorMsg();
     }
 
+    // パスワードのバリデーションチェック
+    if (!$val_calc->password_check($password)) {
+        $err_array[] = $val_calc->getErrorMsg();
+    }
+
     // メールアドレスが既に登録されているか判定する
     $sql = 'SELECT * FROM staff_mst WHERE email = ?';
     $email_set = $rgs_calc->set_email($email);

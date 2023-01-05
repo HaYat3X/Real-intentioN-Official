@@ -149,7 +149,7 @@ if (!$_SESSION['staff_auth']) {
                         <input type="hidden" name="csrf_token" value="<?php h($ses_calc->create_csrf_token()); ?>">
 
                         <div class="mt-4">
-                            <button type="submit" class="login-btn btn px-4" onclick="alertFunction1()">認証する</button>
+                            <button type="submit" class="login-btn btn px-4" onclick="alertFunction1()">登録する</button>
                         </div>
                     </form>
                 </div>
