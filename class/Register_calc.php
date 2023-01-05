@@ -61,7 +61,7 @@ class Register
         $pdo_calc = new Database();
 
         // SQL発行
-        $sql = "INSERT INTO `Student_Mst` (`name`, `email`, `password`, `course_of_study`, `grade_in_school`, `status`, `attendance_record_number`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO `student_mst` (`name`, `email`, `password`, `course_of_study`, `grade_in_school`, `status`, `attendance_record_number`) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         // 保存するデータを配列に格納
         $argument = [];
@@ -128,7 +128,7 @@ class Register
         $db_inst = new Database();
 
         // SQL発行
-        $sql = 'SELECT * FROM Student_Mst WHERE email = ?';
+        $sql = 'SELECT * FROM student_mst WHERE email = ?';
 
         // バインドするデータを配列に格納
         $argument = [];

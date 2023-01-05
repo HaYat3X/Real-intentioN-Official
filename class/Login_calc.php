@@ -34,7 +34,7 @@ class Login
         $db_inst = new Database();
 
         // データが存在するか検証する
-        $sql = 'SELECT * FROM Student_Mst WHERE email = ?';
+        $sql = 'SELECT * FROM student_mst WHERE email = ?';
 
         // パラメータを配列に格納
         $argument = [];

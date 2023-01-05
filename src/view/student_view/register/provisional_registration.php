@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // メールアドレスが既に登録されているか判定する
-    $sql = 'SELECT * FROM Student_Mst WHERE email = ?';
+    $sql = 'SELECT * FROM student_mst WHERE email = ?';
     $email_set = $rgs_calc->set_email($email);
     $registered_check = $rgs_calc->registered_check($sql);
 
