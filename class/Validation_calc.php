@@ -44,7 +44,7 @@ class ValidationCheck
      */
     public function password_check($password)
     {
-        if (preg_match("/\A[!-~]{8, 100}\z/", $password)) {
+        if (!preg_match('/\A[a-z\d]{8,100}+\z/i', $password)) {
             $this->errorMsg = 'パスワードは英数字8文字以上で作成してください。';
             return false;
         }

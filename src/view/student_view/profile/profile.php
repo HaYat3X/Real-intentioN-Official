@@ -123,7 +123,7 @@ foreach ($student_date as $row) {
                         <div class="row px-3">
                             <div class="mt-3 col-lg-2 col-md-2 col-4">
                                 <div class="ratio ratio-1x1">
-                                    <?php if ($row['icon'] === "") : ?>
+                                    <?php if ($row['icon'] == "") : ?>
                                         <img src="../../../../public/ICON/default-icon.jpeg" class="img-fluid" style="object-fit: cover; border-radius: 50%;">
                                     <?php else : ?>
                                         <img src="../../../../public/ICON/<?php h($row['icon']) ?>" class="img-fluid" style="object-fit: cover; border-radius: 50%;">
@@ -208,7 +208,7 @@ foreach ($student_date as $row) {
 
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <?php if ($user_icon === "") : ?>
+                            <?php if ($user_icon == "") : ?>
                                 <img src="../../../../public/ICON/default-icon.jpeg" width="32" height="32" class="rounded-circle me-2" style="object-fit: cover;">
                             <?php else : ?>
                                 <img src="../../../../public/ICON/<?php h($user_icon) ?>" width="32" height="32" class="rounded-circle me-2" style="object-fit: cover;">

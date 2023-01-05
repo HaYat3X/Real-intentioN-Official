@@ -49,7 +49,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $val_check_arr[] = strval($attendance_record_number);
 
     // バリデーションチェック
-    if (!$test = $val_calc->not_yet_entered($val_check_arr)) {
+    if (!$val_calc->not_yet_entered($val_check_arr)) {
+        $err_array[] = $val_calc->getErrorMsg();
+    }
+
+    // パスワードのバリデーションチェック
+    if (!$val_calc->password_check($password)) {
         $err_array[] = $val_calc->getErrorMsg();
     }
 

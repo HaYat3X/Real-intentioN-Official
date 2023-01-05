@@ -29,9 +29,6 @@ if (!$_SESSION['email_token']) {
     header('Location:' . $uri);
 }
 
-// メールアドレス認証トークンの破棄
-unset($_SESSION['email_token']);
-
 // クッキーの存在チェックし、認証権限があるか確認
 if (!$_COOKIE['input_time_limit']) {
     $uri = '../../../Exception/400_request.php';
@@ -292,11 +289,11 @@ if (!$_COOKIE['input_time_limit']) {
                         </div>
 
                         <div class="mt-4">
-                            <label for="validationCustom02" class="form-label">出席番号<span class="text-danger">*</span></label>
+                            <label for="validationCustom02" class="form-label">学籍番号<span class="text-danger">*（7桁の番号を入力してください。）</span></label>
                             <input type="text" class="form-control" id="validationCustom02" required name="number">
 
                             <div class="invalid-feedback">
-                                <p>出席番号を入力してください。</p>
+                                <p>学籍番号を入力してください。</p>
                             </div>
                         </div>
 

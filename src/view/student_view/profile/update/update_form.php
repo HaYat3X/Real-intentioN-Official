@@ -198,11 +198,11 @@ foreach ($student_date as $row) {
                                 </div>
 
                                 <div class="mt-4">
-                                    <label for="validationCustom02" class="form-label">出席番号<span class="text-danger">*</span></label>
+                                    <label for="validationCustom02" class="form-label">学籍番号<span class="text-danger">*（7桁の番号を入力して下さい。）</span></label>
                                     <input type="text" class="form-control" id="validationCustom02" required name="number" value="<?php h($row['attendance_record_number']) ?>">
 
                                     <div class="invalid-feedback">
-                                        <p>出席番号を入力してください。</p>
+                                        <p>学籍番号を入力してください。</p>
                                     </div>
                                 </div>
 
@@ -279,7 +279,7 @@ foreach ($student_date as $row) {
 
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <?php if ($user_icon === "") : ?>
+                            <?php if ($user_icon == "") : ?>
                                 <img src="../../../../../public/ICON/default-icon.jpeg" width="32" height="32" class="rounded-circle me-2" style="object-fit: cover;">
                             <?php else : ?>
                                 <img src="../../../../../public/ICON/<?php h($user_icon) ?>" width="32" height="32" class="rounded-circle me-2" style="object-fit: cover;">
