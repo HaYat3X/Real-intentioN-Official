@@ -31,7 +31,7 @@ class Profile
         // インスタンス化
         $db_inst = new Database();
 
-        $sql = "UPDATE `Student_Mst` SET `name`=?, `course_of_study`=?, `grade_in_school`=?, `status`=?, `attendance_record_number`=?, `icon`=?, `doc`=? WHERE student_id = ?";
+        $sql = "UPDATE `student_mst` SET `name`=?, `course_of_study`=?, `grade_in_school`=?, `status`=?, `attendance_record_number`=?, `icon`=?, `doc`=? WHERE student_id = ?";
 
         // パラメータを配列に格納
         $argument = [];

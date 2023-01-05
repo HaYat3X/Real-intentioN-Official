@@ -52,19 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status = filter_input(INPUT_POST, 'status');
     $csrf_token = filter_input(INPUT_POST, 'csrf_token');
 
-    // アイコン画像があるかないか判定
-    if ($_FILES['icon']['name']) {
-        $filename = date('Y-m-d H:i:s') . '-' .  $_FILES['icon']['name'];
-
-        // アイコン画像を保存するパスを設定する
-        $uploaded_path = "../../../../../public/ICON/" . $filename;
-
-        // 画像をアップロードする
-        $result = move_uploaded_file($_FILES['icon']['tmp_name'], $uploaded_path);
-    } else {
-        $filename = "";
-    }
-
     // csrfトークンの存在確認
     $csrf_check = $ses_calc->csrf_match_check($csrf_token);
 
@@ -86,13 +73,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $err_array[] = $val_calc->getErrorMsg();
     }
 
-    // エラーがない場合更新処理
-    if (count($err_array) === 0) {
-        $update = $pfl_calc->student_profile_update($user_id, $filename, $name, $department, $school_year, $number, $doc, $status);
+    // アイコン画像があるかないか判定
+    if ($_FILES['icon']['name']) {
+        $filename = date('Y-m-d H:i:s') . '-' .  $_FILES['icon']['name'];
 
-        if (!$update) {
-            $err_array[] = '更新に失敗しました。';
+        // アイコン画像を保存するパスを設定する
+        $uploaded_path = "../../../../../public/ICON/" . $filename;
+
+        // 画像をアップロードする
+        $result = move_uploaded_file($_FILES['icon']['tmp_name'], $uploaded_path);
+
+        // エラーがない場合更新処理
+        if (count($err_array) === 0) {
+            $update = $pfl_calc->student_profile_update($user_id, $filename, $name, $department, $school_year, $number, $doc, $status);
+
+            if (!$update) {
+                $err_array[] = '更新に失敗しました。';
+            }
         }
+    } else {
+        $filename = "";
     }
 
     // csrf_token削除　二重送信対策
