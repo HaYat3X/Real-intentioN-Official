@@ -273,7 +273,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <?php if (count($err_array) === 0) : ?>
                         <div class="alert alert-dark" role="alert"><strong>チェック</strong>　-メールアドレスに認証トークンを送信しました。</div>
-                        <?php $uri = '/Deliverables4/src/view/student_view/register/auth_email_form.php?email=' . $email ?>
+                        <?php $uri = './auth_email_form.php?email=' . $email; ?>
                         <?php header('refresh:3;url=' . $uri); ?>
                     <?php endif; ?>
                 </div>
